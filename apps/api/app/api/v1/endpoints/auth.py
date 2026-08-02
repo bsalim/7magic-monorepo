@@ -10,15 +10,24 @@ from app.core.config import Settings, get_settings
 from app.core.database import get_db_session
 from app.core.errors import error_response
 from app.core.rate_limit import LoginRateLimiter, get_login_rate_limiter
-from app.schemas.auth import AuthUserResponse, LoginRequest, LoginResponse
+from app.schemas.auth import (
+    AuthUserResponse,
+    ChangePasswordRequest,
+    LoginRequest,
+    LoginResponse,
+)
 from app.services.auth import (
+    MIN_PASSWORD_LENGTH,
     AdminRequiredError,
     AuthenticatedUser,
     InactiveUserError,
     InvalidCredentialsError,
+    PasswordUnchangedError,
+    WeakPasswordError,
     authenticate_admin_user,
+    change_user_password,
 )
-from app.services.sessions import create_session, revoke_session
+from app.services.sessions import create_session, revoke_other_sessions, revoke_session
 
 router = APIRouter()
 
@@ -80,6 +89,49 @@ def _login_throttle_key(request: Request, email: str) -> str:
 @router.get("/me", response_model=AuthUserResponse)
 async def me(user: Annotated[AuthenticatedUser, Depends(require_admin_user)]):
     return AuthUserResponse(**user.__dict__)
+
+
+@router.post("/change-password")
+async def change_password(
+    payload: ChangePasswordRequest,
+    user: Annotated[AuthenticatedUser, Depends(require_admin_user)],
+    session: Annotated[AsyncSession, Depends(get_db_session)],
+    authorization: Annotated[str | None, Header()] = None,
+):
+    try:
+        await change_user_password(
+            session,
+            user_id=user.id,
+            current_password=payload.current_password,
+            new_password=payload.new_password,
+        )
+    except InvalidCredentialsError:
+        return error_response(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            code="invalid_credentials",
+            message="Current password is incorrect.",
+        )
+    except WeakPasswordError:
+        return error_response(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            code="weak_password",
+            message=f"New password must be at least {MIN_PASSWORD_LENGTH} characters.",
+            details={"min_length": MIN_PASSWORD_LENGTH},
+        )
+    except PasswordUnchangedError:
+        return error_response(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            code="password_unchanged",
+            message="New password must be different from the current password.",
+        )
+
+    # Revoked after the commit, not before: a failure here leaves the new
+    # password in place with stale sessions alive, which beats signing every
+    # device out for a change that then failed. The caller's own session is
+    # kept so the CMS does not bounce them to the login screen.
+    token = extract_bearer_token(authorization)
+    revoked = await revoke_other_sessions(session, user_id=user.id, keep_token=token or "")
+    return {"status": "ok", "revoked_sessions": revoked}
 
 
 @router.post("/logout")

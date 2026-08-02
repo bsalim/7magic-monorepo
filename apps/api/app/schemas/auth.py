@@ -8,6 +8,15 @@ class LoginRequest(BaseModel):
     password: str = Field(min_length=1, max_length=255)
 
 
+class ChangePasswordRequest(BaseModel):
+    # The length rule lives in the service, not in Field, so a rejection comes
+    # back in the {"error": {...}} envelope. The app registers no
+    # RequestValidationError handler, so a pydantic 422 would reach the CMS
+    # with no message it can show.
+    current_password: str = Field(min_length=1, max_length=255)
+    new_password: str = Field(min_length=1, max_length=255)
+
+
 class AuthUserResponse(BaseModel):
     id: int
     email: str

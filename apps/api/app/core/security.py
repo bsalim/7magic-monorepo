@@ -53,6 +53,16 @@ def verify_password(password: str, password_hash: str) -> bool:
         return False
 
 
+def verify_password_argon2(password: str, password_hash: str) -> bool:
+    # Deliberately has no PBKDF2 branch, unlike verify_password. Only a
+    # signed-in user reaches this, and logging in already rehashes a legacy
+    # hash to argon2, so nothing that gets here can still be PBKDF2.
+    try:
+        return _password_hasher.verify(password_hash, password)
+    except (VerificationError, InvalidHashError):
+        return False
+
+
 def password_needs_rehash(password_hash: str) -> bool:
     try:
         return _password_hasher.check_needs_rehash(password_hash)

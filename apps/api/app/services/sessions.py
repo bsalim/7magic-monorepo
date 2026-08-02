@@ -67,6 +67,17 @@ async def revoke_session(db: AsyncSession, *, token: str) -> None:
     await db.commit()
 
 
+async def revoke_other_sessions(db: AsyncSession, *, user_id: int, keep_token: str) -> int:
+    result = await db.execute(
+        delete(UserSession).where(
+            UserSession.user_id == user_id,
+            UserSession.token_hash != hash_session_token(keep_token),
+        )
+    )
+    await db.commit()
+    return result.rowcount or 0
+
+
 def _as_utc(value: datetime) -> datetime:
     # SQLite returns naive datetimes even for timezone-aware columns.
     return value if value.tzinfo is not None else value.replace(tzinfo=UTC)

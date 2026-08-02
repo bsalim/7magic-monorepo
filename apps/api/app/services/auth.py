@@ -11,8 +11,11 @@ from app.core.security import (
     hash_password,
     password_needs_rehash,
     verify_password,
+    verify_password_argon2,
 )
 from app.models import User, UserRole
+
+MIN_PASSWORD_LENGTH = 8
 
 
 class InvalidCredentialsError(Exception):
@@ -28,6 +31,14 @@ class AdminRequiredError(Exception):
 
 
 class InvalidTokenSubjectError(Exception):
+    pass
+
+
+class WeakPasswordError(Exception):
+    pass
+
+
+class PasswordUnchangedError(Exception):
     pass
 
 
@@ -72,6 +83,31 @@ async def resolve_admin_user_by_id(
         raise InvalidTokenSubjectError
 
     return _require_admin_user(user)
+
+
+async def change_user_password(
+    session: AsyncSession,
+    *,
+    user_id: int,
+    current_password: str,
+    new_password: str,
+) -> None:
+    result = await session.execute(select(User).where(User.id == user_id))
+    user = result.scalar_one_or_none()
+    if user is None:
+        raise InvalidTokenSubjectError
+
+    if not verify_password_argon2(current_password, user.password_hash):
+        raise InvalidCredentialsError
+
+    if len(new_password) < MIN_PASSWORD_LENGTH:
+        raise WeakPasswordError
+
+    if new_password == current_password:
+        raise PasswordUnchangedError
+
+    user.password_hash = hash_password(new_password)
+    await session.commit()
 
 
 def _require_admin_user(user: User) -> AuthenticatedUser:

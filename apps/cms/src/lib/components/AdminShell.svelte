@@ -7,6 +7,7 @@
   import NewspaperIcon from '@lucide/svelte/icons/newspaper';
   import LogOutIcon from '@lucide/svelte/icons/log-out';
   import MenuIcon from '@lucide/svelte/icons/menu';
+  import UserCogIcon from '@lucide/svelte/icons/user-cog';
   import type { Component } from 'svelte';
   import type { Snippet } from 'svelte';
 
@@ -174,6 +175,14 @@
                 </div>
               </DropdownMenu.Label>
               <Separator class="my-1" />
+              <DropdownMenu.Item>
+                {#snippet child({ props })}
+                  <a {...props} href="/settings/profile" class="w-full cursor-pointer">
+                    <UserCogIcon class="size-4" />
+                    Profile settings
+                  </a>
+                {/snippet}
+              </DropdownMenu.Item>
               <form method="POST" action="/logout">
                 <DropdownMenu.Item closeOnSelect={false}>
                   {#snippet child({ props })}

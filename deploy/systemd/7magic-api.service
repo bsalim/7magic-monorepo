@@ -13,6 +13,17 @@ User=www-data
 Group=www-data
 WorkingDirectory=/var/www/7magic-monorepo/apps/api
 
+# Defaults for the two variables ExecStart expands. systemd applies these in
+# file order, so the EnvironmentFile below still overrides them — they exist
+# only so a .env missing either key cannot produce an empty expansion.
+#
+# Without them, `--workers ${API_WORKERS}` with API_WORKERS unset becomes
+# `--workers --bind`, argparse takes "--bind" as the worker count, and gunicorn
+# exits 2 before it logs anything useful. The repo-root .env.example defines
+# API_PORT but not API_WORKERS, so copying that one hits exactly this.
+Environment=API_PORT=8003
+Environment=API_WORKERS=4
+
 # Same file pydantic-settings loads via env_file=".env", so systemd and the app
 # read one source. It is gitignored, so a deploy pull never overwrites it.
 # systemd parses it as KEY=VALUE with no shell expansion — do not quote values.
