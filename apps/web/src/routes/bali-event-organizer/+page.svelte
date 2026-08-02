@@ -5,213 +5,176 @@
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
+  import { m } from '$lib/paraglide/messages.js';
   import { cn } from '$lib/utils';
   import { whatsappDisplay, whatsappHref } from '$lib/whatsapp';
 
   /**
    * Landing page for the corporate / outing side of the business.
    *
-   * Deliberately not translated: this is an English-only acquisition page,
-   * separate from the bilingual wedding marketplace. Copy is hardcoded for the
-   * same reason /about is — it changes as a unit, not per-string.
+   * Bilingual, unlike /paket-sangjit and /perjanjian-pranikah: Bali outings are
+   * booked both by Indonesian companies and by the English-language search that
+   * the page's own URL targets, so neither audience can be dropped.
+   *
+   * Every array below is $derived, not const: the message functions read the
+   * active locale, and a plain const would freeze the copy of whichever locale
+   * rendered first.
    */
 
-  // ---------------------------------------------------------------------------
-  // Day Programme rate and the 20-person floor are confirmed by 7Magic.
-  // The Two Nights figure is still a PLACEHOLDER — replace before publishing.
-  // ---------------------------------------------------------------------------
-  const packages = [
+  // The Day Programme rate and the 20-person floor are confirmed by 7Magic.
+  // The Two Nights package shows "on quote" rather than a figure — the number
+  // that used to sit here was a placeholder that reached production.
+  const packages = $derived([
     {
-      name: 'Day Programme',
+      name: m.beo_pkg_day_name(),
       from: 'Rp 500.000',
-      unit: '/ person',
-      minimum: 'from 20 people',
-      summary: 'One activity day. Your team is already staying somewhere in Bali.',
+      unit: m.beo_pkg_day_unit(),
+      minimum: m.beo_pkg_day_minimum(),
+      summary: m.beo_pkg_day_summary(),
       includes: [
-        'Half or full day of games with our facilitator team',
-        'Sound system, MC, and all game equipment',
-        'Coordinator on site from setup to pack-down',
-        'Mineral water, ice, and a first-aid kit',
-        'Bus transfer within South Bali'
+        m.beo_pkg_day_i1(),
+        m.beo_pkg_day_i2(),
+        m.beo_pkg_day_i3(),
+        m.beo_pkg_day_i4(),
+        m.beo_pkg_day_i5()
       ]
     },
     {
-      name: 'Two Nights, Three Days',
-      from: 'Rp 2.450.000',
-      unit: '/ person',
-      minimum: 'from 40 people',
-      summary: 'The standard company outing. Hotel, activities, and one big dinner.',
+      name: m.beo_pkg_two_name(),
+      from: m.beo_pkg_on_quote(),
+      unit: '',
+      minimum: m.beo_pkg_two_minimum(),
+      summary: m.beo_pkg_two_summary(),
       featured: true,
       includes: [
-        'Two nights, twin share, 4-star hotel in Nusa Dua or Kuta',
-        'Airport pickup and drop-off, both directions',
-        'One team building day and one cultural or beach afternoon',
-        'Gala dinner with Balinese performance and a live band',
-        'All meals as itemised, bus and driver throughout',
-        'Two of our coordinators with your group the whole time'
+        m.beo_pkg_two_i1(),
+        m.beo_pkg_two_i2(),
+        m.beo_pkg_two_i3(),
+        m.beo_pkg_two_i4(),
+        m.beo_pkg_two_i5(),
+        m.beo_pkg_two_i6()
       ]
     },
     {
-      name: 'Conference & Incentive',
-      from: 'On quote',
+      name: m.beo_pkg_conf_name(),
+      from: m.beo_pkg_on_quote(),
       unit: '',
-      minimum: 'from 80 people',
-      summary: 'Meeting rooms, production, and a programme that runs to the minute.',
+      minimum: m.beo_pkg_conf_minimum(),
+      summary: m.beo_pkg_conf_summary(),
       includes: [
-        'Hotel and ballroom sourcing, with rates we negotiate for you',
-        'Stage, LED screen, lighting, and audio production',
-        'Registration desk, name tags, and rooming list management',
-        'Awards night or gala with full run-down and rehearsal',
-        'Airport handling for arrivals spread across several flights',
-        'A named project manager from the first call to the final invoice'
+        m.beo_pkg_conf_i1(),
+        m.beo_pkg_conf_i2(),
+        m.beo_pkg_conf_i3(),
+        m.beo_pkg_conf_i4(),
+        m.beo_pkg_conf_i5(),
+        m.beo_pkg_conf_i6()
       ]
     }
-  ];
+  ]);
 
-  const services = [
+  const services = $derived([
     {
       image: '/img/bali-event/outing.jpg',
-      alt: 'A group walking together along a beach in Bali',
-      title: 'Company outing',
-      copy: 'Two to four days, hotel to airport. The version most companies book.'
+      alt: m.beo_svc_outing_alt(),
+      title: m.beo_svc_outing_title(),
+      copy: m.beo_svc_outing_copy()
     },
     {
       image: '/img/bali-event/teambuilding.jpg',
-      alt: 'A team cheering during an outdoor team building game',
-      title: 'Team building',
-      copy: 'Beach games, amazing race, rafting, or a quieter facilitated session indoors.'
+      alt: m.beo_svc_teambuilding_alt(),
+      title: m.beo_svc_teambuilding_title(),
+      copy: m.beo_svc_teambuilding_copy()
     },
     {
       image: '/img/bali-event/gathering.jpg',
-      alt: 'Colleagues celebrating with confetti at a company party',
-      title: 'Gathering & anniversary',
-      copy: 'Family day, year-end party, or a company birthday with entertainment.'
+      alt: m.beo_svc_gathering_alt(),
+      title: m.beo_svc_gathering_title(),
+      copy: m.beo_svc_gathering_copy()
     },
     {
       image: '/img/bali-event/gala.jpg',
-      alt: 'Long banquet tables set with candles for a gala dinner',
-      title: 'Gala dinner & awards',
-      copy: 'Stage, run-down, MC, band, and a rehearsal so the awards do not drag.'
+      alt: m.beo_svc_gala_alt(),
+      title: m.beo_svc_gala_title(),
+      copy: m.beo_svc_gala_copy()
     },
     {
       image: '/img/bali-event/conference.jpg',
-      alt: 'An audience watching a speaker on stage at a conference',
-      title: 'Meetings & conference',
-      copy: 'Ballroom, breakout rooms, AV, registration, and the coffee breaks on time.'
+      alt: m.beo_svc_conference_alt(),
+      title: m.beo_svc_conference_title(),
+      copy: m.beo_svc_conference_copy()
     },
     {
       image: '/img/bali-event/incentive.jpg',
-      alt: 'Aerial view of a Bali resort pool surrounded by villas',
-      title: 'Incentive trip',
-      copy: 'A reward trip for top performers, with the logistics kept out of sight.'
+      alt: m.beo_svc_incentive_alt(),
+      title: m.beo_svc_incentive_title(),
+      copy: m.beo_svc_incentive_copy()
     }
-  ];
+  ]);
 
-  const itinerary = [
+  const itinerary = $derived([
     {
-      day: 'Day 1',
-      title: 'Arrive and settle',
-      items: [
-        'Airport pickup at Ngurah Rai, our staff waiting at the arrival gate',
-        'Check in at the hotel, welcome drink, rooming list already sorted',
-        'Seafood dinner on the sand at Jimbaran, sunset seating'
-      ]
+      day: m.beo_itin_d1_day(),
+      title: m.beo_itin_d1_title(),
+      items: [m.beo_itin_d1_i1(), m.beo_itin_d1_i2(), m.beo_itin_d1_i3()]
     },
     {
-      day: 'Day 2',
-      title: 'The main day',
-      items: [
-        'Morning team building at Pandawa Beach — five to six games, one facilitator per group',
-        'Lunch on site, then the afternoon free or a short trip to Uluwatu',
-        'Gala dinner: Balinese dance opening, awards, live band, closing at 22:30'
-      ]
+      day: m.beo_itin_d2_day(),
+      title: m.beo_itin_d2_title(),
+      items: [m.beo_itin_d2_i1(), m.beo_itin_d2_i2(), m.beo_itin_d2_i3()]
     },
     {
-      day: 'Day 3',
-      title: 'Wrap and fly',
-      items: [
-        'Late checkout arranged where the hotel allows it',
-        'Stop for oleh-oleh, then straight to the airport',
-        'Drop-off timed to each flight, not one bus for everyone'
-      ]
+      day: m.beo_itin_d3_day(),
+      title: m.beo_itin_d3_title(),
+      items: [m.beo_itin_d3_i1(), m.beo_itin_d3_i2(), m.beo_itin_d3_i3()]
     }
-  ];
+  ]);
 
-  const steps = [
-    {
-      title: 'Tell us the shape of it',
-      copy: 'Headcount, rough dates, and the budget per person. Five minutes on WhatsApp is enough.',
-      time: 'Day 1'
-    },
-    {
-      title: 'We send a real proposal',
-      copy: 'Named hotels, a day-by-day run-down, and a price per person you can take to finance.',
-      time: 'Within 2 working days'
-    },
-    {
-      title: 'You pick, we lock it',
-      copy: 'We hold the rooms and the venue, issue the invoice, and start building the run-down.',
-      time: 'After your approval'
-    },
-    {
-      title: 'We run it in Bali',
-      copy: 'Our coordinators are with your group from the airport to the departure gate.',
-      time: 'Event week'
-    }
-  ];
+  const steps = $derived([
+    { title: m.beo_step1_title(), copy: m.beo_step1_copy(), time: m.beo_step1_time() },
+    { title: m.beo_step2_title(), copy: m.beo_step2_copy(), time: m.beo_step2_time() },
+    { title: m.beo_step3_title(), copy: m.beo_step3_copy(), time: m.beo_step3_time() },
+    { title: m.beo_step4_title(), copy: m.beo_step4_copy(), time: m.beo_step4_time() }
+  ]);
 
-  const faqs = [
-    {
-      q: 'What is the smallest group you will take?',
-      a: '20 people for an activity day, 40 for a full outing with hotel. Below that the per-person cost climbs fast because the bus, the sound system, and the facilitators cost the same whether you bring 12 or 40.'
-    },
-    {
-      q: 'How far ahead should we book?',
-      a: 'Six to eight weeks is comfortable. Hotel rates in July, August, and December move early, so a group of 100 in peak season is better started three months out. We have turned around a 60-person outing in eleven days before, but it costs more.'
-    },
-    {
-      q: 'Can you work to a fixed budget per person?',
-      a: 'Yes, and it is the easiest way to start. Give us the number and the headcount and we will show you what fits, including what we would cut first if the budget is tight.'
-    },
-    {
-      q: 'What happens if it rains?',
-      a: 'Every outdoor programme gets a wet-weather version written into the run-down before you arrive. Beach games move to the hotel function room or a covered area we have already checked. We do not improvise this on the day.'
-    },
-    {
-      q: 'Do you handle flights?',
-      a: 'No. Companies almost always book their own flights through a corporate travel agent or a tender. We take over from the moment your group lands.'
-    },
-    {
-      q: 'Who is actually on site during the event?',
-      a: 'A project manager who has been on your account since the first call, plus coordinators scaled to group size. You get their mobile numbers before you fly.'
-    }
-  ];
+  const faqs = $derived([
+    { q: m.beo_faq_q1(), a: m.beo_faq_a1() },
+    { q: m.beo_faq_q2(), a: m.beo_faq_a2() },
+    { q: m.beo_faq_q3(), a: m.beo_faq_a3() },
+    { q: m.beo_faq_q4(), a: m.beo_faq_a4() },
+    { q: m.beo_faq_q5(), a: m.beo_faq_a5() },
+    { q: m.beo_faq_q6(), a: m.beo_faq_a6() }
+  ]);
 
-  const budgets = [
-    'Under Rp 1 million per person',
-    'Rp 1 – 2.5 million per person',
-    'Rp 2.5 – 5 million per person',
-    'Above Rp 5 million per person',
-    'Not decided yet'
-  ];
+  const stats = $derived([
+    { value: '18+', label: m.beo_stat_years_label() },
+    { value: '1000+', label: m.beo_stat_events_label() },
+    { value: '100+', label: m.beo_stat_vendors_label() },
+    { value: 'Bali', label: m.beo_stat_bali_label() }
+  ]);
 
-  const eventTypes = [
-    'Company outing',
-    'Team building',
-    'Gathering / family day',
-    'Gala dinner / awards',
-    'Meeting / conference',
-    'Incentive trip',
-    'Something else'
-  ];
+  const budgets = $derived([
+    m.beo_form_budget_1(),
+    m.beo_form_budget_2(),
+    m.beo_form_budget_3(),
+    m.beo_form_budget_4(),
+    m.beo_form_budget_5()
+  ]);
+
+  const eventTypes = $derived([
+    m.beo_form_type_outing(),
+    m.beo_form_type_teambuilding(),
+    m.beo_form_type_gathering(),
+    m.beo_form_type_gala(),
+    m.beo_form_type_conference(),
+    m.beo_form_type_incentive(),
+    m.beo_form_type_other()
+  ]);
 
   // Real client logos and quotes go here once 7Magic supplies them. Left empty
   // on purpose — an invented testimonial on a live site is a fake review.
   const testimonials: { quote: string; name: string; role: string }[] = [];
 
-  const waHref = whatsappHref(
-    'Hi 7Magic, I want to ask about a corporate event in Bali. Here are our details:'
-  );
+  const waHref = $derived(whatsappHref(m.beo_wa_prefill()));
 
   let sending = $state(false);
   let submitted = $state(false);
@@ -228,6 +191,10 @@
     // The API's contact-lead schema has no event-specific columns, so the
     // qualifying answers are folded into the message body. Sales reads them
     // there; a dedicated schema is the follow-up, not a blocker for launch.
+    //
+    // These labels stay English whatever the visitor's locale: they are read by
+    // the sales inbox, not by the customer, and one fixed shape is easier to
+    // scan than two.
     const message = [
       `Event type: ${field('event_type') || '—'}`,
       `Target date: ${field('event_date') || '—'}`,
@@ -255,14 +222,14 @@
       });
 
       if (!response.ok) {
-        errorMessage = 'That did not go through. Please try again, or message us on WhatsApp.';
+        errorMessage = m.beo_form_error();
         return;
       }
 
       submitted = true;
       form.reset();
     } catch {
-      errorMessage = 'That did not go through. Please try again, or message us on WhatsApp.';
+      errorMessage = m.beo_form_error();
     } finally {
       sending = false;
     }
@@ -273,11 +240,8 @@
 </script>
 
 <svelte:head>
-  <title>Bali Event Organizer | Company Outing, Team Building & Gala Dinner — 7Magic</title>
-  <meta
-    name="description"
-    content="Bali event organizer for company outings, team building, gatherings, gala dinners and conferences. Per-person pricing, a proposal in two working days, and coordinators with your group from the airport onwards."
-  />
+  <title>{m.beo_meta_title()}</title>
+  <meta name="description" content={m.beo_meta_description()} />
 </svelte:head>
 
 <main class="min-h-screen bg-background text-foreground">
@@ -287,7 +251,7 @@
   <section class="relative flex min-h-[560px] items-center overflow-hidden md:min-h-[640px]">
     <img
       src="/img/bali-event/hero-temple.jpg"
-      alt="Tanah Lot temple in Bali at sunset"
+      alt={m.beo_hero_image_alt()}
       class="absolute inset-0 h-full w-full object-cover object-[50%_38%]"
       fetchpriority="high"
     />
@@ -299,20 +263,18 @@
     <div class="relative z-10 mx-auto w-full max-w-7xl px-5 py-20 lg:px-8">
       <div class="max-w-3xl text-white [text-shadow:0_1px_18px_rgba(0,0,0,0.55)]">
         <p class="text-sm font-semibold uppercase tracking-widest text-brand-dark-accent">
-          Bali event organizer
+          {m.beo_hero_eyebrow()}
         </p>
         <h1 class="mt-4 font-display text-4xl font-bold leading-tight md:text-5xl lg:text-[3.4rem]">
-          Your company outing in Bali, run by people who are already here
+          {m.beo_hero_title()}
         </h1>
         <p class="mt-5 max-w-2xl text-lg leading-8 text-white/85">
-          Outings, team building, gatherings, gala dinners, and conferences. We quote per person,
-          send a day-by-day run-down before you commit, and put our coordinators with your group
-          from the arrival gate to the departure gate.
+          {m.beo_hero_body()}
         </p>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
           <a href="#proposal" class={cn(buttonVariants({ variant: 'gold', size: 'lg' }), 'px-7')}>
-            Get a proposal
+            {m.beo_hero_cta_proposal()}
           </a>
           <a
             href={waHref}
@@ -322,12 +284,12 @@
             )}
           >
             <MessageCircleIcon size={18} />
-            WhatsApp us
+            {m.beo_hero_cta_wa()}
           </a>
         </div>
 
         <p class="mt-5 text-sm text-white/90">
-          Tell us headcount, dates, and budget per person. Proposal back within two working days.
+          {m.beo_hero_note()}
         </p>
       </div>
     </div>
@@ -336,7 +298,7 @@
   <!-- Trust strip. Figures match the ones published on 7magicwedding.com. -->
   <section class="border-b border-border bg-brand-ink px-5 py-6 text-white lg:px-8">
     <div class="mx-auto grid max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {#each [{ value: '18+', label: 'Years organising events' }, { value: '1000+', label: 'Events delivered' }, { value: '100+', label: 'Vendors on our books' }, { value: 'Bali', label: 'Team on the ground, not remote' }] as stat}
+      {#each stats as stat}
         <div>
           <p class="font-display text-2xl font-bold text-brand-dark-accent">{stat.value}</p>
           <p class="mt-1 text-sm text-white/72">{stat.label}</p>
@@ -347,9 +309,11 @@
 
   <!-- Services -->
   <section class="mx-auto max-w-7xl px-5 py-16 lg:px-8">
-    <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">What we run</p>
+    <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">
+      {m.beo_services_eyebrow()}
+    </p>
     <h2 class="mt-3 max-w-2xl font-display text-3xl font-bold md:text-4xl">
-      Six formats, and most companies book one of the first two
+      {m.beo_services_title()}
     </h2>
 
     <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -379,15 +343,13 @@
       <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
         <div>
           <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">
-            A real programme
+            {m.beo_itin_eyebrow()}
           </p>
           <h2 class="mt-3 font-display text-3xl font-bold md:text-4xl">
-            What three days in Bali actually looks like
+            {m.beo_itin_title()}
           </h2>
           <p class="mt-4 max-w-xl text-[15px] leading-7 text-muted-foreground">
-            This is the shape of the outing we run most often, for groups of 40 to 120. Yours will
-            differ — but this is the level of detail you get in the proposal, not a list of
-            adjectives.
+            {m.beo_itin_body()}
           </p>
 
           <div class="mt-8 grid gap-4">
@@ -415,19 +377,19 @@
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
           <img
             src="/img/bali-event/teambuilding.jpg"
-            alt="A team celebrating during an outdoor team building game"
+            alt={m.beo_svc_teambuilding_alt()}
             loading="lazy"
             class="h-64 w-full rounded-md object-cover"
           />
           <img
             src="/img/bali-event/kecak.jpg"
-            alt="Balinese Kecak dancers performing at sunset"
+            alt={m.beo_svc_gala_alt()}
             loading="lazy"
             class="h-64 w-full rounded-md object-cover"
           />
           <img
             src="/img/bali-event/gala.jpg"
-            alt="Long banquet tables set with candles for a gala dinner"
+            alt={m.beo_svc_gala_alt()}
             loading="lazy"
             class="h-64 w-full rounded-md object-cover sm:col-span-2 lg:col-span-1"
           />
@@ -438,13 +400,14 @@
 
   <!-- Packages -->
   <section class="mx-auto max-w-7xl px-5 py-16 lg:px-8">
-    <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">Starting points</p>
+    <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">
+      {m.beo_pkg_eyebrow()}
+    </p>
     <h2 class="mt-3 max-w-2xl font-display text-3xl font-bold md:text-4xl">
-      Roughly what it costs, before we quote you properly
+      {m.beo_pkg_title()}
     </h2>
     <p class="mt-4 max-w-2xl text-[15px] leading-7 text-muted-foreground">
-      Real prices depend on the season, the hotel, and how far your group spreads across arrival
-      times. These are honest starting points so you can sanity-check your budget today.
+      {m.beo_pkg_body()}
     </p>
 
     <div class="mt-10 grid gap-5 lg:grid-cols-3">
@@ -457,7 +420,7 @@
         >
           {#if pkg.featured}
             <span class="mb-4 w-fit rounded-full bg-brand-gold px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white">
-              Most booked
+              {m.beo_pkg_featured()}
             </span>
           {/if}
           <h3 class="font-display text-xl font-semibold">{pkg.name}</h3>
@@ -465,7 +428,7 @@
 
           <div class="mt-5 flex items-baseline gap-1.5">
             {#if pkg.unit}
-              <span class="text-sm text-muted-foreground">from</span>
+              <span class="text-sm text-muted-foreground">{m.beo_pkg_from()}</span>
             {/if}
             <span class="font-display text-2xl font-bold">{pkg.from}</span>
             <span class="text-sm text-muted-foreground">{pkg.unit}</span>
@@ -488,17 +451,16 @@
               'mt-7 w-full'
             )}
           >
-            Get this quoted
+            {m.beo_pkg_cta()}
           </a>
         </div>
       {/each}
     </div>
 
     <div class="mt-8 rounded-md border border-border bg-secondary p-6">
-      <h3 class="font-display text-base font-semibold">What is not in the price</h3>
+      <h3 class="font-display text-base font-semibold">{m.beo_pkg_excluded_title()}</h3>
       <p class="mt-2 text-[15px] leading-7 text-muted-foreground">
-        Flights to Bali, personal spending, and anything your team adds on the day. If a hotel
-        charges a surcharge for a peak date we tell you in the quotation rather than after it.
+        {m.beo_pkg_excluded_body()}
       </p>
     </div>
   </section>
@@ -506,8 +468,10 @@
   <!-- How it works -->
   <section class="bg-secondary px-5 py-16 lg:px-8">
     <div class="mx-auto max-w-7xl">
-      <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">How it works</p>
-      <h2 class="mt-3 font-display text-3xl font-bold md:text-4xl">Four steps, and two are ours</h2>
+      <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">
+        {m.beo_steps_eyebrow()}
+      </p>
+      <h2 class="mt-3 font-display text-3xl font-bold md:text-4xl">{m.beo_steps_title()}</h2>
 
       <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
         {#each steps as step, index}
@@ -530,7 +494,7 @@
   {#if testimonials.length}
     <section class="bg-secondary px-5 py-16 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <h2 class="font-display text-3xl font-bold md:text-4xl">What clients said afterwards</h2>
+        <h2 class="font-display text-3xl font-bold md:text-4xl">{m.beo_testimonials_title()}</h2>
         <div class="mt-10 grid gap-5 md:grid-cols-3">
           {#each testimonials as item}
             <figure class="rounded-md border border-border bg-background p-6">
@@ -548,7 +512,7 @@
 
   <!-- FAQ -->
   <section class="mx-auto max-w-4xl px-5 py-16 lg:px-8">
-    <h2 class="font-display text-3xl font-bold md:text-4xl">Questions we get every week</h2>
+    <h2 class="font-display text-3xl font-bold md:text-4xl">{m.beo_faq_title()}</h2>
     <div class="mt-8 grid gap-3">
       {#each faqs as faq}
         <details class="group rounded-md border border-border bg-background p-6">
@@ -565,20 +529,19 @@
   <section id="proposal" class="scroll-mt-20 bg-brand-ink px-5 py-16 text-white lg:px-8">
     <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr]">
       <div>
-        <h2 class="font-display text-3xl font-bold md:text-4xl">Tell us what you are planning</h2>
+        <h2 class="font-display text-3xl font-bold md:text-4xl">{m.beo_form_title()}</h2>
         <p class="mt-4 text-[15px] leading-7 text-white/75">
-          Four answers is enough to start. We come back within two working days with named hotels, a
-          day-by-day run-down, and a price per person — not a brochure.
+          {m.beo_form_subtitle()}
         </p>
 
         <div class="mt-8 rounded-md border border-white/15 bg-white/5 p-6">
-          <p class="text-sm text-white/70">Prefer to just talk?</p>
+          <p class="text-sm text-white/70">{m.beo_form_talk()}</p>
           <a
             href={waHref}
             class={cn(buttonVariants({ size: 'lg' }), 'mt-3 w-full bg-brand-success text-white hover:bg-brand-success-hover')}
           >
             <MessageCircleIcon size={18} />
-            WhatsApp {whatsappDisplay}
+            {m.beo_form_wa_button({ number: whatsappDisplay })}
           </a>
         </div>
       </div>
@@ -589,14 +552,13 @@
             <span class="flex size-14 items-center justify-center rounded-full bg-brand-gold-soft text-brand-gold-hover">
               <CheckIcon size={28} />
             </span>
-            <h3 class="font-display text-xl font-semibold">Got it</h3>
+            <h3 class="font-display text-xl font-semibold">{m.beo_form_success_title()}</h3>
             <p class="max-w-sm text-[15px] leading-7 text-muted-foreground">
-              We will come back within two working days. If your date is tighter than that, message
-              us on WhatsApp and say so.
+              {m.beo_form_success_body()}
             </p>
             <a href={waHref} class={cn(buttonVariants({ variant: 'whatsapp' }), 'mt-2')}>
               <MessageCircleIcon size={17} />
-              Message us now
+              {m.beo_form_success_cta()}
             </a>
           </div>
         {:else}
@@ -604,10 +566,10 @@
             <div class="grid gap-4 sm:grid-cols-2">
               <div class="grid gap-1.5">
                 <label for="ev-type" class="text-[13px] font-medium">
-                  Event type <span class="text-destructive" aria-hidden="true">*</span>
+                  {m.beo_form_event_type()} <span class="text-destructive" aria-hidden="true">*</span>
                 </label>
                 <select id="ev-type" name="event_type" required class={inputClass}>
-                  <option value="">Choose one</option>
+                  <option value="">{m.beo_form_choose_one()}</option>
                   {#each eventTypes as type}
                     <option value={type}>{type}</option>
                   {/each}
@@ -615,7 +577,8 @@
               </div>
               <div class="grid gap-1.5">
                 <label for="ev-date" class="text-[13px] font-medium">
-                  Target date <span class="text-muted-foreground">(rough is fine)</span>
+                  {m.beo_form_target_date()}
+                  <span class="text-muted-foreground">{m.beo_form_rough_ok()}</span>
                 </label>
                 <input id="ev-date" name="event_date" type="date" class={inputClass} />
               </div>
@@ -624,7 +587,7 @@
             <div class="grid gap-4 sm:grid-cols-2">
               <div class="grid gap-1.5">
                 <label for="ev-pax" class="text-[13px] font-medium">
-                  How many people <span class="text-destructive" aria-hidden="true">*</span>
+                  {m.beo_form_pax()} <span class="text-destructive" aria-hidden="true">*</span>
                 </label>
                 <input
                   id="ev-pax"
@@ -632,14 +595,14 @@
                   type="number"
                   min="1"
                   required
-                  placeholder="e.g. 60"
+                  placeholder={m.beo_form_pax_ph()}
                   class={inputClass}
                 />
               </div>
               <div class="grid gap-1.5">
-                <label for="ev-budget" class="text-[13px] font-medium">Budget per person</label>
+                <label for="ev-budget" class="text-[13px] font-medium">{m.beo_form_budget()}</label>
                 <select id="ev-budget" name="budget" class={inputClass}>
-                  <option value="">Prefer not to say</option>
+                  <option value="">{m.beo_form_budget_none()}</option>
                   {#each budgets as budget}
                     <option value={budget}>{budget}</option>
                   {/each}
@@ -650,7 +613,7 @@
             <div class="grid gap-4 sm:grid-cols-2">
               <div class="grid gap-1.5">
                 <label for="ev-name" class="text-[13px] font-medium">
-                  Your name <span class="text-destructive" aria-hidden="true">*</span>
+                  {m.beo_form_name()} <span class="text-destructive" aria-hidden="true">*</span>
                 </label>
                 <input
                   id="ev-name"
@@ -661,7 +624,7 @@
                 />
               </div>
               <div class="grid gap-1.5">
-                <label for="ev-company" class="text-[13px] font-medium">Company</label>
+                <label for="ev-company" class="text-[13px] font-medium">{m.beo_form_company()}</label>
                 <input id="ev-company" name="company" autocomplete="organization" class={inputClass} />
               </div>
             </div>
@@ -669,20 +632,21 @@
             <div class="grid gap-4 sm:grid-cols-2">
               <div class="grid gap-1.5">
                 <label for="ev-phone" class="text-[13px] font-medium">
-                  WhatsApp <span class="text-destructive" aria-hidden="true">*</span>
+                  {m.beo_form_whatsapp()} <span class="text-destructive" aria-hidden="true">*</span>
                 </label>
                 <input
                   id="ev-phone"
                   name="phone"
                   required
                   autocomplete="tel"
-                  placeholder="08xx xxxx xxxx"
+                  placeholder={m.beo_form_phone_ph()}
                   class={inputClass}
                 />
               </div>
               <div class="grid gap-1.5">
                 <label for="ev-email" class="text-[13px] font-medium">
-                  Work email <span class="text-muted-foreground">(optional)</span>
+                  {m.beo_form_email()}
+                  <span class="text-muted-foreground">{m.beo_form_optional()}</span>
                 </label>
                 <input
                   id="ev-email"
@@ -696,13 +660,13 @@
 
             <div class="grid gap-1.5">
               <label for="ev-notes" class="text-[13px] font-medium">
-                Anything we should know
+                {m.beo_form_notes()}
               </label>
               <textarea
                 id="ev-notes"
                 name="notes"
                 rows="3"
-                placeholder="Hotel already booked, awards night on the last evening, two vegetarians…"
+                placeholder={m.beo_form_notes_ph()}
                 class={inputClass}
               ></textarea>
             </div>
@@ -712,10 +676,10 @@
             {/if}
 
             <Button type="submit" variant="gold" size="lg" class="w-full" disabled={sending}>
-              {sending ? 'Sending…' : 'Send and get a proposal'}
+              {sending ? m.beo_form_sending() : m.beo_form_submit()}
             </Button>
             <p class="text-center text-xs text-muted-foreground">
-              We use these details to quote your event. Nothing else.
+              {m.beo_form_privacy()}
             </p>
           </form>
         {/if}
