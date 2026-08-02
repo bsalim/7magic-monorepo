@@ -22,6 +22,7 @@
     { value: 'jakarta', label: m.city_jakarta() },
     { value: 'tangerang', label: m.city_tangerang() },
     { value: 'bali', label: m.city_bali() },
+    { value: 'batam', label: m.city_batam() },
     { value: 'singapore', label: m.city_singapore() }
   ]);
 
@@ -52,7 +53,10 @@
   <div class="absolute inset-0 bg-slate-950/35"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-black via-black/35 to-transparent"></div>
 
-  <div class="relative z-10 mx-auto w-full max-w-7xl px-5 pt-24 lg:px-8">
+  <!-- Padding has to be symmetric: the section centers this block and clips at
+       min-height, so a top-only pad pushes the last line out of view once the
+       heading wraps to an extra line. -->
+  <div class="relative z-10 mx-auto w-full max-w-7xl px-5 py-24 lg:px-8">
     <div class="max-w-4xl text-white">
       <div class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm backdrop-blur">
         <SparklesIcon size={16} />

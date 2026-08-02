@@ -41,7 +41,7 @@
         website(),
         webPageNode({
           url: page.url.pathname,
-          name: '7Magic Wedding | Venue Packages Jakarta Bali Singapore',
+          name: '7Magic Wedding | Venue Packages Jakarta Bali Batam Singapore',
           locale: getLocale(),
           about: ORGANIZATION_ID
         }),
@@ -56,6 +56,7 @@
   const quickLinks = [
     { label: 'Jakarta venues', href: '/wedding-venue/search?city=jakarta' },
     { label: 'Bali venues', href: '/wedding-venue/search?city=bali' },
+    { label: 'Batam venues', href: '/wedding-venue/search?city=batam' },
     { label: '5-star hotels', href: '/wedding-venue/search?stars_min=5' },
     { label: 'Ballroom packages', href: '/wedding-venue/search?q=ballroom' },
     { label: 'Chapel & garden', href: '/wedding-venue/search?q=chapel' }
@@ -83,10 +84,10 @@
 </script>
 
 <svelte:head>
-  <title>7Magic Wedding | Venue Packages Jakarta Bali Singapore</title>
+  <title>7Magic Wedding | Venue Packages Jakarta Bali Batam Singapore</title>
   <meta
     name="description"
-    content="Curated wedding venue packages, wedding organizer support, and planning articles for Jakarta, Bali, and Singapore celebrations."
+    content="Curated wedding venue packages, wedding organizer support, and planning articles for Jakarta, Bali, Batam, and Singapore celebrations."
   />
   <!-- Svelte parses script contents as raw text, so JSON-LD has to arrive as
        pre-rendered markup rather than as an expression inside the tag. -->
@@ -187,6 +188,14 @@
     m.home_venues_singapore_body(),
     'singapore',
     data.singaporeVenues
+  )}
+
+  {@render cityVenues(
+    m.city_batam(),
+    m.home_venues_batam_title(),
+    m.home_venues_batam_body(),
+    'batam',
+    data.batamVenues
   )}
 
   <section class="bg-white px-5 py-14 lg:px-8">

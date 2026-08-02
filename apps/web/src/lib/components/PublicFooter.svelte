@@ -10,6 +10,7 @@
   const venues = [
     { href: '/wedding-venue/search?city=jakarta', label: 'Jakarta' },
     { href: '/wedding-venue/search?city=bali', label: 'Bali' },
+    { href: '/wedding-venue/search?city=batam', label: 'Batam' },
     { href: '/wedding-venue/search?city=singapore', label: 'Singapore' },
     { href: '/wedding-venue/search', label: m.footer_all_venues() }
   ];

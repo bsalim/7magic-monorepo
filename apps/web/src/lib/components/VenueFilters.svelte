@@ -24,6 +24,7 @@
     { value: 'jakarta', label: m.city_jakarta() },
     { value: 'tangerang', label: m.city_tangerang() },
     { value: 'bali', label: m.city_bali() },
+    { value: 'batam', label: m.city_batam() },
     { value: 'singapore', label: m.city_singapore() }
   ]);
 

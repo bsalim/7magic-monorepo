@@ -89,11 +89,8 @@ class CatalogService:
         published_articles = [article for article in self._articles if article["status"] == "published"]
         return HomeResponse(
             hero={
-                "title": "Best Value Wedding Packages in Jakarta, Bali, and Singapore",
-                "subtitle": (
-                    "Secure your perfect wedding venue with curated 7Magic packages and "
-                    "planning support."
-                ),
+                "title": "Best Value Wedding Packages in Jakarta, Bali, Batam, and Singapore",
+                "subtitle": "Curated venues, clear pricing up front, and a team to help you choose.",
                 "image": "/img/wedding-venue-deal-1920.webp",
             },
             featured_venues=[
