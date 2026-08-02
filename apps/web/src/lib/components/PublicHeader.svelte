@@ -32,6 +32,7 @@
   const links = $derived([
     { href: '/wedding-venue/search', label: m.nav_venues() },
     { href: '/wedding-showcases', label: m.nav_showcases() },
+    { href: '/paket-sangjit', label: m.service_sangjit() },
     { href: '/articles', label: m.nav_articles() },
     { href: '/our-vendors', label: m.nav_vendors() },
     { href: '/about', label: m.nav_about() }
@@ -41,16 +42,9 @@
   // than added as top-level links: it keeps the marketplace nav short, and it
   // stops these pages being orphaned from the site's internal linking.
   //
-  // Sangjit sits under Pernikahan, not Layanan, because it is part of the
-  // wedding itself; Layanan holds the lines that are not wedding-day work.
+  // Sangjit is the exception, promoted to a top-level link. Layanan holds the
+  // lines that are not wedding-day work.
   const menus = $derived([
-    {
-      key: 'wedding',
-      label: m.nav_wedding(),
-      items: [
-        { href: '/paket-sangjit', label: m.service_sangjit(), desc: m.service_sangjit_desc() }
-      ]
-    },
     {
       key: 'services',
       label: m.nav_services(),
