@@ -115,10 +115,13 @@
     </Card.Header>
     <Card.Content class="grid gap-4">
       {#if imageUrl}
+        <!-- Sized by the photo, not by a fixed box. Most showcase photos are
+             portrait, and a landscape crop cut the top and bottom off the very
+             thing this preview exists to check. -->
         <img
           src={imageUrl}
           alt="Showcase preview"
-          class="h-56 w-full max-w-md rounded-md border border-border object-cover"
+          class="h-auto max-h-[32rem] w-auto max-w-md rounded-md border border-border object-contain"
         />
       {:else}
         <div
