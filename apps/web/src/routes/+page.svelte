@@ -246,11 +246,13 @@
   <section class="mx-auto max-w-7xl px-5 py-14 lg:px-8">
     <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
       <div>
-        <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">Couples</p>
-        <h2 class="mt-3 text-3xl font-semibold">Real notes from couples who trusted 7Magic</h2>
+        <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">
+          {m.home_testimonials_eyebrow()}
+        </p>
+        <h2 class="mt-3 text-3xl font-semibold">{m.home_testimonials_title()}</h2>
       </div>
       <a href="/contact" class="inline-flex items-center gap-2 font-semibold text-accent-foreground">
-        Ask for guidance
+        {m.home_testimonials_cta()}
         <ArrowRight size={18} />
       </a>
     </div>
