@@ -10,7 +10,8 @@
     venueSlug,
     open,
     submitted = $bindable(false),
-    onClose
+    onClose,
+    onSubmitted
   }: {
     venueName: string;
     venueId?: number;
@@ -18,6 +19,9 @@
     open: boolean;
     submitted?: boolean;
     onClose: () => void;
+    // Fires once per request that actually landed, so the caller can record a
+    // conversion without this component knowing anything about analytics.
+    onSubmitted?: () => void;
   } = $props();
 
   let sending = $state(false);
@@ -57,6 +61,7 @@
       }
 
       submitted = true;
+      onSubmitted?.();
     } catch {
       errorMessage = m.vd_modal_error();
     } finally {

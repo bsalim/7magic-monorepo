@@ -25,6 +25,7 @@
     website
   } from '$lib/seo/schema';
   import { m } from '$lib/paraglide/messages.js';
+  import { trackEvent } from '$lib/analytics';
   import { titleCase } from '$lib/utils';
   import { whatsappHref as buildWhatsappHref } from '$lib/whatsapp';
   import './venue-detail.css';
@@ -43,6 +44,21 @@
     buildWhatsappHref(m.vd_wa_message({ venue: venue.name }))
   );
   const photos = $derived(normalizePhotos(venue));
+
+  // One event per venue view, alongside the automatic pageview. The pageview
+  // already counts the URL; this carries the name and city so the numbers can
+  // be read without decoding slugs. Re-runs on a client-side move to another
+  // venue, which is when the reads below change.
+  $effect(() => {
+    trackEvent('Venue Viewed', {
+      venue: venue.name,
+      city: cityLabel,
+      stars: venue.stars
+    });
+  });
+
+  const trackQuoteRequest = () =>
+    trackEvent('Venue Quote Requested', { venue: venue.name, city: cityLabel });
 
   // Only a real gallery photo is worth advertising as the venue's image;
   // normalizePhotos pads the gallery with placeholders to fill the mosaic.
@@ -158,5 +174,6 @@
     open={modalOpen}
     bind:submitted
     onClose={closeQuote}
+    onSubmitted={trackQuoteRequest}
   />
 </main>
