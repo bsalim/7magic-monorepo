@@ -55,6 +55,27 @@
     archived: 'Archived'
   };
 
+  // Mirrors slugify() in app/services/showcases.py so the CMS preview matches
+  // what the API would derive from the same title.
+  function slugify(text: string) {
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  let slug = $state(untrack(() => values.slug));
+
+  // Regenerates on every title blur, published or not -- chosen deliberately,
+  // unlike ArticleForm which freezes the slug once one exists. Editing the
+  // title of a published showcase therefore changes its public URL, so the
+  // field stays editable for anyone who needs to put the old value back.
+  function onTitleBlur(event: FocusEvent) {
+    const next = slugify((event.currentTarget as HTMLInputElement).value);
+    // A blank or punctuation-only title would otherwise wipe a working slug.
+    if (next) slug = next;
+  }
+
   async function uploadImage(event: Event) {
     const input = event.currentTarget as HTMLInputElement;
     const file = input.files?.[0];
@@ -170,7 +191,12 @@
 
       <div class="grid gap-1.5">
         <Label for="showcase-slug">Slug</Label>
-        <Input id="showcase-slug" name="slug" value={values.slug} placeholder="wedding-showcase-…" />
+        <Input
+          id="showcase-slug"
+          name="slug"
+          bind:value={slug}
+          placeholder="wedding-showcase-…"
+        />
         {#if errors.slug}
           <p class="text-xs text-destructive">{errors.slug}</p>
         {/if}
@@ -209,7 +235,13 @@
         <Tabs.Content value="id" class="grid gap-4 pt-4">
           <div class="grid gap-1.5">
             <Label for="title-id">Title <span class="text-destructive">*</span></Label>
-            <Input id="title-id" name="title_id" value={values.title_id} required />
+            <Input
+              id="title-id"
+              name="title_id"
+              value={values.title_id}
+              onblur={onTitleBlur}
+              required
+            />
             {#if errors.title_id}
               <p class="text-xs text-destructive">{errors.title_id}</p>
             {/if}
