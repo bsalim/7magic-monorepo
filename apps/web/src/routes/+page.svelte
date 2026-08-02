@@ -7,7 +7,6 @@
   import Sparkles from '@lucide/svelte/icons/sparkles';
   import Users from '@lucide/svelte/icons/users';
   import ArticleCard from '$lib/components/ArticleCard.svelte';
-  import PackageBands from '$lib/components/PackageBands.svelte';
   import HeroVenueSearch from '$lib/components/HeroVenueSearch.svelte';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
@@ -96,7 +95,10 @@
 
 <main class="min-h-screen bg-background text-slate-900">
   <PublicHeader />
-  <HeroVenueSearch title={home.hero.title} subtitle={home.hero.subtitle} image={home.hero.image} />
+  <!-- Hero copy comes from Paraglide, not from `home.hero`: the API serves it
+       from a static fixture in English only, so the Indonesian site was reading
+       English headings. The image still comes from the payload. -->
+  <HeroVenueSearch title={m.hero_title()} subtitle={m.hero_subtitle()} image={home.hero.image} />
 
   <section class="bg-brand-ink px-5 py-5 text-white lg:px-8">
     <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-3">
@@ -115,10 +117,10 @@
   <section class="mx-auto max-w-7xl px-5 py-14 lg:px-8">
     <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
       <div>
-        <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">Popular wedding venues</p>
-        <h2 class="mt-3 text-3xl font-semibold md:text-4xl">Start with venues couples ask about most</h2>
+        <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">{m.home_popular_eyebrow()}</p>
+        <h2 class="mt-3 text-3xl font-semibold md:text-4xl">{m.home_popular_title()}</h2>
         <p class="mt-3 max-w-2xl text-slate-600">
-          Compare polished hotel ballrooms, private pricing, and guest-count starting points in one place.
+          {m.home_popular_body()}
         </p>
       </div>
       <a href="/wedding-venue/search" class="inline-flex items-center gap-2 font-semibold text-accent-foreground">
@@ -240,8 +242,6 @@
       </div>
     </div>
   </section>
-
-  <PackageBands priceBands={data.priceBands} totalVenues={data.totalVenues} />
 
   <section class="mx-auto max-w-7xl px-5 py-14 lg:px-8">
     <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
