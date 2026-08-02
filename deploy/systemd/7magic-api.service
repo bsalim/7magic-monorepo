@@ -1,0 +1,62 @@
+[Unit]
+Description=7Magic API (FastAPI via gunicorn)
+Documentation=https://github.com/7magic/7magic-monorepo
+After=network-online.target postgresql.service
+Wants=network-online.target
+# PartOf propagates stop and restart from the target down to this unit; the
+# target's Wants= handles start. Both halves are needed for one-command control.
+PartOf=7magic.target
+
+[Service]
+Type=notify
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/7magic-monorepo/apps/api
+
+# Same file pydantic-settings loads via env_file=".env", so systemd and the app
+# read one source. It is gitignored, so a deploy pull never overwrites it.
+# systemd parses it as KEY=VALUE with no shell expansion — do not quote values.
+EnvironmentFile=/var/www/7magic-monorepo/apps/api/.env
+
+# uvicorn removed uvicorn.workers in 0.46 — the worker class now ships in the
+# separate uvicorn-worker package, hence uvicorn_worker.UvicornWorker.
+ExecStart=/var/www/7magic-monorepo/apps/api/.venv/bin/gunicorn app.main:app \
+    --worker-class uvicorn_worker.UvicornWorker \
+    --workers ${API_WORKERS} \
+    --bind 127.0.0.1:${API_PORT} \
+    --timeout 60 \
+    --graceful-timeout 30 \
+    --keep-alive 5 \
+    --access-logfile - \
+    --error-logfile -
+
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=30
+Restart=always
+RestartSec=3
+
+# Logs go to the journal: journalctl -u 7magic-api -f
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=7magic-api
+
+# Hardening. Drop any of these if a future feature genuinely needs the access.
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+# ProtectSystem=strict makes everything read-only; list writable paths here.
+ReadWritePaths=/var/www/7magic-monorepo/apps/api
+
+[Install]
+WantedBy=7magic.target

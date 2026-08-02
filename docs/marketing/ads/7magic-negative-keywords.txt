@@ -1,0 +1,34 @@
+# Shared negative list — apply at account level
+# Job seekers / students (heavy volume on Indonesian venue + EO searches)
+lowongan
+loker
+gaji
+magang
+karir
+karyawan
+rekrutmen
+# Research / non-buyer intent
+contoh
+proposal
+template
+makalah
+skripsi
+tugas
+pengertian
+adalah
+sejarah
+# Wrong service
+kamar
+menginap
+staycation
+booking hotel
+harga kamar
+promo menginap
+restoran
+buffet
+meeting room
+# Free / DIY
+gratis
+free
+diy
+sendiri

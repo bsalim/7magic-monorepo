@@ -1,0 +1,46 @@
+[Unit]
+Description=7Magic public website (SvelteKit via adapter-node)
+Documentation=https://github.com/7magic/7magic-monorepo
+After=network-online.target 7magic-api.service
+Wants=network-online.target
+PartOf=7magic.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/7magic-monorepo/apps/web
+
+# PORT, HOST, ORIGIN and PUBLIC_API_* live here. ORIGIN is required by
+# adapter-node for form actions and cookies to work behind a reverse proxy.
+EnvironmentFile=/var/www/7magic-monorepo/apps/web/.env
+
+# adapter-node emits a self-contained server; node runs it with no pnpm needed.
+ExecStart=/usr/bin/node build/index.js
+
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=20
+Restart=always
+RestartSec=3
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=7magic-web
+
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+# The built server writes nothing; it only reads its own bundle.
+ReadOnlyPaths=/var/www/7magic-monorepo/apps/web
+
+[Install]
+WantedBy=7magic.target

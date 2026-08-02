@@ -1,0 +1,14 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "ignorePaths": [
+    "node_modules/**",
+    "**/node_modules/**",
+    "**/.svelte-kit/**",
+    "**/build/**",
+    "**/dist/**",
+    "apps/web/content/**",
+    "apps/web/messages/*.json",
+    "docs/marketing/**"
+  ]
+}

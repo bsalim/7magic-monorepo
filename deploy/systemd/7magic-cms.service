@@ -1,0 +1,44 @@
+[Unit]
+Description=7Magic CMS admin (SvelteKit via adapter-node)
+Documentation=https://github.com/7magic/7magic-monorepo
+After=network-online.target 7magic-api.service
+Wants=network-online.target
+PartOf=7magic.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/7magic-monorepo/apps/cms
+
+# The CMS holds the session cookie, so ORIGIN must match the public HTTPS host
+# exactly or logins will be rejected as cross-site.
+EnvironmentFile=/var/www/7magic-monorepo/apps/cms/.env
+
+ExecStart=/usr/bin/node build/index.js
+
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=20
+Restart=always
+RestartSec=3
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=7magic-cms
+
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+ReadOnlyPaths=/var/www/7magic-monorepo/apps/cms
+
+[Install]
+WantedBy=7magic.target

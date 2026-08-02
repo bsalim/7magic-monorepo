@@ -1,0 +1,11 @@
+[Unit]
+Description=7Magic stack (api, web, cms)
+Documentation=https://github.com/7magic/7magic-monorepo
+
+# Wants, not Requires: one app failing to start should not tear down the other
+# two. Each service still has Restart=always to recover on its own.
+Wants=7magic-api.service 7magic-web.service 7magic-cms.service
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target

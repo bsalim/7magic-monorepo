@@ -1,0 +1,263 @@
+{
+  "_note": "Desaturated partner logos served from R2 under hotel-partners/. Regenerate Commons-sourced ones with scripts/fetch_logos.py + process_logos.py, then upload with scripts/upload_partner_logos.py (which MERGES into this file). Licences are COPYRIGHT status only - every mark remains a registered trademark of its owner and is shown as a partner credit (nominative use).",
+  "missing": [
+    {
+      "slug": "jw-marriott",
+      "brand": "JW Marriott",
+      "reason": "no confident match on Commons"
+    },
+    {
+      "slug": "vivere",
+      "brand": "Vivere Hotel",
+      "reason": "no confident match on Commons"
+    },
+    {
+      "slug": "shangri-la",
+      "brand": "Shangri-La",
+      "reason": "no confident match on Commons"
+    },
+    {
+      "slug": "artotel",
+      "brand": "Artotel",
+      "reason": "no confident match on Commons"
+    },
+    {
+      "slug": "js-luwansa",
+      "brand": "JS Luwansa",
+      "reason": "no confident match on Commons"
+    },
+    {
+      "slug": "lumire",
+      "brand": "Lumire Hotel",
+      "reason": "no confident match on Commons"
+    },
+    {
+      "slug": "harris",
+      "brand": "HARRIS Hotels",
+      "reason": "no confident match on Commons"
+    },
+    {
+      "slug": "ascott",
+      "brand": "Ascott",
+      "reason": "no confident match on Commons"
+    },
+    {
+      "slug": "titik-dua-ubud",
+      "brand": "Titik Dua Ubud",
+      "reason": "no confident match on Commons"
+    },
+    {
+      "slug": "trembesi",
+      "brand": "Trembesi",
+      "reason": "no confident match on Commons"
+    },
+    {
+      "slug": "atria",
+      "brand": "Atria Hotel",
+      "reason": "no confident match on Commons"
+    }
+  ],
+  "logos": [
+    {
+      "slug": "aloft",
+      "key": "hotel-partners/aloft.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/aloft.png",
+      "brand": "Aloft Hotels",
+      "source": "Wikimedia Commons",
+      "source_file": "Aloft Hotels Logo.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Aloft_Hotels_Logo.svg",
+      "licence": "Public domain",
+      "credit": "Unknown authorUnknown author"
+    },
+    {
+      "slug": "conrad",
+      "key": "hotel-partners/conrad.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/conrad.png",
+      "brand": "Conrad",
+      "source": "Wikimedia Commons",
+      "source_file": "Conrad Hotels And Resorts logo.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Conrad_Hotels_And_Resorts_logo.jpg",
+      "licence": "Public domain",
+      "credit": "希尔顿酒店集团"
+    },
+    {
+      "slug": "four-points",
+      "key": "hotel-partners/four-points.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/four-points.png",
+      "brand": "Four Points by Sheraton",
+      "source": "Wikimedia Commons",
+      "source_file": "Four Points Logo neu.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Four_Points_Logo_neu.svg",
+      "licence": "Public domain",
+      "credit": "Unknown authorUnknown author"
+    },
+    {
+      "slug": "grand-hyatt",
+      "key": "hotel-partners/grand-hyatt.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/grand-hyatt.png",
+      "brand": "Grand Hyatt",
+      "source": "Wikimedia Commons",
+      "source_file": "Grand Hyatt logo.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Grand_Hyatt_logo.svg",
+      "licence": "Public domain",
+      "credit": "Hyatt"
+    },
+    {
+      "slug": "grand-mercure",
+      "key": "hotel-partners/grand-mercure.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/grand-mercure.png",
+      "brand": "Grand Mercure",
+      "source": "Wikimedia Commons",
+      "source_file": "Grand Mercure Logo 2015.png",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Grand_Mercure_Logo_2015.png",
+      "licence": "Public domain",
+      "credit": "AccorHotels Germany"
+    },
+    {
+      "slug": "hilton-bali",
+      "key": "hotel-partners/hilton-bali.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/hilton-bali.png",
+      "brand": "Hilton",
+      "source": "Wikimedia Commons",
+      "source_file": "HiltonHotelsLogo.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:HiltonHotelsLogo.svg",
+      "licence": "Public domain",
+      "credit": "w:Hilton Hotels &amp; Resorts"
+    },
+    {
+      "slug": "ibis-styles",
+      "key": "hotel-partners/ibis-styles.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/ibis-styles.png",
+      "brand": "ibis Styles",
+      "source": "Wikimedia Commons",
+      "source_file": "Ibis Styles Logo.png",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Ibis_Styles_Logo.png",
+      "licence": "CC BY-SA 4.0",
+      "credit": "Ibis Styles"
+    },
+    {
+      "slug": "kempinski",
+      "key": "hotel-partners/kempinski.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/kempinski.png",
+      "brand": "Kempinski",
+      "source": "Wikimedia Commons",
+      "source_file": "Kempinski Hotels & Resorts Logo.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Kempinski_Hotels_%26_Resorts_Logo.svg",
+      "licence": "Public domain",
+      "credit": "Unknown authorUnknown author"
+    },
+    {
+      "slug": "mercure",
+      "key": "hotel-partners/mercure.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/mercure.png",
+      "brand": "Mercure",
+      "source": "Wikimedia Commons",
+      "source_file": "Mercure-Logo.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Mercure-Logo.svg",
+      "licence": "Public domain",
+      "credit": "Mercure"
+    },
+    {
+      "slug": "novotel",
+      "key": "hotel-partners/novotel.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/novotel.png",
+      "brand": "Novotel",
+      "source": "Wikimedia Commons",
+      "source_file": "Logo Novotel Hotels.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Logo_Novotel_Hotels.svg",
+      "licence": "Public domain",
+      "credit": "Unknown authorUnknown author"
+    },
+    {
+      "slug": "oberoi-bali",
+      "key": "hotel-partners/oberoi-bali.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/oberoi-bali.png",
+      "brand": "The Oberoi",
+      "source": "Wikimedia Commons",
+      "source_file": "The Oberoi Group - Logo.png",
+      "source_page": "https://commons.wikimedia.org/wiki/File:The_Oberoi_Group_-_Logo.png",
+      "licence": "Public domain",
+      "credit": "The Oberoi Group"
+    },
+    {
+      "slug": "pullman",
+      "key": "hotel-partners/pullman.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/pullman.png",
+      "brand": "Pullman",
+      "source": "Wikimedia Commons",
+      "source_file": "Pullman logo 2013.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Pullman_logo_2013.svg",
+      "licence": "Public domain",
+      "credit": "AccorHotels Deutschland"
+    },
+    {
+      "slug": "ritz-carlton",
+      "key": "hotel-partners/ritz-carlton.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/ritz-carlton.png",
+      "brand": "The Ritz-Carlton",
+      "source": "Wikimedia Commons",
+      "source_file": "Rsz trc-primary-logo blk3-memblue.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Rsz_trc-primary-logo_blk3-memblue.jpg",
+      "licence": "CC BY-SA 4.0",
+      "credit": "Ritz-Carlton Hotel Company LLC"
+    },
+    {
+      "slug": "st-regis",
+      "key": "hotel-partners/st-regis.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/st-regis.png",
+      "brand": "St. Regis",
+      "source": "Wikimedia Commons",
+      "source_file": "St. Regis Hotels & Resorts logo.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:St._Regis_Hotels_%26_Resorts_logo.svg",
+      "licence": "Public domain",
+      "credit": "St. Regis Hotels &amp; Resorts"
+    },
+    {
+      "slug": "tentrem",
+      "key": "hotel-partners/tentrem.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/tentrem.png",
+      "brand": "Hotel Tentrem",
+      "source": "Supplied by 7Magic",
+      "source_file": "",
+      "source_page": "",
+      "licence": "Provided by the client",
+      "credit": "",
+      "processing": "white-on-transparent original; recoloured to dark for the light strip"
+    },
+    {
+      "slug": "vertu",
+      "key": "hotel-partners/vertu.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/vertu.png",
+      "brand": "Vertu Hotels",
+      "source": "Supplied by 7Magic",
+      "source_file": "",
+      "source_page": "",
+      "licence": "Provided by the client",
+      "credit": "",
+      "processing": "desaturated from the supplied colour original"
+    },
+    {
+      "slug": "visesa-ubud",
+      "key": "hotel-partners/visesa-ubud.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/visesa-ubud.png",
+      "brand": "Visesa Ubud Resort",
+      "source": "Supplied by 7Magic",
+      "source_file": "",
+      "source_page": "",
+      "licence": "Provided by the client",
+      "credit": "",
+      "processing": "desaturated from the supplied colour original"
+    },
+    {
+      "slug": "westin",
+      "key": "hotel-partners/westin.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/westin.png",
+      "brand": "The Westin",
+      "source": "Wikimedia Commons",
+      "source_file": "Westin Hotels & Resorts logo.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Westin_Hotels_%26_Resorts_logo.svg",
+      "licence": "Public domain",
+      "credit": "Westin Hotels &amp; Resorts"
+    }
+  ]
+}

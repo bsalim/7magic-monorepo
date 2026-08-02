@@ -1,0 +1,9 @@
+Alembic migrations for the 7Magic API.
+
+Generate a migration after changing SQLAlchemy models:
+
+    uv run alembic revision --autogenerate -m "describe change"
+
+Apply migrations:
+
+    uv run alembic upgrade head

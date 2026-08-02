@@ -1,0 +1,16 @@
+{
+  "name": "7magic-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.13.1",
+  "scripts": {
+    "dev": "./rundev.sh",
+    "build": "pnpm --filter @7magic/web run build && pnpm --filter @7magic/cms run build",
+    "check": "pnpm --filter @7magic/web run check && pnpm --filter @7magic/cms run check",
+    "test": "cd apps/api && uv run pytest"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "typescript": "~5.9.2"
+  }
+}

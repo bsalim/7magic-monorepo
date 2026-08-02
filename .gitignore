@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# SvelteKit
+.svelte-kit/
+build/
+dist/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.db
+*.db-shm
+*.db-wal
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Logs
+*.log
+logs/
+.gitnexus
+
+# Local AI tooling / agent workspaces
+.claude/
+.agents/
+.superpowers/
+.playwright-cli/
+
+# Local artifacts and data dumps
+output/
+*.sql
+
+# Paraglide generated output
+apps/web/src/lib/paraglide/
+
+# Instagram scrape staged for import_instagram_showcases.py -- the images live
+# on R2 once imported, so only the index metadata is worth tracking.
+apps/web/static/img/ig/*
+!apps/web/static/img/ig/7magic-ig-index.csv
+
+# Internal product docs, kept local
+prd/

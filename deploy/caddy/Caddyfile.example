@@ -1,0 +1,33 @@
+# Copy to /etc/caddy/Caddyfile. Caddy is the only ingress; all three services
+# bind to 127.0.0.1, so nothing is reachable except through here.
+#
+#   caddy validate --config /etc/caddy/Caddyfile
+#   systemctl reload caddy
+
+7magicwedding.com, www.7magicwedding.com {
+	encode zstd gzip
+
+	# SvelteKit fingerprints everything under /_app/immutable, so it is safe to
+	# cache forever.
+	@immutable path /_app/immutable/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	reverse_proxy 127.0.0.1:6273
+}
+
+cms.7magicwedding.com {
+	encode zstd gzip
+
+	# The admin surface should never be indexed.
+	header X-Robots-Tag "noindex, nofollow"
+
+	reverse_proxy 127.0.0.1:6173
+}
+
+api.7magicwedding.com {
+	encode zstd gzip
+
+	header X-Robots-Tag "noindex, nofollow"
+
+	reverse_proxy 127.0.0.1:8003
+}
