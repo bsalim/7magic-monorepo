@@ -28,7 +28,7 @@
 
   // Order is chosen for the strip, not taken from the partner list as supplied:
   // grouped as given, the wordmarks fall consecutively and a whole screen can be
-  // nothing but text, which reads as broken artwork. At 18 logos to 11 wordmarks
+  // nothing but text, which reads as broken artwork. At 19 logos to 10 wordmarks
   // a strict alternation is impossible, so the wordmarks are spread as evenly as
   // the counts allow — never more than two logos in a row, and never two
   // wordmarks adjacent. The list ends on a wordmark so the wrap point does not
@@ -36,16 +36,19 @@
   // `slug` present => a logo exists in R2; no slug => wordmark fallback.
   const partners: Partner[] = [
     { name: 'The Ritz-Carlton', slug: 'ritz-carlton' },
+    { name: 'Visesa Ubud', slug: 'visesa-ubud' },
     { name: 'JW Marriott' },
     { name: 'Aloft', slug: 'aloft' },
     { name: 'Hotel Tentrem', slug: 'tentrem' },
     { name: 'Vivere' },
     { name: 'The Westin', slug: 'westin' },
+    { name: 'Titik Dua Ubud', slug: 'titik-dua-ubud' },
     { name: 'Shangri-La' },
     { name: 'Kempinski', slug: 'kempinski' },
     { name: 'Grand Hyatt', slug: 'grand-hyatt' },
     { name: 'Artotel' },
     { name: 'St. Regis', slug: 'st-regis' },
+    { name: 'ibis Styles', slug: 'ibis-styles' },
     { name: 'JS Luwansa' },
     { name: 'Pullman', slug: 'pullman' },
     { name: 'Conrad', slug: 'conrad' },
@@ -57,9 +60,6 @@
     { name: 'Ascott' },
     { name: 'Grand Mercure', slug: 'grand-mercure' },
     { name: 'Novotel', slug: 'novotel' },
-    { name: 'Titik Dua Ubud' },
-    { name: 'Visesa Ubud', slug: 'visesa-ubud' },
-    { name: 'ibis Styles', slug: 'ibis-styles' },
     { name: 'Trembesi' },
     { name: 'The Oberoi', slug: 'oberoi-bali' },
     { name: 'Hilton', slug: 'hilton-bali' },

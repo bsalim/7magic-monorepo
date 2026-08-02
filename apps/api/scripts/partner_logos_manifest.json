@@ -42,11 +42,6 @@
       "reason": "no confident match on Commons"
     },
     {
-      "slug": "titik-dua-ubud",
-      "brand": "Titik Dua Ubud",
-      "reason": "no confident match on Commons"
-    },
-    {
       "slug": "trembesi",
       "brand": "Trembesi",
       "reason": "no confident match on Commons"
@@ -223,6 +218,18 @@
       "licence": "Provided by the client",
       "credit": "",
       "processing": "white-on-transparent original; recoloured to dark for the light strip"
+    },
+    {
+      "slug": "titik-dua-ubud",
+      "key": "hotel-partners/titik-dua-ubud.png",
+      "url": "https://media.7magicwedding.com/hotel-partners/titik-dua-ubud.png",
+      "brand": "Titik Dua Ubud",
+      "source": "Property's own site asset, supplied by 7Magic",
+      "source_file": "https://d3f4bipy3nwii1.cloudfront.net/hotel/property/images/10258-logo-20240624120326741-lg.png",
+      "source_page": "",
+      "licence": "Trademark of the property, shown as a partner credit (nominative use)",
+      "credit": "",
+      "processing": "greyscaled and normalised to the 340x130 marquee box; the supplied original was already near-monochrome"
     },
     {
       "slug": "vertu",
