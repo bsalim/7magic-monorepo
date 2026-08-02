@@ -26,7 +26,12 @@
   <title>New showcase | 7Magic CMS</title>
 </svelte:head>
 
-<PageHeader title="New showcase" description="Add a wedding to the public showcase grid." />
+<PageHeader
+  title="New showcase"
+  description="Add a wedding to the public showcase grid."
+  backHref="/showcases"
+  backLabel="Wedding Showcases"
+/>
 
 <ShowcaseForm
   {values}

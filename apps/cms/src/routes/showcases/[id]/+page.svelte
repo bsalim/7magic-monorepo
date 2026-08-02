@@ -41,6 +41,8 @@
   description={showcase.source_ref
     ? `Imported from ${showcase.source_ref}`
     : 'Update this showcase.'}
+  backHref="/showcases"
+  backLabel="Wedding Showcases"
 />
 
 <ShowcaseForm {values} errors={form?.errors ?? {}} message={form?.message ?? ''} action="?/save" />
