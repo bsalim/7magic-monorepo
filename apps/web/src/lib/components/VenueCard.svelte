@@ -38,9 +38,13 @@
       {venue.district}, {venue.city}
     </p>
     <p class="mt-4 text-lg font-semibold">{formatPrice(venue.price_start_from)}</p>
-    <p class="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-      <UsersIcon size={15} />
-      {m.card_package_for_guests({ count: venue.price_for_total_pax })}
-    </p>
+    <!-- Zero pax means the package size is unknown, not that the venue seats
+         nobody. Venues outside Jakarta mostly have no package data yet. -->
+    {#if venue.price_for_total_pax > 0}
+      <p class="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+        <UsersIcon size={15} />
+        {m.card_package_for_guests({ count: venue.price_for_total_pax })}
+      </p>
+    {/if}
   </Card.Content>
 </Card.Root>
