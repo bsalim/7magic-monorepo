@@ -9,8 +9,8 @@
     Decoration: m.vd_cat_decor,
     Cakes: m.vd_cat_cakes,
     Entertainment: m.vd_cat_entertainment,
-    'Beauty & Bridal': m.vd_cat_beauty,
-    'Attire & Extras': m.vd_cat_attire
+    'Bridal & Suit': m.vd_cat_bridal_suit,
+    Extra: m.vd_cat_extra
   };
   const catLabel = (cat: string) => CAT_LABELS[cat]?.() ?? cat;
 
