@@ -52,6 +52,29 @@ def join_contact(*parts: Any) -> str:
     return " / ".join(_WHITESPACE.sub(" ", str(p)).strip() for p in parts if p) or EMPTY_SLOT
 
 
+def build_parameters(
+    *, name: Any, contact: Any, page: Any, message: Any, slots: int
+) -> list[str]:
+    """Fold the four things the team needs into however many slots the template
+    actually has.
+
+    A purpose-built `lead_alert` template has four. Until one exists, the only
+    templates on the account are Bird's own system samples, and those have fewer
+    -- so the alert has to fit itself to the template rather than the other way
+    round, or the send is rejected outright.
+    """
+    fields = [name, contact, page, message]
+    if slots >= len(fields):
+        return [_slot(f) for f in fields]
+    if slots <= 1:
+        return [_slot(join_contact(*fields))]
+    # Merge from the right: who it is stays legible in the first slot, and the
+    # lower-value context collapses together in the last.
+    head = fields[: slots - 1]
+    tail = fields[slots - 1 :]
+    return [_slot(f) for f in head] + [_slot(join_contact(*tail))]
+
+
 def resolve_base_url(settings: Settings) -> str | None:
     """Bird derives the host from the key itself (`bk_{region}_{token}`), so a
     key from another region needs no config change. An override exists mainly so
@@ -95,6 +118,13 @@ class WhatsAppNotifier:
             )
             return False
 
+        parameters = build_parameters(
+            name=name,
+            contact=contact,
+            page=page,
+            message=message,
+            slots=self._settings.bird_lead_template_slots,
+        )
         payload: dict[str, Any] = {
             "to": self._settings.whatsapp_team_number,
             "template": {
@@ -103,12 +133,7 @@ class WhatsAppNotifier:
                 "components": [
                     {
                         "type": "body",
-                        "parameters": [
-                            {"type": "text", "text": _slot(name)},
-                            {"type": "text", "text": _slot(contact)},
-                            {"type": "text", "text": _slot(page)},
-                            {"type": "text", "text": _slot(message)},
-                        ],
+                        "parameters": [{"type": "text", "text": p} for p in parameters],
                     }
                 ],
             },

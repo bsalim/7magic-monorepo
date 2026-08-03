@@ -106,6 +106,16 @@ class Settings(BaseSettings):
             "bird_lead_template_language", "BIRD_LEAD_TEMPLATE_LANGUAGE"
         ),
     )
+    # How many body slots that template has. A send whose parameter count does
+    # not match is rejected, so this exists to borrow one of Bird's system
+    # templates (which have fewer) until a purpose-built one is approved.
+    bird_lead_template_slots: int = Field(
+        default=4,
+        ge=1,
+        validation_alias=AliasChoices(
+            "bird_lead_template_slots", "BIRD_LEAD_TEMPLATE_SLOTS"
+        ),
+    )
     # Signs the inbound webhook; unrelated to the API key used for sending.
     bird_webhook_signing_key: str | None = Field(
         default=None,

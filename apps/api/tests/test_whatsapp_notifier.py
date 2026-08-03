@@ -20,6 +20,7 @@ from app.services.whatsapp import (
     EMPTY_SLOT,
     MAX_SLOT_CHARS,
     WhatsAppNotifier,
+    build_parameters,
     join_contact,
     resolve_base_url,
 )
@@ -211,3 +212,71 @@ async def test_unreachable_provider_returns_false_without_raising(
 def test_join_contact_drops_blanks_and_keeps_order() -> None:
     assert join_contact("+628123", None, "a@b.com") == "+628123 / a@b.com"
     assert join_contact(None, "") == EMPTY_SLOT
+
+
+LEAD = {
+    "name": "Ayu",
+    "contact": "+628123",
+    "page": "ritz-carlton",
+    "message": "Tanya harga",
+}
+
+
+def test_four_slots_keep_every_field_separate() -> None:
+    assert build_parameters(**LEAD, slots=4) == [
+        "Ayu",
+        "+628123",
+        "ritz-carlton",
+        "Tanya harga",
+    ]
+
+
+def test_more_slots_than_fields_does_not_pad() -> None:
+    # A template with spare slots would otherwise get empty parameters, which
+    # WhatsApp rejects.
+    assert len(build_parameters(**LEAD, slots=6)) == 4
+
+
+def test_fewer_slots_merge_from_the_right() -> None:
+    """Who the lead is has to stay legible; context collapses instead."""
+    assert build_parameters(**LEAD, slots=2) == [
+        "Ayu",
+        "+628123 / ritz-carlton / Tanya harga",
+    ]
+    assert build_parameters(**LEAD, slots=3) == [
+        "Ayu",
+        "+628123",
+        "ritz-carlton / Tanya harga",
+    ]
+
+
+def test_one_slot_carries_everything() -> None:
+    assert build_parameters(**LEAD, slots=1) == [
+        "Ayu / +628123 / ritz-carlton / Tanya harga"
+    ]
+
+
+def test_merged_slots_are_still_flattened_and_bounded() -> None:
+    merged = build_parameters(
+        name="Ayu",
+        contact="+628123",
+        page="ritz",
+        message="a\nb" + "x" * (MAX_SLOT_CHARS + 200),
+        slots=2,
+    )
+    assert len(merged) == 2
+    assert "\n" not in merged[1]
+    assert len(merged[1]) <= MAX_SLOT_CHARS
+
+
+@pytest.mark.anyio
+async def test_slot_count_is_honoured_on_the_wire(
+    transport: RecordingTransport,
+) -> None:
+    notifier = WhatsAppNotifier(make_settings(bird_lead_template_slots=2))
+    await notifier.send_lead_alert(**LEAD)
+
+    assert sent_parameters(transport) == [
+        "Ayu",
+        "+628123 / ritz-carlton / Tanya harga",
+    ]
