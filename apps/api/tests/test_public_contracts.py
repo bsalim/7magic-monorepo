@@ -12,6 +12,7 @@ from app.core.database import Base, get_db_session
 from app.main import app
 from app.models import Article, ArticleCategory, ArticleImage, User, Venue
 from app.services.auth import AuthenticatedUser
+from app.services.leads import lead_service
 
 
 @pytest.fixture()
@@ -257,6 +258,80 @@ def test_venue_pricing_request_is_persisted(public_article_client: TestClient) -
     payload = response.json()
     assert payload["status"] == "received"
     assert payload["id"] >= 1
+
+
+class RecordingWhatsApp:
+    """Stands in for the Bird notifier so the wiring can be asserted without a
+    live send."""
+
+    def __init__(self) -> None:
+        self.calls: list[dict[str, object]] = []
+
+    async def send_lead_alert(self, **kwargs: object) -> bool:
+        self.calls.append(kwargs)
+        return True
+
+
+def test_contact_form_alerts_the_team_over_whatsapp(
+    public_article_client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The /contact form is one of the two paths the team is alerted from."""
+    recorder = RecordingWhatsApp()
+    monkeypatch.setattr(lead_service, "_whatsapp", recorder)
+
+    response = public_article_client.post(
+        "/api/v1/public/contact-leads",
+        json={
+            "name": "Ayu Santoso",
+            "email": "ayu@example.com",
+            "phone": "+628123456789",
+            "message": "Mau tanya paket ballroom.",
+            "source_path": "/contact",
+            "venue_slug": "kempinski-indonesia",
+        },
+    )
+
+    assert response.status_code == 201
+    assert len(recorder.calls) == 1
+    call = recorder.calls[0]
+    assert call["name"] == "Ayu Santoso"
+    # One slot has to carry both ways of reaching them.
+    assert call["contact"] == "+628123456789 / ayu@example.com"
+    assert call["page"] == "kempinski-indonesia"
+    assert call["message"] == "Mau tanya paket ballroom."
+
+
+def test_venue_pricing_request_alerts_the_team_over_whatsapp(
+    public_article_client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The venue detail modal is the other path, and the one that matters most --
+    prices are not public, so this is the only way a couple can ask for them."""
+    recorder = RecordingWhatsApp()
+    monkeypatch.setattr(lead_service, "_whatsapp", recorder)
+
+    response = public_article_client.post(
+        "/api/v1/public/venue-pricing-requests",
+        json={
+            "name": "Budi Hartono",
+            "whatsapp": "+628999888777",
+            "email": "budi@example.com",
+            "wedding_date": "2027-05-20",
+            "best_time_to_reach": "afternoon",
+            "venue_name": "The Ritz-Carlton Jakarta",
+            "venue_slug": "ritz-carlton-jakarta",
+        },
+    )
+
+    assert response.status_code == 201
+    assert len(recorder.calls) == 1
+    call = recorder.calls[0]
+    assert call["name"] == "Budi Hartono"
+    assert call["contact"] == "+628999888777 / budi@example.com"
+    # The venue is the subject of this lead, so it takes the page slot.
+    assert call["page"] == "The Ritz-Carlton Jakarta"
+    assert call["message"] == (
+        "Tanggal nikah: 2027-05-20 / Waktu dihubungi: afternoon"
+    )
 
 
 def test_venue_pricing_request_rejects_missing_whatsapp(

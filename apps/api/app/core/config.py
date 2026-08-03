@@ -61,6 +61,65 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("lead_notification_from", "LEAD_NOTIFICATION_FROM"),
     )
 
+    # WhatsApp via Bird (formerly MessageBird). Bird carries WhatsApp only --
+    # transactional email stays on Resend above. Every field is optional so the
+    # API boots unconfigured: sends degrade to a logged warning, exactly like
+    # Resend, and the inbound webhook refuses everything while the signing key
+    # is unset rather than trusting unverified payloads.
+    # The bk_-prefixed key from Bird's developer API. Both env names are
+    # accepted: Bird's dashboard calls it an access key, its SDKs an api_key.
+    bird_api_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices(
+            "bird_api_key", "BIRD_API_KEY", "BIRD_ACCESS_KEY"
+        ),
+    )
+    # ws_-prefixed, not the UUID the older Channels API docs describe.
+    bird_workspace_id: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("bird_workspace_id", "BIRD_WORKSPACE_ID"),
+    )
+    # Only exists once a WhatsApp channel is created, which needs the WABA. The
+    # send path must tolerate it being unset until then.
+    bird_whatsapp_channel_id: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices(
+            "bird_whatsapp_channel_id", "BIRD_WHATSAPP_CHANNEL_ID"
+        ),
+    )
+    # Normally derived from the key's region segment; set only to point at a
+    # stub or a region the key does not encode.
+    bird_base_url: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("bird_base_url", "BIRD_BASE_URL"),
+    )
+    # An approved `utility` template with four body slots: name, contact, page,
+    # message. Bird accepts nothing but templates, so this name must match one
+    # approved in the dashboard or every alert is rejected.
+    bird_lead_template: str = Field(
+        default="lead_alert",
+        validation_alias=AliasChoices("bird_lead_template", "BIRD_LEAD_TEMPLATE"),
+    )
+    bird_lead_template_language: str = Field(
+        default="id",
+        validation_alias=AliasChoices(
+            "bird_lead_template_language", "BIRD_LEAD_TEMPLATE_LANGUAGE"
+        ),
+    )
+    # Signs the inbound webhook; unrelated to the API key used for sending.
+    bird_webhook_signing_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices(
+            "bird_webhook_signing_key", "BIRD_WEBHOOK_SIGNING_KEY"
+        ),
+    )
+    # Where new-lead alerts are sent, in E.164. Not the WABA number itself --
+    # a channel cannot message itself.
+    whatsapp_team_number: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("whatsapp_team_number", "WHATSAPP_TEAM_NUMBER"),
+    )
+
     venue_read_allowed_origins: list[str] = []
     venue_read_api_key: str | None = None
     venue_upload_max_bytes: int = 10 * 1024 * 1024

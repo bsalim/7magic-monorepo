@@ -5,11 +5,13 @@ are written to the `contact_leads` table first, then the 7Magic inbox is
 notified -- in that order, so a provider outage costs a notification, never the
 lead itself. The previous implementation appended to an in-memory list, so every
 submission was lost when the API restarted.
+
+Two notifications go out per lead, over separate providers: an email through
+Resend and a WhatsApp alert through Bird. Both are best-effort and neither can
+fail the request, so an outage at one still leaves the other and the row itself.
 """
 
 from __future__ import annotations
-
-from typing import Any
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -22,11 +24,13 @@ from app.schemas.content import (
     VenuePricingRequest,
 )
 from app.services.email import EmailNotifier
+from app.services.whatsapp import WhatsAppNotifier, join_contact
 
 
 class LeadService:
     def __init__(self) -> None:
         self._notifier = EmailNotifier(get_settings())
+        self._whatsapp = WhatsAppNotifier(get_settings())
 
     async def create_contact_lead(
         self, session: AsyncSession, payload: ContactLeadCreate
@@ -61,6 +65,12 @@ class LeadService:
                 "Message": payload.message,
             },
             reply_to=payload.email,
+        )
+        await self._whatsapp.send_lead_alert(
+            name=payload.name,
+            contact=join_contact(payload.phone, payload.email),
+            page=payload.venue_slug or payload.source_path,
+            message=payload.message,
         )
 
         return self._response(lead)
@@ -111,6 +121,19 @@ class LeadService:
                 "Best time to reach": payload.best_time_to_reach,
             },
             reply_to=payload.email,
+        )
+        # The venue is the lead here, so it takes the page slot; the two timing
+        # fields are what the team needs to act on, so they become the message.
+        await self._whatsapp.send_lead_alert(
+            name=payload.name,
+            contact=join_contact(payload.whatsapp, payload.email),
+            page=venue_label,
+            message=join_contact(
+                f"Tanggal nikah: {payload.wedding_date}" if payload.wedding_date else "",
+                f"Waktu dihubungi: {payload.best_time_to_reach}"
+                if payload.best_time_to_reach
+                else "",
+            ),
         )
 
         return self._response(lead)
