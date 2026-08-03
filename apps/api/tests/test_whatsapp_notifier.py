@@ -27,11 +27,18 @@ from app.services.whatsapp import (
 
 
 def make_settings(**overrides: Any) -> Settings:
+    """Every Bird field is pinned, including the ones a given test does not
+    assert on. Settings falls through to apps/api/.env for anything left unset,
+    so omitting one silently couples the suite to whatever a developer happens
+    to have configured -- which is exactly how a local stopgap value of
+    BIRD_LEAD_TEMPLATE_SLOTS once turned four assertions red."""
     base: dict[str, Any] = {
         "bird_api_key": "bk_us1_testtoken",
         "whatsapp_team_number": "+6580000000",
         "bird_lead_template": "lead_alert",
         "bird_lead_template_language": "id",
+        "bird_lead_template_slots": 4,
+        "bird_base_url": None,
     }
     base.update(overrides)
     return Settings(**base)
