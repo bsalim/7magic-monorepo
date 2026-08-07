@@ -5,7 +5,7 @@ from math import ceil
 
 from datetime import datetime, timezone
 
-from sqlalchemy import func, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -55,8 +55,12 @@ def _author_name(author: User) -> str:
     return name or author.username or author.email
 
 
-def _category_slug(article: Article) -> str:
-    return article.category.category_slug if article.category else "artikel"
+def _category_slug(article: Article, locale: str = BASE_LOCALE) -> str:
+    """The category URL segment. Defaults to Indonesian because the CMS shows the
+    canonical one; only the public locale-aware readers pass `locale`."""
+    if article.category is None:
+        return "articles" if locale == "en" else "artikel"
+    return article.category.slug_for(locale)
 
 
 def _article_image_url(article: Article) -> str:
@@ -74,8 +78,8 @@ def _article_card(article: Article, locale: str = BASE_LOCALE) -> ArticleCard:
     return ArticleCard(
         id=article.id,
         title=article.title_for(locale),
-        slug=article.slug,
-        category=_category_slug(article),
+        slug=article.slug_for(locale),
+        category=_category_slug(article, locale),
         summary=article.summary_for(locale),
         image_url=_article_image_url(article),
         author=_author_name(article.author),
@@ -83,6 +87,17 @@ def _article_card(article: Article, locale: str = BASE_LOCALE) -> ArticleCard:
         featured=article.featured,
         updated_at=updated_at.isoformat() if updated_at else "",
         locale=locale if article.has_translation(locale) else BASE_LOCALE,
+        path=article.url_for(locale),
+        # Only locales the article genuinely exists in. An English alternate on an
+        # article whose body is still Indonesian is a false signal: it earns
+        # English impressions for a page that reads as Indonesian, which bounces.
+        # The URL keeps working either way -- this governs what is advertised,
+        # not what resolves.
+        alternates={
+            code: article.url_for(code)
+            for code in ("id", "en")
+            if article.has_translation(code)
+        },
     )
 
 
@@ -146,6 +161,13 @@ class ArticleService:
     ) -> ArticleAdminDetail:
         category = await self._resolve_category(session, payload.category)
         await self._assert_slug_free(session, category_id=category.id, slug=payload.slug)
+        slug_en = (payload.slug_en or "").strip() or None
+        if slug_en == payload.slug:
+            # Storing the same string twice buys nothing and would then have to be
+            # kept in step; the fallback already produces this URL.
+            slug_en = None
+        if slug_en:
+            await self._assert_slug_free(session, category_id=category.id, slug=slug_en)
 
         article = Article(
             author_id=author_id,
@@ -153,6 +175,7 @@ class ArticleService:
             title_id=payload.title_id,
             title_en=payload.title_en or None,
             slug=payload.slug,
+            slug_en=slug_en,
             summary_id=payload.summary_id,
             summary_en=payload.summary_en or None,
             body_id=payload.body_id,
@@ -190,6 +213,22 @@ class ArticleService:
                 slug=slug,
                 exclude_article_id=article.id,
             )
+
+        # Handled before the generic setattr below so a blank value clears the
+        # column rather than storing "", which would route the English URL to an
+        # empty segment instead of falling back.
+        if "slug_en" in values:
+            slug_en = (values.pop("slug_en") or "").strip() or None
+            if slug_en == (values.get("slug") or article.slug):
+                slug_en = None
+            if slug_en and slug_en != article.slug_en:
+                await self._assert_slug_free(
+                    session,
+                    category_id=article.category_id,
+                    slug=slug_en,
+                    exclude_article_id=article.id,
+                )
+            article.slug_en = slug_en
 
         # Derived fields track the Indonesian body, which is the canonical text
         # and the one indexed for search.
@@ -250,8 +289,12 @@ class ArticleService:
         slug: str,
         exclude_article_id: int | None = None,
     ) -> None:
+        # Both columns are checked, because the public lookup matches either one:
+        # an English slug equal to some other article's Indonesian slug satisfies
+        # the unique indexes but leaves the URL resolving to two articles.
         query = select(Article.id).where(
-            Article.category_id == category_id, Article.slug == slug
+            Article.category_id == category_id,
+            or_(Article.slug == slug, Article.slug_en == slug),
         )
         if exclude_article_id is not None:
             query = query.where(Article.id != exclude_article_id)
@@ -312,6 +355,7 @@ class ArticleService:
             title_id=article.title_id,
             title_en=article.title_en or "",
             slug=article.slug,
+            slug_en=article.slug_en or "",
             summary_id=article.summary_id or "",
             summary_en=article.summary_en or "",
             body_id=article.body_id,
@@ -387,7 +431,15 @@ class ArticleService:
         locale: str = BASE_LOCALE,
     ) -> ArticleDetail:
         articles = await self._published_articles(session, category=category, locale=locale)
-        article = next((item for item in articles if item.slug == slug), None)
+        # Either slug resolves, in both locales. An English reader following a
+        # link minted before the English slugs existed still lands on the article
+        # rather than a 404, and `path` on the response tells the caller which URL
+        # is canonical so it can redirect. Indonesian is matched first: it is the
+        # canonical column, and only it is guaranteed non-null.
+        article = next(
+            (item for item in articles if slug in (item.slug, item.slug_en)),
+            None,
+        )
         if article is None:
             raise ArticleNotFoundError("Article not found.")
 
@@ -421,7 +473,15 @@ class ArticleService:
             .order_by(Article.featured.desc(), Article.published_at.desc(), Article.id.desc())
         )
         if category:
-            query = query.join(ArticleCategory).where(ArticleCategory.category_slug == category)
+            # Matched against both segments regardless of locale, for the same
+            # reason the article slug is: the English segment is what an English
+            # URL carries, and the Indonesian one has to keep working after it.
+            query = query.join(ArticleCategory).where(
+                or_(
+                    ArticleCategory.category_slug == category,
+                    ArticleCategory.category_slug_en == category,
+                )
+            )
 
         result = await session.execute(query)
         return list(result.scalars().all())

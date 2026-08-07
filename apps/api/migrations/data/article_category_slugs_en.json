@@ -1,0 +1,14 @@
+{
+  "_comment": [
+    "English URL segment per article category, keyed by the Indonesian category_slug.",
+    "Only categories whose Indonesian slug does not already read as English need an",
+    "entry -- the rest are left out on purpose, so they fall back to category_slug and",
+    "the same segment serves both locales.",
+    "These are editorial names. Review them before running the backfill with --apply:",
+    "changing one after articles are indexed changes every English article URL under it."
+  ],
+  "tradisi-wedding": "wedding-traditions",
+  "dekorasi": "decoration",
+  "tips-hubungan": "relationship-tips",
+  "pernikahan-islami": "islamic-wedding"
+}

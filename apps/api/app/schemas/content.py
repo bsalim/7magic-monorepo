@@ -183,6 +183,14 @@ class ArticleCard(BaseModel):
     featured: bool
     updated_at: str
     locale: str = "id"
+    # `slug` and `category` are the segments for the requested locale, so they are
+    # not enough on their own to reach the other language. These two carry the
+    # rest: `path` is where this article canonically lives in the requested
+    # locale -- the caller can compare it against the URL it was asked for and
+    # redirect a stale one -- and `alternates` gives every locale's path, which is
+    # what the hreflang tags and the sitemap need.
+    path: str = ""
+    alternates: dict[str, str] = Field(default_factory=dict)
 
 
 class ArticleListResponse(BaseModel):
@@ -197,6 +205,9 @@ class ArticleCreate(BaseModel):
     title_id: str = Field(min_length=3, max_length=255)
     title_en: str | None = Field(default=None, max_length=255)
     slug: str = Field(min_length=3, max_length=255)
+    # Blank leaves the English URL identical to the Indonesian one, which is the
+    # right default -- a slug is only worth translating once the article is.
+    slug_en: str | None = Field(default=None, min_length=3, max_length=255)
     summary_id: str = Field(min_length=3)
     summary_en: str | None = None
     body_id: str = Field(min_length=1)
@@ -213,6 +224,7 @@ class ArticleUpdate(BaseModel):
     title_id: str | None = Field(default=None, min_length=3, max_length=255)
     title_en: str | None = Field(default=None, max_length=255)
     slug: str | None = Field(default=None, min_length=3, max_length=255)
+    slug_en: str | None = Field(default=None, min_length=3, max_length=255)
     summary_id: str | None = Field(default=None, min_length=3)
     summary_en: str | None = None
     body_id: str | None = Field(default=None, min_length=1)
@@ -231,6 +243,7 @@ class ArticleAdminDetail(BaseModel):
     title_id: str
     title_en: str = ""
     slug: str
+    slug_en: str = ""
     summary_id: str
     summary_en: str = ""
     body_id: str

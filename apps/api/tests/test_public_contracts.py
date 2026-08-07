@@ -94,14 +94,21 @@ def public_article_client(tmp_path) -> Generator[TestClient, None, None]:
                 password_hash="",
                 active=True,
             )
-            category = ArticleCategory(category="Wedding Venue", category_slug="wedding-venue")
+            category = ArticleCategory(
+                category="Wedding Venue",
+                category_slug="wedding-venue",
+                category_slug_en="wedding-venues",
+            )
             published = Article(
                 author=author,
                 category=category,
                 title_id="Database Wedding Venue Guide",
+                title_en="Database Wedding Venue Guide (EN)",
                 slug="database-wedding-venue-guide",
+                slug_en="database-wedding-venue-guide-en",
                 summary_id="A published article seeded in the articles table.",
                 body_id="<h2>DB Article</h2><p>Real article table content.</p>",
+                body_en="<h2>DB Article</h2><p>English article table content.</p>",
                 content_text="DB Article Real article table content.",
                 word_count=6,
                 featured=True,
@@ -132,7 +139,24 @@ def public_article_client(tmp_path) -> Generator[TestClient, None, None]:
                 trash=False,
                 topic=["packages"],
             )
-            session.add_all([published, draft])
+            # Published, but never translated: the case that has to keep sharing
+            # the Indonesian slug instead of 404ing under /en.
+            untranslated = Article(
+                author=author,
+                category=category,
+                title_id="No English Slug",
+                slug="no-english-slug",
+                summary_id="Indonesian only.",
+                body_id="<p>Hanya bahasa Indonesia.</p>",
+                content_text="Hanya bahasa Indonesia.",
+                word_count=3,
+                featured=False,
+                published_at=datetime(2026, 5, 1, tzinfo=timezone.utc),
+                status="published",
+                trash=False,
+                topic=["packages"],
+            )
+            session.add_all([published, draft, untranslated])
             await session.commit()
 
     asyncio.run(prepare_database())
@@ -197,7 +221,7 @@ def test_public_articles_use_database_records(public_article_client: TestClient)
 
     assert response.status_code == 200
     payload = response.json()
-    assert payload["pagination"]["total"] == 1
+    assert payload["pagination"]["total"] == 2
     assert payload["items"][0]["title"] == "Database Wedding Venue Guide"
     assert payload["items"][0]["image_url"] == "https://cdn.7magic.test/articles/db-article.jpg"
 
@@ -212,6 +236,71 @@ def test_public_article_detail_uses_database_record(public_article_client: TestC
     assert payload["title"] == "Database Wedding Venue Guide"
     assert payload["content"] == "<h2>DB Article</h2><p>Real article table content.</p>"
     assert payload["topic"] == ["packages"]
+
+
+def test_english_article_resolves_by_its_english_slug(public_article_client: TestClient) -> None:
+    """The English URL -- English category segment and English slug alike."""
+    response = public_article_client.get(
+        "/api/v1/public/articles/wedding-venues/database-wedding-venue-guide-en",
+        params={"locale": "en"},
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["title"] == "Database Wedding Venue Guide (EN)"
+    assert payload["slug"] == "database-wedding-venue-guide-en"
+    assert payload["category"] == "wedding-venues"
+    assert payload["path"] == "/en/articles/wedding-venues/database-wedding-venue-guide-en"
+
+
+def test_indonesian_article_url_still_resolves_under_english(
+    public_article_client: TestClient,
+) -> None:
+    """Links minted before the English slugs existed must not start 404ing.
+
+    The response still reports the English path as canonical, which is what lets
+    the caller redirect rather than serve the article at two URLs.
+    """
+    response = public_article_client.get(
+        "/api/v1/public/articles/wedding-venue/database-wedding-venue-guide",
+        params={"locale": "en"},
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["title"] == "Database Wedding Venue Guide (EN)"
+    assert payload["path"] == "/en/articles/wedding-venues/database-wedding-venue-guide-en"
+
+
+def test_article_carries_a_path_for_every_locale(public_article_client: TestClient) -> None:
+    """What the hreflang tags and the sitemap are built from."""
+    response = public_article_client.get(
+        "/api/v1/public/articles/wedding-venue/database-wedding-venue-guide"
+    )
+
+    assert response.status_code == 200
+    alternates = response.json()["alternates"]
+    assert alternates == {
+        "id": "/artikel/wedding-venue/database-wedding-venue-guide",
+        "en": "/en/articles/wedding-venues/database-wedding-venue-guide-en",
+    }
+
+
+def test_untranslated_article_shares_the_indonesian_url(
+    public_article_client: TestClient,
+) -> None:
+    """A null slug_en is a shared URL, not a missing one."""
+    response = public_article_client.get(
+        "/api/v1/public/articles/wedding-venue/no-english-slug", params={"locale": "en"}
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["path"] == "/en/articles/wedding-venues/no-english-slug"
+    assert payload["alternates"]["id"] == "/artikel/wedding-venue/no-english-slug"
+    # No English alternate: the URL resolves, but announcing it as an English
+    # version would send English searchers to Indonesian text.
+    assert "en" not in payload["alternates"]
 
 
 def test_public_contact_lead_contract(public_article_client: TestClient) -> None:
@@ -594,11 +683,15 @@ def test_public_articles_fall_back_to_indonesian_when_no_translation(
     public_article_client: TestClient,
 ) -> None:
     """An English listing must still surface Indonesian articles that have no
-    English sibling, rather than returning an empty page."""
+    English sibling, rather than returning an empty page.
+
+    Compared by id, not by slug: since `slug_en` exists the two listings are
+    expected to differ in their slugs, which is the whole point of it.
+    """
     indonesian = public_article_client.get("/api/v1/public/articles").json()["items"]
     english = public_article_client.get("/api/v1/public/articles?locale=en").json()["items"]
 
-    assert {item["slug"] for item in english} == {item["slug"] for item in indonesian}
+    assert {item["id"] for item in english} == {item["id"] for item in indonesian}
 
 
 def test_public_articles_reject_unknown_locale(public_article_client: TestClient) -> None:

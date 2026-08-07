@@ -27,11 +27,26 @@ def test_sibling_row_machinery_is_gone() -> None:
     assert "translation_group_id" not in columns
 
 
-def test_slug_and_status_stay_shared() -> None:
-    """One row means one URL slug and one publish state for both languages."""
+def test_status_stays_shared_but_the_slug_does_not() -> None:
+    """One row still means one publish state, but two URLs.
+
+    The slug used to be shared along with the status. It is not any more: an
+    English article reading well at an Indonesian URL was costing search traffic,
+    so `slug_en` carries the English URL while `status` stays single -- an
+    article is published in both languages or neither.
+    """
     columns = set(Article.__table__.columns.keys())
 
-    assert "slug" in columns
+    assert {"slug", "slug_en"} <= columns
     assert "status" in columns
-    assert "slug_en" not in columns
     assert "status_en" not in columns
+
+
+def test_english_slug_falls_back_to_the_indonesian_one() -> None:
+    """A null slug_en is a URL that is simply shared, not a broken one."""
+    article = Article(slug="harga-catering", slug_en="wedding-catering-prices")
+    untranslated = Article(slug="harga-catering")
+
+    assert article.slug_for("en") == "wedding-catering-prices"
+    assert article.slug_for("id") == "harga-catering"
+    assert untranslated.slug_for("en") == "harga-catering"
