@@ -49,6 +49,11 @@
       key: 'services',
       label: m.nav_services(),
       items: [
+        {
+          href: '/bali-wedding-planning',
+          label: m.service_bali_wedding(),
+          desc: m.service_bali_wedding_desc()
+        },
         { href: '/perjanjian-pranikah', label: m.service_prenup(), desc: m.service_prenup_desc() },
         {
           href: '/bali-event-organizer',
