@@ -15,7 +15,33 @@ export default defineConfig({
       // The prefixed locale must be listed first: '/:path(.*)?' also matches
       // '/en/...', so a base-locale-first order would swallow the prefix and
       // de-localization would never strip it.
+      //
+      // The article patterns must come before the catch-all for the same
+      // first-match-wins reason -- the catch-all would otherwise turn
+      // '/en/articles/x' into the route '/articles/x', which does not exist.
+      // The bare '/artikel' is listed separately because '/artikel/:path(.*)?'
+      // requires the trailing slash and so does not match the list page itself.
+      //
+      // This localizes the path *structure* only. The category and slug segments
+      // differ per locale too, but they are content, not routing: paraglide
+      // cannot know them, so `localizeHref` on an article URL produces a
+      // structurally valid path with the wrong segments. Anything that needs a
+      // real cross-locale article URL uses the `alternates` map the API returns.
       urlPatterns: [
+        {
+          pattern: '/artikel',
+          localized: [
+            ['en', '/en/articles'],
+            ['id', '/artikel']
+          ]
+        },
+        {
+          pattern: '/artikel/:path(.*)?',
+          localized: [
+            ['en', '/en/articles/:path(.*)?'],
+            ['id', '/artikel/:path(.*)?']
+          ]
+        },
         {
           pattern: '/:path(.*)?',
           localized: [

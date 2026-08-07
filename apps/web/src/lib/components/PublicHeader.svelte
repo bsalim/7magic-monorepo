@@ -33,7 +33,7 @@
     { href: '/wedding-venue/search', label: m.nav_venues() },
     { href: '/wedding-showcases', label: m.nav_showcases() },
     { href: '/paket-sangjit', label: m.service_sangjit() },
-    { href: '/articles', label: m.nav_articles() },
+    { href: '/artikel', label: m.nav_articles() },
     { href: '/our-vendors', label: m.nav_vendors() },
     { href: '/about', label: m.nav_about() }
   ]);

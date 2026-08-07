@@ -28,7 +28,7 @@
     </p>
     <h3 class="mt-2 font-display text-xl font-semibold">
       <a
-        href={articlePath(article.category, article.slug)}
+        href={article.path || articlePath(article.category, article.slug)}
         class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"
       >
         {article.title}

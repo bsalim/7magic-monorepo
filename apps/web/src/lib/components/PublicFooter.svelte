@@ -18,7 +18,7 @@
   const company = [
     { href: '/about', label: m.nav_about() },
     { href: '/our-vendors', label: m.nav_vendors() },
-    { href: '/articles', label: m.nav_articles() },
+    { href: '/artikel', label: m.nav_articles() },
     { href: '/contact', label: m.nav_contact() }
   ];
 

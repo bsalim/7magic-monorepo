@@ -26,12 +26,12 @@
         organization(),
         website(),
         articleNode(article, page.url.pathname, getLocale()),
-        // No category level: /articles takes only ?page, so a category crumb
+        // No category level: /artikel takes only ?page, so a category crumb
         // would link to the unfiltered index. The category rides on the
         // article's articleSection instead.
         breadcrumbList([
           { name: m.breadcrumb_home(), path: '/' },
-          { name: m.breadcrumb_articles(), path: '/articles' },
+          { name: m.breadcrumb_articles(), path: '/artikel' },
           { name: article.title }
         ])
       )

@@ -123,6 +123,12 @@ export type ArticleCard = {
   status: string;
   featured: boolean;
   updated_at: string;
+  // `slug` and `category` are already the segments for the requested locale, but
+  // the locale prefix and the localized path are not something the client can
+  // derive from them, so the API sends the assembled paths: `path` for the
+  // requested locale, `alternates` for every locale (hreflang and the sitemap).
+  path: string;
+  alternates: Record<string, string>;
 };
 
 export type ArticleListPayload = {

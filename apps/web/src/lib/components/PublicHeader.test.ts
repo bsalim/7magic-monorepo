@@ -16,7 +16,7 @@ afterEach(() => scrollTo(0));
 const navLinks = () =>
   screen.getAllByRole('link').filter((a) => {
     const href = a.getAttribute('href');
-    return href === '/wedding-venue/search' || href === '/articles' || href === '/our-vendors' || href === '/about';
+    return href === '/wedding-venue/search' || href === '/artikel' || href === '/our-vendors' || href === '/about';
   });
 
 describe('PublicHeader', () => {
@@ -24,16 +24,16 @@ describe('PublicHeader', () => {
     render(PublicHeader);
     const hrefs = navLinks().map((a) => a.getAttribute('href'));
     expect(hrefs).toContain('/wedding-venue/search');
-    expect(hrefs).toContain('/articles');
+    expect(hrefs).toContain('/artikel');
     expect(hrefs).toContain('/our-vendors');
     expect(hrefs).toContain('/about');
   });
 
   it('marks the matching nav item as the current page', () => {
-    render(PublicHeader, { props: { pathname: '/articles' } });
+    render(PublicHeader, { props: { pathname: '/artikel' } });
     const active = screen.getAllByRole('link').filter((a) => a.getAttribute('aria-current') === 'page');
     expect(active).toHaveLength(1);
-    expect(active[0]).toHaveAttribute('href', '/articles');
+    expect(active[0]).toHaveAttribute('href', '/artikel');
   });
 
   it('treats a nested path as active for its section', () => {
