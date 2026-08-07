@@ -38,6 +38,21 @@ export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
+/**
+ * As `absoluteUrl`, but without a trailing slash on anything below the root.
+ *
+ * `localizeHref('/', { locale: 'en' })` returns `/en/`, and the server answers
+ * that with a 308 to `/en`. A canonical, hreflang or sitemap URL that redirects
+ * is a weakened signal -- the annotation names a URL that is not the one being
+ * served -- so the redirect is resolved here instead of on every crawl.
+ */
+export function canonicalUrl(path: string): string {
+  const absolute = absoluteUrl(path);
+  return absolute.length > SITE_URL.length + 1 && absolute.endsWith('/')
+    ? absolute.slice(0, -1)
+    : absolute;
+}
+
 /** As `absoluteUrl`, but blank input yields no property rather than a bare origin. */
 export function optionalUrl(path: string | null | undefined): string | undefined {
   return path ? absoluteUrl(path) : undefined;

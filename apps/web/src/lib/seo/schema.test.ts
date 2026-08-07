@@ -194,6 +194,11 @@ describe('articleNode', () => {
     status: 'published',
     featured: false,
     updated_at: '2026-02-01T00:00:00',
+    path: '/artikel/planning/wedding-planning',
+    alternates: {
+      id: '/artikel/planning/wedding-planning',
+      en: '/en/articles/planning/wedding-planning-en'
+    },
     content: '<p>x</p>',
     topic: ['venue', 'budget'],
     word_count: 900,
