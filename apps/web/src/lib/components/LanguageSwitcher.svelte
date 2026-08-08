@@ -2,16 +2,20 @@
   import GlobeIcon from '@lucide/svelte/icons/globe';
   import { page } from '$app/state';
   import { buttonVariants } from '$lib/components/ui/button';
+  import { switcherHref } from '$lib/locale-href';
   import { m } from '$lib/paraglide/messages.js';
-  import { getLocale, localizeHref, type Locale } from '$lib/paraglide/runtime';
+  import { getLocale, type Locale } from '$lib/paraglide/runtime';
   import { cn } from '$lib/utils';
 
   let { variant = 'solid' }: { variant?: 'solid' | 'overlay' } = $props();
 
   // Two locales, so the switcher is a straight toggle to "the other one",
-  // keeping the visitor on the page they are already reading.
+  // keeping the visitor on the page they are already reading -- on the article
+  // it translates to, not on the structurally-localized path that merely
+  // redirects there.
   let target = $derived<Locale>(getLocale() === 'id' ? 'en' : 'id');
-  let href = $derived(localizeHref(page.url.pathname, { locale: target }));
+  let alternates = $derived(page.data.alternates as Record<string, string> | undefined);
+  let href = $derived(switcherHref(page.url.pathname, target, alternates));
 </script>
 
 <!-- data-sveltekit-reload forces a full navigation: messages are resolved per
