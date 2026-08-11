@@ -71,6 +71,36 @@ the cookie server-side and proxies through `apps/cms/src/lib/server/api.ts`.
 `fixtures.py`. Business logic belongs in `app/services/`, response shapes in
 `app/schemas/`.
 
+**Branches and events live in domain packages.** `app/domains/branches/` and
+`app/domains/events/` each own their models, schemas, service and (for events)
+email rendering. Articles, venues and showcases predate this and stay in the flat
+`app/models|services|schemas` layout; do not migrate them opportunistically.
+
+**Routers are one resource each, and hold no queries.** `app/api/v1/admin/` has a
+module per resource (`branches.py`, `events.py`, `event_registrations.py`,
+`event_emails.py`) carrying HTTP concerns only — validation, status codes,
+response shaping, permission checks. Every query and business rule belongs in the
+domain's `service.py`. Split a router by resource when it passes ~400 lines. The
+platform this was ported from let one admin module absorb every resource and it
+reached 7,842 lines; the resource-per-module rule is what prevents that, and the
+line count is only the alarm.
+
+**Permissions are branch-scoped.** A `user_roles` row with `branch_id IS NULL` is
+org-wide; a row with a branch is scoped to it. Routers never read role rows —
+they depend on `BranchScope` from `app/api/v1/admin/_shared.py` and call
+`scope.assert_branch(permission, branch_id)` before any write, and pass
+`scope.branches_with(permission)` to the service on any list. `branches_with`
+returning `None` means *unbounded*, not *none*.
+
+**Opening hours are ISO days: Monday = 1, Sunday = 7.**
+
+**Sync helpers that walk relationships need them preloaded.** `branch_accepts_date`
+and `notification_recipients` read `opening_hours`, `closures` and `settings`
+without awaiting. Under asyncio, touching an unloaded relationship raises
+`MissingGreenlet` instead of emitting a SELECT, so a branch reaching them must
+come from `branch_service` (which loads all three via `selectin`) or be refreshed
+first.
+
 **Scripts** in `apps/api/scripts/` are one-shot importers and backfills, not part
 of the app. They talk to the DB and R2 directly and are usually run once — read
 the module docstring before re-running one.
