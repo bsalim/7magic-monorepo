@@ -29,30 +29,31 @@ PLACEHOLDERS = [
 
 DEFAULT_TEMPLATES: dict[str, dict[str, str]] = {
     "thank_you": {
-        "subject": "Terima kasih sudah berkunjung ke {branch_name}",
+        "subject": "Thank you for visiting {branch_name}",
         "body": (
-            "Halo {first_name},\n\n"
-            "Terima kasih sudah meluangkan waktu untuk {event_name} di {branch_name}.\n"
-            "Kalau ada pertanyaan soal tanggal, dekorasi, atau paket, balas email ini saja.\n\n"
-            "Salam,\nTim 7Magic"
+            "Hi {first_name},\n\n"
+            "Thank you for taking the time to join us for {event_name} at {branch_name}.\n"
+            "If you have any questions about dates, styling or packages, just reply to this "
+            "email.\n\n"
+            "Warm regards,\nThe 7Magic team"
         ),
     },
     "no_show": {
-        "subject": "Kami menunggu Anda di {branch_name}",
+        "subject": "We missed you at {branch_name}",
         "body": (
-            "Halo {first_name},\n\n"
-            "Kami tidak bertemu Anda pada {visit_date} pukul {visit_slot}.\n"
-            "Mau kami jadwalkan ulang? Balas email ini dengan tanggal yang cocok.\n\n"
-            "Salam,\nTim 7Magic"
+            "Hi {first_name},\n\n"
+            "We did not get to meet you on {visit_date} at {visit_slot}.\n"
+            "Would you like us to rebook? Reply to this email with a date that suits you.\n\n"
+            "Warm regards,\nThe 7Magic team"
         ),
     },
     "cancel": {
-        "subject": "Kunjungan Anda ke {branch_name} dibatalkan",
+        "subject": "Your visit to {branch_name} has been cancelled",
         "body": (
-            "Halo {first_name},\n\n"
-            "Kunjungan Anda pada {visit_date} sudah kami batalkan.\n"
-            "Kapan pun ingin menjadwalkan lagi, kami siap membantu.\n\n"
-            "Salam,\nTim 7Magic"
+            "Hi {first_name},\n\n"
+            "Your visit on {visit_date} has been cancelled.\n"
+            "Whenever you would like to book again, we are happy to help.\n\n"
+            "Warm regards,\nThe 7Magic team"
         ),
     },
 }
@@ -125,13 +126,13 @@ def registration_confirmation(
     replacements = build_replacements(
         event=event, registration=registration, branch_name=branch.name if branch else None
     )
-    subject = render_template("Pendaftaran {event_name} diterima", replacements)
+    subject = render_template("Your {event_name} booking is confirmed", replacements)
     body = render_template(
-        "Halo {first_name},\n\n"
-        "Pendaftaran Anda untuk {event_name} sudah kami terima.\n"
-        "Tanggal: {visit_date}\nWaktu: {visit_slot}\nJumlah tamu: {party_size}\n"
-        "Lokasi: {branch_name}\n\n"
-        "Sampai jumpa!\nTim 7Magic",
+        "Hi {first_name},\n\n"
+        "We have received your booking for {event_name}.\n"
+        "Date: {visit_date}\nTime: {visit_slot}\nGuests: {party_size}\n"
+        "Location: {branch_name}\n\n"
+        "See you soon!\nThe 7Magic team",
         replacements,
     )
     return subject, body
@@ -140,15 +141,15 @@ def registration_confirmation(
 def branch_alert(
     *, event: Event, registration: EventRegistration, branch: Branch | None
 ) -> tuple[str, str]:
-    subject = f"Pendaftaran baru: {event.name}"
+    subject = f"New booking: {event.name}"
     lines = [
-        f"Nama: {registration.guest_name}",
+        f"Name: {registration.guest_name}",
         f"Email: {registration.email}",
-        f"HP: {registration.mobile or '-'}",
-        f"Jumlah tamu: {registration.party_size}",
-        f"Tanggal: {registration.visit_date.isoformat() if registration.visit_date else '-'}",
-        f"Waktu: {registration.visit_slot or '-'}",
-        f"Cabang: {branch.name if branch else '-'}",
-        f"Sumber: {registration.source}",
+        f"Mobile: {registration.mobile or '-'}",
+        f"Guests: {registration.party_size}",
+        f"Date: {registration.visit_date.isoformat() if registration.visit_date else '-'}",
+        f"Time: {registration.visit_slot or '-'}",
+        f"Branch: {branch.name if branch else '-'}",
+        f"Source: {registration.source}",
     ]
     return subject, "\n".join(lines)

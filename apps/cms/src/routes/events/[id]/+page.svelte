@@ -281,9 +281,6 @@
   <p class="mb-4 text-sm text-muted-foreground">
     Placeholders: {data.placeholders.map((token) => `{${token}}`).join(', ')}
   </p>
-  <p class="mb-4 text-sm text-muted-foreground">
-    These are sent to guests, so the default wording is Indonesian.
-  </p>
 
   <div class="grid gap-6">
     {#each templates as template (template.kind)}
