@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 
 from app import models  # noqa: F401
 from app.core.database import Base
-from app.domains.branches.schemas import BranchCreate, BranchUpdate
+from app.domains.branches.schemas import BranchCreate, BranchSettingsUpdate, BranchUpdate
 from app.domains.branches.service import BranchSlugConflictError, branch_service
 
 
@@ -72,6 +72,23 @@ async def test_duplicate_slug_is_rejected(session: AsyncSession) -> None:
 
     with pytest.raises(BranchSlugConflictError):
         await branch_service.create(session, _payload(name="Another"))
+
+
+@pytest.mark.asyncio
+async def test_tour_intro_html_is_sanitized_on_write(session: AsyncSession) -> None:
+    """The public tour page renders this field with {@html}, so the allowlist has to
+    run here -- the render site is not in a position to judge it."""
+    branch = await branch_service.create(session, _payload())
+
+    updated = await branch_service.update_settings(
+        session,
+        branch.id,
+        BranchSettingsUpdate.model_validate(
+            {"tourIntroHtml": "<p>Halo</p><script>alert(1)</script>"}
+        ),
+    )
+
+    assert updated.settings.tour_intro_html == "<p>Halo</p>"
 
 
 @pytest.mark.asyncio

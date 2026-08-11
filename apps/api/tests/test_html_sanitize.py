@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from app.domains.events.sanitize import sanitize_html
+from app.core.html import sanitize_html
 
 
 def test_allowed_formatting_survives() -> None:

@@ -5,6 +5,7 @@ from datetime import UTC, datetime
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.html import sanitize_html
 from app.domains.branches.models import Branch, BranchClosure, BranchOpeningHour, BranchSettings
 from app.domains.branches.schemas import (
     BranchCreate,
@@ -129,7 +130,13 @@ class BranchService:
         if branch.settings is None:
             branch.settings = BranchSettings(tour_notification_recipients=[])
             await session.flush()
-        for key, value in payload.model_dump(exclude_unset=True).items():
+        changes = payload.model_dump(exclude_unset=True)
+        # The public tour page renders this one with {@html}, so it is sanitized
+        # here. arrival_instructions and parking_notes render as text and are
+        # escaped by Svelte, so they are left as typed.
+        if "tour_intro_html" in changes:
+            changes["tour_intro_html"] = sanitize_html(changes["tour_intro_html"]) or None
+        for key, value in changes.items():
             setattr(branch.settings, key, value)
         await session.commit()
         await session.refresh(branch)

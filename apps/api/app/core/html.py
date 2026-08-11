@@ -1,8 +1,12 @@
-"""Allowlist sanitizer for admin-authored event copy.
+"""Allowlist sanitizer for admin-authored rich text.
 
-Event descriptions and email bodies are written in a rich-text field and rendered
-with `{@html}`. Everything not on the allowlist is dropped at write time, so the
-render site never has to trust its input.
+Event descriptions and a branch's tour intro are written in a rich-text field and
+rendered with `{@html}`. Everything not on the allowlist is dropped at write time,
+so the render site never has to trust its input.
+
+Lives in core rather than in either domain because both branches and events write
+fields that end up inside `{@html}`, and a sanitizer only one of them reaches is
+how the other one ends up unsanitized.
 """
 
 from __future__ import annotations

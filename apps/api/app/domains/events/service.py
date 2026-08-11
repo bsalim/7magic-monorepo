@@ -5,6 +5,7 @@ from datetime import UTC, date, datetime
 from sqlalchemy import func, inspect, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.html import sanitize_html
 from app.domains.branches.models import Branch
 from app.domains.events.models import (
     REGISTRATION_STATUSES,
@@ -12,7 +13,6 @@ from app.domains.events.models import (
     EventRegistration,
     EventRegistrationGuest,
 )
-from app.domains.events.sanitize import sanitize_html
 from app.domains.events.schemas import (
     EventCreate,
     EventUpdate,

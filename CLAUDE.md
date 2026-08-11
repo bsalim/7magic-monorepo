@@ -76,6 +76,12 @@ the cookie server-side and proxies through `apps/cms/src/lib/server/api.ts`.
 email rendering. Articles, venues and showcases predate this and stay in the flat
 `app/models|services|schemas` layout; do not migrate them opportunistically.
 
+**Anything rendered with `{@html}` is sanitized on write.** `core/html.py` holds
+the allowlist; `event.description_html` and `branch_settings.tour_intro_html` both
+go through it in their service's write path. It sits in core, not in a domain,
+because both write into the same `{@html}` on the public tour page. Add a field
+there and you must sanitize it too — the render site does not re-check.
+
 **Routers are one resource each, and hold no queries.** `app/api/v1/admin/` has a
 module per resource (`branches.py`, `events.py`, `event_registrations.py`,
 `event_emails.py`) carrying HTTP concerns only — validation, status codes,
