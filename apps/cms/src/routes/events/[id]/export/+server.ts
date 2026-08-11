@@ -17,7 +17,7 @@ export const GET: RequestHandler = async ({ locals, params }) => {
   );
 
   if (!response.ok) {
-    return new Response('Ekspor gagal.', { status: response.status });
+    return new Response('Export failed.', { status: response.status });
   }
 
   return new Response(response.body, {

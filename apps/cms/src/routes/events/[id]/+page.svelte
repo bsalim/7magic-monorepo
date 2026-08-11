@@ -4,12 +4,15 @@
   import DownloadIcon from '@lucide/svelte/icons/download';
 
   import type { AdminBranch, AdminEmailTemplate, AdminEvent, AdminRegistration } from '$lib/api';
+  import DateField from '$lib/components/DateField.svelte';
+  import DateTimeField from '$lib/components/DateTimeField.svelte';
   import PageHeader from '$lib/components/PageHeader.svelte';
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
   import * as Table from '$lib/components/ui/table';
   import { Textarea } from '$lib/components/ui/textarea';
+  import { formatDate } from '$lib/format-date';
 
   import type { ActionData, PageData } from './$types';
 
@@ -22,26 +25,46 @@
 
   let tab = $state<'details' | 'registrations' | 'emails'>('registrations');
   const tabs = [
-    { key: 'registrations', label: 'Pendaftar' },
-    { key: 'details', label: 'Detail acara' },
+    { key: 'registrations', label: 'Registrations' },
+    { key: 'details', label: 'Event details' },
     { key: 'emails', label: 'Email' }
   ] as const;
 
   const STATUS_LABELS: Record<AdminRegistration['status'], string> = {
-    registered: 'Terdaftar',
-    attended: 'Hadir',
-    no_show: 'Tidak hadir',
-    cancelled: 'Batal'
+    registered: 'Registered',
+    attended: 'Attended',
+    no_show: 'No show',
+    cancelled: 'Cancelled'
   };
 
   const TEMPLATE_LABELS: Record<AdminEmailTemplate['kind'], string> = {
-    thank_you: 'Terima kasih',
-    no_show: 'Tidak hadir',
-    cancel: 'Pembatalan'
+    thank_you: 'Thank you',
+    no_show: 'No show',
+    cancel: 'Cancellation'
   };
 
-  // datetime-local wants "YYYY-MM-DDTHH:mm"; the API returns full ISO strings.
+  // The pickers hold "YYYY-MM-DDTHH:mm"; the API returns full ISO strings.
   const toLocalInput = (value: string | null) => (value ? value.slice(0, 16) : '');
+
+  let newVisitDate = $state('');
+  let opensAt = $state('');
+  let closesAt = $state('');
+  let startsAt = $state('');
+  let endsAt = $state('');
+
+  // Seeded from the loaded event rather than at declaration, and re-seeded when a
+  // different event arrives: SvelteKit reuses this component across
+  // /events/1 -> /events/2, so initial-value-only state would show the previous
+  // event's timestamps. Guarded on the id so a save does not clobber edits.
+  let seededFor = $state<number | null>(null);
+  $effect(() => {
+    if (seededFor === event.id) return;
+    seededFor = event.id;
+    opensAt = toLocalInput(event.registrationOpensAt);
+    closesAt = toLocalInput(event.registrationClosesAt);
+    startsAt = toLocalInput(event.eventStartAt);
+    endsAt = toLocalInput(event.eventEndAt);
+  });
 
   function applyStatusFilter(target: Event) {
     const value = (target.currentTarget as HTMLSelectElement).value;
@@ -54,9 +77,9 @@
 
 <PageHeader
   title={event.name}
-  description={event.branchName ?? 'Semua cabang'}
+  description={event.branchName ?? 'All branches'}
   backHref="/events"
-  backLabel="Acara"
+  backLabel="Events"
 />
 
 {#if form?.message}
@@ -87,11 +110,11 @@
         value={data.statusFilter}
         onchange={applyStatusFilter}
       >
-        <option value="">Semua</option>
-        <option value="registered">Terdaftar</option>
-        <option value="attended">Hadir</option>
-        <option value="no_show">Tidak hadir</option>
-        <option value="cancelled">Batal</option>
+        <option value="">All</option>
+        <option value="registered">Registered</option>
+        <option value="attended">Attended</option>
+        <option value="no_show">No show</option>
+        <option value="cancelled">Cancelled</option>
       </select>
     </div>
 
@@ -99,7 +122,7 @@
          so a link straight at the API origin would download a 401. -->
     <Button variant="outline" size="sm" href={`/events/${event.id}/export`} data-sveltekit-reload>
       <DownloadIcon class="size-4" />
-      Ekspor CSV
+      Export CSV
     </Button>
   </div>
 
@@ -110,7 +133,7 @@
     class="mb-6 grid gap-4 rounded-xl border border-border/60 p-4 sm:grid-cols-3"
   >
     <div class="grid gap-2">
-      <Label for="name">Nama tamu</Label>
+      <Label for="name">Guest name</Label>
       <Input id="name" name="name" required />
     </div>
     <div class="grid gap-2">
@@ -118,30 +141,30 @@
       <Input id="email" name="email" type="email" required />
     </div>
     <div class="grid gap-2">
-      <Label for="mobile">HP</Label>
+      <Label for="mobile">Mobile</Label>
       <Input id="mobile" name="mobile" />
     </div>
     <div class="grid gap-2">
-      <Label for="visitDate">Tanggal kunjungan</Label>
-      <Input id="visitDate" name="visitDate" type="date" />
+      <Label for="visitDate">Visit date</Label>
+      <DateField name="visitDate" bind:value={newVisitDate} />
     </div>
     <div class="grid gap-2">
-      <Label for="visitSlot">Jam</Label>
+      <Label for="visitSlot">Time</Label>
       <Input id="visitSlot" name="visitSlot" placeholder="10:00" />
     </div>
-    <div class="flex items-end"><Button type="submit">Tambah pendaftar</Button></div>
+    <div class="flex items-end"><Button type="submit">Add registration</Button></div>
   </form>
 
   <Table.Root>
     <Table.Header>
       <Table.Row>
-        <Table.Head>Tamu</Table.Head>
-        <Table.Head>Cabang</Table.Head>
-        <Table.Head>Kunjungan</Table.Head>
-        <Table.Head class="text-right">Tamu</Table.Head>
+        <Table.Head>Guest</Table.Head>
+        <Table.Head>Branch</Table.Head>
+        <Table.Head>Visit</Table.Head>
+        <Table.Head class="text-right">Party</Table.Head>
         <Table.Head>Status</Table.Head>
-        <Table.Head>Sumber</Table.Head>
-        <Table.Head class="text-right">Aksi</Table.Head>
+        <Table.Head>Source</Table.Head>
+        <Table.Head class="text-right">Actions</Table.Head>
       </Table.Row>
     </Table.Header>
     <Table.Body>
@@ -153,7 +176,7 @@
           </Table.Cell>
           <Table.Cell>{registration.branchName ?? '—'}</Table.Cell>
           <Table.Cell class="text-sm">
-            {registration.visitDate ?? '—'}{registration.visitSlot
+            {formatDate(registration.visitDate)}{registration.visitSlot
               ? ` · ${registration.visitSlot}`
               : ''}
           </Table.Cell>
@@ -164,18 +187,18 @@
             <form method="POST" action="?/updateRegistration" use:enhance class="inline">
               <input type="hidden" name="registrationId" value={registration.id} />
               <input type="hidden" name="status" value="attended" />
-              <Button type="submit" variant="ghost" size="sm">Hadir</Button>
+              <Button type="submit" variant="ghost" size="sm">Attended</Button>
             </form>
             <form method="POST" action="?/updateRegistration" use:enhance class="inline">
               <input type="hidden" name="registrationId" value={registration.id} />
               <input type="hidden" name="status" value="no_show" />
-              <Button type="submit" variant="ghost" size="sm">Tidak hadir</Button>
+              <Button type="submit" variant="ghost" size="sm">No show</Button>
             </form>
             <form method="POST" action="?/updateRegistration" use:enhance class="inline">
               <input type="hidden" name="registrationId" value={registration.id} />
               <input type="hidden" name="followUp" value={String(!registration.followUp)} />
               <Button type="submit" variant="ghost" size="sm">
-                {registration.followUp ? 'Batal tindak lanjut' : 'Tindak lanjut'}
+                {registration.followUp ? 'Clear follow up' : 'Follow up'}
               </Button>
             </form>
           </Table.Cell>
@@ -183,7 +206,7 @@
       {:else}
         <Table.Row>
           <Table.Cell colspan={7} class="text-center text-sm text-muted-foreground">
-            Belum ada pendaftar.
+            No registrations yet.
           </Table.Cell>
         </Table.Row>
       {/each}
@@ -194,24 +217,24 @@
 {#if tab === 'details'}
   <form method="POST" action="?/details" use:enhance class="grid max-w-3xl gap-4 sm:grid-cols-2">
     <div class="grid gap-2">
-      <Label for="name">Nama acara</Label>
+      <Label for="name">Event name</Label>
       <Input id="name" name="name" value={event.name} required />
     </div>
     <div class="grid gap-2">
-      <Label for="branchId">Cabang</Label>
+      <Label for="branchId">Branch</Label>
       <select
         id="branchId"
         name="branchId"
         class="h-9 rounded-lg border border-border/60 bg-background px-3 text-sm"
       >
-        <option value="" selected={event.branchId === null}>Semua cabang</option>
+        <option value="" selected={event.branchId === null}>All branches</option>
         {#each branches as branch (branch.id)}
           <option value={branch.id} selected={branch.id === event.branchId}>{branch.name}</option>
         {/each}
       </select>
     </div>
     <div class="grid gap-2 sm:col-span-2">
-      <Label for="descriptionHtml">Deskripsi</Label>
+      <Label for="descriptionHtml">Description</Label>
       <Textarea
         id="descriptionHtml"
         name="descriptionHtml"
@@ -219,64 +242,47 @@
         value={event.descriptionHtml}
       />
       <p class="text-xs text-muted-foreground">
-        Tag yang diizinkan: p, br, strong, em, ul, ol, li, h2, h3, h4, a. Sisanya dibuang saat
-        disimpan.
+        Allowed tags: p, br, strong, em, ul, ol, li, h2, h3, h4, a. Anything else is removed when
+        saved.
       </p>
     </div>
     <div class="grid gap-2">
-      <Label for="venue">Lokasi</Label>
+      <Label for="venue">Location</Label>
       <Input id="venue" name="venue" value={event.venue ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="capacity">Kapasitas</Label>
+      <Label for="capacity">Capacity</Label>
       <Input id="capacity" name="capacity" type="number" min="1" value={event.capacity ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="registrationOpensAt">Pendaftaran dibuka</Label>
-      <Input
-        id="registrationOpensAt"
-        name="registrationOpensAt"
-        type="datetime-local"
-        value={toLocalInput(event.registrationOpensAt)}
-      />
+      <Label for="registrationOpensAt">Registration opens</Label>
+      <DateTimeField name="registrationOpensAt" bind:value={opensAt} />
     </div>
     <div class="grid gap-2">
-      <Label for="registrationClosesAt">Pendaftaran ditutup</Label>
-      <Input
-        id="registrationClosesAt"
-        name="registrationClosesAt"
-        type="datetime-local"
-        value={toLocalInput(event.registrationClosesAt)}
-      />
+      <Label for="registrationClosesAt">Registration closes</Label>
+      <DateTimeField name="registrationClosesAt" bind:value={closesAt} />
     </div>
     <div class="grid gap-2">
-      <Label for="eventStartAt">Acara mulai</Label>
-      <Input
-        id="eventStartAt"
-        name="eventStartAt"
-        type="datetime-local"
-        value={toLocalInput(event.eventStartAt)}
-      />
+      <Label for="eventStartAt">Event starts</Label>
+      <DateTimeField name="eventStartAt" bind:value={startsAt} />
     </div>
     <div class="grid gap-2">
-      <Label for="eventEndAt">Acara selesai</Label>
-      <Input
-        id="eventEndAt"
-        name="eventEndAt"
-        type="datetime-local"
-        value={toLocalInput(event.eventEndAt)}
-      />
+      <Label for="eventEndAt">Event ends</Label>
+      <DateTimeField name="eventEndAt" bind:value={endsAt} />
     </div>
     <label class="flex items-center gap-2 text-sm">
-      <input type="checkbox" name="isActive" checked={event.isActive} /> Aktif
+      <input type="checkbox" name="isActive" checked={event.isActive} /> Active
     </label>
-    <div class="sm:col-span-2"><Button type="submit">Simpan acara</Button></div>
+    <div class="sm:col-span-2"><Button type="submit">Save event</Button></div>
   </form>
 {/if}
 
 {#if tab === 'emails'}
   <p class="mb-4 text-sm text-muted-foreground">
-    Placeholder: {data.placeholders.map((token) => `{${token}}`).join(', ')}
+    Placeholders: {data.placeholders.map((token) => `{${token}}`).join(', ')}
+  </p>
+  <p class="mb-4 text-sm text-muted-foreground">
+    These are sent to guests, so the default wording is Indonesian.
   </p>
 
   <div class="grid gap-6">
@@ -290,17 +296,17 @@
         <input type="hidden" name="kind" value={template.kind} />
         <h3 class="font-medium">{TEMPLATE_LABELS[template.kind]}</h3>
         <div class="grid gap-2">
-          <Label for={`subject-${template.kind}`}>Subjek</Label>
+          <Label for={`subject-${template.kind}`}>Subject</Label>
           <Input id={`subject-${template.kind}`} name="subject" value={template.subject} />
         </div>
         <div class="grid gap-2">
-          <Label for={`body-${template.kind}`}>Isi</Label>
+          <Label for={`body-${template.kind}`}>Body</Label>
           <Textarea id={`body-${template.kind}`} name="body" rows={8} value={template.body} />
         </div>
         <label class="flex items-center gap-2 text-sm">
-          <input type="checkbox" name="enabled" checked={template.enabled} /> Aktifkan
+          <input type="checkbox" name="enabled" checked={template.enabled} /> Enable
         </label>
-        <div><Button type="submit" size="sm">Simpan template</Button></div>
+        <div><Button type="submit" size="sm">Save template</Button></div>
       </form>
     {/each}
   </div>

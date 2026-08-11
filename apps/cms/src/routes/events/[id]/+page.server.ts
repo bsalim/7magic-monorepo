@@ -41,7 +41,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
     };
   } catch (cause) {
     if (cause instanceof ApiRequestError && cause.status === 404) {
-      throw error(404, 'Acara tidak ditemukan.');
+      throw error(404, 'Event not found.');
     }
     throw cause;
   }
@@ -83,12 +83,12 @@ export const actions: Actions = {
         ok: false,
         message:
           cause instanceof ApiRequestError && cause.code === 'branch_forbidden'
-            ? 'Anda tidak punya akses ke cabang tersebut.'
-            : 'Acara gagal disimpan.'
+            ? 'You do not have access to that branch.'
+            : 'Could not save the event.'
       });
     }
 
-    return { ok: true, message: 'Acara tersimpan.' };
+    return { ok: true, message: 'Event saved.' };
   },
 
   addRegistration: async ({ locals, params, request }) => {
@@ -114,15 +114,15 @@ export const actions: Actions = {
     } catch (cause) {
       const code = cause instanceof ApiRequestError ? cause.code : '';
       const messages: Record<string, string> = {
-        already_registered: 'Email ini sudah terdaftar untuk acara tersebut.',
-        event_full: 'Kuota acara sudah penuh.',
-        branch_closed: 'Cabang tutup pada tanggal tersebut.',
-        registration_closed: 'Pendaftaran sudah ditutup.'
+        already_registered: 'That email is already registered for this event.',
+        event_full: 'This event is fully booked.',
+        branch_closed: 'The branch is closed on that date.',
+        registration_closed: 'Registration has closed.'
       };
-      return fail(400, { ok: false, message: messages[code] ?? 'Pendaftaran gagal disimpan.' });
+      return fail(400, { ok: false, message: messages[code] ?? 'Could not save the registration.' });
     }
 
-    return { ok: true, message: 'Pendaftaran ditambahkan.' };
+    return { ok: true, message: 'Registration added.' };
   },
 
   updateRegistration: async ({ locals, request }) => {
@@ -143,10 +143,10 @@ export const actions: Actions = {
         body: JSON.stringify(body)
       });
     } catch {
-      return fail(400, { ok: false, message: 'Pendaftaran gagal diperbarui.' });
+      return fail(400, { ok: false, message: 'Could not update the registration.' });
     }
 
-    return { ok: true, message: 'Pendaftaran diperbarui.' };
+    return { ok: true, message: 'Registration updated.' };
   },
 
   saveTemplate: async ({ locals, params, request }) => {
@@ -166,9 +166,9 @@ export const actions: Actions = {
         })
       });
     } catch {
-      return fail(400, { ok: false, message: 'Template gagal disimpan.' });
+      return fail(400, { ok: false, message: 'Could not save the template.' });
     }
 
-    return { ok: true, message: 'Template tersimpan.' };
+    return { ok: true, message: 'Template saved.' };
   }
 };

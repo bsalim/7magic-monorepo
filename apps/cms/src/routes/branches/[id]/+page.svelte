@@ -2,12 +2,14 @@
   import { enhance } from '$app/forms';
 
   import type { AdminBranch } from '$lib/api';
+  import DateField from '$lib/components/DateField.svelte';
   import PageHeader from '$lib/components/PageHeader.svelte';
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
   import * as Table from '$lib/components/ui/table';
   import { Textarea } from '$lib/components/ui/textarea';
+  import { formatDate } from '$lib/format-date';
 
   import type { ActionData, PageData } from './$types';
 
@@ -16,13 +18,13 @@
   const branch = $derived(data.branch as AdminBranch);
 
   const DAYS = [
-    { iso: 1, label: 'Senin' },
-    { iso: 2, label: 'Selasa' },
-    { iso: 3, label: 'Rabu' },
-    { iso: 4, label: 'Kamis' },
-    { iso: 5, label: 'Jumat' },
-    { iso: 6, label: 'Sabtu' },
-    { iso: 7, label: 'Minggu' }
+    { iso: 1, label: 'Monday' },
+    { iso: 2, label: 'Tuesday' },
+    { iso: 3, label: 'Wednesday' },
+    { iso: 4, label: 'Thursday' },
+    { iso: 5, label: 'Friday' },
+    { iso: 6, label: 'Saturday' },
+    { iso: 7, label: 'Sunday' }
   ];
 
   // "10:00:00" -> "10:00" for <input type="time">
@@ -31,18 +33,22 @@
 
   let tab = $state<'details' | 'settings' | 'hours' | 'closures'>('details');
   const tabs = [
-    { key: 'details', label: 'Detail' },
-    { key: 'settings', label: 'Pengaturan' },
-    { key: 'hours', label: 'Jam buka' },
-    { key: 'closures', label: 'Tanggal tutup' }
+    { key: 'details', label: 'Details' },
+    { key: 'settings', label: 'Settings' },
+    { key: 'hours', label: 'Opening hours' },
+    { key: 'closures', label: 'Closed dates' }
   ] as const;
+
+  // Reset after a save so the next closure starts from an empty form.
+  let closureStart = $state('');
+  let closureEnd = $state('');
 </script>
 
 <PageHeader
   title={branch.name}
   description={`/tour/${branch.slug}`}
   backHref="/branches"
-  backLabel="Cabang"
+  backLabel="Branches"
 />
 
 {#if form?.message}
@@ -66,7 +72,7 @@
 {#if tab === 'details'}
   <form method="POST" action="?/details" use:enhance class="grid gap-4 sm:grid-cols-2">
     <div class="grid gap-2">
-      <Label for="name">Nama</Label>
+      <Label for="name">Name</Label>
       <Input id="name" name="name" value={branch.name} required />
     </div>
     <div class="grid gap-2">
@@ -74,27 +80,27 @@
       <Input id="slug" name="slug" value={branch.slug} required />
     </div>
     <div class="grid gap-2">
-      <Label for="addressLine1">Alamat</Label>
+      <Label for="addressLine1">Address</Label>
       <Input id="addressLine1" name="addressLine1" value={branch.addressLine1} />
     </div>
     <div class="grid gap-2">
-      <Label for="addressLine2">Alamat (baris 2)</Label>
+      <Label for="addressLine2">Address (line 2)</Label>
       <Input id="addressLine2" name="addressLine2" value={branch.addressLine2 ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="city">Kota</Label>
+      <Label for="city">City</Label>
       <Input id="city" name="city" value={branch.city} />
     </div>
     <div class="grid gap-2">
-      <Label for="postalCode">Kode pos</Label>
+      <Label for="postalCode">Postal code</Label>
       <Input id="postalCode" name="postalCode" value={branch.postalCode ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="timezone">Zona waktu</Label>
+      <Label for="timezone">Time zone</Label>
       <Input id="timezone" name="timezone" value={branch.timezone} />
     </div>
     <div class="grid gap-2">
-      <Label for="publicPhone">Telepon</Label>
+      <Label for="publicPhone">Phone</Label>
       <Input id="publicPhone" name="publicPhone" value={branch.publicPhone ?? ''} />
     </div>
     <div class="grid gap-2">
@@ -106,20 +112,20 @@
       <Input id="whatsappNumber" name="whatsappNumber" value={branch.whatsappNumber ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="websiteUrl">Website khusus cabang</Label>
+      <Label for="websiteUrl">Branch website</Label>
       <Input id="websiteUrl" name="websiteUrl" value={branch.websiteUrl ?? ''} />
     </div>
     <div class="flex flex-col gap-2 pt-6 text-sm">
-      <label><input type="checkbox" name="active" checked={branch.active} /> Aktif</label>
+      <label><input type="checkbox" name="active" checked={branch.active} /> Active</label>
       <label>
-        <input type="checkbox" name="bookable" checked={branch.bookable} /> Terima kunjungan
+        <input type="checkbox" name="bookable" checked={branch.bookable} /> Takes visits
       </label>
       <label>
-        <input type="checkbox" name="isDefault" checked={branch.isDefault} /> Cabang default
+        <input type="checkbox" name="isDefault" checked={branch.isDefault} /> Default branch
       </label>
     </div>
     <div class="sm:col-span-2">
-      <Button type="submit">Simpan detail</Button>
+      <Button type="submit">Save details</Button>
     </div>
   </form>
 {/if}
@@ -127,7 +133,7 @@
 {#if tab === 'settings'}
   <form method="POST" action="?/settings" use:enhance class="grid max-w-2xl gap-4">
     <div class="grid gap-2">
-      <Label for="senderDisplayName">Nama pengirim email</Label>
+      <Label for="senderDisplayName">Email sender name</Label>
       <Input
         id="senderDisplayName"
         name="senderDisplayName"
@@ -135,11 +141,13 @@
       />
     </div>
     <div class="grid gap-2">
-      <Label for="replyToEmail">Balas ke</Label>
+      <Label for="replyToEmail">Reply to</Label>
       <Input id="replyToEmail" name="replyToEmail" value={branch.settings?.replyToEmail ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="tourNotificationRecipients">Notifikasi pendaftaran (satu email per baris)</Label>
+      <Label for="tourNotificationRecipients">
+        Registration alerts (one email address per line)
+      </Label>
       <Textarea
         id="tourNotificationRecipients"
         name="tourNotificationRecipients"
@@ -148,16 +156,20 @@
       />
     </div>
     <div class="grid gap-2">
-      <Label for="tourIntroHtml">Pengantar halaman kunjungan</Label>
+      <Label for="tourIntroHtml">Visit page introduction</Label>
       <Textarea
         id="tourIntroHtml"
         name="tourIntroHtml"
         rows={4}
         value={branch.settings?.tourIntroHtml ?? ''}
       />
+      <p class="text-xs text-muted-foreground">
+        Shown to guests on the branch's visit page. Anything outside p, br, strong, em, ul, ol, li,
+        h2, h3, h4 and a is removed when saved.
+      </p>
     </div>
     <div class="grid gap-2">
-      <Label for="arrivalInstructions">Petunjuk kedatangan</Label>
+      <Label for="arrivalInstructions">Arrival instructions</Label>
       <Textarea
         id="arrivalInstructions"
         name="arrivalInstructions"
@@ -166,7 +178,7 @@
       />
     </div>
     <div class="grid gap-2">
-      <Label for="parkingNotes">Catatan parkir</Label>
+      <Label for="parkingNotes">Parking notes</Label>
       <Textarea
         id="parkingNotes"
         name="parkingNotes"
@@ -174,7 +186,7 @@
         value={branch.settings?.parkingNotes ?? ''}
       />
     </div>
-    <div><Button type="submit">Simpan pengaturan</Button></div>
+    <div><Button type="submit">Save settings</Button></div>
   </form>
 {/if}
 
@@ -193,7 +205,7 @@
           value={toTimeInput(hour?.opensAtLocal) || '10:00'}
           class="w-32"
         />
-        <span class="text-sm text-muted-foreground">sampai</span>
+        <span class="text-sm text-muted-foreground">until</span>
         <Input
           type="time"
           name={`day-${day.iso}-closes`}
@@ -202,7 +214,7 @@
         />
       </div>
     {/each}
-    <div><Button type="submit">Simpan jam buka</Button></div>
+    <div><Button type="submit">Save opening hours</Button></div>
   </form>
 {/if}
 
@@ -214,50 +226,56 @@
     class="mb-6 grid max-w-xl gap-3 sm:grid-cols-2"
   >
     <div class="grid gap-2">
-      <Label for="startDate">Mulai</Label>
-      <Input id="startDate" name="startDate" type="date" required />
+      <Label for="startDate">From</Label>
+      <DateField name="startDate" bind:value={closureStart} placeholder="Pick a start date" />
     </div>
     <div class="grid gap-2">
-      <Label for="endDate">Sampai</Label>
-      <Input id="endDate" name="endDate" type="date" />
+      <Label for="endDate">Until</Label>
+      <!-- Cannot end before it starts; blank means a single day. -->
+      <DateField
+        name="endDate"
+        bind:value={closureEnd}
+        min={closureStart}
+        placeholder="Same day"
+      />
     </div>
     <div class="grid gap-2">
-      <Label for="publicLabel">Label publik</Label>
-      <Input id="publicLabel" name="publicLabel" placeholder="Libur Lebaran" />
+      <Label for="publicLabel">Public label</Label>
+      <Input id="publicLabel" name="publicLabel" placeholder="Eid holiday" />
     </div>
     <div class="grid gap-2">
-      <Label for="reason">Catatan internal</Label>
+      <Label for="reason">Internal note</Label>
       <Input id="reason" name="reason" />
     </div>
-    <div class="sm:col-span-2"><Button type="submit">Tambah tanggal tutup</Button></div>
+    <div class="sm:col-span-2"><Button type="submit">Add closed date</Button></div>
   </form>
 
   <Table.Root>
     <Table.Header>
       <Table.Row>
-        <Table.Head>Mulai</Table.Head>
-        <Table.Head>Sampai</Table.Head>
-        <Table.Head>Label publik</Table.Head>
-        <Table.Head class="text-right">Aksi</Table.Head>
+        <Table.Head>From</Table.Head>
+        <Table.Head>Until</Table.Head>
+        <Table.Head>Public label</Table.Head>
+        <Table.Head class="text-right">Actions</Table.Head>
       </Table.Row>
     </Table.Header>
     <Table.Body>
       {#each branch.closures as closure (closure.id)}
         <Table.Row>
-          <Table.Cell>{closure.startsAtLocal.slice(0, 10)}</Table.Cell>
-          <Table.Cell>{closure.endsAtLocal.slice(0, 10)}</Table.Cell>
+          <Table.Cell>{formatDate(closure.startsAtLocal)}</Table.Cell>
+          <Table.Cell>{formatDate(closure.endsAtLocal)}</Table.Cell>
           <Table.Cell>{closure.publicLabel ?? '—'}</Table.Cell>
           <Table.Cell class="text-right">
             <form method="POST" action="?/deleteClosure" use:enhance class="inline">
               <input type="hidden" name="closureId" value={closure.id} />
-              <Button type="submit" variant="ghost" size="sm">Hapus</Button>
+              <Button type="submit" variant="ghost" size="sm">Delete</Button>
             </form>
           </Table.Cell>
         </Table.Row>
       {:else}
         <Table.Row>
           <Table.Cell colspan={4} class="text-center text-sm text-muted-foreground">
-            Belum ada tanggal tutup.
+            No closed dates yet.
           </Table.Cell>
         </Table.Row>
       {/each}

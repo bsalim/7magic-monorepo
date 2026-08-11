@@ -17,7 +17,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     return { branch: data.data };
   } catch (cause) {
     if (cause instanceof ApiRequestError && cause.status === 404) {
-      throw error(404, 'Cabang tidak ditemukan.');
+      throw error(404, 'Branch not found.');
     }
     throw cause;
   }
@@ -62,12 +62,12 @@ export const actions: Actions = {
         ok: false,
         message:
           cause instanceof ApiRequestError && cause.code === 'branch_slug_conflict'
-            ? 'Slug cabang sudah dipakai.'
-            : 'Perubahan gagal disimpan.'
+            ? 'That branch slug is already taken.'
+            : 'Could not save your changes.'
       });
     }
 
-    return { ok: true, message: 'Detail cabang tersimpan.' };
+    return { ok: true, message: 'Branch details saved.' };
   },
 
   settings: async ({ locals, params, request }) => {
@@ -95,10 +95,10 @@ export const actions: Actions = {
         })
       });
     } catch {
-      return fail(400, { ok: false, message: 'Pengaturan gagal disimpan.' });
+      return fail(400, { ok: false, message: 'Could not save the settings.' });
     }
 
-    return { ok: true, message: 'Pengaturan tersimpan.' };
+    return { ok: true, message: 'Settings saved.' };
   },
 
   hours: async ({ locals, params, request }) => {
@@ -124,10 +124,10 @@ export const actions: Actions = {
         body: JSON.stringify({ items })
       });
     } catch {
-      return fail(400, { ok: false, message: 'Jam buka gagal disimpan.' });
+      return fail(400, { ok: false, message: 'Could not save the opening hours.' });
     }
 
-    return { ok: true, message: 'Jam buka tersimpan.' };
+    return { ok: true, message: 'Opening hours saved.' };
   },
 
   addClosure: async ({ locals, params, request }) => {
@@ -137,7 +137,7 @@ export const actions: Actions = {
     const endDate = String(form.get('endDate') ?? '').trim() || startDate;
 
     if (!startDate) {
-      return fail(400, { ok: false, message: 'Tanggal mulai wajib diisi.' });
+      return fail(400, { ok: false, message: 'A start date is required.' });
     }
 
     try {
@@ -155,10 +155,10 @@ export const actions: Actions = {
         })
       });
     } catch {
-      return fail(400, { ok: false, message: 'Tanggal tutup gagal ditambahkan.' });
+      return fail(400, { ok: false, message: 'Could not add the closed date.' });
     }
 
-    return { ok: true, message: 'Tanggal tutup ditambahkan.' };
+    return { ok: true, message: 'Closed date added.' };
   },
 
   deleteClosure: async ({ locals, params, request }) => {
@@ -172,9 +172,9 @@ export const actions: Actions = {
         token
       });
     } catch {
-      return fail(400, { ok: false, message: 'Tanggal tutup gagal dihapus.' });
+      return fail(400, { ok: false, message: 'Could not delete the closed date.' });
     }
 
-    return { ok: true, message: 'Tanggal tutup dihapus.' };
+    return { ok: true, message: 'Closed date deleted.' };
   }
 };

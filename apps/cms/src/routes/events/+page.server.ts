@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
     return { error: '', events: events.items, branches: branches.items, branchId };
   } catch (error) {
     return {
-      error: error instanceof ApiRequestError ? error.message : 'Tidak bisa memuat acara.',
+      error: error instanceof ApiRequestError ? error.message : 'Unable to load events.',
       events: [] as AdminEvent[],
       branches: [] as AdminBranch[],
       branchId
@@ -64,8 +64,8 @@ export const actions: Actions = {
         ok: false,
         message:
           error instanceof ApiRequestError && error.code === 'branch_forbidden'
-            ? 'Anda tidak punya akses ke cabang tersebut.'
-            : 'Acara gagal dibuat.'
+            ? 'You do not have access to that branch.'
+            : 'Could not create the event.'
       });
     }
 

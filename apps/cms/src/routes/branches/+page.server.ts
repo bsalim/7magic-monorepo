@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ locals }) => {
       error:
         error instanceof ApiRequestError
           ? error.message
-          : 'Tidak bisa memuat cabang. Periksa server API lalu coba lagi.',
+          : 'Unable to load branches. Check the API server and try again.',
       branches: [] as AdminBranch[]
     };
   }
@@ -43,7 +43,7 @@ export const actions: Actions = {
     };
 
     if (!payload.slug || !payload.name) {
-      return fail(400, { ok: false, message: 'Slug dan nama cabang wajib diisi.' });
+      return fail(400, { ok: false, message: 'A branch slug and name are required.' });
     }
 
     try {
@@ -58,12 +58,12 @@ export const actions: Actions = {
         ok: false,
         message:
           error instanceof ApiRequestError && error.code === 'branch_slug_conflict'
-            ? 'Slug cabang sudah dipakai.'
-            : 'Cabang gagal dibuat.'
+            ? 'That branch slug is already taken.'
+            : 'Could not create the branch.'
       });
     }
 
-    return { ok: true, message: 'Cabang dibuat.' };
+    return { ok: true, message: 'Branch created.' };
   },
 
   delete: async ({ locals, request }) => {
@@ -74,7 +74,7 @@ export const actions: Actions = {
     const form = await request.formData();
     const id = String(form.get('id') ?? '').trim();
     if (!id) {
-      return fail(400, { ok: false, message: 'Id cabang tidak ada.' });
+      return fail(400, { ok: false, message: 'Missing branch id.' });
     }
 
     try {
@@ -82,10 +82,10 @@ export const actions: Actions = {
     } catch (error) {
       return fail(400, {
         ok: false,
-        message: error instanceof ApiRequestError ? error.message : 'Cabang gagal dihapus.'
+        message: error instanceof ApiRequestError ? error.message : 'Could not delete the branch.'
       });
     }
 
-    return { ok: true, message: 'Cabang dihapus.' };
+    return { ok: true, message: 'Branch deleted.' };
   }
 };
