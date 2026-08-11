@@ -44,7 +44,7 @@ from app.schemas.content import (
 )
 from app.services.auth import AuthenticatedUser
 from app.services.leads import lead_service
-from app.services.catalog import SlugConflictError, catalog_service
+from app.services.catalog import catalog_service
 from app.services.storage import (
     FileTooLargeError,
     R2VenuePhotoStorage,

@@ -10,7 +10,6 @@ Writes: raw/<slug>.png plus sources.json (title, licence, artist, file page).
 import json
 import os
 import re
-import sys
 import urllib.parse
 import urllib.request
 
