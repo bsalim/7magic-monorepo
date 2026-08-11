@@ -96,3 +96,32 @@ def test_a_branch_scoped_user_cannot_create_an_all_branch_event(api) -> None:
     )
 
     assert response.status_code == 403
+
+
+def test_email_templates_fall_back_to_the_defaults(api) -> None:
+    event = _event(api, _branch(api)["id"])
+
+    response = api.client.get(f"/api/v1/admin/events/{event['id']}/email-templates")
+
+    assert response.status_code == 200
+    body = response.json()["data"]
+    assert [row["kind"] for row in body["templates"]] == ["thank_you", "no_show", "cancel"]
+    assert body["templates"][0]["enabled"] is False
+    assert "first_name" in body["placeholders"]
+
+
+def test_saving_then_previewing_a_template_substitutes_placeholders(api) -> None:
+    event = _event(api, _branch(api)["id"])
+
+    saved = api.client.put(
+        f"/api/v1/admin/events/{event['id']}/email-templates/thank_you",
+        json={"subject": "Terima kasih", "body": "Halo {first_name}", "enabled": True},
+    )
+    preview = api.client.post(
+        f"/api/v1/admin/events/{event['id']}/email-templates/thank_you/preview",
+        json={"subject": "Terima kasih", "body": "Halo {first_name}", "enabled": True},
+    )
+
+    assert saved.status_code == 200
+    assert saved.json()["data"]["enabled"] is True
+    assert preview.json()["data"]["body"] == "Halo "  # no registrations yet
