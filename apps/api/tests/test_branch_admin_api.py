@@ -9,9 +9,9 @@ def _create_branch(api, slug="jakarta-pusat", name="7Magic Jakarta Pusat"):
         json={
             "slug": slug,
             "name": name,
-            "addressLine1": "Jl. Thamrin No. 1",
+            "address_line1": "Jl. Thamrin No. 1",
             "city": "jakarta",
-            "countryCode": "ID",
+            "country_code": "ID",
             "timezone": "Asia/Jakarta",
         },
     )
@@ -23,8 +23,8 @@ def test_create_and_list_branches(api) -> None:
     assert created.status_code == 201
     body = created.json()["data"]
     assert body["slug"] == "jakarta-pusat"
-    assert body["isDefault"] is True
-    assert body["settings"]["tourNotificationRecipients"] == []
+    assert body["is_default"] is True
+    assert body["settings"]["tour_notification_recipients"] == []
 
     listed = api.client.get("/api/v1/admin/branches")
     assert listed.status_code == 200
@@ -71,7 +71,7 @@ def test_branch_staff_cannot_edit_branch_settings(api) -> None:
     api.login(admin_user(roles=["branch_staff"], branch_grants=(("branch_staff", branch["id"]),)))
     response = api.client.put(
         f"/api/v1/admin/branches/{branch['id']}/settings",
-        json={"tourNotificationRecipients": ["nope@7magic.test"]},
+        json={"tour_notification_recipients": ["nope@7magic.test"]},
     )
 
     assert response.status_code == 403
@@ -82,12 +82,12 @@ def test_opening_hours_replace_the_whole_week(api) -> None:
 
     api.client.put(
         f"/api/v1/admin/branches/{branch['id']}/opening-hours",
-        json={"items": [{"dayOfWeek": 1, "opensAtLocal": "10:00:00", "closesAtLocal": "18:00:00"}]},
+        json={"items": [{"day_of_week": 1, "opens_at_local": "10:00:00", "closes_at_local": "18:00:00"}]},
     )
     second = api.client.put(
         f"/api/v1/admin/branches/{branch['id']}/opening-hours",
-        json={"items": [{"dayOfWeek": 2, "opensAtLocal": "11:00:00", "closesAtLocal": "19:00:00"}]},
+        json={"items": [{"day_of_week": 2, "opens_at_local": "11:00:00", "closes_at_local": "19:00:00"}]},
     )
 
     assert second.status_code == 200
-    assert [row["dayOfWeek"] for row in second.json()["data"]["openingHours"]] == [2]
+    assert [row["day_of_week"] for row in second.json()["data"]["opening_hours"]] == [2]

@@ -1,7 +1,7 @@
 export type OpeningHour = {
-  dayOfWeek: number; // ISO: Monday = 1 ... Sunday = 7
-  opensAtLocal: string; // "10:00:00"
-  closesAtLocal: string;
+  day_of_week: number; // ISO: Monday = 1 ... Sunday = 7
+  opens_at_local: string; // "10:00:00"
+  closes_at_local: string;
 };
 
 /** ISO weekday for a "YYYY-MM-DD" string, without dragging the browser timezone
@@ -23,13 +23,13 @@ const pad = (value: number) => String(value).padStart(2, '0');
 export function isDateBookable(
   isoDate: string,
   hours: OpeningHour[],
-  closedDates: string[]
+  closed_dates: string[]
 ): boolean {
-  if (closedDates.includes(isoDate)) {
+  if (closed_dates.includes(isoDate)) {
     return false;
   }
   const weekday = isoWeekday(isoDate);
-  return hours.some((hour) => hour.dayOfWeek === weekday);
+  return hours.some((hour) => hour.day_of_week === weekday);
 }
 
 /** Slots on the hour, from opening onwards, that leave at least 30 minutes before
@@ -40,9 +40,9 @@ export function slotsForDate(isoDate: string, hours: OpeningHour[]): string[] {
   const weekday = isoWeekday(isoDate);
   const slots: string[] = [];
 
-  for (const hour of hours.filter((row) => row.dayOfWeek === weekday)) {
-    const opens = toMinutes(hour.opensAtLocal);
-    const closes = toMinutes(hour.closesAtLocal);
+  for (const hour of hours.filter((row) => row.day_of_week === weekday)) {
+    const opens = toMinutes(hour.opens_at_local);
+    const closes = toMinutes(hour.closes_at_local);
     for (let start = opens; start + 30 <= closes; start += 60) {
       slots.push(`${pad(Math.floor(start / 60))}:${pad(start % 60)}`);
     }

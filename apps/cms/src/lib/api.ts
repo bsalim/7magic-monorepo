@@ -125,7 +125,7 @@ export type VenuePhoto = {
   url?: string;
   thumbnail_url?: string;
   fallback?: string;
-  thumbFallback?: string;
+  thumb_fallback?: string;
   alt_text?: string | null;
   sort_order?: number;
   filename?: string;
@@ -189,103 +189,102 @@ export async function fetchJson<T>(path: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-// The branch and event endpoints serialise with a camelCase alias generator, so
-// these types are camelCase. The venue and article types above are snake_case
-// because those endpoints predate that convention -- do not "fix" either to
-// match the other.
+// snake_case, like every other type in this file: the API is snake_case on the
+// wire throughout. Local TypeScript variables stay camelCase as usual -- it is
+// only the field names crossing the wire that mirror the API.
 export type AdminBranchSettings = {
-  senderDisplayName: string | null;
-  replyToEmail: string | null;
-  tourNotificationRecipients: string[];
-  tourIntroHtml: string | null;
-  arrivalInstructions: string | null;
-  parkingNotes: string | null;
+  sender_display_name: string | null;
+  reply_to_email: string | null;
+  tour_notification_recipients: string[];
+  tour_intro_html: string | null;
+  arrival_instructions: string | null;
+  parking_notes: string | null;
 };
 
 export type AdminOpeningHour = {
   id?: number;
-  dayOfWeek: number; // ISO: Monday = 1 ... Sunday = 7
-  opensAtLocal: string; // "10:00:00"
-  closesAtLocal: string;
+  day_of_week: number; // ISO: Monday = 1 ... Sunday = 7
+  opens_at_local: string; // "10:00:00"
+  closes_at_local: string;
   active: boolean;
-  sortOrder: number;
+  sort_order: number;
 };
 
 export type AdminClosure = {
   id: number;
-  startsAtLocal: string;
-  endsAtLocal: string;
-  fullDay: boolean;
+  starts_at_local: string;
+  ends_at_local: string;
+  full_day: boolean;
   reason: string | null;
-  publicLabel: string | null;
+  public_label: string | null;
   active: boolean;
 };
 
 export type AdminBranch = {
   id: number;
-  publicId: string;
+  public_id: string;
   slug: string;
   name: string;
-  addressLine1: string;
-  addressLine2: string | null;
+  address_line1: string;
+  address_line2: string | null;
   city: string;
-  countryCode: string;
-  postalCode: string | null;
+  country_code: string;
+  postal_code: string | null;
   timezone: string;
-  publicPhone: string | null;
-  publicEmail: string | null;
-  whatsappNumber: string | null;
-  instagramUrl: string | null;
-  facebookUrl: string | null;
-  websiteUrl: string | null;
+  public_phone: string | null;
+  public_email: string | null;
+  whatsapp_number: string | null;
+  instagram_url: string | null;
+  facebook_url: string | null;
+  website_url: string | null;
   active: boolean;
   bookable: boolean;
-  isDefault: boolean;
+  is_default: boolean;
   settings: AdminBranchSettings | null;
-  openingHours: AdminOpeningHour[];
+  opening_hours: AdminOpeningHour[];
   closures: AdminClosure[];
 };
 
 export type AdminEvent = {
   id: number;
-  publicId: string;
-  branchId: number | null;
-  branchName: string | null;
+  public_id: string;
+  branch_id: number | null;
+  branch_name: string | null;
   name: string;
-  descriptionHtml: string;
+  description_html: string;
   venue: string | null;
-  eventStartAt: string | null;
-  eventEndAt: string | null;
-  registrationOpensAt: string | null;
-  registrationClosesAt: string | null;
+  event_start_at: string | null;
+  event_end_at: string | null;
+  registration_opens_at: string | null;
+  registration_closes_at: string | null;
   capacity: number | null;
-  coverImageUrl: string | null;
+  cover_image_url: string | null;
   color: string | null;
-  isActive: boolean;
-  registrationCount: number;
-  headCount: number;
+  is_active: boolean;
+  registration_count: number;
+  head_count: number;
 };
 
 export type AdminRegistration = {
   id: number;
-  publicId: string;
-  eventId: number;
-  eventName: string | null;
-  branchId: number | null;
-  branchName: string | null;
-  guestName: string;
+  public_id: string;
+  event_id: number;
+  event_name: string | null;
+  branch_id: number | null;
+  branch_name: string | null;
+  guest_name: string;
   email: string;
   mobile: string | null;
-  partySize: number;
-  visitDate: string | null;
-  visitSlot: string | null;
+  party_size: number;
+  visit_date: string | null;
+  visit_slot: string | null;
   status: 'registered' | 'attended' | 'no_show' | 'cancelled';
-  followUp: boolean;
+  follow_up: boolean;
   notes: string | null;
   source: string;
-  attendedAt: string | null;
+  attended_at: string | null;
   guests: Array<{ name: string; email: string | null; mobile: string | null }>;
-  createdAt: string | null;
+  created_at: string | null;
 };
 
 export type AdminEmailTemplate = {

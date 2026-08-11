@@ -11,27 +11,27 @@ type TourBranchDetail = {
     slug: string;
     name: string;
     city: string;
-    addressLine1: string;
-    addressLine2: string | null;
-    publicPhone: string | null;
-    publicEmail: string | null;
-    whatsappNumber: string | null;
+    address_line1: string;
+    address_line2: string | null;
+    public_phone: string | null;
+    public_email: string | null;
+    whatsapp_number: string | null;
   };
   settings: {
-    tourIntroHtml: string | null;
-    arrivalInstructions: string | null;
-    parkingNotes: string | null;
+    tour_intro_html: string | null;
+    arrival_instructions: string | null;
+    parking_notes: string | null;
   };
   event: {
     id: number;
     name: string;
-    descriptionHtml: string;
+    description_html: string;
     venue: string | null;
-    registrationOpen: boolean;
-    registrationClosedReason: string | null;
+    registration_open: boolean;
+    registration_closed_reason: string | null;
   } | null;
-  openingHours: OpeningHour[];
-  closedDates: string[];
+  opening_hours: OpeningHour[];
+  closed_dates: string[];
 };
 
 export const load: PageServerLoad = async ({ fetch, params }) => {
@@ -64,8 +64,8 @@ export const actions: Actions = {
           name: String(form.get('name') ?? '').trim(),
           email: String(form.get('email') ?? '').trim(),
           mobile: String(form.get('mobile') ?? '').trim() || null,
-          visitDate: String(form.get('visitDate') ?? '') || null,
-          visitSlot: String(form.get('visitSlot') ?? '') || null,
+          visit_date: String(form.get('visit_date') ?? '') || null,
+          visit_slot: String(form.get('visit_slot') ?? '') || null,
           guests
         })
       }

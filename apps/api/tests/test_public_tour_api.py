@@ -12,21 +12,21 @@ def _branch(api, slug="jakarta", name="7Magic Jakarta") -> dict:
             "slug": slug,
             "name": name,
             "timezone": "Asia/Jakarta",
-            "publicEmail": f"{slug}@7magic.test",
+            "public_email": f"{slug}@7magic.test",
         },
     ).json()["data"]
     api.client.put(
         f"/api/v1/admin/branches/{branch['id']}/opening-hours",
         json={
             "items": [
-                {"dayOfWeek": day, "opensAtLocal": "10:00:00", "closesAtLocal": "18:00:00"}
+                {"day_of_week": day, "opens_at_local": "10:00:00", "closes_at_local": "18:00:00"}
                 for day in range(1, 7)
             ]
         },
     )
     api.client.put(
         f"/api/v1/admin/branches/{branch['id']}/settings",
-        json={"tourNotificationRecipients": ["ops@7magic.test"]},
+        json={"tour_notification_recipients": ["ops@7magic.test"]},
     )
     return branch
 
@@ -34,12 +34,12 @@ def _branch(api, slug="jakarta", name="7Magic Jakarta") -> dict:
 def _open_event(api, branch_id: int, **overrides) -> dict:
     now = datetime.now(UTC)
     body = {
-        "branchId": branch_id,
+        "branch_id": branch_id,
         "name": "Book a Tour",
-        "descriptionHtml": "<p>Datang ya</p>",
-        "registrationOpensAt": (now - timedelta(days=1)).isoformat(),
-        "registrationClosesAt": (now + timedelta(days=30)).isoformat(),
-        "eventStartAt": (now + timedelta(days=31)).isoformat(),
+        "description_html": "<p>Datang ya</p>",
+        "registration_opens_at": (now - timedelta(days=1)).isoformat(),
+        "registration_closes_at": (now + timedelta(days=30)).isoformat(),
+        "event_start_at": (now + timedelta(days=31)).isoformat(),
     }
     body.update(overrides)
     return api.client.post("/api/v1/admin/events", json=body).json()["data"]
@@ -74,10 +74,10 @@ def test_branch_detail_carries_the_open_event_hours_and_closures(api) -> None:
     api.client.post(
         f"/api/v1/admin/branches/{branch['id']}/closures",
         json={
-            "startsAtLocal": f"{closed_on}T00:00:00",
-            "endsAtLocal": f"{closed_on}T23:59:00",
-            "fullDay": True,
-            "publicLabel": "Libur Natal",
+            "starts_at_local": f"{closed_on}T00:00:00",
+            "ends_at_local": f"{closed_on}T23:59:00",
+            "full_day": True,
+            "public_label": "Libur Natal",
         },
     )
 
@@ -85,9 +85,9 @@ def test_branch_detail_carries_the_open_event_hours_and_closures(api) -> None:
 
     body = response.json()["data"]
     assert body["branch"]["name"] == "7Magic Jakarta"
-    assert body["event"]["registrationOpen"] is True
-    assert [row["dayOfWeek"] for row in body["openingHours"]] == [1, 2, 3, 4, 5, 6]
-    assert body["closedDates"] == [closed_on]
+    assert body["event"]["registration_open"] is True
+    assert [row["day_of_week"] for row in body["opening_hours"]] == [1, 2, 3, 4, 5, 6]
+    assert body["closed_dates"] == [closed_on]
 
 
 def test_registering_creates_the_row_and_sends_both_emails(api, monkeypatch) -> None:
@@ -107,14 +107,14 @@ def test_registering_creates_the_row_and_sends_both_emails(api, monkeypatch) -> 
             "name": "Rina Kartika",
             "email": "rina@example.test",
             "mobile": "+628111111111",
-            "visitDate": _next_weekday(),
-            "visitSlot": "10:00",
+            "visit_date": _next_weekday(),
+            "visit_slot": "10:00",
             "guests": [{"name": "Budi"}],
         },
     )
 
     assert response.status_code == 201
-    assert response.json()["data"]["partySize"] == 2
+    assert response.json()["data"]["party_size"] == 2
     assert [call["to"] for call in sent] == [["rina@example.test"], ["ops@7magic.test"]]
 
 
@@ -131,7 +131,7 @@ def test_a_failing_email_still_returns_201(api, monkeypatch) -> None:
 
     response = api.client.post(
         "/api/v1/public/tour/branches/jakarta/register",
-        json={"name": "Rina", "email": "rina@example.test", "visitDate": _next_weekday()},
+        json={"name": "Rina", "email": "rina@example.test", "visit_date": _next_weekday()},
     )
 
     assert response.status_code == 201
@@ -151,13 +151,13 @@ def test_registering_for_a_closed_window_returns_409(api, monkeypatch) -> None:
     _open_event(
         api,
         branch["id"],
-        registrationOpensAt=(now - timedelta(days=10)).isoformat(),
-        registrationClosesAt=(now - timedelta(days=1)).isoformat(),
+        registration_opens_at=(now - timedelta(days=10)).isoformat(),
+        registration_closes_at=(now - timedelta(days=1)).isoformat(),
     )
 
     response = api.client.post(
         "/api/v1/public/tour/branches/jakarta/register",
-        json={"name": "Rina", "email": "rina@example.test", "visitDate": _next_weekday()},
+        json={"name": "Rina", "email": "rina@example.test", "visit_date": _next_weekday()},
     )
 
     assert response.status_code == 409

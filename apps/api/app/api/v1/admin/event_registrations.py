@@ -64,13 +64,11 @@ class CmsRegistrationCreate(EventSchema):
 
 
 def _payload(registration: EventRegistration) -> dict:
-    response = RegistrationResponse.model_validate(registration).model_dump(
-        by_alias=True, mode="json"
-    )
+    response = RegistrationResponse.model_validate(registration).model_dump(mode="json")
     event = registration.event
-    response["eventName"] = event.name if event else None
-    response["branchId"] = event.branch_id if event else None
-    response["branchName"] = event.branch.name if event and event.branch else None
+    response["event_name"] = event.name if event else None
+    response["branch_id"] = event.branch_id if event else None
+    response["branch_name"] = event.branch.name if event and event.branch else None
     return response
 
 
@@ -84,7 +82,7 @@ async def _scoped_rows(session, scope, **filters) -> list[EventRegistration]:
 async def list_registrations(
     session: DbSession,
     scope: BranchScope,
-    event_id: int | None = Query(default=None, alias="eventId"),
+    event_id: int | None = Query(default=None),
     status_filter: str | None = Query(default=None, alias="status"),
     q: str | None = Query(default=None),
 ):
@@ -100,7 +98,7 @@ async def list_registrations(
 async def export_registrations(
     session: DbSession,
     scope: BranchScope,
-    event_id: int | None = Query(default=None, alias="eventId"),
+    event_id: int | None = Query(default=None),
     status_filter: str | None = Query(default=None, alias="status"),
 ):
     if not scope.has(REGISTRATION_READ):
@@ -154,9 +152,9 @@ async def create_registration(
             "name": payload.name,
             "email": payload.email,
             "mobile": payload.mobile,
-            "visitDate": payload.visit_date,
-            "visitSlot": payload.visit_slot,
-            "guests": [guest.model_dump(by_alias=True) for guest in payload.guests],
+            "visit_date": payload.visit_date,
+            "visit_slot": payload.visit_slot,
+            "guests": [guest.model_dump() for guest in payload.guests],
         }
     )
     try:

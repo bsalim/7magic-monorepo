@@ -61,8 +61,8 @@ def _registration(**overrides) -> PublicRegistration:
         "name": "Rina",
         "email": "rina@example.test",
         "mobile": "+628111111111",
-        "visitDate": "2026-09-07",  # a Monday
-        "visitSlot": "10:00",
+        "visit_date": "2026-09-07",  # a Monday
+        "visit_slot": "10:00",
         "guests": [],
     }
     data.update(overrides)
@@ -210,7 +210,7 @@ async def test_a_day_with_no_opening_hours_is_rejected(session) -> None:
             session,
             event=event,
             branch=branch,
-            payload=_registration(visitDate="2026-09-13"),  # a Sunday, day 7, no hours
+            payload=_registration(visit_date="2026-09-13"),  # a Sunday, day 7, no hours
             now=NOW,
             source="public",
         )

@@ -37,9 +37,9 @@ export const actions: Actions = {
       slug: String(form.get('slug') ?? '').trim(),
       name: String(form.get('name') ?? '').trim(),
       city: String(form.get('city') ?? 'jakarta').trim(),
-      addressLine1: String(form.get('addressLine1') ?? '').trim(),
+      address_line1: String(form.get('address_line1') ?? '').trim(),
       timezone: String(form.get('timezone') ?? 'Asia/Jakarta').trim(),
-      countryCode: 'ID'
+      country_code: 'ID'
     };
 
     if (!payload.slug || !payload.name) {

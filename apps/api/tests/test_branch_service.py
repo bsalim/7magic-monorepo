@@ -27,9 +27,9 @@ def _payload(**overrides) -> BranchCreate:
     data = {
         "slug": "jakarta-pusat",
         "name": "7Magic Jakarta Pusat",
-        "addressLine1": "Jl. Thamrin No. 1",
+        "address_line1": "Jl. Thamrin No. 1",
         "city": "jakarta",
-        "countryCode": "ID",
+        "country_code": "ID",
         "timezone": "Asia/Jakarta",
     }
     data.update(overrides)
@@ -57,7 +57,7 @@ async def test_promoting_a_second_branch_demotes_the_first(session: AsyncSession
     second = await branch_service.create(session, _payload(slug="bali", name="7Magic Bali"))
 
     await branch_service.update(
-        session, second.id, BranchUpdate.model_validate({"isDefault": True})
+        session, second.id, BranchUpdate.model_validate({"is_default": True})
     )
 
     refreshed_first = await branch_service.get(session, first.id)
@@ -84,7 +84,7 @@ async def test_tour_intro_html_is_sanitized_on_write(session: AsyncSession) -> N
         session,
         branch.id,
         BranchSettingsUpdate.model_validate(
-            {"tourIntroHtml": "<p>Halo</p><script>alert(1)</script>"}
+            {"tour_intro_html": "<p>Halo</p><script>alert(1)</script>"}
         ),
     )
 

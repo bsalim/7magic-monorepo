@@ -13,7 +13,7 @@ def _branch(api, slug="jakarta", name="7Magic Jakarta") -> dict:
 def _event(api, branch_id: int | None, name="Book a Tour") -> dict:
     return api.client.post(
         "/api/v1/admin/events",
-        json={"branchId": branch_id, "name": name, "descriptionHtml": "<p>Datang ya</p>"},
+        json={"branch_id": branch_id, "name": name, "description_html": "<p>Datang ya</p>"},
     ).json()["data"]
 
 
@@ -23,14 +23,14 @@ def test_create_event_sanitizes_its_description(api) -> None:
     created = api.client.post(
         "/api/v1/admin/events",
         json={
-            "branchId": branch["id"],
+            "branch_id": branch["id"],
             "name": "Book a Tour",
-            "descriptionHtml": "<p>Halo</p><script>alert(1)</script>",
+            "description_html": "<p>Halo</p><script>alert(1)</script>",
         },
     )
 
     assert created.status_code == 201
-    assert created.json()["data"]["descriptionHtml"] == "<p>Halo</p>"
+    assert created.json()["data"]["description_html"] == "<p>Halo</p>"
 
 
 def test_list_events_carries_the_branch_name_for_the_branch_column(api) -> None:
@@ -41,8 +41,8 @@ def test_list_events_carries_the_branch_name_for_the_branch_column(api) -> None:
 
     assert listed.status_code == 200
     row = listed.json()["items"][0]
-    assert row["branchName"] == "7Magic Jakarta"
-    assert row["registrationCount"] == 0
+    assert row["branch_name"] == "7Magic Jakarta"
+    assert row["registration_count"] == 0
 
 
 def test_events_can_be_filtered_by_branch(api) -> None:
@@ -51,7 +51,7 @@ def test_events_can_be_filtered_by_branch(api) -> None:
     _event(api, first["id"], name="Tour Jakarta")
     _event(api, second["id"], name="Tour Bali")
 
-    listed = api.client.get(f"/api/v1/admin/events?branchId={second['id']}")
+    listed = api.client.get(f"/api/v1/admin/events?branch_id={second['id']}")
 
     assert [row["name"] for row in listed.json()["items"]] == ["Tour Bali"]
 
@@ -78,7 +78,7 @@ def test_a_branch_scoped_user_cannot_create_an_event_for_another_branch(api) -> 
         admin_user(roles=["branch_manager"], branch_grants=(("branch_manager", second["id"]),))
     )
     response = api.client.post(
-        "/api/v1/admin/events", json={"branchId": first["id"], "name": "Sneaky"}
+        "/api/v1/admin/events", json={"branch_id": first["id"], "name": "Sneaky"}
     )
 
     assert response.status_code == 403
@@ -92,7 +92,7 @@ def test_a_branch_scoped_user_cannot_create_an_all_branch_event(api) -> None:
         admin_user(roles=["branch_manager"], branch_grants=(("branch_manager", branch["id"]),))
     )
     response = api.client.post(
-        "/api/v1/admin/events", json={"branchId": None, "name": "Company-wide"}
+        "/api/v1/admin/events", json={"branch_id": None, "name": "Company-wide"}
     )
 
     assert response.status_code == 403

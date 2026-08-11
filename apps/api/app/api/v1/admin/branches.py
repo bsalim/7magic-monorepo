@@ -29,7 +29,7 @@ class OpeningHoursReplace(BaseModel):
 
 
 def _payload(branch) -> dict:
-    return BranchResponse.model_validate(branch).model_dump(by_alias=True, mode="json")
+    return BranchResponse.model_validate(branch).model_dump(mode="json")
 
 
 @router.get("/branches")

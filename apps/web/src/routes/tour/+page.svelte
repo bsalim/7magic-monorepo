@@ -39,8 +39,8 @@
             </Card.Description>
           </Card.Header>
           <Card.Content class="text-sm text-muted-foreground">
-            <p>{branch.addressLine1}</p>
-            {#if branch.addressLine2}<p>{branch.addressLine2}</p>{/if}
+            <p>{branch.address_line1}</p>
+            {#if branch.address_line2}<p>{branch.address_line2}</p>{/if}
           </Card.Content>
           <Card.Footer>
             <Button href={`/tour/${branch.slug}`}>{m.tour_branch_pick()}</Button>

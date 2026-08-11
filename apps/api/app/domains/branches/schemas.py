@@ -4,16 +4,13 @@ from datetime import datetime, time
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
-from pydantic.alias_generators import to_camel
 
 
 class BranchSchema(BaseModel):
-    """camelCase over the wire, snake_case in Python -- the convention the CMS
-    already expects from the venue and article endpoints."""
+    """snake_case on the wire, matching the field names -- the same convention the
+    venue and article endpoints use, so the whole API reads one way."""
 
-    model_config = ConfigDict(
-        alias_generator=to_camel, populate_by_name=True, from_attributes=True
-    )
+    model_config = ConfigDict(from_attributes=True)
 
 
 class BranchCreate(BranchSchema):

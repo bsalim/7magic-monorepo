@@ -13,12 +13,12 @@
 
   let { data, form }: { data: PageData; form: ActionData } = $props();
 
-  let visitDate = $state('');
+  let visit_date = $state('');
   let extraGuests = $state(0);
 
-  const slots = $derived(visitDate ? slotsForDate(visitDate, data.openingHours) : []);
+  const slots = $derived(visit_date ? slotsForDate(visit_date, data.opening_hours) : []);
   const dateIsClosed = $derived(
-    visitDate.length === 10 && !isDateBookable(visitDate, data.openingHours, data.closedDates)
+    visit_date.length === 10 && !isDateBookable(visit_date, data.opening_hours, data.closed_dates)
   );
 
   const today = new Date().toISOString().slice(0, 10);
@@ -44,17 +44,17 @@
 <main class="mx-auto w-full max-w-3xl px-4 py-12">
   <h1 class="text-3xl font-semibold">{data.branch.name}</h1>
   <p class="mt-2 text-muted-foreground">
-    {data.branch.addressLine1}{data.branch.addressLine2 ? `, ${data.branch.addressLine2}` : ''}
+    {data.branch.address_line1}{data.branch.address_line2 ? `, ${data.branch.address_line2}` : ''}
   </p>
 
-  {#if data.settings.tourIntroHtml}
+  {#if data.settings.tour_intro_html}
     <!-- Sanitized on write by the API's allowlist; see core/html.py -->
-    <div class="prose mt-6">{@html data.settings.tourIntroHtml}</div>
+    <div class="prose mt-6">{@html data.settings.tour_intro_html}</div>
   {/if}
 
   {#if form?.ok}
     <p class="mt-8 rounded-xl border border-border/60 p-4">{m.tour_success()}</p>
-  {:else if !data.event || !data.event.registrationOpen}
+  {:else if !data.event || !data.event.registration_open}
     <p class="mt-8 rounded-xl border border-border/60 p-4">{m.tour_closed()}</p>
   {:else}
     {#if errorMessage}
@@ -75,13 +75,13 @@
         <Input id="mobile" name="mobile" />
       </div>
       <div class="grid gap-2">
-        <Label for="visitDate">{m.tour_field_date()}</Label>
+        <Label for="visit_date">{m.tour_field_date()}</Label>
         <Input
-          id="visitDate"
-          name="visitDate"
+          id="visit_date"
+          name="visit_date"
           type="date"
           min={today}
-          bind:value={visitDate}
+          bind:value={visit_date}
           required
         />
         {#if dateIsClosed}
@@ -89,10 +89,10 @@
         {/if}
       </div>
       <div class="grid gap-2">
-        <Label for="visitSlot">{m.tour_field_slot()}</Label>
+        <Label for="visit_slot">{m.tour_field_slot()}</Label>
         <select
-          id="visitSlot"
-          name="visitSlot"
+          id="visit_slot"
+          name="visit_slot"
           class="h-9 rounded-lg border border-border/60 bg-background px-3 text-sm"
           disabled={slots.length === 0 || dateIsClosed}
         >
@@ -118,10 +118,10 @@
       </div>
     </form>
 
-    {#if data.settings.arrivalInstructions || data.settings.parkingNotes}
+    {#if data.settings.arrival_instructions || data.settings.parking_notes}
       <div class="mt-10 grid gap-2 text-sm text-muted-foreground">
-        {#if data.settings.arrivalInstructions}<p>{data.settings.arrivalInstructions}</p>{/if}
-        {#if data.settings.parkingNotes}<p>{data.settings.parkingNotes}</p>{/if}
+        {#if data.settings.arrival_instructions}<p>{data.settings.arrival_instructions}</p>{/if}
+        {#if data.settings.parking_notes}<p>{data.settings.parking_notes}</p>{/if}
       </div>
     {/if}
   {/if}

@@ -71,6 +71,12 @@ the cookie server-side and proxies through `apps/cms/src/lib/server/api.ts`.
 `fixtures.py`. Business logic belongs in `app/services/`, response shapes in
 `app/schemas/`.
 
+**The API is snake_case on the wire, everywhere.** Request bodies, response
+fields and query parameters all use the Python field names — no alias generator,
+no `by_alias` dumps. Consumers mirror that in their payload types; ordinary
+TypeScript locals stay camelCase, since only the field names crossing the wire
+have to match.
+
 **Branches and events live in domain packages.** `app/domains/branches/` and
 `app/domains/events/` each own their models, schemas, service and (for events)
 email rendering. Articles, venues and showcases predate this and stay in the flat

@@ -10,8 +10,8 @@ export const load: PageServerLoad = async ({ locals, url }) => {
     throw redirect(303, '/login');
   }
 
-  const branchId = url.searchParams.get('branchId') ?? '';
-  const query = branchId ? `?branchId=${encodeURIComponent(branchId)}` : '';
+  const branchId = url.searchParams.get('branch_id') ?? '';
+  const query = branchId ? `?branch_id=${encodeURIComponent(branchId)}` : '';
 
   try {
     const [events, branches] = await Promise.all([
@@ -37,7 +37,7 @@ export const actions: Actions = {
     }
 
     const form = await request.formData();
-    const branchValue = String(form.get('branchId') ?? '').trim();
+    const branchValue = String(form.get('branch_id') ?? '').trim();
 
     // The redirect is thrown OUTSIDE the try: SvelteKit signals redirects by
     // throwing, so a `throw redirect(...)` inside a try lands in the catch and
@@ -50,12 +50,12 @@ export const actions: Actions = {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           // "" means every branch; only an org-wide user may do that and the API enforces it.
-          branchId: branchValue ? Number(branchValue) : null,
+          branch_id: branchValue ? Number(branchValue) : null,
           name: String(form.get('name') ?? '').trim(),
           venue: String(form.get('venue') ?? '').trim() || null,
           capacity: form.get('capacity') ? Number(form.get('capacity')) : null,
-          registrationOpensAt: String(form.get('registrationOpensAt') ?? '') || null,
-          registrationClosesAt: String(form.get('registrationClosesAt') ?? '') || null
+          registration_opens_at: String(form.get('registration_opens_at') ?? '') || null,
+          registration_closes_at: String(form.get('registration_closes_at') ?? '') || null
         })
       });
       createdId = created.data.id;

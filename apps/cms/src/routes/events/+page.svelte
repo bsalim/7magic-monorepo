@@ -27,7 +27,7 @@
   // list can be linked and reloaded.
   function onFilterChange(event: Event) {
     const value = (event.currentTarget as HTMLSelectElement).value;
-    goto(value ? `/events?branchId=${value}` : '/events', { keepFocus: true });
+    goto(value ? `/events?branch_id=${value}` : '/events', { keepFocus: true });
   }
 </script>
 
@@ -47,7 +47,7 @@
     >
       <option value="">All branches</option>
       {#each branches as branch (branch.id)}
-        <!-- String, not number: branchId comes off the URL as a string, and a
+        <!-- String, not number: branch_id comes off the URL as a string, and a
              numeric option value never matches it, leaving the filter blank. -->
         <option value={String(branch.id)}>{branch.name}</option>
       {/each}
@@ -72,10 +72,10 @@
       <Input id="name" name="name" required placeholder="Book a Tour" />
     </div>
     <div class="grid gap-2">
-      <Label for="branchId">Branch</Label>
+      <Label for="branch_id">Branch</Label>
       <select
-        id="branchId"
-        name="branchId"
+        id="branch_id"
+        name="branch_id"
         class="h-9 rounded-lg border border-border/60 bg-background px-3 text-sm"
       >
         <option value="">All branches</option>
@@ -95,12 +95,12 @@
       <Input id="capacity" name="capacity" type="number" min="1" />
     </div>
     <div class="grid gap-2">
-      <Label for="registrationOpensAt">Registration opens</Label>
-      <DateTimeField name="registrationOpensAt" bind:value={opensAt} />
+      <Label for="registration_opens_at">Registration opens</Label>
+      <DateTimeField name="registration_opens_at" bind:value={opensAt} />
     </div>
     <div class="grid gap-2">
-      <Label for="registrationClosesAt">Registration closes</Label>
-      <DateTimeField name="registrationClosesAt" bind:value={closesAt} />
+      <Label for="registration_closes_at">Registration closes</Label>
+      <DateTimeField name="registration_closes_at" bind:value={closesAt} />
     </div>
     <div class="sm:col-span-2"><Button type="submit">Create event</Button></div>
   </form>
@@ -123,15 +123,15 @@
         <Table.Cell>
           <a class="font-medium hover:underline" href={`/events/${event.id}`}>{event.name}</a>
         </Table.Cell>
-        <Table.Cell>{event.branchName ?? 'All branches'}</Table.Cell>
+        <Table.Cell>{event.branch_name ?? 'All branches'}</Table.Cell>
         <Table.Cell class="text-sm text-muted-foreground">
-          {formatDateRange(event.registrationOpensAt, event.registrationClosesAt, 'No limit')}
+          {formatDateRange(event.registration_opens_at, event.registration_closes_at, 'No limit')}
         </Table.Cell>
-        <Table.Cell class="text-right">{event.registrationCount}</Table.Cell>
+        <Table.Cell class="text-right">{event.registration_count}</Table.Cell>
         <Table.Cell class="text-right">
-          {event.headCount}{event.capacity ? ` / ${event.capacity}` : ''}
+          {event.head_count}{event.capacity ? ` / ${event.capacity}` : ''}
         </Table.Cell>
-        <Table.Cell>{event.isActive ? 'Active' : 'Inactive'}</Table.Cell>
+        <Table.Cell>{event.is_active ? 'Active' : 'Inactive'}</Table.Cell>
       </Table.Row>
     {:else}
       <Table.Row>

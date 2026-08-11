@@ -60,10 +60,10 @@
   $effect(() => {
     if (seededFor === event.id) return;
     seededFor = event.id;
-    opensAt = toLocalInput(event.registrationOpensAt);
-    closesAt = toLocalInput(event.registrationClosesAt);
-    startsAt = toLocalInput(event.eventStartAt);
-    endsAt = toLocalInput(event.eventEndAt);
+    opensAt = toLocalInput(event.registration_opens_at);
+    closesAt = toLocalInput(event.registration_closes_at);
+    startsAt = toLocalInput(event.event_start_at);
+    endsAt = toLocalInput(event.event_end_at);
   });
 
   function applyStatusFilter(target: Event) {
@@ -77,7 +77,7 @@
 
 <PageHeader
   title={event.name}
-  description={event.branchName ?? 'All branches'}
+  description={event.branch_name ?? 'All branches'}
   backHref="/events"
   backLabel="Events"
 />
@@ -145,12 +145,12 @@
       <Input id="mobile" name="mobile" />
     </div>
     <div class="grid gap-2">
-      <Label for="visitDate">Visit date</Label>
-      <DateField name="visitDate" bind:value={newVisitDate} />
+      <Label for="visit_date">Visit date</Label>
+      <DateField name="visit_date" bind:value={newVisitDate} />
     </div>
     <div class="grid gap-2">
-      <Label for="visitSlot">Time</Label>
-      <Input id="visitSlot" name="visitSlot" placeholder="10:00" />
+      <Label for="visit_slot">Time</Label>
+      <Input id="visit_slot" name="visit_slot" placeholder="10:00" />
     </div>
     <div class="flex items-end"><Button type="submit">Add registration</Button></div>
   </form>
@@ -171,34 +171,34 @@
       {#each registrations as registration (registration.id)}
         <Table.Row>
           <Table.Cell>
-            <div class="font-medium">{registration.guestName}</div>
+            <div class="font-medium">{registration.guest_name}</div>
             <div class="text-xs text-muted-foreground">{registration.email}</div>
           </Table.Cell>
-          <Table.Cell>{registration.branchName ?? '—'}</Table.Cell>
+          <Table.Cell>{registration.branch_name ?? '—'}</Table.Cell>
           <Table.Cell class="text-sm">
-            {formatDate(registration.visitDate)}{registration.visitSlot
-              ? ` · ${registration.visitSlot}`
+            {formatDate(registration.visit_date)}{registration.visit_slot
+              ? ` · ${registration.visit_slot}`
               : ''}
           </Table.Cell>
-          <Table.Cell class="text-right">{registration.partySize}</Table.Cell>
+          <Table.Cell class="text-right">{registration.party_size}</Table.Cell>
           <Table.Cell>{STATUS_LABELS[registration.status]}</Table.Cell>
           <Table.Cell class="text-xs text-muted-foreground">{registration.source}</Table.Cell>
           <Table.Cell class="text-right">
             <form method="POST" action="?/updateRegistration" use:enhance class="inline">
-              <input type="hidden" name="registrationId" value={registration.id} />
+              <input type="hidden" name="registration_id" value={registration.id} />
               <input type="hidden" name="status" value="attended" />
               <Button type="submit" variant="ghost" size="sm">Attended</Button>
             </form>
             <form method="POST" action="?/updateRegistration" use:enhance class="inline">
-              <input type="hidden" name="registrationId" value={registration.id} />
+              <input type="hidden" name="registration_id" value={registration.id} />
               <input type="hidden" name="status" value="no_show" />
               <Button type="submit" variant="ghost" size="sm">No show</Button>
             </form>
             <form method="POST" action="?/updateRegistration" use:enhance class="inline">
-              <input type="hidden" name="registrationId" value={registration.id} />
-              <input type="hidden" name="followUp" value={String(!registration.followUp)} />
+              <input type="hidden" name="registration_id" value={registration.id} />
+              <input type="hidden" name="follow_up" value={String(!registration.follow_up)} />
               <Button type="submit" variant="ghost" size="sm">
-                {registration.followUp ? 'Clear follow up' : 'Follow up'}
+                {registration.follow_up ? 'Clear follow up' : 'Follow up'}
               </Button>
             </form>
           </Table.Cell>
@@ -221,25 +221,25 @@
       <Input id="name" name="name" value={event.name} required />
     </div>
     <div class="grid gap-2">
-      <Label for="branchId">Branch</Label>
+      <Label for="branch_id">Branch</Label>
       <select
-        id="branchId"
-        name="branchId"
+        id="branch_id"
+        name="branch_id"
         class="h-9 rounded-lg border border-border/60 bg-background px-3 text-sm"
       >
-        <option value="" selected={event.branchId === null}>All branches</option>
+        <option value="" selected={event.branch_id === null}>All branches</option>
         {#each branches as branch (branch.id)}
-          <option value={branch.id} selected={branch.id === event.branchId}>{branch.name}</option>
+          <option value={branch.id} selected={branch.id === event.branch_id}>{branch.name}</option>
         {/each}
       </select>
     </div>
     <div class="grid gap-2 sm:col-span-2">
-      <Label for="descriptionHtml">Description</Label>
+      <Label for="description_html">Description</Label>
       <Textarea
-        id="descriptionHtml"
-        name="descriptionHtml"
+        id="description_html"
+        name="description_html"
         rows={6}
-        value={event.descriptionHtml}
+        value={event.description_html}
       />
       <p class="text-xs text-muted-foreground">
         Allowed tags: p, br, strong, em, ul, ol, li, h2, h3, h4, a. Anything else is removed when
@@ -255,23 +255,23 @@
       <Input id="capacity" name="capacity" type="number" min="1" value={event.capacity ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="registrationOpensAt">Registration opens</Label>
-      <DateTimeField name="registrationOpensAt" bind:value={opensAt} />
+      <Label for="registration_opens_at">Registration opens</Label>
+      <DateTimeField name="registration_opens_at" bind:value={opensAt} />
     </div>
     <div class="grid gap-2">
-      <Label for="registrationClosesAt">Registration closes</Label>
-      <DateTimeField name="registrationClosesAt" bind:value={closesAt} />
+      <Label for="registration_closes_at">Registration closes</Label>
+      <DateTimeField name="registration_closes_at" bind:value={closesAt} />
     </div>
     <div class="grid gap-2">
-      <Label for="eventStartAt">Event starts</Label>
-      <DateTimeField name="eventStartAt" bind:value={startsAt} />
+      <Label for="event_start_at">Event starts</Label>
+      <DateTimeField name="event_start_at" bind:value={startsAt} />
     </div>
     <div class="grid gap-2">
-      <Label for="eventEndAt">Event ends</Label>
-      <DateTimeField name="eventEndAt" bind:value={endsAt} />
+      <Label for="event_end_at">Event ends</Label>
+      <DateTimeField name="event_end_at" bind:value={endsAt} />
     </div>
     <label class="flex items-center gap-2 text-sm">
-      <input type="checkbox" name="isActive" checked={event.isActive} /> Active
+      <input type="checkbox" name="is_active" checked={event.is_active} /> Active
     </label>
     <div class="sm:col-span-2"><Button type="submit">Save event</Button></div>
   </form>

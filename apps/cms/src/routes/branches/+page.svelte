@@ -58,8 +58,8 @@
       <Input id="city" name="city" value="jakarta" />
     </div>
     <div class="grid gap-2">
-      <Label for="addressLine1">Address</Label>
-      <Input id="addressLine1" name="addressLine1" />
+      <Label for="address_line1">Address</Label>
+      <Input id="address_line1" name="address_line1" />
     </div>
     <div class="grid gap-2">
       <Label for="timezone">Time zone</Label>
@@ -86,7 +86,7 @@
       <Table.Row>
         <Table.Cell>
           <a class="font-medium hover:underline" href={`/branches/${branch.id}`}>{branch.name}</a>
-          {#if branch.isDefault}
+          {#if branch.is_default}
             <span class="ml-2 rounded bg-muted px-1.5 py-0.5 text-xs">Default</span>
           {/if}
         </Table.Cell>

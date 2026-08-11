@@ -12,7 +12,7 @@ export const GET: RequestHandler = async ({ locals, params }) => {
   // apiFetch parses JSON, and this endpoint returns CSV -- so call through
   // directly and stream the body back with its filename intact.
   const response = await fetch(
-    `${getApiBaseUrl()}/api/v1/admin/event-registrations/export?eventId=${params.id}`,
+    `${getApiBaseUrl()}/api/v1/admin/event-registrations/export?event_id=${params.id}`,
     { headers: { Authorization: `Bearer ${locals.token}` } }
   );
 

@@ -43,18 +43,18 @@ export const actions: Actions = {
         body: JSON.stringify({
           name: String(form.get('name') ?? '').trim(),
           slug: String(form.get('slug') ?? '').trim(),
-          addressLine1: String(form.get('addressLine1') ?? '').trim(),
-          addressLine2: String(form.get('addressLine2') ?? '').trim() || null,
+          address_line1: String(form.get('address_line1') ?? '').trim(),
+          address_line2: String(form.get('address_line2') ?? '').trim() || null,
           city: String(form.get('city') ?? '').trim(),
-          postalCode: String(form.get('postalCode') ?? '').trim() || null,
+          postal_code: String(form.get('postal_code') ?? '').trim() || null,
           timezone: String(form.get('timezone') ?? '').trim(),
-          publicPhone: String(form.get('publicPhone') ?? '').trim() || null,
-          publicEmail: String(form.get('publicEmail') ?? '').trim() || null,
-          whatsappNumber: String(form.get('whatsappNumber') ?? '').trim() || null,
-          websiteUrl: String(form.get('websiteUrl') ?? '').trim() || null,
+          public_phone: String(form.get('public_phone') ?? '').trim() || null,
+          public_email: String(form.get('public_email') ?? '').trim() || null,
+          whatsapp_number: String(form.get('whatsapp_number') ?? '').trim() || null,
+          website_url: String(form.get('website_url') ?? '').trim() || null,
           active: form.get('active') === 'on',
           bookable: form.get('bookable') === 'on',
-          isDefault: form.get('isDefault') === 'on'
+          is_default: form.get('is_default') === 'on'
         })
       });
     } catch (cause) {
@@ -75,7 +75,7 @@ export const actions: Actions = {
     const form = await request.formData();
 
     // One address per line in the textarea; blank lines dropped.
-    const recipients = String(form.get('tourNotificationRecipients') ?? '')
+    const recipients = String(form.get('tour_notification_recipients') ?? '')
       .split(/[\n,]/)
       .map((value) => value.trim())
       .filter(Boolean);
@@ -86,12 +86,12 @@ export const actions: Actions = {
         token,
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          senderDisplayName: String(form.get('senderDisplayName') ?? '').trim() || null,
-          replyToEmail: String(form.get('replyToEmail') ?? '').trim() || null,
-          tourNotificationRecipients: recipients,
-          tourIntroHtml: String(form.get('tourIntroHtml') ?? '').trim() || null,
-          arrivalInstructions: String(form.get('arrivalInstructions') ?? '').trim() || null,
-          parkingNotes: String(form.get('parkingNotes') ?? '').trim() || null
+          sender_display_name: String(form.get('sender_display_name') ?? '').trim() || null,
+          reply_to_email: String(form.get('reply_to_email') ?? '').trim() || null,
+          tour_notification_recipients: recipients,
+          tour_intro_html: String(form.get('tour_intro_html') ?? '').trim() || null,
+          arrival_instructions: String(form.get('arrival_instructions') ?? '').trim() || null,
+          parking_notes: String(form.get('parking_notes') ?? '').trim() || null
         })
       });
     } catch {
@@ -109,11 +109,11 @@ export const actions: Actions = {
     const items = [1, 2, 3, 4, 5, 6, 7]
       .filter((day) => form.get(`day-${day}-active`) === 'on')
       .map((day) => ({
-        dayOfWeek: day,
-        opensAtLocal: `${String(form.get(`day-${day}-opens`) ?? '10:00')}:00`,
-        closesAtLocal: `${String(form.get(`day-${day}-closes`) ?? '18:00')}:00`,
+        day_of_week: day,
+        opens_at_local: `${String(form.get(`day-${day}-opens`) ?? '10:00')}:00`,
+        closes_at_local: `${String(form.get(`day-${day}-closes`) ?? '18:00')}:00`,
         active: true,
-        sortOrder: day
+        sort_order: day
       }));
 
     try {
@@ -146,11 +146,11 @@ export const actions: Actions = {
         token,
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          startsAtLocal: `${startDate}T00:00:00`,
-          endsAtLocal: `${endDate}T23:59:00`,
-          fullDay: true,
+          starts_at_local: `${startDate}T00:00:00`,
+          ends_at_local: `${endDate}T23:59:00`,
+          full_day: true,
           reason: String(form.get('reason') ?? '').trim() || null,
-          publicLabel: String(form.get('publicLabel') ?? '').trim() || null,
+          public_label: String(form.get('public_label') ?? '').trim() || null,
           active: true
         })
       });

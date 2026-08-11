@@ -4,13 +4,12 @@ from datetime import date, datetime
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
-from pydantic.alias_generators import to_camel
 
 
 class EventSchema(BaseModel):
-    model_config = ConfigDict(
-        alias_generator=to_camel, populate_by_name=True, from_attributes=True
-    )
+    """snake_case on the wire -- see BranchSchema."""
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class EventCreate(EventSchema):

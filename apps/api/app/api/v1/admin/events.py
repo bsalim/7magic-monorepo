@@ -21,10 +21,10 @@ router = APIRouter()
 
 
 def _payload(event: Event, registration_count: int = 0, head_count: int = 0) -> dict:
-    response = EventResponse.model_validate(event).model_dump(by_alias=True, mode="json")
-    response["branchName"] = event.branch.name if event.branch else None
-    response["registrationCount"] = registration_count
-    response["headCount"] = head_count
+    response = EventResponse.model_validate(event).model_dump(mode="json")
+    response["branch_name"] = event.branch.name if event.branch else None
+    response["registration_count"] = registration_count
+    response["head_count"] = head_count
     return response
 
 
@@ -32,7 +32,7 @@ def _payload(event: Event, registration_count: int = 0, head_count: int = 0) -> 
 async def list_events(
     session: DbSession,
     scope: BranchScope,
-    branch_id: int | None = Query(default=None, alias="branchId"),
+    branch_id: int | None = Query(default=None),
 ):
     if not scope.has(EVENT_READ):
         return forbidden_branch()

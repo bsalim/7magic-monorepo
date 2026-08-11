@@ -3,8 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { isDateBookable, slotsForDate } from './tour-availability';
 
 const HOURS = [
-  { dayOfWeek: 1, opensAtLocal: '10:00:00', closesAtLocal: '13:00:00' },
-  { dayOfWeek: 6, opensAtLocal: '09:00:00', closesAtLocal: '10:30:00' }
+  { day_of_week: 1, opens_at_local: '10:00:00', closes_at_local: '13:00:00' },
+  { day_of_week: 6, opens_at_local: '09:00:00', closes_at_local: '10:30:00' }
 ];
 
 describe('isDateBookable', () => {

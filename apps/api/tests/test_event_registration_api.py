@@ -15,7 +15,7 @@ def _branch(api, slug="jakarta", name="7Magic Jakarta") -> dict:
 
 def _event(api, branch_id: int) -> dict:
     return api.client.post(
-        "/api/v1/admin/events", json={"branchId": branch_id, "name": "Book a Tour"}
+        "/api/v1/admin/events", json={"branch_id": branch_id, "name": "Book a Tour"}
     ).json()["data"]
 
 
@@ -23,7 +23,7 @@ def _register(api, event_id: int, email="rina@example.test", guests=None) -> dic
     return api.client.post(
         "/api/v1/admin/event-registrations",
         json={
-            "eventId": event_id,
+            "event_id": event_id,
             "name": "Rina",
             "email": email,
             "mobile": "+628111111111",
@@ -46,7 +46,7 @@ def test_party_size_counts_the_extra_guests(api) -> None:
 
     registration = _register(api, event["id"], guests=[{"name": "Budi"}, {"name": "Sari"}])
 
-    assert registration["partySize"] == 3
+    assert registration["party_size"] == 3
     assert [guest["name"] for guest in registration["guests"]] == ["Budi", "Sari"]
 
 
@@ -60,7 +60,7 @@ def test_marking_attended_stamps_the_time_and_the_user(api) -> None:
     )
 
     assert updated.status_code == 200
-    assert updated.json()["data"]["attendedAt"] is not None
+    assert updated.json()["data"]["attended_at"] is not None
 
 
 def test_registrations_carry_the_branch_column(api) -> None:
@@ -71,8 +71,8 @@ def test_registrations_carry_the_branch_column(api) -> None:
     listed = api.client.get("/api/v1/admin/event-registrations")
 
     row = listed.json()["items"][0]
-    assert row["branchName"] == "7Magic Jakarta"
-    assert row["eventName"] == "Book a Tour"
+    assert row["branch_name"] == "7Magic Jakarta"
+    assert row["event_name"] == "Book a Tour"
 
 
 def test_a_branch_scoped_user_never_sees_another_branch_registrations(api) -> None:

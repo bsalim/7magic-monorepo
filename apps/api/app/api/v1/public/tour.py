@@ -43,13 +43,13 @@ def _branch_payload(branch: Branch) -> dict:
         "slug": branch.slug,
         "name": branch.name,
         "city": branch.city,
-        "addressLine1": branch.address_line1,
-        "addressLine2": branch.address_line2,
+        "address_line1": branch.address_line1,
+        "address_line2": branch.address_line2,
         "timezone": branch.timezone,
-        "publicPhone": branch.public_phone,
-        "publicEmail": branch.public_email,
-        "whatsappNumber": branch.whatsapp_number,
-        "websiteUrl": branch.website_url,
+        "public_phone": branch.public_phone,
+        "public_email": branch.public_email,
+        "whatsapp_number": branch.whatsapp_number,
+        "website_url": branch.website_url,
     }
 
 
@@ -57,15 +57,15 @@ def _event_payload(event: Event, now: datetime) -> dict:
     block = registration_block(event, now)
     return {
         "id": event.id,
-        "publicId": str(event.public_id),
+        "public_id": str(event.public_id),
         "name": event.name,
-        "descriptionHtml": event.description_html,
-        "coverImageUrl": event.cover_image_url,
+        "description_html": event.description_html,
+        "cover_image_url": event.cover_image_url,
         "venue": event.venue,
-        "eventStartAt": event.event_start_at.isoformat() if event.event_start_at else None,
-        "eventEndAt": event.event_end_at.isoformat() if event.event_end_at else None,
-        "registrationOpen": block is None,
-        "registrationClosedReason": block[1] if block else None,
+        "event_start_at": event.event_start_at.isoformat() if event.event_start_at else None,
+        "event_end_at": event.event_end_at.isoformat() if event.event_end_at else None,
+        "registration_open": block is None,
+        "registration_closed_reason": block[1] if block else None,
     }
 
 
@@ -112,23 +112,23 @@ async def get_tour_branch(slug: str, session: DbSession):
         "data": {
             "branch": _branch_payload(branch),
             "settings": {
-                "tourIntroHtml": branch.settings.tour_intro_html if branch.settings else None,
-                "arrivalInstructions": branch.settings.arrival_instructions
+                "tour_intro_html": branch.settings.tour_intro_html if branch.settings else None,
+                "arrival_instructions": branch.settings.arrival_instructions
                 if branch.settings
                 else None,
-                "parkingNotes": branch.settings.parking_notes if branch.settings else None,
+                "parking_notes": branch.settings.parking_notes if branch.settings else None,
             },
             "event": _event_payload(event, now) if event else None,
-            "openingHours": [
+            "opening_hours": [
                 {
-                    "dayOfWeek": row.day_of_week,
-                    "opensAtLocal": row.opens_at_local.isoformat(),
-                    "closesAtLocal": row.closes_at_local.isoformat(),
+                    "day_of_week": row.day_of_week,
+                    "opens_at_local": row.opens_at_local.isoformat(),
+                    "closes_at_local": row.closes_at_local.isoformat(),
                 }
                 for row in branch.opening_hours
                 if row.active
             ],
-            "closedDates": _closed_dates(branch, now.date()),
+            "closed_dates": _closed_dates(branch, now.date()),
         }
     }
 
@@ -166,11 +166,11 @@ async def register_for_tour(slug: str, payload: PublicRegistration, session: DbS
     return {
         "data": {
             "id": registration.id,
-            "publicId": str(registration.public_id),
-            "partySize": registration.party_size,
-            "visitDate": registration.visit_date.isoformat() if registration.visit_date else None,
-            "visitSlot": registration.visit_slot,
-            "branchName": branch.name,
+            "public_id": str(registration.public_id),
+            "party_size": registration.party_size,
+            "visit_date": registration.visit_date.isoformat() if registration.visit_date else None,
+            "visit_slot": registration.visit_slot,
+            "branch_name": branch.name,
         }
     }
 

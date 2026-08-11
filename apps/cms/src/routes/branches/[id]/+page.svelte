@@ -29,7 +29,7 @@
 
   // "10:00:00" -> "10:00" for <input type="time">
   const toTimeInput = (value: string | undefined) => (value ? value.slice(0, 5) : '');
-  const hourFor = (iso: number) => branch.openingHours.find((row) => row.dayOfWeek === iso);
+  const hourFor = (iso: number) => branch.opening_hours.find((row) => row.day_of_week === iso);
 
   let tab = $state<'details' | 'settings' | 'hours' | 'closures'>('details');
   const tabs = [
@@ -80,40 +80,40 @@
       <Input id="slug" name="slug" value={branch.slug} required />
     </div>
     <div class="grid gap-2">
-      <Label for="addressLine1">Address</Label>
-      <Input id="addressLine1" name="addressLine1" value={branch.addressLine1} />
+      <Label for="address_line1">Address</Label>
+      <Input id="address_line1" name="address_line1" value={branch.address_line1} />
     </div>
     <div class="grid gap-2">
-      <Label for="addressLine2">Address (line 2)</Label>
-      <Input id="addressLine2" name="addressLine2" value={branch.addressLine2 ?? ''} />
+      <Label for="address_line2">Address (line 2)</Label>
+      <Input id="address_line2" name="address_line2" value={branch.address_line2 ?? ''} />
     </div>
     <div class="grid gap-2">
       <Label for="city">City</Label>
       <Input id="city" name="city" value={branch.city} />
     </div>
     <div class="grid gap-2">
-      <Label for="postalCode">Postal code</Label>
-      <Input id="postalCode" name="postalCode" value={branch.postalCode ?? ''} />
+      <Label for="postal_code">Postal code</Label>
+      <Input id="postal_code" name="postal_code" value={branch.postal_code ?? ''} />
     </div>
     <div class="grid gap-2">
       <Label for="timezone">Time zone</Label>
       <Input id="timezone" name="timezone" value={branch.timezone} />
     </div>
     <div class="grid gap-2">
-      <Label for="publicPhone">Phone</Label>
-      <Input id="publicPhone" name="publicPhone" value={branch.publicPhone ?? ''} />
+      <Label for="public_phone">Phone</Label>
+      <Input id="public_phone" name="public_phone" value={branch.public_phone ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="publicEmail">Email</Label>
-      <Input id="publicEmail" name="publicEmail" value={branch.publicEmail ?? ''} />
+      <Label for="public_email">Email</Label>
+      <Input id="public_email" name="public_email" value={branch.public_email ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="whatsappNumber">WhatsApp</Label>
-      <Input id="whatsappNumber" name="whatsappNumber" value={branch.whatsappNumber ?? ''} />
+      <Label for="whatsapp_number">WhatsApp</Label>
+      <Input id="whatsapp_number" name="whatsapp_number" value={branch.whatsapp_number ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="websiteUrl">Branch website</Label>
-      <Input id="websiteUrl" name="websiteUrl" value={branch.websiteUrl ?? ''} />
+      <Label for="website_url">Branch website</Label>
+      <Input id="website_url" name="website_url" value={branch.website_url ?? ''} />
     </div>
     <div class="flex flex-col gap-2 pt-6 text-sm">
       <label><input type="checkbox" name="active" checked={branch.active} /> Active</label>
@@ -121,7 +121,7 @@
         <input type="checkbox" name="bookable" checked={branch.bookable} /> Takes visits
       </label>
       <label>
-        <input type="checkbox" name="isDefault" checked={branch.isDefault} /> Default branch
+        <input type="checkbox" name="is_default" checked={branch.is_default} /> Default branch
       </label>
     </div>
     <div class="sm:col-span-2">
@@ -133,35 +133,35 @@
 {#if tab === 'settings'}
   <form method="POST" action="?/settings" use:enhance class="grid max-w-2xl gap-4">
     <div class="grid gap-2">
-      <Label for="senderDisplayName">Email sender name</Label>
+      <Label for="sender_display_name">Email sender name</Label>
       <Input
-        id="senderDisplayName"
-        name="senderDisplayName"
-        value={branch.settings?.senderDisplayName ?? ''}
+        id="sender_display_name"
+        name="sender_display_name"
+        value={branch.settings?.sender_display_name ?? ''}
       />
     </div>
     <div class="grid gap-2">
-      <Label for="replyToEmail">Reply to</Label>
-      <Input id="replyToEmail" name="replyToEmail" value={branch.settings?.replyToEmail ?? ''} />
+      <Label for="reply_to_email">Reply to</Label>
+      <Input id="reply_to_email" name="reply_to_email" value={branch.settings?.reply_to_email ?? ''} />
     </div>
     <div class="grid gap-2">
-      <Label for="tourNotificationRecipients">
+      <Label for="tour_notification_recipients">
         Registration alerts (one email address per line)
       </Label>
       <Textarea
-        id="tourNotificationRecipients"
-        name="tourNotificationRecipients"
+        id="tour_notification_recipients"
+        name="tour_notification_recipients"
         rows={4}
-        value={(branch.settings?.tourNotificationRecipients ?? []).join('\n')}
+        value={(branch.settings?.tour_notification_recipients ?? []).join('\n')}
       />
     </div>
     <div class="grid gap-2">
-      <Label for="tourIntroHtml">Visit page introduction</Label>
+      <Label for="tour_intro_html">Visit page introduction</Label>
       <Textarea
-        id="tourIntroHtml"
-        name="tourIntroHtml"
+        id="tour_intro_html"
+        name="tour_intro_html"
         rows={4}
-        value={branch.settings?.tourIntroHtml ?? ''}
+        value={branch.settings?.tour_intro_html ?? ''}
       />
       <p class="text-xs text-muted-foreground">
         Shown to guests on the branch's visit page. Anything outside p, br, strong, em, ul, ol, li,
@@ -169,21 +169,21 @@
       </p>
     </div>
     <div class="grid gap-2">
-      <Label for="arrivalInstructions">Arrival instructions</Label>
+      <Label for="arrival_instructions">Arrival instructions</Label>
       <Textarea
-        id="arrivalInstructions"
-        name="arrivalInstructions"
+        id="arrival_instructions"
+        name="arrival_instructions"
         rows={3}
-        value={branch.settings?.arrivalInstructions ?? ''}
+        value={branch.settings?.arrival_instructions ?? ''}
       />
     </div>
     <div class="grid gap-2">
-      <Label for="parkingNotes">Parking notes</Label>
+      <Label for="parking_notes">Parking notes</Label>
       <Textarea
-        id="parkingNotes"
-        name="parkingNotes"
+        id="parking_notes"
+        name="parking_notes"
         rows={3}
-        value={branch.settings?.parkingNotes ?? ''}
+        value={branch.settings?.parking_notes ?? ''}
       />
     </div>
     <div><Button type="submit">Save settings</Button></div>
@@ -202,14 +202,14 @@
         <Input
           type="time"
           name={`day-${day.iso}-opens`}
-          value={toTimeInput(hour?.opensAtLocal) || '10:00'}
+          value={toTimeInput(hour?.opens_at_local) || '10:00'}
           class="w-32"
         />
         <span class="text-sm text-muted-foreground">until</span>
         <Input
           type="time"
           name={`day-${day.iso}-closes`}
-          value={toTimeInput(hour?.closesAtLocal) || '18:00'}
+          value={toTimeInput(hour?.closes_at_local) || '18:00'}
           class="w-32"
         />
       </div>
@@ -240,8 +240,8 @@
       />
     </div>
     <div class="grid gap-2">
-      <Label for="publicLabel">Public label</Label>
-      <Input id="publicLabel" name="publicLabel" placeholder="Eid holiday" />
+      <Label for="public_label">Public label</Label>
+      <Input id="public_label" name="public_label" placeholder="Eid holiday" />
     </div>
     <div class="grid gap-2">
       <Label for="reason">Internal note</Label>
@@ -262,9 +262,9 @@
     <Table.Body>
       {#each branch.closures as closure (closure.id)}
         <Table.Row>
-          <Table.Cell>{formatDate(closure.startsAtLocal)}</Table.Cell>
-          <Table.Cell>{formatDate(closure.endsAtLocal)}</Table.Cell>
-          <Table.Cell>{closure.publicLabel ?? '—'}</Table.Cell>
+          <Table.Cell>{formatDate(closure.starts_at_local)}</Table.Cell>
+          <Table.Cell>{formatDate(closure.ends_at_local)}</Table.Cell>
+          <Table.Cell>{closure.public_label ?? '—'}</Table.Cell>
           <Table.Cell class="text-right">
             <form method="POST" action="?/deleteClosure" use:enhance class="inline">
               <input type="hidden" name="closureId" value={closure.id} />
