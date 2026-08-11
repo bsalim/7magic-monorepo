@@ -1,5 +1,7 @@
 <script lang="ts">
   import { page } from '$app/state';
+  import BuildingIcon from '@lucide/svelte/icons/building-2';
+  import CalendarIcon from '@lucide/svelte/icons/calendar-days';
   import LayoutDashboardIcon from '@lucide/svelte/icons/layout-dashboard';
   import MapPinIcon from '@lucide/svelte/icons/map-pin';
   import MegaphoneIcon from '@lucide/svelte/icons/megaphone';
@@ -24,6 +26,8 @@
 
   const nav: NavItem[] = [
     { label: 'Dashboard', href: '/', icon: LayoutDashboardIcon },
+    { label: 'Branches', href: '/branches', icon: BuildingIcon },
+    { label: 'Events', href: '/events', icon: CalendarIcon },
     { label: 'Venues', href: '/venues', icon: MapPinIcon },
     { label: 'Articles', href: '/articles', icon: NewspaperIcon },
     { label: 'Wedding Showcases', href: '/showcases', icon: ImagesIcon },
