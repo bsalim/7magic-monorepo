@@ -14,7 +14,7 @@ from typing import Any
 
 import httpx
 
-from app.core.config import Settings
+from app.core.config import Settings, get_settings
 
 logger = logging.getLogger("app.email")
 
@@ -42,6 +42,40 @@ def render_lead_email(*, heading: str, fields: dict[str, Any]) -> str:
         f'<table style="border-collapse:collapse;font-size:14px">{rows}</table>'
         "</div>"
     )
+
+
+async def send_email(
+    *, to: list[str], subject: str, text: str, reply_to: str | None = None
+) -> None:
+    """Plain-text send, used by the tour endpoints for both the guest
+    confirmation and the branch alert.
+
+    Raises on transport failure rather than swallowing it, unlike EmailNotifier
+    below: the tour endpoint decides for itself that a provider outage must not
+    fail the request, and it wants the exception logged with the registration id.
+    An unset API key is a no-op, so a dev machine never posts live mail.
+    """
+    settings = get_settings()
+    if not settings.resend_api_key or not to:
+        logger.warning("Resend is not configured -- no email sent: %s", subject)
+        return
+
+    payload: dict[str, Any] = {
+        "from": settings.lead_notification_from,
+        "to": to,
+        "subject": subject,
+        "text": text,
+    }
+    if reply_to:
+        payload["reply_to"] = reply_to
+
+    async with httpx.AsyncClient(timeout=REQUEST_TIMEOUT_SECONDS) as client:
+        response = await client.post(
+            RESEND_ENDPOINT,
+            json=payload,
+            headers={"Authorization": f"Bearer {settings.resend_api_key}"},
+        )
+        response.raise_for_status()
 
 
 class EmailNotifier:

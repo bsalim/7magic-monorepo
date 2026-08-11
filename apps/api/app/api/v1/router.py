@@ -6,12 +6,15 @@ from app.api.v1.admin import event_registrations as admin_event_registrations
 from app.api.v1.admin import events as admin_events
 from app.api.v1.dependencies import require_admin_user
 from app.api.v1.endpoints import admin, auth, health, public, venues
+from app.api.v1.public import tour as public_tour
 
 api_router = APIRouter()
 api_router.include_router(health.router, tags=["health"])
 api_router.include_router(auth.router, prefix="/auth", tags=["auth"])
 api_router.include_router(public.router, prefix="/public", tags=["public"])
 api_router.include_router(venues.router, prefix="/venues", tags=["venues"])
+# No auth dependency -- these back the website's own Book a Tour forms.
+api_router.include_router(public_tour.router, prefix="/public", tags=["public-tour"])
 api_router.include_router(admin.router, prefix="/admin", tags=["admin"])
 
 # The per-resource admin routers. `admin` above is app.api.v1.endpoints.admin;
