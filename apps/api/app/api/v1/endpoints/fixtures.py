@@ -25,8 +25,8 @@ VENUES: list[dict[str, Any]] = [
             {
                 "webp": "/img/kempinski-hotel-jakpus.jpg",
                 "fallback": "/img/kempinski-hotel-jakpus.jpg",
-                "thumbWebp": "/img/kempinski-hotel-jakpus.jpg",
-                "thumbFallback": "/img/kempinski-hotel-jakpus.jpg",
+                "thumb_webp": "/img/kempinski-hotel-jakpus.jpg",
+                "thumb_fallback": "/img/kempinski-hotel-jakpus.jpg",
             }
         ],
     },

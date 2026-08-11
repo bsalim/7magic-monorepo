@@ -297,10 +297,10 @@ def test_website_venue_detail_response_model_filters_internal_gallery_fields(
                     "sort_order": 0,
                     "webp": "https://cdn.7magic.test/venues/active/ballroom.jpg",
                     "fallback": "https://cdn.7magic.test/venues/active/ballroom.jpg",
-                    "thumbWebp": (
+                    "thumb_webp": (
                         "https://cdn.7magic.test/venues/active/ballroom-thumb.jpg"
                     ),
-                    "thumbFallback": (
+                    "thumb_fallback": (
                         "https://cdn.7magic.test/venues/active/ballroom-thumb.jpg"
                     ),
                     "storage_key": "venues/active/private-storage-key.jpg",
@@ -333,8 +333,8 @@ def test_website_venue_detail_response_model_filters_internal_gallery_fields(
             "sort_order": 0,
             "webp": "https://cdn.7magic.test/venues/active/ballroom.jpg",
             "fallback": "https://cdn.7magic.test/venues/active/ballroom.jpg",
-            "thumbWebp": "https://cdn.7magic.test/venues/active/ballroom-thumb.jpg",
-            "thumbFallback": "https://cdn.7magic.test/venues/active/ballroom-thumb.jpg",
+            "thumb_webp": "https://cdn.7magic.test/venues/active/ballroom-thumb.jpg",
+            "thumb_fallback": "https://cdn.7magic.test/venues/active/ballroom-thumb.jpg",
         }
     finally:
         get_settings.cache_clear()
@@ -413,8 +413,8 @@ async def test_venue_service_website_detail_omits_internal_gallery_metadata(
             "sort_order": 0,
             "webp": "https://cdn.7magic.test/venues/1/ballroom.jpg",
             "fallback": "https://cdn.7magic.test/venues/1/ballroom.jpg",
-            "thumbWebp": "https://cdn.7magic.test/venues/1/ballroom-thumb.jpg",
-            "thumbFallback": "https://cdn.7magic.test/venues/1/ballroom-thumb.jpg",
+            "thumb_webp": "https://cdn.7magic.test/venues/1/ballroom-thumb.jpg",
+            "thumb_fallback": "https://cdn.7magic.test/venues/1/ballroom-thumb.jpg",
         }
     ]
 

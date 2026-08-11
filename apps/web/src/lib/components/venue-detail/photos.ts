@@ -19,13 +19,13 @@ export function normalizePhotos(source: VenueDetail): DisplayPhoto[] {
 				photo.webp ??
 				photo.url ??
 				photo.thumbnail_url ??
-				photo.thumbFallback ??
-				photo.thumbWebp;
+				photo.thumb_fallback ??
+				photo.thumb_webp;
 			if (!src) return undefined;
 
 			return {
 				src,
-				thumb: photo.thumbFallback ?? photo.thumbWebp ?? photo.thumbnail_url ?? src,
+				thumb: photo.thumb_fallback ?? photo.thumb_webp ?? photo.thumbnail_url ?? src,
 				label:
 					photo.alt_text ??
 					(index === 0 ? source.cover_photo.alt : `${source.name} photo ${index + 1}`),

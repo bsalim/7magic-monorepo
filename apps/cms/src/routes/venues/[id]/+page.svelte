@@ -46,7 +46,7 @@
 
   const photoSource = (photo: VenuePhoto) =>
     photo.thumbnail_url ??
-    photo.thumbFallback ??
+    photo.thumb_fallback ??
     photo.url ??
     photo.fallback ??
     data.venue?.cover_photo.small_url ??

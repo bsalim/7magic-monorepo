@@ -96,8 +96,8 @@ export type VenueDetail = VenueCard & {
     alt_text?: string | null;
     webp?: string;
     fallback?: string;
-    thumbWebp?: string;
-    thumbFallback?: string;
+    thumb_webp?: string;
+    thumb_fallback?: string;
   }>;
   packages: Array<{
     name: string;

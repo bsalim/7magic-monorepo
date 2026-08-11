@@ -141,8 +141,8 @@ class VenueGalleryPhotoPublic(BaseModel):
     sort_order: int
     webp: str
     fallback: str
-    thumbWebp: str
-    thumbFallback: str
+    thumb_webp: str
+    thumb_fallback: str
 
 
 class VenuePublicDetail(VenueCard):

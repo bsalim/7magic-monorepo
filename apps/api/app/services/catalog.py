@@ -355,8 +355,8 @@ class CatalogService:
             "variants": storage_result.get("variants", {}),
             "webp": storage_result["url"],
             "fallback": storage_result["url"],
-            "thumbWebp": storage_result["thumbnail_url"],
-            "thumbFallback": storage_result["thumbnail_url"],
+            "thumb_webp": storage_result["thumbnail_url"],
+            "thumb_fallback": storage_result["thumbnail_url"],
         }
         self._next_venue_photo_id += 1
 

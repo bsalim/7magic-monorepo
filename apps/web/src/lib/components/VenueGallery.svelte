@@ -41,7 +41,7 @@
       <Dialog.Root>
         <Dialog.Trigger class="block">
           <img
-            src={photo.thumbFallback ?? photo.fallback ?? venue.cover_photo.small_url}
+            src={photo.thumb_fallback ?? photo.fallback ?? venue.cover_photo.small_url}
             alt={venue.cover_photo.alt}
             class="h-36 w-full rounded-md object-cover md:h-[222px]"
           />

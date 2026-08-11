@@ -572,8 +572,8 @@ class VenueService:
             "sort_order": photo.sort_order,
             "webp": url,
             "fallback": url,
-            "thumbWebp": thumbnail_url,
-            "thumbFallback": thumbnail_url,
+            "thumb_webp": thumbnail_url,
+            "thumb_fallback": thumbnail_url,
         }
         if include_internal_fields:
             gallery_photo.update(
