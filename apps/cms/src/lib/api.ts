@@ -188,3 +188,109 @@ export async function fetchJson<T>(path: string): Promise<T> {
 
   return response.json() as Promise<T>;
 }
+
+// The branch and event endpoints serialise with a camelCase alias generator, so
+// these types are camelCase. The venue and article types above are snake_case
+// because those endpoints predate that convention -- do not "fix" either to
+// match the other.
+export type AdminBranchSettings = {
+  senderDisplayName: string | null;
+  replyToEmail: string | null;
+  tourNotificationRecipients: string[];
+  tourIntroHtml: string | null;
+  arrivalInstructions: string | null;
+  parkingNotes: string | null;
+};
+
+export type AdminOpeningHour = {
+  id?: number;
+  dayOfWeek: number; // ISO: Monday = 1 ... Sunday = 7
+  opensAtLocal: string; // "10:00:00"
+  closesAtLocal: string;
+  active: boolean;
+  sortOrder: number;
+};
+
+export type AdminClosure = {
+  id: number;
+  startsAtLocal: string;
+  endsAtLocal: string;
+  fullDay: boolean;
+  reason: string | null;
+  publicLabel: string | null;
+  active: boolean;
+};
+
+export type AdminBranch = {
+  id: number;
+  publicId: string;
+  slug: string;
+  name: string;
+  addressLine1: string;
+  addressLine2: string | null;
+  city: string;
+  countryCode: string;
+  postalCode: string | null;
+  timezone: string;
+  publicPhone: string | null;
+  publicEmail: string | null;
+  whatsappNumber: string | null;
+  instagramUrl: string | null;
+  facebookUrl: string | null;
+  websiteUrl: string | null;
+  active: boolean;
+  bookable: boolean;
+  isDefault: boolean;
+  settings: AdminBranchSettings | null;
+  openingHours: AdminOpeningHour[];
+  closures: AdminClosure[];
+};
+
+export type AdminEvent = {
+  id: number;
+  publicId: string;
+  branchId: number | null;
+  branchName: string | null;
+  name: string;
+  descriptionHtml: string;
+  venue: string | null;
+  eventStartAt: string | null;
+  eventEndAt: string | null;
+  registrationOpensAt: string | null;
+  registrationClosesAt: string | null;
+  capacity: number | null;
+  coverImageUrl: string | null;
+  color: string | null;
+  isActive: boolean;
+  registrationCount: number;
+  headCount: number;
+};
+
+export type AdminRegistration = {
+  id: number;
+  publicId: string;
+  eventId: number;
+  eventName: string | null;
+  branchId: number | null;
+  branchName: string | null;
+  guestName: string;
+  email: string;
+  mobile: string | null;
+  partySize: number;
+  visitDate: string | null;
+  visitSlot: string | null;
+  status: 'registered' | 'attended' | 'no_show' | 'cancelled';
+  followUp: boolean;
+  notes: string | null;
+  source: string;
+  attendedAt: string | null;
+  guests: Array<{ name: string; email: string | null; mobile: string | null }>;
+  createdAt: string | null;
+};
+
+export type AdminEmailTemplate = {
+  kind: 'thank_you' | 'no_show' | 'cancel';
+  subject: string;
+  body: string;
+  enabled: boolean;
+};
