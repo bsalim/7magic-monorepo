@@ -1,5 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
+from app.api.v1.admin import branches as admin_branches
+from app.api.v1.dependencies import require_admin_user
 from app.api.v1.endpoints import admin, auth, health, public, venues
 
 api_router = APIRouter()
@@ -8,3 +10,12 @@ api_router.include_router(auth.router, prefix="/auth", tags=["auth"])
 api_router.include_router(public.router, prefix="/public", tags=["public"])
 api_router.include_router(venues.router, prefix="/venues", tags=["venues"])
 api_router.include_router(admin.router, prefix="/admin", tags=["admin"])
+
+# The per-resource admin routers. `admin` above is app.api.v1.endpoints.admin;
+# these come from the app.api.v1.admin package, hence the aliases.
+api_router.include_router(
+    admin_branches.router,
+    prefix="/admin",
+    tags=["admin-branches"],
+    dependencies=[Depends(require_admin_user)],
+)
