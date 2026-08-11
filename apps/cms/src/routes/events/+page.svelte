@@ -48,7 +48,9 @@
     >
       <option value="">Semua cabang</option>
       {#each branches as branch (branch.id)}
-        <option value={branch.id}>{branch.name}</option>
+        <!-- String, not number: branchId comes off the URL as a string, and a
+             numeric option value never matches it, leaving the filter blank. -->
+        <option value={String(branch.id)}>{branch.name}</option>
       {/each}
     </select>
   </div>

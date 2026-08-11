@@ -48,7 +48,7 @@
   </p>
 
   {#if data.settings.tourIntroHtml}
-    <!-- Sanitized on write by the API's allowlist; see domains/events/sanitize.py -->
+    <!-- Sanitized on write by the API's allowlist; see core/html.py -->
     <div class="prose mt-6">{@html data.settings.tourIntroHtml}</div>
   {/if}
 
