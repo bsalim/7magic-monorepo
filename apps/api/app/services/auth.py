@@ -13,6 +13,7 @@ from app.core.security import (
     verify_password,
     verify_password_argon2,
 )
+from app.domains.branches.access import CMS_ROLES
 from app.models import User, UserRole
 
 MIN_PASSWORD_LENGTH = 8
@@ -50,6 +51,8 @@ class AuthenticatedUser:
     first_name: str
     last_name: str
     roles: list[str]
+    # (role_name, branch_id) with branch_id None for an org-wide grant.
+    branch_grants: tuple[tuple[str, int | None], ...] = ()
 
 
 async def authenticate_admin_user(
@@ -115,8 +118,17 @@ def _require_admin_user(user: User) -> AuthenticatedUser:
         raise InactiveUserError
 
     roles = sorted(role_link.role.name for role_link in user.roles if role_link.role is not None)
-    if "admin" not in roles:
+    # Any CMS role may sign in, not only `admin`: a branch manager needs the CMS
+    # to run their own branch. What they can reach once inside is decided per
+    # request by the AccessSet built from branch_grants.
+    if not CMS_ROLES.intersection(roles):
         raise AdminRequiredError
+
+    grants = tuple(
+        (role_link.role.name, role_link.branch_id)
+        for role_link in user.roles
+        if role_link.role is not None
+    )
 
     return AuthenticatedUser(
         id=user.id,
@@ -125,6 +137,7 @@ def _require_admin_user(user: User) -> AuthenticatedUser:
         first_name=user.first_name,
         last_name=user.last_name,
         roles=roles,
+        branch_grants=grants,
     )
 
 
