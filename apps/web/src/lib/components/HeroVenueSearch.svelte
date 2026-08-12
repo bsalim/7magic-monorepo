@@ -6,6 +6,7 @@
   import { Label } from '$lib/components/ui/label';
   import * as Select from '$lib/components/ui/select';
   import { m } from '$lib/paraglide/messages.js';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   let {
     title,
@@ -68,8 +69,11 @@
       <p class="mt-5 max-w-2xl text-lg leading-8 text-white/80">{subtitle}</p>
     </div>
 
+    <!-- A form action is a navigation like any other, and this one is the main
+         one on the site: a bare /wedding-venue/search dropped an English visitor
+         onto the Indonesian results the moment they searched. -->
     <form
-      action="/wedding-venue/search"
+      action={localizeHref('/wedding-venue/search')}
       method="GET"
       class="mt-10 max-w-5xl rounded-md bg-card p-4 shadow-2xl md:flex md:items-end md:gap-3 md:p-6"
     >

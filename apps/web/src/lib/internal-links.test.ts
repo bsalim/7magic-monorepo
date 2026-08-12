@@ -12,6 +12,11 @@ import { describe, expect, it } from 'vitest';
  * only a navigation one. Every internal link therefore goes through
  * `localizeHref`, and this test fails if a new plain one appears.
  *
+ * A form action is checked too, not just an href. Both venue search forms
+ * hardcoded `action="/wedding-venue/search"`, which an href-only sweep cannot
+ * see -- and searching is the first thing a visitor does, so it was the widest
+ * leak on the site.
+ *
  * Assets are exempt -- /img, /favicons and /fonts are not localized routes.
  */
 const ROOTS = ['src/routes', 'src/lib/components'];
@@ -43,20 +48,20 @@ describe('internal links', () => {
 
         const source = readFileSync(file, 'utf8');
 
-        // Literal paths: href="/contact"
-        for (const match of source.matchAll(/href="(\/[^"]*)"/g)) {
-          const href = match[1];
-          if (ASSET_PREFIXES.some((prefix) => href.startsWith(prefix))) continue;
-          offenders.push(`${file}: href="${href}"`);
+        // Literal paths: href="/contact", action="/wedding-venue/search"
+        for (const match of source.matchAll(/\b(href|action)="(\/[^"]*)"/g)) {
+          const [, attribute, path] = match;
+          if (ASSET_PREFIXES.some((prefix) => path.startsWith(prefix))) continue;
+          offenders.push(`${file}: ${attribute}="${path}"`);
         }
 
         // Built paths: href={`/wedding-showcases/${slug}`} and href={venue.path_url}.
         // These slipped past an earlier sweep that only looked for literals, and
         // they are the ones that matter most -- venue cards and pagination.
-        for (const match of source.matchAll(/href=\{([^}]*(?:`\/|path_url)[^}]*)\}/g)) {
-          const expression = match[1];
+        for (const match of source.matchAll(/\b(href|action)=\{([^}]*(?:`\/|path_url)[^}]*)\}/g)) {
+          const [, attribute, expression] = match;
           if (expression.includes('localizeHref')) continue;
-          offenders.push(`${file}: href={${expression}}`);
+          offenders.push(`${file}: ${attribute}={${expression}}`);
         }
       }
     }

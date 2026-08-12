@@ -3,6 +3,7 @@
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import WhatsappCTA from '$lib/components/WhatsappCTA.svelte';
   import { page } from '$app/state';
+  import { localizeArticleBody } from '$lib/article-body';
   import { getLocale } from '$lib/paraglide/runtime';
   import { m } from '$lib/paraglide/messages.js';
   import {
@@ -60,8 +61,10 @@
       </div>
       <img src={article.image_url || '/img/wedding-venue-deal-768.jpg'} alt="" class="mt-8 h-[360px] w-full rounded-md object-cover" />
 
+      <!-- The body is editor HTML, so its cross-references are the one set of
+           links no sweep of the source can reach. -->
       <div class="article-body mt-8 rounded-md border border-border bg-white p-6 text-lg leading-8 text-slate-700 shadow-sm md:p-8">
-        {@html article.content}
+        {@html localizeArticleBody(article.content)}
       </div>
     </div>
 

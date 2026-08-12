@@ -60,9 +60,11 @@
   }
 </script>
 
+<!-- Localized for the same reason as the hero form: applying a filter is a
+     navigation, and an unlocalized action left /en behind. -->
 <form
   method="GET"
-  action="/wedding-venue/search"
+  action={localizeHref('/wedding-venue/search')}
   class="rounded-md border border-border bg-card p-5 shadow-sm"
 >
   <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">{m.filter_title()}</p>
