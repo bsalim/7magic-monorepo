@@ -8,6 +8,7 @@
   import { buttonVariants } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { cn } from '$lib/utils';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   // Copy ported from the production site at https://7magicwedding.com/about
   const pillars = [
@@ -79,7 +80,7 @@
         </p>
       </div>
       <a
-        href="/contact"
+        href={localizeHref('/contact')}
         class={cn(buttonVariants({ size: 'lg' }), 'mt-8 font-semibold hover:bg-brand-gold-hover')}
       >
         <HeartIcon size={18} />

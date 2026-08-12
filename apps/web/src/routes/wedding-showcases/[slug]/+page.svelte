@@ -5,6 +5,7 @@
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
   import { m } from '$lib/paraglide/messages.js';
   import { getLocale } from '$lib/paraglide/runtime';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   let { data } = $props();
 
@@ -30,7 +31,7 @@
 
   <article class="mx-auto max-w-4xl px-5 py-12 lg:px-8">
     <a
-      href="/wedding-showcases"
+      href={localizeHref('/wedding-showcases')}
       class="inline-flex items-center gap-2 text-sm font-semibold text-accent-foreground hover:underline"
     >
       <ArrowLeftIcon size={16} />

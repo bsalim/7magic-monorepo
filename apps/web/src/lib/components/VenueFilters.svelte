@@ -6,6 +6,7 @@
   import * as Select from '$lib/components/ui/select';
   import { m } from '$lib/paraglide/messages.js';
   import { cn } from '$lib/utils';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   let {
     q = '',
@@ -110,7 +111,7 @@
     {m.filter_apply()}
   </Button>
   <a
-    href="/wedding-venue/search"
+    href={localizeHref('/wedding-venue/search')}
     class={cn(buttonVariants({ variant: 'link' }), 'mt-1 w-full text-accent-foreground')}
   >
     {m.filter_reset()}

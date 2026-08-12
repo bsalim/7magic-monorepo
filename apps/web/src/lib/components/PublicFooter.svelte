@@ -4,6 +4,7 @@
   import { Separator } from '$lib/components/ui/separator';
   import VenuePartners from './VenuePartners.svelte';
   import { m } from '$lib/paraglide/messages.js';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   // City names are proper nouns and stay untranslated; only the catch-all
   // link needs a message.
@@ -83,7 +84,7 @@
       <p class="font-display text-sm font-semibold text-foreground">{m.footer_wedding_venues()}</p>
       <div class="mt-4 grid gap-2.5 text-sm">
         {#each venues as item (item.href)}
-          <a href={item.href} class="text-muted-foreground transition hover:text-foreground">
+          <a href={localizeHref(item.href)} class="text-muted-foreground transition hover:text-foreground">
             {item.label}
           </a>
         {/each}
@@ -94,7 +95,7 @@
       <p class="font-display text-sm font-semibold text-foreground">{m.footer_company()}</p>
       <div class="mt-4 grid gap-2.5 text-sm">
         {#each company as item (item.href)}
-          <a href={item.href} class="text-muted-foreground transition hover:text-foreground">
+          <a href={localizeHref(item.href)} class="text-muted-foreground transition hover:text-foreground">
             {item.label}
           </a>
         {/each}
@@ -106,7 +107,7 @@
       <div class="mt-4 grid gap-2.5 text-sm">
         {#each services as item (item.href)}
           <a
-            href={item.href}
+            href={localizeHref(item.href)}
             class="whitespace-nowrap text-muted-foreground transition hover:text-foreground"
           >
             {item.label}
@@ -119,7 +120,7 @@
       <p class="font-display text-sm font-semibold text-foreground">{m.footer_legal()}</p>
       <div class="mt-4 grid gap-2.5 text-sm">
         {#each legal as item (item.href)}
-          <a href={item.href} class="text-muted-foreground transition hover:text-foreground">
+          <a href={localizeHref(item.href)} class="text-muted-foreground transition hover:text-foreground">
             {item.label}
           </a>
         {/each}

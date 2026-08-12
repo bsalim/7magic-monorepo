@@ -6,13 +6,17 @@
   import LanguageSwitcher from './LanguageSwitcher.svelte';
   import ConsultationModal from './ConsultationModal.svelte';
   import { m } from '$lib/paraglide/messages.js';
+  import { deLocalizeHref, localizeHref } from '$lib/paraglide/runtime';
   import { page } from '$app/state';
   import { cn } from '$lib/utils';
 
   // pathname is injectable so the header renders in tests without a router.
   let { pathname = undefined }: { pathname?: string } = $props();
 
-  let current = $derived(pathname ?? page.url?.pathname ?? '/');
+  // De-localized before comparing: the nav hrefs below are plain canonical paths
+  // while the pathname carries the /en prefix, so on an English page nothing ever
+  // matched and no nav item was ever highlighted.
+  let current = $derived(deLocalizeHref(pathname ?? page.url?.pathname ?? '/'));
   let scrolled = $state(false);
   let consultOpen = $state(false);
 
@@ -101,7 +105,7 @@
 >
   <!-- Brand row — fixed height; it scrolls out of view rather than unmounting. -->
   <div class="mx-auto flex h-18 max-w-7xl items-center gap-3 px-5 lg:px-8">
-    <a href="/" class="flex items-center gap-3">
+    <a href={localizeHref('/')} class="flex items-center gap-3">
       <!-- The logo is a 129x48 wordmark reading "7Magic Wedding", so it carries the
            accessible name and no repeated text sits beside it. -->
       <img src="/img/7magic-logo.png" alt="7Magic Wedding" class="h-12 w-auto object-contain" />
@@ -135,7 +139,7 @@
           <nav class="grid gap-1 px-4">
             {#each links as link (link.href)}
               <a
-                href={link.href}
+                href={localizeHref(link.href)}
                 aria-current={isActive(link.href) ? 'page' : undefined}
                 class={cn(
                   'rounded-md px-3 py-2 text-sm font-medium hover:bg-muted',
@@ -156,7 +160,7 @@
               </p>
               {#each menu.items as item (item.href)}
                 <a
-                  href={item.href}
+                  href={localizeHref(item.href)}
                   aria-current={isActive(item.href) ? 'page' : undefined}
                   class={cn(
                     'rounded-md px-3 py-2 text-sm font-medium hover:bg-muted',
@@ -189,14 +193,14 @@
        with the bottom border. -->
   <div class="mx-auto hidden h-12 max-w-7xl items-stretch gap-7 px-5 md:flex lg:px-8">
     {#if scrolled}
-      <a href="/" class="mr-2 flex items-center">
+      <a href={localizeHref('/')} class="mr-2 flex items-center">
         <img src="/img/7magic-logo.png" alt="7Magic Wedding" class="h-8 w-auto object-contain" />
       </a>
     {/if}
 
     {#each links as link (link.href)}
       <a
-        href={link.href}
+        href={localizeHref(link.href)}
         aria-current={isActive(link.href) ? 'page' : undefined}
         class={cn(
           'flex items-center border-b-2 text-[15px] transition',
@@ -247,7 +251,7 @@
             >
               {#each menu.items as item (item.href)}
                 <a
-                  href={item.href}
+                  href={localizeHref(item.href)}
                   onclick={() => (openMenu = null)}
                   aria-current={isActive(item.href) ? 'page' : undefined}
                   class={cn(

@@ -15,6 +15,7 @@
   } from '$lib/seo/schema';
   import { cn } from '$lib/utils';
   import { whatsappDisplay, whatsappHref } from '$lib/whatsapp';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   /**
    * Acquisition landing page for Bali destination wedding planning.
@@ -494,7 +495,7 @@
         </div>
 
         <a
-          href="/wedding-venue/search?city=bali"
+          href={localizeHref('/wedding-venue/search?city=bali')}
           class={cn(buttonVariants({ variant: 'gold', size: 'lg' }), 'mt-7 px-6')}
         >
           <SearchIcon size={17} />

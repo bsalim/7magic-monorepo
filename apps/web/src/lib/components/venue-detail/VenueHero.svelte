@@ -7,6 +7,7 @@
   import { m } from '$lib/paraglide/messages.js';
   import type { VenueDetail } from '$lib/api';
   import type { DisplayPhoto } from './photos';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   let {
     venue,
@@ -30,9 +31,9 @@
 <section class="hero">
   <div class="wrap">
     <nav class="crumbs" aria-label={m.vd_breadcrumb()}>
-      <a href="/">{m.vd_home()}</a><span class="sep">/</span>
-      <a href="/wedding-venue/search">{m.vd_wedding_venues()}</a><span class="sep">/</span>
-      <a href={`/wedding-venue/search?city=${venue.city}`}>{cityLabel}</a><span class="sep">/</span>
+      <a href={localizeHref('/')}>{m.vd_home()}</a><span class="sep">/</span>
+      <a href={localizeHref('/wedding-venue/search')}>{m.vd_wedding_venues()}</a><span class="sep">/</span>
+      <a href={localizeHref(`/wedding-venue/search?city=${venue.city}`)}>{cityLabel}</a><span class="sep">/</span>
       <span class="cur">{venue.name}</span>
     </nav>
 

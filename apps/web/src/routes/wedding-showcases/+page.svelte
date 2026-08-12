@@ -8,6 +8,7 @@
   import { m } from '$lib/paraglide/messages.js';
   import { getLocale } from '$lib/paraglide/runtime';
   import { cn } from '$lib/utils';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   let { data } = $props();
 
@@ -48,7 +49,7 @@
       <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {#each items as showcase (showcase.slug)}
           <a
-            href={`/wedding-showcases/${showcase.slug}`}
+            href={localizeHref(`/wedding-showcases/${showcase.slug}`)}
             class="group overflow-hidden rounded-md border border-border transition hover:border-brand-gold hover:shadow-lg"
           >
             <div class="aspect-[4/5] overflow-hidden bg-secondary">
@@ -76,7 +77,7 @@
         <div class="mt-12 flex items-center justify-between">
           {#if data.page > 1}
             <a
-              href={`/wedding-showcases?page=${data.page - 1}`}
+              href={localizeHref(`/wedding-showcases?page=${data.page - 1}`)}
               class={cn(buttonVariants({ variant: 'outline' }))}
             >
               <ArrowLeftIcon size={16} />
@@ -90,7 +91,7 @@
 
           {#if data.page < lastPage}
             <a
-              href={`/wedding-showcases?page=${data.page + 1}`}
+              href={localizeHref(`/wedding-showcases?page=${data.page + 1}`)}
               class={cn(buttonVariants({ variant: 'outline' }))}
             >
               {data.page + 1}

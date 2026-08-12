@@ -6,6 +6,7 @@
   import { m } from '$lib/paraglide/messages.js';
   import { cn, formatMillions } from '$lib/utils';
   import { whatsappHref } from '$lib/whatsapp';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   let {
     priceBands,
@@ -88,7 +89,7 @@
       <p class="mt-4 text-sm text-muted-foreground">{m.packages_trust()}</p>
 
       <a
-        href="/artikel"
+        href={localizeHref('/artikel')}
         class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent-foreground"
       >
         {m.packages_read_guides()}

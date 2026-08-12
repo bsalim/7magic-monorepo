@@ -4,7 +4,7 @@
   import VenueCard from '$lib/components/VenueCard.svelte';
   import VenueFilters from '$lib/components/VenueFilters.svelte';
   import { page } from '$app/state';
-  import { getLocale } from '$lib/paraglide/runtime';
+  import { getLocale, localizeHref } from '$lib/paraglide/runtime';
   import { m } from '$lib/paraglide/messages.js';
   import {
     breadcrumbList,
@@ -106,7 +106,7 @@
         <div class="rounded-md border border-dashed border-input bg-white p-10 text-center">
           <h2 class="text-2xl font-semibold">No venues match these filters</h2>
           <p class="mt-3 text-slate-600">Try a broader city or rating filter.</p>
-          <a href="/wedding-venue/search" class="mt-5 inline-flex rounded-md bg-primary px-5 py-3 font-semibold text-white">
+          <a href={localizeHref('/wedding-venue/search')} class="mt-5 inline-flex rounded-md bg-primary px-5 py-3 font-semibold text-white">
             Reset search
           </a>
         </div>

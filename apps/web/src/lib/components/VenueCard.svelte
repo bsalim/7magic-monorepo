@@ -7,6 +7,7 @@
   import { m } from '$lib/paraglide/messages.js';
   import type { VenueCard } from '$lib/api';
   import { formatPrice } from '$lib/utils';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   let { venue }: { venue: VenueCard } = $props();
 
@@ -16,7 +17,7 @@
 </script>
 
 <Card.Root class="gap-0 overflow-hidden py-0 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-  <a href={venue.path_url}>
+  <a href={localizeHref(venue.path_url)}>
     <ResponsiveImage
       image={venue.cover_photo}
       sizes={cardSizes}
@@ -26,7 +27,7 @@
   <Card.Content class="p-5">
     <div class="flex items-start justify-between gap-3">
       <h3 class="font-semibold leading-snug">
-        <a href={venue.path_url}>{venue.name}</a>
+        <a href={localizeHref(venue.path_url)}>{venue.name}</a>
       </h3>
       <span class="inline-flex items-center gap-1 text-sm font-semibold text-amber-500">
         <StarIcon size={16} fill="currentColor" />

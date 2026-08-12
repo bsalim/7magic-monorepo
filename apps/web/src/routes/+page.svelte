@@ -23,6 +23,7 @@
     website
   } from '$lib/seo/schema';
   import { m } from '$lib/paraglide/messages.js';
+  import { localizeHref } from '$lib/paraglide/runtime';
 
   let { data } = $props();
   let home = $derived(data.home);
@@ -108,7 +109,7 @@
         Browse fast
       </span>
       {#each quickLinks as item}
-        <a href={item.href} class="rounded-full border border-white/18 bg-white/8 px-4 py-2 text-sm font-semibold text-white/88 transition hover:bg-white hover:text-brand-ink">
+        <a href={localizeHref(item.href)} class="rounded-full border border-white/18 bg-white/8 px-4 py-2 text-sm font-semibold text-white/88 transition hover:bg-white hover:text-brand-ink">
           {item.label}
         </a>
       {/each}
@@ -124,7 +125,7 @@
           {m.home_popular_body()}
         </p>
       </div>
-      <a href="/wedding-venue/search" class="inline-flex items-center gap-2 font-semibold text-accent-foreground">
+      <a href={localizeHref('/wedding-venue/search')} class="inline-flex items-center gap-2 font-semibold text-accent-foreground">
         View all packages
         <ArrowRight size={18} />
       </a>
@@ -157,7 +158,7 @@
             <p class="mt-3 max-w-2xl text-slate-600">{body}</p>
           </div>
           <a
-            href="/wedding-venue/search?city={city}"
+            href={localizeHref(`/wedding-venue/search?city=${city}`)}
             class="inline-flex items-center gap-2 font-semibold text-accent-foreground"
           >
             {m.home_venues_view_all()}
@@ -205,7 +206,7 @@
           <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">Browse by style</p>
           <h2 class="mt-3 text-3xl font-semibold">Find the right setting faster</h2>
         </div>
-        <a href="/wedding-venue/search" class="inline-flex items-center gap-2 font-semibold text-accent-foreground">
+        <a href={localizeHref('/wedding-venue/search')} class="inline-flex items-center gap-2 font-semibold text-accent-foreground">
           Explore venue search
           <ArrowRight size={18} />
         </a>
@@ -213,7 +214,7 @@
 
       <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {#each weddingStyles as style}
-          <a href={style.href} class="group rounded-md border border-border bg-background p-5 transition hover:-translate-y-1 hover:border-primary hover:bg-white hover:shadow-xl">
+          <a href={localizeHref(style.href)} class="group rounded-md border border-border bg-background p-5 transition hover:-translate-y-1 hover:border-primary hover:bg-white hover:shadow-xl">
             <div class="flex size-10 items-center justify-center rounded-md bg-brand-warm-deep text-accent-foreground">
               <Sparkles size={18} />
             </div>
@@ -260,7 +261,7 @@
         </p>
         <h2 class="mt-3 text-3xl font-semibold">{m.home_testimonials_title()}</h2>
       </div>
-      <a href="/contact" class="inline-flex items-center gap-2 font-semibold text-accent-foreground">
+      <a href={localizeHref('/contact')} class="inline-flex items-center gap-2 font-semibold text-accent-foreground">
         {m.home_testimonials_cta()}
         <ArrowRight size={18} />
       </a>
