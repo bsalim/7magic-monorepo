@@ -6,10 +6,19 @@
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import * as m from '$lib/paraglide/messages';
+  import { localizeHref } from '$lib/paraglide/runtime';
+  import { page } from '$app/state';
 
   import type { PageData } from './$types';
 
   let { data }: { data: PageData } = $props();
+
+  // A venue chosen on its own page rides through the branch picker, so the form
+  // opens with it already selected.
+  const venueParam = $derived(page.url.searchParams.get('venue'));
+
+  const bookHref = (slug: string) =>
+    localizeHref(`/tour/${slug}${venueParam ? `?venue=${venueParam}` : ''}`);
 </script>
 
 <svelte:head>
@@ -38,12 +47,8 @@
               {branch.city}
             </Card.Description>
           </Card.Header>
-          <Card.Content class="text-sm text-muted-foreground">
-            <p>{branch.address_line1}</p>
-            {#if branch.address_line2}<p>{branch.address_line2}</p>{/if}
-          </Card.Content>
           <Card.Footer>
-            <Button href={`/tour/${branch.slug}`}>{m.tour_branch_pick()}</Button>
+            <Button href={bookHref(branch.slug)}>{m.tour_branch_pick()}</Button>
           </Card.Footer>
         </Card.Root>
       {/each}

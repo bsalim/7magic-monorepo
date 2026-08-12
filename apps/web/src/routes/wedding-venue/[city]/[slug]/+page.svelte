@@ -27,6 +27,7 @@
   import { m } from '$lib/paraglide/messages.js';
   import { trackEvent } from '$lib/analytics';
   import { titleCase } from '$lib/utils';
+  import { localizeHref } from '$lib/paraglide/runtime';
   import { whatsappHref as buildWhatsappHref } from '$lib/whatsapp';
   import './venue-detail.css';
 
@@ -43,6 +44,11 @@
   const whatsappHref = $derived(
     buildWhatsappHref(m.vd_wa_message({ venue: venue.name }))
   );
+  // Through the branch picker rather than straight at a branch: the branch is who
+  // handles the booking, and guessing one from the venue's city would be wrong for
+  // the cities that have no branch of their own. The venue id rides along so it is
+  // already selected when the form opens.
+  const tourHref = $derived(localizeHref(`/tour?venue=${venue.id}`));
   const photos = $derived(normalizePhotos(venue));
 
   // One event per venue view, alongside the automatic pageview. The pageview
@@ -156,7 +162,7 @@
 
   <VenueVendors />
 
-  <VenueClosingCta venueName={venue.name} {whatsappHref} onQuote={openQuote} />
+  <VenueClosingCta venueName={venue.name} {whatsappHref} {tourHref} onQuote={openQuote} />
 
   <PublicFooter />
 

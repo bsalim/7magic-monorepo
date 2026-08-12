@@ -23,7 +23,7 @@
   "devDependencies": {
     "@inlang/paraglide-js": "^2.23.0",
     "@internationalized/date": "^3.12.2",
-    "@lucide/svelte": "^1.27.0",
+    "@lucide/svelte": "^1.31.0",
     "@sveltejs/adapter-auto": "^7.0.1",
     "@sveltejs/adapter-node": "^5.5.7",
     "@sveltejs/kit": "^2.59.1",

@@ -30,6 +30,8 @@ const STATIC_PATHS = [
   '/our-vendors',
   '/about',
   '/contact',
+  '/free-venue-tour',
+  '/tour',
   '/paket-sangjit',
   '/perjanjian-pranikah',
   '/bali-wedding-planning',

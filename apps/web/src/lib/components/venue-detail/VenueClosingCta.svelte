@@ -6,10 +6,13 @@
   let {
     venueName,
     whatsappHref,
+    tourHref,
     onQuote
   }: {
     venueName: string;
     whatsappHref: string;
+    /** Books a free tour of *this* venue -- it arrives preselected in the form. */
+    tourHref: string;
     onQuote: () => void;
   } = $props();
 </script>
@@ -25,6 +28,9 @@
         <button class="btn btn-gold btn-lg" type="button" onclick={onQuote}>
           <CalendarDays size={17} /> {m.vd_see_pricing()}
         </button>
+        <a class="btn btn-gold btn-lg" href={tourHref}>
+          <CalendarDays size={17} /> {m.vd_book_tour()}
+        </a>
         <a class="btn btn-wa btn-lg" href={whatsappHref}>
           <MessageCircle size={18} /> {m.vd_whatsapp_us()}
         </a>

@@ -1,9 +1,10 @@
 import { error, fail } from '@sveltejs/kit';
 
 import { fetchJson, getApiBaseUrl } from '$lib/api';
-import type { OpeningHour } from '$lib/tour-availability';
 
 import type { Actions, PageServerLoad } from './$types';
+
+export type TourVenue = { id: number; name: string; city: string };
 
 type TourBranchDetail = {
   branch: {
@@ -30,17 +31,18 @@ type TourBranchDetail = {
     registration_open: boolean;
     registration_closed_reason: string | null;
   } | null;
-  opening_hours: OpeningHour[];
-  closed_dates: string[];
+  venues: TourVenue[];
 };
 
-export const load: PageServerLoad = async ({ fetch, params }) => {
+export const load: PageServerLoad = async ({ fetch, params, url }) => {
   try {
     const data = await fetchJson<{ data: TourBranchDetail }>(
       `/api/v1/public/tour/branches/${params.slug}`,
       fetch
     );
-    return data.data;
+    // Carried from a venue's own page, so arriving from "book a tour here" lands
+    // with that venue already chosen.
+    return { ...data.data, preselectedVenueId: url.searchParams.get('venue') ?? '' };
   } catch {
     throw error(404, 'Branch not found');
   }
@@ -50,10 +52,8 @@ export const actions: Actions = {
   default: async ({ fetch, params, request }) => {
     const form = await request.formData();
 
-    const guestCount = Number(form.get('guests') ?? 0);
-    const guests = Array.from({ length: Math.max(0, Math.min(guestCount, 10)) }, (_, index) => ({
-      name: String(form.get(`guest-${index}`) ?? `Tamu ${index + 1}`).trim() || `Tamu ${index + 1}`
-    }));
+    const partySize = Number(form.get('party_size') ?? 1);
+    const venueId = String(form.get('venue_id') ?? '').trim();
 
     const response = await fetch(
       `${getApiBaseUrl()}/api/v1/public/tour/branches/${params.slug}/register`,
@@ -64,9 +64,13 @@ export const actions: Actions = {
           name: String(form.get('name') ?? '').trim(),
           email: String(form.get('email') ?? '').trim(),
           mobile: String(form.get('mobile') ?? '').trim() || null,
+          venue_id: venueId ? Number(venueId) : null,
           visit_date: String(form.get('visit_date') ?? '') || null,
-          visit_slot: String(form.get('visit_slot') ?? '') || null,
-          guests
+          // Clamped rather than trusted: the input has min/max, but a hand-rolled
+          // POST does not have to honour them.
+          party_size: Number.isFinite(partySize)
+            ? Math.min(Math.max(Math.trunc(partySize), 1), 20)
+            : 1
         })
       }
     );
