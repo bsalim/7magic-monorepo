@@ -72,13 +72,20 @@ class PublicRegistration(EventSchema):
     name: str = Field(min_length=1, max_length=200)
     email: str = Field(min_length=3, max_length=320)
     mobile: str | None = Field(default=None, max_length=40)
+    # The venue the guest wants to tour. A venue tour visits a venue, not the
+    # branch office, so this is the destination.
+    venue_id: int | None = None
     visit_date: date | None = None
     visit_slot: str | None = Field(default=None, max_length=40)
+    # Total head count including the person booking, which is what the team needs
+    # to know. `guests` remains for the named-companion path the CMS still uses.
+    party_size: int | None = Field(default=None, ge=1, le=20)
     guests: list[GuestInput] = Field(default_factory=list)
 
 
 class RegistrationUpdate(EventSchema):
     status: str | None = None
+    venue_id: int | None = None
     follow_up: bool | None = None
     notes: str | None = None
     visit_date: date | None = None
@@ -92,6 +99,8 @@ class RegistrationResponse(EventSchema):
     event_name: str | None = None
     branch_id: int | None = None
     branch_name: str | None = None
+    venue_id: int | None = None
+    venue_name: str | None = None
     guest_name: str
     email: str
     mobile: str | None = None

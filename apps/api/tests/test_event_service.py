@@ -12,6 +12,7 @@ from app.domains.branches.models import Branch, BranchClosure, BranchOpeningHour
 from app.domains.events.models import Event, EventRegistration
 from app.domains.events.schemas import PublicRegistration
 from app.domains.events.service import RegistrationBlocked, event_service
+from app.models.venue import Venue
 
 NOW = datetime(2026, 9, 1, 12, 0, tzinfo=UTC)
 
@@ -199,7 +200,11 @@ async def test_capacity_counts_guests_not_registrations(session) -> None:
 
 
 @pytest.mark.asyncio
-async def test_a_closed_day_is_rejected(session) -> None:
+async def test_a_branch_closure_does_not_block_a_venue_tour(session) -> None:
+    """A venue tour happens at a venue, not at the branch office, so the branch's
+    own closed dates are not a reason to refuse. Was the opposite rule until the
+    tour became venue-based; the form now offers a plain calendar, and a booking it
+    allows has to be one the API accepts."""
     branch, event = await _branch_with_event(session)
     # Added through the session rather than branch.closures: the collection was
     # never loaded, and appending to it would lazy-load under asyncio.
@@ -214,29 +219,54 @@ async def test_a_closed_day_is_rejected(session) -> None:
     )
     await session.commit()
 
-    with pytest.raises(RegistrationBlocked) as exc:
-        await event_service.register(
-            session, event=event, branch=branch, payload=_registration(), now=NOW, source="public"
-        )
+    registration = await event_service.register(
+        session, event=event, branch=branch, payload=_registration(), now=NOW, source="public"
+    )
 
-    assert exc.value.code == "branch_closed"
+    assert registration.status == "registered"
 
 
 @pytest.mark.asyncio
-async def test_a_day_with_no_opening_hours_is_rejected(session) -> None:
+async def test_a_day_the_branch_has_no_hours_for_is_still_accepted(session) -> None:
     branch, event = await _branch_with_event(session)
 
-    with pytest.raises(RegistrationBlocked) as exc:
-        await event_service.register(
-            session,
-            event=event,
-            branch=branch,
-            payload=_registration(visit_date="2026-09-13"),  # a Sunday, day 7, no hours
-            now=NOW,
-            source="public",
-        )
+    registration = await event_service.register(
+        session,
+        event=event,
+        branch=branch,
+        payload=_registration(visit_date="2026-09-13"),  # a Sunday, day 7, no hours
+        now=NOW,
+        source="public",
+    )
 
-    assert exc.value.code == "branch_closed"
+    assert registration.visit_date.isoformat() == "2026-09-13"
+
+
+@pytest.mark.asyncio
+async def test_the_chosen_venue_and_head_count_are_recorded(session) -> None:
+    branch, event = await _branch_with_event(session)
+    venue = Venue(
+        name="Grand Ballroom",
+        slug="grand-ballroom",
+        city="jakarta",
+        address="Jl. Test 1",
+        district="Menteng",
+    )
+    session.add(venue)
+    await session.flush()
+
+    registration = await event_service.register(
+        session,
+        event=event,
+        branch=branch,
+        payload=_registration(venue_id=venue.id, party_size=4),
+        now=NOW,
+        source="public",
+    )
+
+    assert registration.venue_id == venue.id
+    # The total the guest typed, not one-plus-named-companions.
+    assert registration.party_size == 4
 
 
 @pytest.mark.asyncio

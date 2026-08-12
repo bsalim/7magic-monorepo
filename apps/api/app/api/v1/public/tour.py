@@ -7,6 +7,7 @@ from datetime import UTC, date, datetime, timedelta
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db_session
@@ -25,6 +26,7 @@ from app.domains.events.service import (
     event_service,
     registration_block,
 )
+from app.models.venue import Venue
 from app.services.email import send_email
 
 logger = logging.getLogger(__name__)
@@ -67,6 +69,22 @@ def _event_payload(event: Event, now: datetime) -> dict:
         "registration_open": block is None,
         "registration_closed_reason": block[1] if block else None,
     }
+
+
+async def _tourable_venues(session: AsyncSession) -> list[dict]:
+    """Every active venue, for the form's venue dropdown.
+
+    All cities, not just this branch's: a couple enquiring through the Jakarta
+    branch may well want to tour a venue in Bali, and the branch is who handles the
+    booking rather than where it happens. Ordered by city then name so the page can
+    group them without sorting again.
+    """
+    rows = await session.scalars(
+        select(Venue)
+        .where(Venue.status == "active")
+        .order_by(Venue.city, Venue.name)
+    )
+    return [{"id": row.id, "name": row.name, "city": row.city} for row in rows]
 
 
 def _closed_dates(branch: Branch, today: date) -> list[str]:
@@ -139,6 +157,7 @@ async def get_tour_branch(slug: str, session: DbSession):
                 if row.active
             ],
             "closed_dates": _closed_dates(branch, now.date()),
+            "venues": await _tourable_venues(session),
         }
     }
 

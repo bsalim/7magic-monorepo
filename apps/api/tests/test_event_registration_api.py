@@ -99,6 +99,7 @@ def test_export_returns_csv_with_a_header_row(api) -> None:
     assert rows[0] == [
         "Branch",
         "Event",
+        "Venue",
         "Name",
         "Email",
         "Mobile",
@@ -110,4 +111,4 @@ def test_export_returns_csv_with_a_header_row(api) -> None:
         "Source",
         "Registered at",
     ]
-    assert rows[1][3] == "rina@example.test"
+    assert rows[1][4] == "rina@example.test"

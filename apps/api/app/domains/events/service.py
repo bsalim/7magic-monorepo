@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from datetime import UTC, date, datetime
+from datetime import UTC, datetime
 
-from sqlalchemy import func, inspect, or_, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.html import sanitize_html
@@ -62,31 +62,6 @@ def registration_block(event: Event, now: datetime) -> tuple[str, str] | None:
     if ends_at and now > ends_at:
         return ("event_ended", "This event has already taken place.")
     return None
-
-
-def branch_accepts_date(branch: Branch, visit_date: date) -> bool:
-    """A date works if the branch has active opening hours for that ISO weekday and
-    no active closure covers it."""
-    iso_day = visit_date.isoweekday()
-    if not any(row.day_of_week == iso_day and row.active for row in branch.opening_hours):
-        return False
-    for closure in branch.closures:
-        if not closure.active:
-            continue
-        if closure.starts_at_local.date() <= visit_date <= closure.ends_at_local.date():
-            return False
-    return True
-
-
-async def _ensure_schedule_loaded(session: AsyncSession, branch: Branch) -> None:
-    """`branch_accepts_date` walks opening_hours and closures synchronously, so both
-    must already be in memory. A branch fetched through branch_service has them via
-    selectin; one built in-session may not, and touching an unloaded collection
-    under asyncio raises MissingGreenlet instead of quietly emitting a SELECT."""
-    unloaded = inspect(branch).unloaded
-    missing = [name for name in ("opening_hours", "closures") if name in unloaded]
-    if missing:
-        await session.refresh(branch, missing)
 
 
 class EventService:
@@ -206,7 +181,6 @@ class EventService:
             else:
                 branch_ids.add(event.branch_id)
         return any_branch, branch_ids
-        return None
 
     async def head_count(self, session: AsyncSession, event_id: int) -> int:
         return int(
@@ -237,13 +211,12 @@ class EventService:
         if "@" not in email:
             raise RegistrationBlocked("validation_error", "Email must be a valid email address.")
 
-        if payload.visit_date is not None and branch is not None:
-            await _ensure_schedule_loaded(session, branch)
-            if not branch_accepts_date(branch, payload.visit_date):
-                raise RegistrationBlocked(
-                    "branch_closed", "This branch is closed on the date you chose."
-                )
-
+        # The visit date is deliberately not checked against the branch's opening
+        # hours or closed dates. A venue tour is arranged at a venue rather than at
+        # the branch office, so any future date is a legitimate request and the team
+        # confirms a time when they follow up. The hours remain in the CMS as the
+        # team's own schedule; they no longer gate a booking, which is why the form
+        # offers a plain calendar with no slots.
         duplicate = await session.scalar(
             select(EventRegistration.id).where(
                 EventRegistration.event_id == event.id,
@@ -256,7 +229,10 @@ class EventService:
                 "already_registered", "This email is already registered for this event."
             )
 
-        heads = 1 + len(payload.guests)
+        # An explicit party_size wins: the public form asks for a total head count
+        # rather than each companion's name. Falling back to the named guests keeps
+        # the CMS front-desk path, which does collect names, counting correctly.
+        heads = payload.party_size or 1 + len(payload.guests)
         if event.capacity is not None:
             taken = await self.head_count(session, event.id)
             if taken + heads > event.capacity:
@@ -264,6 +240,7 @@ class EventService:
 
         registration = EventRegistration(
             event_id=event.id,
+            venue_id=payload.venue_id,
             guest_name=payload.name.strip(),
             email=email,
             mobile=payload.mobile,

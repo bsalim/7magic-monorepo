@@ -39,6 +39,7 @@ router = APIRouter()
 CSV_HEADER = [
     "Branch",
     "Event",
+    "Venue",
     "Name",
     "Email",
     "Mobile",
@@ -54,6 +55,7 @@ CSV_HEADER = [
 
 class CmsRegistrationCreate(EventSchema):
     event_id: int
+    venue_id: int | None = None
     name: str = Field(min_length=1, max_length=200)
     email: str = Field(min_length=3, max_length=320)
     mobile: str | None = Field(default=None, max_length=40)
@@ -69,6 +71,9 @@ def _payload(registration: EventRegistration) -> dict:
     response["event_name"] = event.name if event else None
     response["branch_id"] = event.branch_id if event else None
     response["branch_name"] = event.branch.name if event and event.branch else None
+    # The venue the guest is touring, which for a venue tour is the destination --
+    # the branch is only who handles it.
+    response["venue_name"] = registration.venue.name if registration.venue else None
     return response
 
 
@@ -114,6 +119,7 @@ async def export_registrations(
             [
                 event.branch.name if event and event.branch else "",
                 event.name if event else "",
+                row.venue.name if row.venue else "",
                 row.guest_name,
                 row.email,
                 row.mobile or "",
@@ -152,6 +158,7 @@ async def create_registration(
             "name": payload.name,
             "email": payload.email,
             "mobile": payload.mobile,
+            "venue_id": payload.venue_id,
             "visit_date": payload.visit_date,
             "visit_slot": payload.visit_slot,
             "guests": [guest.model_dump() for guest in payload.guests],

@@ -18,6 +18,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
 from app.domains.branches.models import Branch
 from app.models.mixins import TimestampMixin
+from app.models.venue import Venue
 
 REGISTRATION_STATUSES = ("registered", "attended", "no_show", "cancelled")
 TEMPLATE_KINDS = ("thank_you", "no_show", "cancel")
@@ -66,6 +67,13 @@ class EventRegistration(TimestampMixin, Base):
     event_id: Mapped[int] = mapped_column(
         ForeignKey("events.id", ondelete="CASCADE"), nullable=False, index=True
     )
+    # The venue the guest asked to tour. A venue tour visits a venue, not the
+    # branch office, so this -- not the branch -- is where they are going. Nullable
+    # because a front-desk booking may be taken before the couple has chosen, and
+    # SET NULL so retiring a venue never deletes the booking history.
+    venue_id: Mapped[int | None] = mapped_column(
+        ForeignKey("venues.id", ondelete="SET NULL"), index=True
+    )
     guest_name: Mapped[str] = mapped_column(String(200), nullable=False)
     email: Mapped[str] = mapped_column(String(320), nullable=False, index=True)
     mobile: Mapped[str | None] = mapped_column(String(40))
@@ -86,6 +94,9 @@ class EventRegistration(TimestampMixin, Base):
     # Also selectin: the registrations router reads `registration.event.branch.name`
     # for its Branch column and its CSV export.
     event: Mapped[Event] = relationship(back_populates="registrations", lazy="selectin")
+    # selectin for the same reason as `event`: the CMS table and the CSV export both
+    # read the venue name after the query has returned.
+    venue: Mapped[Venue | None] = relationship(lazy="selectin")
     guests: Mapped[list[EventRegistrationGuest]] = relationship(
         back_populates="registration", cascade="all, delete-orphan", lazy="selectin"
     )
