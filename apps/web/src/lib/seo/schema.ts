@@ -15,6 +15,7 @@
  */
 
 import type { ArticleDetail, VenueCard, VenueDetail } from '$lib/api';
+import { localizeHref } from '$lib/paraglide/runtime';
 import { titleCase } from '$lib/utils';
 import { whatsappDisplay, whatsappNumber } from '$lib/whatsapp';
 
@@ -154,6 +155,11 @@ export type Crumb = { name: string; path?: string };
 /**
  * The trailing crumb is the current page. Google's spec allows its `item` to be
  * omitted, and leaving it off keeps the page out of its own breadcrumb links.
+ *
+ * Paths are localized here rather than by each caller. The crumb names already
+ * come from the message catalogue, so an unlocalized `item` produced an English
+ * trail pointing at Indonesian URLs -- a crawler following it leaves the locale it
+ * was reading. Doing it in one place means no caller can forget.
  */
 export function breadcrumbList(trail: Crumb[]) {
   return {
@@ -162,7 +168,7 @@ export function breadcrumbList(trail: Crumb[]) {
       '@type': 'ListItem',
       position: index + 1,
       name: crumb.name,
-      item: crumb.path ? absoluteUrl(crumb.path) : undefined
+      item: crumb.path ? canonicalUrl(localizeHref(crumb.path)) : undefined
     }))
   };
 }
@@ -179,8 +185,20 @@ type VenueLike = VenueCard & Partial<Pick<VenueDetail, 'address' | 'description'
  * entry in a listing. `@id` is derived from the venue URL so the two forms
  * describe the same node rather than competing duplicates.
  */
-export function venueNode(venue: VenueLike, options: { image?: string | null } = {}) {
+export function venueNode(
+  venue: VenueLike,
+  options: { image?: string | null; images?: (string | null | undefined)[] } = {}
+) {
   const url = absoluteUrl(venue.path_url);
+  // Google asks for several images per entity where they exist, and a venue page
+  // has a whole gallery. Falls back to the single cover for listing entries, which
+  // carry no gallery. Deduplicated because the cover is usually also the first
+  // gallery photo.
+  const gallery = [...new Set((options.images ?? []).filter(Boolean) as string[])]
+    .map((src) => absoluteUrl(src))
+    .slice(0, 8);
+  const single = optionalUrl(options.image ?? venue.cover_photo?.small_url);
+  const image = gallery.length > 1 ? gallery : single;
   // starRating is defined only on LodgingBusiness and FoodEstablishment, so a
   // plain EventVenue cannot carry one. The star count comes from the hotel
   // rating, so venues that have it are typed as both and the rest stay venues.
@@ -192,7 +210,7 @@ export function venueNode(venue: VenueLike, options: { image?: string | null } =
     name: venue.name,
     url,
     description: venue.description || undefined,
-    image: optionalUrl(options.image ?? venue.cover_photo?.small_url),
+    image,
     address: {
       '@type': 'PostalAddress',
       streetAddress: venue.address || undefined,

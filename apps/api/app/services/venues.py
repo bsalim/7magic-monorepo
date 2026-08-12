@@ -357,7 +357,17 @@ class VenueService:
             )
             if value is not None
         }
-        return detail.model_copy(update=overlay) if overlay else detail
+        if not overlay:
+            return detail
+
+        # The seo block is built from the base row before this runs, so a
+        # translated description has to be carried into meta_description too --
+        # otherwise the English page advertises an Indonesian snippet, which is
+        # what every English venue page did.
+        if "description" in overlay and detail.seo:
+            overlay["seo"] = {**detail.seo, "meta_description": overlay["description"]}
+
+        return detail.model_copy(update=overlay)
 
     async def attach_photo(
         self,
@@ -517,7 +527,10 @@ class VenueService:
             ],
             packages=self._packages(venue),
             seo={
-                "title": f"{venue.name} - {venue.district}, {venue.city} | Wedding Venue",
+                "title": (
+                    f"{venue.name} - {venue.district}, "
+                    f"{venue.city.title()} | Wedding Venue"
+                ),
                 "meta_description": venue.description or "",
                 "canonical_url": venue.path_url,
             },

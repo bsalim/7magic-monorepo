@@ -16,6 +16,7 @@
   import {
     absoluteUrl,
     breadcrumbList,
+    canonicalUrl,
     graph,
     jsonLdScript,
     organization,
@@ -69,6 +70,9 @@
   // Only a real gallery photo is worth advertising as the venue's image;
   // normalizePhotos pads the gallery with placeholders to fill the mosaic.
   const primaryPhoto = $derived(photos.find((photo) => photo.real)?.src);
+  // Only the real ones: normalizePhotos pads the mosaic with placeholders, and a
+  // placeholder in structured data is a broken image to a crawler.
+  const galleryImages = $derived(photos.filter((photo) => photo.real).map((photo) => photo.src));
 
   const jsonLd = $derived(
     jsonLdScript(
@@ -87,7 +91,7 @@
           about: `${absoluteUrl(venue.path_url)}#venue`,
           image: primaryPhoto
         }),
-        venueNode(venue, { image: primaryPhoto }),
+        venueNode(venue, { image: primaryPhoto, images: galleryImages }),
         // Absent for venues priced on request, which have no offer to describe.
         venuePackageNode(venue),
         breadcrumbList([
@@ -133,7 +137,14 @@
 <svelte:head>
   <title>{venue.seo?.title ?? `${venue.name} | 7Magic Wedding`}</title>
   <meta name="description" content={venue.seo?.meta_description ?? venue.description} />
-  <link rel="canonical" href={absoluteUrl(venue.seo?.canonical_url ?? venue.path_url)} />
+  <!-- Localized: an unprefixed canonical on /en names the Indonesian URL, which
+       tells Google the English page is a duplicate not to index -- while the
+       hreflang tags next to it say they are alternates. The canonical wins, so
+       the English venue pages were being dropped. -->
+  <link
+    rel="canonical"
+    href={canonicalUrl(localizeHref(venue.seo?.canonical_url ?? venue.path_url))}
+  />
   <link rel="icon" href="/img/7magic-logo.png" />
   <!-- {@html} rather than a plain expression: Svelte parses script contents as
        raw text, so `{jsonLd}` inside the tag would ship those nine characters

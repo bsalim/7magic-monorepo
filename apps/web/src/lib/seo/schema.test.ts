@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import type { ArticleDetail, VenueCard, VenueDetail } from '$lib/api';
+import { localizeHref } from '$lib/paraglide/runtime';
 import {
   SITE_URL,
   absoluteUrl,
   articleNode,
   breadcrumbList,
+  canonicalUrl,
   countryCodeFor,
   graph,
   jsonLdScript,
@@ -99,6 +101,42 @@ describe('breadcrumbList', () => {
   it('leaves the current page without a self-link', () => {
     const crumbs = breadcrumbList([{ name: 'Home', path: '/' }, { name: 'Here' }]);
     expect(crumbs.itemListElement[1].item).toBeUndefined();
+  });
+
+  it('keeps the root slash while trimming it below the root', () => {
+    // canonicalUrl strips a trailing slash on anything *below* the root only:
+    // `https://host/` is the conventional form for a homepage, and rewriting it to
+    // `https://host` would be the change that redirects.
+    const crumbs = breadcrumbList([
+      { name: 'Home', path: '/' },
+      { name: 'Venues', path: '/wedding-venue/search' }
+    ]);
+    expect(crumbs.itemListElement[0].item).toBe(`${SITE_URL}/`);
+    expect(crumbs.itemListElement[1].item).toBe(`${SITE_URL}/wedding-venue/search`);
+  });
+
+  it('localizes each link, so an English trail does not point at Indonesian URLs', () => {
+    const crumbs = breadcrumbList([{ name: 'Venues', path: '/wedding-venue/search' }]);
+    // Under the base locale this is the unprefixed path; the point of the test is
+    // that the value went through localizeHref rather than being pasted verbatim.
+    expect(crumbs.itemListElement[0].item).toBe(
+      canonicalUrl(localizeHref('/wedding-venue/search'))
+    );
+  });
+});
+
+describe('venueNode images', () => {
+  it('emits the whole gallery when given one, deduplicated', () => {
+    const node = venueNode(card(), {
+      image: 'https://cdn.test/a.jpg',
+      images: ['https://cdn.test/a.jpg', 'https://cdn.test/a.jpg', 'https://cdn.test/b.jpg']
+    });
+    expect(node.image).toEqual(['https://cdn.test/a.jpg', 'https://cdn.test/b.jpg']);
+  });
+
+  it('falls back to the single cover for a listing entry with no gallery', () => {
+    const node = venueNode(card(), { image: 'https://cdn.test/a.jpg' });
+    expect(node.image).toBe('https://cdn.test/a.jpg');
   });
 });
 

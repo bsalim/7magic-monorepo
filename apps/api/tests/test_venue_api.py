@@ -1026,6 +1026,48 @@ def test_venue_detail_returns_english_translation_when_present(
         get_settings.cache_clear()
 
 
+def test_english_meta_description_follows_the_translation(
+    venue_client: TestClient,
+    monkeypatch,
+) -> None:
+    """The seo block is built from the base row, so a translated description has to
+    be carried into meta_description as well -- otherwise every English venue page
+    advertises an Indonesian snippet in search results."""
+    _clear_venue_settings_env(monkeypatch)
+    get_settings.cache_clear()
+    try:
+        venue_id = venue_client.get("/api/v1/venues").json()["items"][0]["id"]
+        venue_client.put(
+            f"/api/v1/admin/venues/{venue_id}/translations/en",
+            json={"description": "An elegant ballroom in central Jakarta."},
+        )
+
+        english = venue_client.get("/api/v1/venues/jakarta/active-venue?locale=en").json()
+        indonesian = venue_client.get("/api/v1/venues/jakarta/active-venue").json()
+
+        assert english["seo"]["meta_description"] == "An elegant ballroom in central Jakarta."
+        assert indonesian["seo"]["meta_description"] == "An active venue for website API tests."
+    finally:
+        get_settings.cache_clear()
+
+
+def test_the_seo_title_capitalises_the_city(
+    venue_client: TestClient,
+    monkeypatch,
+) -> None:
+    """`city` is a lowercase slug on the row, so an unprocessed title read
+    "Jakarta Pusat, jakarta" in every search result."""
+    _clear_venue_settings_env(monkeypatch)
+    get_settings.cache_clear()
+    try:
+        detail = venue_client.get("/api/v1/venues/jakarta/active-venue").json()
+
+        assert "jakarta |" not in detail["seo"]["title"]
+        assert detail["seo"]["title"].endswith("Jakarta | Wedding Venue")
+    finally:
+        get_settings.cache_clear()
+
+
 def test_venue_translation_rejects_unknown_locale(
     venue_client: TestClient,
     monkeypatch,
