@@ -646,97 +646,6 @@
   text-align: center;
 }
 
-.venue-detail .vfilter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  justify-content: center;
-  margin-bottom: 28px;
-}
-
-.venue-detail .vchip {
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 9px 16px;
-  color: var(--ink-soft);
-  background: var(--surface);
-  font-size: 13.5px;
-  font-weight: 600;
-  transition: all 0.15s;
-}
-
-.venue-detail .vchip:hover {
-  border-color: var(--gold);
-}
-
-.venue-detail .vchip.on {
-  color: #fff;
-  background: var(--ink);
-  border-color: var(--ink);
-}
-
-.venue-detail .vgrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-}
-
-.venue-detail .vcard {
-  display: flex;
-  min-height: 204px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 22px 18px 22px;
-  background: var(--surface);
-  text-align: center;
-  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
-}
-
-.venue-detail .vcard:hover {
-  border-color: var(--gold-soft);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
-}
-
-.venue-detail .vlogo-wrap {
-  display: flex;
-  width: 100%;
-  height: 156px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: #fff;
-}
-
-/* The vendor artwork is portrait (200x284 with whitespace baked in), so
-   max-height is the constraint that actually binds -- at the old 82px every
-   logo rendered 58px wide inside a 235px card and read as a thumbnail. Both
-   caps are raised together so a landscape logo is not clipped instead. */
-.venue-detail .vlogo {
-  max-width: 300px;
-  max-height: 140px;
-  object-fit: contain;
-}
-
-.venue-detail .vcard .vn {
-  font-family: var(--ff-serif);
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.12;
-}
-
-.venue-detail .vcard .vc {
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
 .venue-detail .cta-band {
   position: relative;
   overflow: hidden;
@@ -1113,10 +1022,6 @@
     grid-template-columns: 1fr;
   }
 
-  .venue-detail .vgrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .venue-detail .foot-top {
     grid-template-columns: 1fr 1fr;
   }
@@ -1147,10 +1052,6 @@
 
   .venue-detail .ov-list {
     grid-template-columns: 1fr;
-  }
-
-  .venue-detail .vgrid {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .venue-detail .foot-top {
