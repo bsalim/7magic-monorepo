@@ -86,7 +86,17 @@ def _closed_dates(branch: Branch, today: date) -> list[str]:
 @router.get("/tour/branches")
 async def list_tour_branches(session: DbSession):
     branches = await branch_service.list(session, active_only=True)
-    return {"items": [_branch_payload(branch) for branch in branches if branch.bookable]}
+    # Active and bookable is not sufficient: a registration hangs off an event, so a
+    # branch with none open cannot accept one. Listing it would send a guest to a
+    # page whose only message is "not taking bookings right now".
+    any_branch, branch_ids = await event_service.open_tour_scope(session, datetime.now(UTC))
+    return {
+        "items": [
+            _branch_payload(branch)
+            for branch in branches
+            if branch.bookable and (any_branch or branch.id in branch_ids)
+        ]
+    }
 
 
 @router.get("/tour/branches/{slug}")

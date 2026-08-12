@@ -82,6 +82,27 @@ async def test_registration_succeeds_inside_the_window(session) -> None:
 
 
 @pytest.mark.asyncio
+async def test_a_company_wide_event_is_found_for_any_branch(session) -> None:
+    """branch_id NULL means "every branch". This was written as
+    `branch_id IN (branch.id, NULL)`, and a NULL inside an IN list matches nothing
+    in SQL, so company-wide events were silently invisible to every branch."""
+    branch, _ = await _branch_with_event(session)
+    session.add(
+        Event(branch_id=None, name="Book a Tour", is_active=True)
+    )
+    await session.commit()
+
+    other = Branch(slug="bali", name="7Magic Bali", timezone="Asia/Makassar")
+    session.add(other)
+    await session.commit()
+
+    found = await event_service.open_tour_event(session, other, NOW)
+
+    assert found is not None
+    assert found.branch_id is None
+
+
+@pytest.mark.asyncio
 async def test_registration_before_the_window_opens_is_blocked(session) -> None:
     branch, event = await _branch_with_event(session, registration_opens_at=NOW + timedelta(days=1))
 

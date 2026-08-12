@@ -54,14 +54,38 @@ def _next_weekday(offset_days: int = 7) -> str:
 
 
 def test_branch_list_shows_only_active_bookable_branches(api) -> None:
-    _branch(api)
+    listed = _branch(api)
+    _open_event(api, listed["id"])
     hidden = _branch(api, slug="bali", name="7Magic Bali")
+    _open_event(api, hidden["id"])
     api.client.patch(f"/api/v1/admin/branches/{hidden['id']}", json={"bookable": False})
 
     response = api.client.get("/api/v1/public/tour/branches")
 
     assert response.status_code == 200
     assert [row["slug"] for row in response.json()["items"]] == ["jakarta"]
+
+
+def test_a_branch_with_no_open_event_is_not_listed(api) -> None:
+    """Active and bookable is not enough. A registration hangs off an event, so a
+    branch without one would show a form that only says "not taking bookings"."""
+    _branch(api)
+
+    response = api.client.get("/api/v1/public/tour/branches")
+
+    assert response.json()["items"] == []
+
+
+def test_a_company_wide_event_makes_every_branch_bookable(api) -> None:
+    """branch_id NULL is how one standing "Book a Tour" covers every branch,
+    including ones added after it."""
+    _branch(api)
+    _branch(api, slug="bali", name="7Magic Bali")
+    _open_event(api, None)
+
+    response = api.client.get("/api/v1/public/tour/branches")
+
+    assert sorted(row["slug"] for row in response.json()["items"]) == ["bali", "jakarta"]
 
 
 def test_branch_detail_carries_the_open_event_hours_and_closures(api) -> None:

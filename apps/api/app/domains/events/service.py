@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import UTC, date, datetime
 
-from sqlalchemy import func, inspect, select
+from sqlalchemy import func, inspect, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.html import sanitize_html
@@ -169,13 +169,43 @@ class EventService:
             .where(
                 Event.deleted_at.is_(None),
                 Event.is_active.is_(True),
-                Event.branch_id.in_([branch.id, None]),
+                # or_ with IS NULL, not `in_([branch.id, None])`: in SQL a NULL
+                # inside an IN list matches nothing, so the company-wide events
+                # this is meant to include were silently never found.
+                or_(Event.branch_id == branch.id, Event.branch_id.is_(None)),
             )
             .order_by(Event.event_start_at.is_(None), Event.event_start_at)
         )
         for event in candidates:
             if registration_block(event, now) is None:
                 return event
+        return None
+
+    async def open_tour_scope(
+        self, session: AsyncSession, now: datetime
+    ) -> tuple[bool, set[int]]:
+        """Which branches have a tour event open, as
+        `(any_branch, branch_ids_with_their_own)`.
+
+        One query for every branch, rather than open_tour_event per branch: the
+        public branch list needs this for all of them at once, and a branch with no
+        open event has to be left off it -- being active and bookable is not enough
+        to accept a registration, and advertising one anyway sends guests to a page
+        that only says "not taking bookings right now".
+        """
+        candidates = await session.scalars(
+            select(Event).where(Event.deleted_at.is_(None), Event.is_active.is_(True))
+        )
+        any_branch = False
+        branch_ids: set[int] = set()
+        for event in candidates:
+            if registration_block(event, now) is not None:
+                continue
+            if event.branch_id is None:
+                any_branch = True
+            else:
+                branch_ids.add(event.branch_id)
+        return any_branch, branch_ids
         return None
 
     async def head_count(self, session: AsyncSession, event_id: int) -> int:
