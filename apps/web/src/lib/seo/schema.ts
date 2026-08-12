@@ -15,6 +15,7 @@
  */
 
 import type { ArticleDetail, VenueCard, VenueDetail } from '$lib/api';
+import { CONTACT_EMAIL } from '$lib/contact';
 import { localizeHref } from '$lib/paraglide/runtime';
 import { titleCase } from '$lib/utils';
 import { whatsappDisplay, whatsappNumber } from '$lib/whatsapp';
@@ -89,7 +90,7 @@ export function organization() {
       width: 129,
       height: 48
     },
-    email: 'hello@7magic.id',
+    email: CONTACT_EMAIL,
     telephone: whatsappDisplay,
     // Text is a valid areaServed value, and avoids asserting that Bali is a
     // city or that Singapore is one of ours to administer.

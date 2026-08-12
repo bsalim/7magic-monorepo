@@ -50,7 +50,7 @@ _BOOKABLE_ON_INSERT = False
 
 # The shared enquiry line. Per-branch numbers can be set in the CMS later; the
 # only other phone number in the repo is a placeholder, so no public_phone here.
-_PUBLIC_EMAIL = "hello@7magic.id"
+_PUBLIC_EMAIL = "7magicorganizer@gmail.com"
 _WHATSAPP = "+6289628614447"
 
 BRANCHES = [

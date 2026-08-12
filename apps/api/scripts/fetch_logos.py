@@ -13,7 +13,7 @@ import re
 import urllib.parse
 import urllib.request
 
-UA = "7magic-partner-logos/1.0 (https://7magicwedding.com; hello@7magic.id)"
+UA = "7magic-partner-logos/1.0 (https://7magicwedding.com; 7magicorganizer@gmail.com)"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logos")
 RAW = os.path.join(OUT, "raw")
 
