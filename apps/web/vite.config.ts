@@ -27,7 +27,19 @@ export default defineConfig({
       // cannot know them, so `localizeHref` on an article URL produces a
       // structurally valid path with the wrong segments. Anything that needs a
       // real cross-locale article URL uses the `alternates` map the API returns.
+      //
+      // A landing page whose Indonesian route name is an Indonesian phrase needs
+      // an entry of its own, otherwise the catch-all serves it as
+      // /en/perjanjian-pranikah -- an English page at a URL an English speaker
+      // cannot read, and one that ranks for nothing they would search.
       urlPatterns: [
+        {
+          pattern: '/perjanjian-pranikah',
+          localized: [
+            ['en', '/en/prenuptial-agreement'],
+            ['id', '/perjanjian-pranikah']
+          ]
+        },
         {
           pattern: '/artikel',
           localized: [
