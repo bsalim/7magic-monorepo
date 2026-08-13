@@ -13,6 +13,9 @@ export type TourBranch = {
   whatsapp_number: string | null;
 };
 
+/** A venue the tour form can suggest, as `/api/v1/public/tour` returns it. */
+export type TourVenue = { id: number; name: string; city: string };
+
 /**
  * The branches a visitor can actually book, which is the API's judgement: it
  * returns only active, bookable ones.
