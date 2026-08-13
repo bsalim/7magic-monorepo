@@ -160,6 +160,7 @@
       <Table.Row>
         <Table.Head>Guest</Table.Head>
         <Table.Head>Branch</Table.Head>
+        <Table.Head>Venue</Table.Head>
         <Table.Head>Visit</Table.Head>
         <Table.Head class="text-right">Party</Table.Head>
         <Table.Head>Status</Table.Head>
@@ -175,6 +176,14 @@
             <div class="text-xs text-muted-foreground">{registration.email}</div>
           </Table.Cell>
           <Table.Cell>{registration.branch_name ?? '—'}</Table.Cell>
+          <Table.Cell>
+            <div>{registration.venue_name ?? '—'}</div>
+            <!-- The city only when no catalogue row sits behind the name: it is how
+                 a staffer spots a venue we do not list yet. -->
+            {#if registration.city && !registration.venue_id}
+              <div class="text-xs text-muted-foreground">{registration.city}</div>
+            {/if}
+          </Table.Cell>
           <Table.Cell class="text-sm">
             {formatDate(registration.visit_date)}{registration.visit_slot
               ? ` · ${registration.visit_slot}`

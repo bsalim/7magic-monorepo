@@ -272,6 +272,11 @@ export type AdminRegistration = {
   event_name: string | null;
   branch_id: number | null;
   branch_name: string | null;
+  // The venue, named: the catalogue row when venue_id is set, the guest's own
+  // words otherwise. The tour network is wider than the published catalogue.
+  venue_id: number | null;
+  venue_name: string | null;
+  city: string | null;
   guest_name: string;
   email: string;
   mobile: string | null;
