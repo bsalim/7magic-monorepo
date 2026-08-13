@@ -39,7 +39,11 @@
     { href: '/paket-sangjit', label: m.service_sangjit() },
     { href: '/artikel', label: m.nav_articles() },
     { href: '/our-vendors', label: m.nav_vendors() },
-    { href: '/about', label: m.nav_about() }
+    { href: '/about', label: m.nav_about() },
+    // In `links` rather than its own markup, which is what puts it in the mobile
+    // sheet for free -- the sheet renders this same array. Untranslated on
+    // purpose: the brand uses the English phrase in both locales.
+    { href: '/tour', label: m.nav_free_venue_tour() }
   ]);
 
   // The standalone acquisition landing pages, grouped behind dropdowns rather

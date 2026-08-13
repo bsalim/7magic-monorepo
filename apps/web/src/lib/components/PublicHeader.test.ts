@@ -16,7 +16,13 @@ afterEach(() => scrollTo(0));
 const navLinks = () =>
   screen.getAllByRole('link').filter((a) => {
     const href = a.getAttribute('href');
-    return href === '/wedding-venue/search' || href === '/artikel' || href === '/our-vendors' || href === '/about';
+    return (
+      href === '/wedding-venue/search' ||
+      href === '/artikel' ||
+      href === '/our-vendors' ||
+      href === '/about' ||
+      href === '/tour'
+    );
   });
 
 describe('PublicHeader', () => {
@@ -66,6 +72,15 @@ describe('PublicHeader', () => {
     await scrollTo(400);
 
     expect(screen.getAllByAltText('7Magic Wedding')).toHaveLength(2);
+  });
+
+  // The label is deliberately untranslated: the brand uses the English phrase in
+  // both locales, so this asserts the words, not just the destination.
+  it('offers the free venue tour under its English label', () => {
+    render(PublicHeader);
+    const hrefs = navLinks().map((a) => a.getAttribute('href'));
+    expect(hrefs).toContain('/tour');
+    expect(screen.getAllByText('Free Venue Tour').length).toBeGreaterThan(0);
   });
 
   it('marks nothing active when the path matches no section', () => {
