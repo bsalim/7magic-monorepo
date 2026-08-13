@@ -101,6 +101,59 @@ def _closed_dates(branch: Branch, today: date) -> list[str]:
     return sorted(set(closed))
 
 
+@router.get("/tour")
+async def tour_form_payload(session: DbSession):
+    """Everything the branch-less form needs: what to suggest, what to route by,
+    and whether anyone is taking bookings at all."""
+    venues = await _tourable_venues(session)
+    any_branch, branch_ids = await event_service.open_tour_scope(session, datetime.now(UTC))
+    return {
+        "data": {
+            "venues": venues,
+            # Distinct, in the order the venue query already sorted them.
+            # dict.fromkeys rather than a set: the dropdown order has to be stable
+            # across requests.
+            "cities": list(dict.fromkeys(row["city"] for row in venues)),
+            "open": any_branch or bool(branch_ids),
+        }
+    }
+
+
+@router.post("/tour/register", status_code=status.HTTP_201_CREATED)
+async def register_without_a_branch(payload: PublicRegistration, session: DbSession):
+    """The nav entry point: the guest named a venue and a city, and the city is what
+    decides whose event and whose inbox this lead belongs to."""
+    now = datetime.now(UTC)
+    branch, event = await event_service.resolve_tour_target(session, payload.city, now)
+    if event is None:
+        return error_response(
+            status_code=status.HTTP_409_CONFLICT,
+            code="no_open_event",
+            message="We are not taking tour bookings right now.",
+        )
+
+    try:
+        registration = await event_service.register(
+            session, event=event, branch=branch, payload=payload, now=now, source="public"
+        )
+    except RegistrationBlocked as blocked:
+        code = 422 if blocked.code == "validation_error" else status.HTTP_409_CONFLICT
+        return error_response(status_code=code, code=blocked.code, message=blocked.message)
+
+    await _notify(event=event, registration=registration, branch=branch)
+
+    return {
+        "data": {
+            "id": registration.id,
+            "public_id": str(registration.public_id),
+            "party_size": registration.party_size,
+            "visit_date": registration.visit_date.isoformat() if registration.visit_date else None,
+            "visit_slot": registration.visit_slot,
+            "branch_name": branch.name if branch else None,
+        }
+    }
+
+
 @router.get("/tour/branches")
 async def list_tour_branches(session: DbSession):
     branches = await branch_service.list(session, active_only=True)
