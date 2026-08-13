@@ -143,7 +143,9 @@ def registration_confirmation(
     body = render_template(
         "Hi {first_name},\n\n"
         "We have received your booking for {event_name}.\n"
-        "Venue: {venue}\nDate: {visit_date}\nTime: {visit_slot}\nGuests: {party_size}\n\n"
+        # No time line: the public form offers a date and no slot, so this rendered
+        # an empty "Time:" on every booking. The next line is the promise anyway.
+        "Venue: {venue}\nDate: {visit_date}\nGuests: {party_size}\n\n"
         "{branch_name} will be in touch to confirm the time.\n\n"
         "See you soon!\nThe 7Magic team",
         replacements,
