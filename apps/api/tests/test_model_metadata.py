@@ -78,3 +78,17 @@ def test_user_role_auth_and_operational_models_exist() -> None:
     assert MediaAsset.__table__.c.owner_type.nullable is False
     assert AuditEvent.__table__.c.actor_id.foreign_keys
     assert ContactLead.__table__.c.source.nullable is False
+
+
+def test_event_registration_records_an_uncatalogued_venue() -> None:
+    """The network is wider than the published venue table, so a tour can be booked
+    at a venue with no row here. The typed name and the city are what the team gets
+    in that case, and the city is also what routes the lead to a branch."""
+    from app.domains.events.models import EventRegistration
+
+    columns = EventRegistration.__table__.columns
+
+    assert columns["venue_name"].nullable is True
+    assert columns["venue_name"].type.length == 300
+    assert columns["city"].nullable is True
+    assert columns["city"].type.length == 80

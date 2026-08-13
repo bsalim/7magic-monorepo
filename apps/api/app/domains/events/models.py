@@ -74,6 +74,14 @@ class EventRegistration(TimestampMixin, Base):
     venue_id: Mapped[int | None] = mapped_column(
         ForeignKey("venues.id", ondelete="SET NULL"), index=True
     )
+    # The venue as the guest typed it. Kept when it is not one of ours: the tour
+    # network is wider than the published catalogue, so a booking must not require
+    # a venues row. `venue_id` still wins when both are set.
+    venue_name: Mapped[str | None] = mapped_column(String(300))
+    # Where the tour happens. Stored alongside venue_id rather than derived from it,
+    # because it is what routes a branch-less booking to a branch and it has to
+    # survive the venue later being retired (venue_id is ON DELETE SET NULL).
+    city: Mapped[str | None] = mapped_column(String(80))
     guest_name: Mapped[str] = mapped_column(String(200), nullable=False)
     email: Mapped[str] = mapped_column(String(320), nullable=False, index=True)
     mobile: Mapped[str | None] = mapped_column(String(40))
