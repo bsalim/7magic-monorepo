@@ -39,12 +39,14 @@
     { href: '/paket-sangjit', label: m.service_sangjit() },
     { href: '/artikel', label: m.nav_articles() },
     { href: '/our-vendors', label: m.nav_vendors() },
-    { href: '/about', label: m.nav_about() },
-    // In `links` rather than its own markup, which is what puts it in the mobile
-    // sheet for free -- the sheet renders this same array. Untranslated on
-    // purpose: the brand uses the English phrase in both locales.
-    { href: '/tour', label: m.nav_free_venue_tour() }
+    { href: '/about', label: m.nav_about() }
   ]);
+
+  // Beside Kontak rather than in `links`: the brand row stays pinned on desktop,
+  // so the tour CTA is reachable at any scroll position instead of scrolling away
+  // with the nav row. Outline, not gold -- two gold buttons side by side split the
+  // eye, and Kontak is still the primary action.
+  const TOUR_HREF = '/tour';
 
   // The standalone acquisition landing pages, grouped behind dropdowns rather
   // than added as top-level links: it keeps the marketplace nav short, and it
@@ -104,6 +106,24 @@
   height constant means the scrolled state cannot feed back into the scroll
   position at all. Mobile keeps top-0, where there is no nav row to collapse to.
 -->
+<!-- One snippet for the pair, because it renders twice: once in the brand row and
+     again in the nav row once scrolled. Two copies drift. -->
+{#snippet actions()}
+  <LanguageSwitcher />
+  <Button
+    href={localizeHref(TOUR_HREF)}
+    variant="outline"
+    size="sm"
+    class="font-semibold"
+    aria-current={isActive(TOUR_HREF) ? 'page' : undefined}
+  >
+    {m.nav_free_venue_tour()}
+  </Button>
+  <Button variant="gold" size="sm" class="font-semibold" onclick={() => (consultOpen = true)}>
+    {m.nav_contact()}
+  </Button>
+{/snippet}
+
 <header
   class="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur md:-top-18"
 >
@@ -121,10 +141,7 @@
     </a>
 
     <div class="ml-auto hidden items-center gap-3 md:flex">
-      <LanguageSwitcher />
-      <Button variant="gold" size="sm" class="font-semibold" onclick={() => (consultOpen = true)}>
-        {m.nav_contact()}
-      </Button>
+      {@render actions()}
     </div>
 
     <div class="ml-auto md:hidden">
@@ -177,6 +194,18 @@
             {/each}
 
             <div class="mt-1"><LanguageSwitcher /></div>
+            <!-- Spelled out here rather than rendered from `links`: the tour CTA
+                 moved out of the nav row and into the actions pair, so the sheet no
+                 longer inherits it. -->
+            <Button
+              href={localizeHref(TOUR_HREF)}
+              variant="outline"
+              size="sm"
+              class="mt-2 font-semibold"
+              aria-current={isActive(TOUR_HREF) ? 'page' : undefined}
+            >
+              {m.nav_free_venue_tour()}
+            </Button>
             <Button
               variant="gold"
               size="sm"
@@ -277,10 +306,7 @@
 
     {#if scrolled}
       <div class="ml-auto flex items-center gap-3">
-        <LanguageSwitcher />
-        <Button variant="gold" size="sm" class="font-semibold" onclick={() => (consultOpen = true)}>
-          {m.nav_contact()}
-        </Button>
+        {@render actions()}
       </div>
     {/if}
   </div>

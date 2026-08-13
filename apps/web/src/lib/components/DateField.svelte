@@ -79,11 +79,16 @@
 <Popover.Root bind:open>
   <Popover.Trigger {id} {disabled}>
     {#snippet child({ props })}
+      <!-- rounded-md overrides the button base's rounded-full: this trigger stands
+           in for a text input and sits in a column of them, so it takes the input's
+           corner rather than the pill shape real buttons use. -->
       <Button
         {...props}
         type="button"
         variant="outline"
-        class={`${className} justify-start font-normal ${value ? '' : 'text-muted-foreground'}`}
+        class={`${className} justify-start rounded-md font-normal ${
+          value ? '' : 'text-muted-foreground'
+        }`}
       >
         <CalendarIcon class="size-4" />
         {value ? label(value) : placeholder}

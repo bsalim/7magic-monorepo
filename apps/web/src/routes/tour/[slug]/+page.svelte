@@ -21,7 +21,9 @@
 </script>
 
 <svelte:head>
-  <title>{`${m.tour_title()} · ${data.branch.name}`}</title>
+  <!-- tour_meta_title, not tour_title: the h1 is a full sentence, which would run
+       past what a title tag shows once the branch name is appended. -->
+  <title>{`${m.tour_meta_title()} · ${data.branch.name}`}</title>
   <meta name="description" content={m.tour_meta_description()} />
 </svelte:head>
 

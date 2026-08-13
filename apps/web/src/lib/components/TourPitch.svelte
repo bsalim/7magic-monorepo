@@ -17,8 +17,7 @@
 </script>
 
 <section class="mt-6">
-  <h2 class="text-xl font-semibold">{m.tour_pitch_title()}</h2>
-  <p class="mt-3 max-w-2xl text-muted-foreground">
+  <p class="max-w-2xl text-muted-foreground">
     {venueName ? m.tour_pitch_venue({ venue: venueName }) : m.tour_pitch_body()}
   </p>
 
