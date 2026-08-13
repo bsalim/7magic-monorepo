@@ -94,9 +94,21 @@ export const actions: Actions = {
 
     // The API's error code drives which translated message the page shows, so the
     // copy stays in the message catalogue rather than in the server response.
-    const payload = (await response.json().catch(() => ({}))) as {
-      error?: { code?: string };
-    };
+    const body = await response.text();
+    let payload: { error?: { code?: string } } = {};
+    try {
+      payload = JSON.parse(body);
+    } catch {
+      // Not JSON at all -- a 500, or a proxy error page. There is no code to map,
+      // and the raw text is the only clue, which is what the log below carries.
+    }
+
+    // See the branch-less action: this path costs a lead and the guest only ever
+    // sees "coba lagi", so the status and body are the only record there is.
+    console.error(
+      `[tour] register failed ${response.status} (${params.slug}): ${body.slice(0, 500)}`
+    );
+
     return fail(response.status === 422 ? 422 : 409, {
       ok: false,
       code: payload.error?.code ?? 'generic'
