@@ -63,6 +63,16 @@ def default_template(kind: str) -> dict[str, str]:
     return dict(DEFAULT_TEMPLATES.get(kind, {"subject": "", "body": "{first_name}"}))
 
 
+def _venue_label(registration: EventRegistration | None) -> str:
+    """The venue, named. The catalogue row wins when there is one; otherwise the
+    guest's own words, because the tour network is wider than what we publish."""
+    if registration is None:
+        return ""
+    if registration.venue is not None:
+        return registration.venue.name
+    return registration.venue_name or ""
+
+
 def build_replacements(
     *, event: Event, registration: EventRegistration | None, branch_name: str | None
 ) -> dict[str, str]:
@@ -76,7 +86,10 @@ def build_replacements(
         if registration and registration.visit_date
         else "",
         "visit_slot": (registration.visit_slot if registration else "") or "",
-        "venue": event.venue or "",
+        # The registration's venue, not the event's: a venue tour visits the venue
+        # the guest chose. event.venue is only a label on the event itself, and
+        # stands in when the registration names nothing.
+        "venue": _venue_label(registration) or event.venue or "",
         "branch_name": branch_name or "",
         "party_size": str(registration.party_size) if registration else "",
     }
@@ -130,8 +143,8 @@ def registration_confirmation(
     body = render_template(
         "Hi {first_name},\n\n"
         "We have received your booking for {event_name}.\n"
-        "Date: {visit_date}\nTime: {visit_slot}\nGuests: {party_size}\n"
-        "Location: {branch_name}\n\n"
+        "Venue: {venue}\nDate: {visit_date}\nTime: {visit_slot}\nGuests: {party_size}\n\n"
+        "{branch_name} will be in touch to confirm the time.\n\n"
         "See you soon!\nThe 7Magic team",
         replacements,
     )
@@ -146,6 +159,8 @@ def branch_alert(
         f"Name: {registration.guest_name}",
         f"Email: {registration.email}",
         f"Mobile: {registration.mobile or '-'}",
+        f"Venue: {_venue_label(registration) or '-'}",
+        f"City: {registration.city or '-'}",
         f"Guests: {registration.party_size}",
         f"Date: {registration.visit_date.isoformat() if registration.visit_date else '-'}",
         f"Time: {registration.visit_slot or '-'}",

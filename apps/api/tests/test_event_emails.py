@@ -11,9 +11,11 @@ from app import models  # noqa: F401
 from app.core.database import Base
 from app.domains.branches.models import Branch, BranchSettings
 from app.domains.events.emails import (
+    branch_alert,
     build_replacements,
     default_template,
     notification_recipients,
+    registration_confirmation,
     render_template,
 )
 from app.domains.events.models import Event, EventRegistration
@@ -93,3 +95,54 @@ async def test_a_branch_with_no_recipients_yields_an_empty_list(session) -> None
     branch = await session.scalar(select(Branch).where(Branch.slug == "bali"))
 
     assert notification_recipients(branch) == []
+
+
+def test_the_confirmation_names_the_venue_as_the_location() -> None:
+    """A venue tour visits the venue. This read "Location: {branch_name}", which
+    sent couples to the office instead of to the place they asked to see."""
+    event = Event(name="Book a Tour", venue="a label on the event")
+    registration = EventRegistration(
+        guest_name="Rina Putri",
+        email="rina@example.test",
+        party_size=2,
+        venue_name="Villa Uluwatu Cliffside",
+    )
+
+    _subject, body = registration_confirmation(
+        event=event, registration=registration, branch=Branch(name="7Magic Jakarta")
+    )
+
+    assert "Venue: Villa Uluwatu Cliffside" in body
+    assert "Location: 7Magic Jakarta" not in body
+
+
+def test_the_event_label_is_only_a_fallback_for_the_venue() -> None:
+    """event.venue is a label on the event itself, not where this guest is going.
+    It stands in only when the registration names nothing."""
+    event = Event(name="Open House", venue="7Magic Jakarta")
+    registration = EventRegistration(guest_name="Budi", email="budi@example.test", party_size=1)
+
+    replacements = build_replacements(
+        event=event, registration=registration, branch_name="7Magic Jakarta"
+    )
+
+    assert replacements["venue"] == "7Magic Jakarta"
+
+
+def test_the_branch_alert_names_the_venue_and_city() -> None:
+    event = Event(name="Book a Tour")
+    registration = EventRegistration(
+        guest_name="Budi",
+        email="budi@example.test",
+        party_size=2,
+        venue_name="Some Hall",
+        city="bandung",
+        source="public",
+    )
+
+    _subject, body = branch_alert(
+        event=event, registration=registration, branch=Branch(name="7Magic Jakarta")
+    )
+
+    assert "Venue: Some Hall" in body
+    assert "City: bandung" in body
