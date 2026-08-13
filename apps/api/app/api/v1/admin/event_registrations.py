@@ -40,6 +40,7 @@ CSV_HEADER = [
     "Branch",
     "Event",
     "Venue",
+    "City",
     "Name",
     "Email",
     "Mobile",
@@ -72,8 +73,11 @@ def _payload(registration: EventRegistration) -> dict:
     response["branch_id"] = event.branch_id if event else None
     response["branch_name"] = event.branch.name if event and event.branch else None
     # The venue the guest is touring, which for a venue tour is the destination --
-    # the branch is only who handles it.
-    response["venue_name"] = registration.venue.name if registration.venue else None
+    # the branch is only who handles it. The catalogue row when there is one, the
+    # guest's own words otherwise: the network is wider than what we publish.
+    response["venue_name"] = (
+        registration.venue.name if registration.venue else registration.venue_name
+    )
     return response
 
 
@@ -119,7 +123,8 @@ async def export_registrations(
             [
                 event.branch.name if event and event.branch else "",
                 event.name if event else "",
-                row.venue.name if row.venue else "",
+                row.venue.name if row.venue else (row.venue_name or ""),
+                row.city or "",
                 row.guest_name,
                 row.email,
                 row.mobile or "",

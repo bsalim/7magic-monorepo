@@ -100,6 +100,7 @@ def test_export_returns_csv_with_a_header_row(api) -> None:
         "Branch",
         "Event",
         "Venue",
+        "City",
         "Name",
         "Email",
         "Mobile",
@@ -111,4 +112,34 @@ def test_export_returns_csv_with_a_header_row(api) -> None:
         "Source",
         "Registered at",
     ]
-    assert rows[1][4] == "rina@example.test"
+    # By header name, not a fixed index: inserting a column ahead of it should fail
+    # on the header assertion above, not silently here.
+    assert rows[1][rows[0].index("Email")] == "rina@example.test"
+
+
+def test_an_uncatalogued_venue_still_shows_a_name(api) -> None:
+    """venue_name means "the venue, named" -- the catalogue row when there is one,
+    the guest's own words otherwise. A blank column would read as "no venue chosen"
+    for a booking that named one perfectly clearly."""
+    branch = _branch(api)
+    event = _event(api, branch["id"])
+    api.client.post(
+        f"/api/v1/public/tour/branches/{branch['slug']}/register",
+        json={
+            "name": "Rina",
+            "email": "rina@example.test",
+            "venue_name": "Villa Uluwatu Cliffside",
+            "city": "bali",
+        },
+    )
+
+    rows = api.client.get(f"/api/v1/admin/event-registrations?event_id={event['id']}").json()[
+        "items"
+    ]
+
+    assert rows[0]["venue_name"] == "Villa Uluwatu Cliffside"
+    assert rows[0]["city"] == "bali"
+
+    export = api.client.get(f"/api/v1/admin/event-registrations/export?event_id={event['id']}")
+    assert "Villa Uluwatu Cliffside" in export.text
+    assert "bali" in export.text
