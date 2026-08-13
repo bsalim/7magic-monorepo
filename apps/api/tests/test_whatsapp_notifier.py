@@ -22,6 +22,7 @@ from app.services.whatsapp import (
     WhatsAppNotifier,
     build_parameters,
     join_contact,
+    parameter_names,
     resolve_base_url,
 )
 
@@ -38,6 +39,7 @@ def make_settings(**overrides: Any) -> Settings:
         "bird_lead_template": "lead_alert",
         "bird_lead_template_language": "id",
         "bird_lead_template_slots": 4,
+        "bird_lead_template_params": "",
         "bird_base_url": None,
     }
     base.update(overrides)
@@ -287,3 +289,45 @@ async def test_slot_count_is_honoured_on_the_wire(
         "Ayu",
         "+628123 / ritz-carlton / Tanya harga",
     ]
+
+
+@pytest.mark.anyio
+async def test_named_parameters_are_sent_when_the_template_declares_them(
+    transport: RecordingTransport,
+) -> None:
+    """Bird rejects the entire send when the shape does not match, and its system
+    templates use named parameters -- bird_booking_confirmation declares
+    "{{count}}" and "{{date}}". Sending those positionally fails with E15003."""
+    notifier = WhatsAppNotifier(
+        make_settings(bird_lead_template_slots=2, bird_lead_template_params="count,date")
+    )
+
+    await notifier.send_lead_alert(name="Rina", contact="+62811", page="Villa", message="bali")
+
+    parameters = json.loads(transport.request.content)["template"]["components"][0]["parameters"]
+    assert [p["name"] for p in parameters] == ["count", "date"]
+    assert parameters[0]["text"] == "Rina"
+
+
+@pytest.mark.anyio
+async def test_parameters_stay_positional_when_no_names_are_configured(
+    transport: RecordingTransport,
+) -> None:
+    """A purpose-built template with positional slots must not grow names it never
+    declared -- that mismatch is rejected just as hard as the missing one."""
+    notifier = WhatsAppNotifier(make_settings(bird_lead_template_params=""))
+
+    await notifier.send_lead_alert(name="Rina", contact="+62811", page="Villa", message="bali")
+
+    parameters = json.loads(transport.request.content)["template"]["components"][0]["parameters"]
+    assert all("name" not in p for p in parameters)
+
+
+def test_extra_names_beyond_the_slot_count_are_ignored() -> None:
+    """The slot count is what decides how many parameters go out; the names only
+    label them. A stale, longer list must not silently add a slot."""
+    assert parameter_names(make_settings(bird_lead_template_params="a, b , c"), slots=2) == [
+        "a",
+        "b",
+    ]
+    assert parameter_names(make_settings(bird_lead_template_params=""), slots=2) == []

@@ -289,3 +289,96 @@ def test_booking_without_a_branch_is_a_conflict_when_nothing_is_open(api) -> Non
 
     assert response.status_code == 409
     assert response.json()["error"]["code"] == "no_open_event"
+
+
+def _capture_whatsapp(monkeypatch) -> list[dict]:
+    """Record what the tour path would send, without touching Bird."""
+    from app.services.whatsapp import WhatsAppNotifier
+
+    sent: list[dict] = []
+
+    async def fake(self, **kwargs) -> bool:
+        sent.append(kwargs)
+        return True
+
+    monkeypatch.setattr(WhatsAppNotifier, "send_lead_alert", fake)
+    return sent
+
+
+def test_a_tour_booking_alerts_the_team_on_whatsapp(api, monkeypatch) -> None:
+    """The team works out of WhatsApp, so a lead that only lands in an inbox is a
+    lead nobody sees for hours."""
+    sent = _capture_whatsapp(monkeypatch)
+    branch = _branch(api)
+    _open_event(api, branch["id"])
+
+    api.client.post(
+        "/api/v1/public/tour/register",
+        json={
+            "name": "Rina Putri",
+            "email": "rina@example.com",
+            "mobile": "+628111111111",
+            "venue_name": "Villa Uluwatu Cliffside",
+            "city": "bali",
+            "visit_date": _next_weekday(),
+            "party_size": 4,
+        },
+    )
+
+    assert len(sent) == 1
+    alert = sent[0]
+    assert alert["name"] == "Rina Putri"
+    assert "+628111111111" in alert["contact"]
+    assert "rina@example.com" in alert["contact"]
+    # The venue is the destination, so it is what the team needs to read first.
+    assert alert["page"] == "Villa Uluwatu Cliffside"
+    assert "bali" in alert["message"]
+    assert "4" in alert["message"]
+
+
+def test_the_branch_scoped_booking_alerts_whatsapp_too(api, monkeypatch) -> None:
+    """Both entry points are the same lead. Wiring only one of them would drop
+    every booking that came from a branch link."""
+    sent = _capture_whatsapp(monkeypatch)
+    branch = _branch(api)
+    _open_event(api, branch["id"])
+
+    api.client.post(
+        f"/api/v1/public/tour/branches/{branch['slug']}/register",
+        json={
+            "name": "Budi",
+            "email": "budi@example.com",
+            "venue_name": "Hotel Mulia",
+            "city": "jakarta",
+            "visit_date": _next_weekday(),
+        },
+    )
+
+    assert len(sent) == 1
+    assert sent[0]["page"] == "Hotel Mulia"
+
+
+def test_a_failed_whatsapp_send_never_costs_the_booking(api, monkeypatch) -> None:
+    """The row is already committed by the time the alert is attempted, so a Bird
+    outage must not turn a saved lead into a 500."""
+    from app.services.whatsapp import WhatsAppNotifier
+
+    async def boom(self, **kwargs) -> bool:
+        raise RuntimeError("bird is down")
+
+    monkeypatch.setattr(WhatsAppNotifier, "send_lead_alert", boom)
+    branch = _branch(api)
+    _open_event(api, branch["id"])
+
+    response = api.client.post(
+        "/api/v1/public/tour/register",
+        json={
+            "name": "Andi",
+            "email": "andi@example.com",
+            "venue_name": "Some Hall",
+            "city": "jakarta",
+            "visit_date": _next_weekday(),
+        },
+    )
+
+    assert response.status_code == 201

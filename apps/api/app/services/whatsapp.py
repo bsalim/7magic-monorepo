@@ -75,6 +75,20 @@ def build_parameters(
     return [_slot(f) for f in head] + [_slot(join_contact(*tail))]
 
 
+def parameter_names(settings: Settings, *, slots: int) -> list[str]:
+    """The names the configured template declares, in order, or empty for a
+    positional template.
+
+    Bird's system templates are named -- `bird_booking_confirmation` renders
+    "Your reservation for {{count}} on {{date}}" -- and sending those positionally
+    is rejected outright as E15003 WhatsAppTemplateParameterMismatch. Trimmed to
+    `slots` because the slot count is what decides how many parameters go out; a
+    stale, longer list must not silently add one.
+    """
+    names = [part.strip() for part in (settings.bird_lead_template_params or "").split(",")]
+    return [name for name in names if name][:slots]
+
+
 def resolve_base_url(settings: Settings) -> str | None:
     """Bird derives the host from the key itself (`bk_{region}_{token}`), so a
     key from another region needs no config change. An override exists mainly so
@@ -125,17 +139,22 @@ class WhatsAppNotifier:
             message=message,
             slots=self._settings.bird_lead_template_slots,
         )
+        # Named only when the template declares names: adding a name a positional
+        # template never declared is rejected just as hard as omitting a required one.
+        names = parameter_names(self._settings, slots=len(parameters))
+        body_parameters: list[dict[str, str]] = []
+        for index, value in enumerate(parameters):
+            entry = {"type": "text", "text": value}
+            if index < len(names):
+                entry["name"] = names[index]
+            body_parameters.append(entry)
+
         payload: dict[str, Any] = {
             "to": self._settings.whatsapp_team_number,
             "template": {
                 "slug": self._settings.bird_lead_template,
                 "language": self._settings.bird_lead_template_language,
-                "components": [
-                    {
-                        "type": "body",
-                        "parameters": [{"type": "text", "text": p} for p in parameters],
-                    }
-                ],
+                "components": [{"type": "body", "parameters": body_parameters}],
             },
         }
 

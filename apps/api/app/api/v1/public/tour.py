@@ -10,6 +10,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import get_settings
 from app.core.database import get_db_session
 from app.core.errors import error_response
 from app.domains.branches.models import Branch
@@ -18,6 +19,7 @@ from app.domains.events.emails import (
     branch_alert,
     notification_recipients,
     registration_confirmation,
+    venue_label,
 )
 from app.domains.events.models import Event, EventRegistration
 from app.domains.events.schemas import PublicRegistration
@@ -28,6 +30,7 @@ from app.domains.events.service import (
 )
 from app.models.venue import Venue
 from app.services.email import send_email
+from app.services.whatsapp import WhatsAppNotifier, join_contact
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -269,6 +272,8 @@ async def _notify(*, event: Event, registration: EventRegistration, branch: Bran
     except Exception:  # noqa: BLE001 -- logged, never re-raised
         logger.exception("tour confirmation email failed for registration %s", registration.id)
 
+    await _whatsapp_alert(registration=registration, branch=branch)
+
     recipients = notification_recipients(branch)
     if not recipients:
         return
@@ -279,3 +284,30 @@ async def _notify(*, event: Event, registration: EventRegistration, branch: Bran
         await send_email(to=recipients, subject=alert_subject, text=alert_body)
     except Exception:  # noqa: BLE001
         logger.exception("branch alert email failed for registration %s", registration.id)
+
+
+async def _whatsapp_alert(*, registration: EventRegistration, branch: Branch | None) -> None:
+    """The team works out of WhatsApp, so an emailed lead is one nobody reads for
+    hours. Sent to the same team number the contact forms already alert.
+
+    Best-effort like the emails above, and for the same reason: the registration is
+    committed before this runs, so a Bird outage must cost a notification rather
+    than the lead.
+    """
+    facts = [
+        f"tour {registration.city or '-'}",
+        registration.visit_date.isoformat() if registration.visit_date else "no date",
+        f"{registration.party_size} guests",
+        branch.name if branch else "-",
+    ]
+    try:
+        await WhatsAppNotifier(get_settings()).send_lead_alert(
+            name=registration.guest_name,
+            contact=join_contact(registration.mobile, registration.email),
+            # The venue, not the page path: a venue tour visits the venue, and that
+            # is the first thing the team needs to read.
+            page=venue_label(registration) or "venue not named",
+            message=join_contact(*facts),
+        )
+    except Exception:  # noqa: BLE001 -- logged, never re-raised
+        logger.exception("whatsapp alert failed for registration %s", registration.id)

@@ -116,6 +116,16 @@ class Settings(BaseSettings):
             "bird_lead_template_slots", "BIRD_LEAD_TEMPLATE_SLOTS"
         ),
     )
+    # The names those slots are declared under, comma-separated and in order, for a
+    # template that uses named parameters ("{{count}}") rather than positional ones.
+    # Bird rejects the whole send when the shape does not match, so a template like
+    # bird_booking_confirmation needs "count,date" here. Empty means positional.
+    bird_lead_template_params: str = Field(
+        default="",
+        validation_alias=AliasChoices(
+            "bird_lead_template_params", "BIRD_LEAD_TEMPLATE_PARAMS"
+        ),
+    )
     # Signs the inbound webhook; unrelated to the API key used for sending.
     bird_webhook_signing_key: str | None = Field(
         default=None,

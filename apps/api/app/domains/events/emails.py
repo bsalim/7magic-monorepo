@@ -63,7 +63,7 @@ def default_template(kind: str) -> dict[str, str]:
     return dict(DEFAULT_TEMPLATES.get(kind, {"subject": "", "body": "{first_name}"}))
 
 
-def _venue_label(registration: EventRegistration | None) -> str:
+def venue_label(registration: EventRegistration | None) -> str:
     """The venue, named. The catalogue row wins when there is one; otherwise the
     guest's own words, because the tour network is wider than what we publish."""
     if registration is None:
@@ -89,7 +89,7 @@ def build_replacements(
         # The registration's venue, not the event's: a venue tour visits the venue
         # the guest chose. event.venue is only a label on the event itself, and
         # stands in when the registration names nothing.
-        "venue": _venue_label(registration) or event.venue or "",
+        "venue": venue_label(registration) or event.venue or "",
         "branch_name": branch_name or "",
         "party_size": str(registration.party_size) if registration else "",
     }
@@ -161,7 +161,7 @@ def branch_alert(
         f"Name: {registration.guest_name}",
         f"Email: {registration.email}",
         f"Mobile: {registration.mobile or '-'}",
-        f"Venue: {_venue_label(registration) or '-'}",
+        f"Venue: {venue_label(registration) or '-'}",
         f"City: {registration.city or '-'}",
         f"Guests: {registration.party_size}",
         f"Date: {registration.visit_date.isoformat() if registration.visit_date else '-'}",
