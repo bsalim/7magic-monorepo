@@ -57,6 +57,21 @@ async def _branch_with_event(session, **event_overrides) -> tuple[Branch, Event]
     return branch, event
 
 
+def _venue(**overrides) -> Venue:
+    """`address` and `district` are the only venue columns without a default, so
+    they are all a test row needs beyond what it is actually asserting on."""
+    fields = {
+        "name": "Hotel Mulia",
+        "slug": "hotel-mulia",
+        "address": "Jl. Asia Afrika",
+        "district": "Senayan",
+        "city": "jakarta",
+        "status": "active",
+    }
+    fields.update(overrides)
+    return Venue(**fields)
+
+
 def _registration(**overrides) -> PublicRegistration:
     data = {
         "name": "Rina",
@@ -303,3 +318,69 @@ async def test_a_cancelled_registration_frees_the_email_and_the_seat(session) ->
     )
 
     assert isinstance(again, EventRegistration)
+
+
+@pytest.mark.asyncio
+async def test_register_keeps_a_typed_venue_name(session) -> None:
+    """A venue we do not publish is still bookable, and the typed name is all the
+    team gets."""
+    branch, event = await _branch_with_event(session)
+
+    registration = await event_service.register(
+        session,
+        event=event,
+        branch=branch,
+        payload=_registration(venue_name="Villa Uluwatu Cliffside", city="Bali"),
+        now=NOW,
+        source="public",
+    )
+
+    assert registration.venue_name == "Villa Uluwatu Cliffside"
+    # Lowercased on write: it is matched against branch.city, which is a slug-ish
+    # lowercase value on the row.
+    assert registration.city == "bali"
+    assert registration.venue_id is None
+
+
+@pytest.mark.asyncio
+async def test_register_links_a_typed_name_that_matches_a_catalogued_venue(session) -> None:
+    """Typed by hand rather than picked from the suggestions, but it is one of ours
+    -- so the FK is linked and the CMS can filter on it."""
+    branch, event = await _branch_with_event(session)
+    venue = _venue(name="The Ritz-Carlton Pacific Place", slug="ritz-carlton-pacific-place")
+    session.add(venue)
+    await session.commit()
+
+    registration = await event_service.register(
+        session,
+        event=event,
+        branch=branch,
+        # Different case, same venue.
+        payload=_registration(venue_name="the ritz-carlton pacific place", city="jakarta"),
+        now=NOW,
+        source="public",
+    )
+
+    assert registration.venue_id == venue.id
+    assert registration.venue_name == "the ritz-carlton pacific place"
+
+
+@pytest.mark.asyncio
+async def test_a_draft_venue_is_not_matched_by_name(session) -> None:
+    """Only active venues are suggested, so only active venues earn the FK. Linking
+    a draft row would surface it in the CMS as though it were published."""
+    branch, event = await _branch_with_event(session)
+    session.add(_venue(name="Secret Villa", slug="secret-villa", city="bali", status="draft"))
+    await session.commit()
+
+    registration = await event_service.register(
+        session,
+        event=event,
+        branch=branch,
+        payload=_registration(venue_name="Secret Villa", city="bali"),
+        now=NOW,
+        source="public",
+    )
+
+    assert registration.venue_id is None
+    assert registration.venue_name == "Secret Villa"

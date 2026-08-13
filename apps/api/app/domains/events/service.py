@@ -19,6 +19,7 @@ from app.domains.events.schemas import (
     PublicRegistration,
     RegistrationUpdate,
 )
+from app.models.venue import Venue
 
 # A registration in one of these states no longer holds a seat or an email slot.
 RELEASED_STATUSES = ("cancelled",)
@@ -238,9 +239,25 @@ class EventService:
             if taken + heads > event.capacity:
                 raise RegistrationBlocked("event_full", "This event is fully booked.")
 
+        # A name typed by hand that happens to be one of ours still earns the FK:
+        # the couple should not lose the catalogue link for not using the
+        # suggestions. Active only, because that is all the form ever suggests.
+        venue_id = payload.venue_id
+        typed_name = (payload.venue_name or "").strip()
+        if venue_id is None and typed_name:
+            venue_id = await session.scalar(
+                select(Venue.id).where(
+                    func.lower(Venue.name) == typed_name.lower(), Venue.status == "active"
+                )
+            )
+
         registration = EventRegistration(
             event_id=event.id,
-            venue_id=payload.venue_id,
+            venue_id=venue_id,
+            venue_name=typed_name or None,
+            # Lowercased on write: it is compared against branch.city, which is a
+            # slug-ish lowercase value on the row.
+            city=(payload.city or "").strip().lower() or None,
             guest_name=payload.name.strip(),
             email=email,
             mobile=payload.mobile,

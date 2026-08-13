@@ -75,6 +75,11 @@ class PublicRegistration(EventSchema):
     # The venue the guest wants to tour. A venue tour visits a venue, not the
     # branch office, so this is the destination.
     venue_id: int | None = None
+    # The venue as typed, for one we do not publish. Sent alongside venue_id, never
+    # instead of it: the form fills venue_id in too when a suggestion was picked.
+    venue_name: str | None = Field(default=None, max_length=300)
+    # Routes the booking to a branch when the URL carries no slug.
+    city: str | None = Field(default=None, max_length=80)
     visit_date: date | None = None
     visit_slot: str | None = Field(default=None, max_length=40)
     # Total head count including the person booking, which is what the team needs
@@ -101,6 +106,7 @@ class RegistrationResponse(EventSchema):
     branch_name: str | None = None
     venue_id: int | None = None
     venue_name: str | None = None
+    city: str | None = None
     guest_name: str
     email: str
     mobile: str | None = None
