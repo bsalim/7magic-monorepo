@@ -41,8 +41,19 @@ export const load: PageServerLoad = async ({ fetch, params, url }) => {
       fetch
     );
     // Carried from a venue's own page, so arriving from "book a tour here" lands
-    // with that venue already chosen.
-    return { ...data.data, preselectedVenueId: url.searchParams.get('venue') ?? '' };
+    // with that venue already chosen. Resolved against the catalogue rather than
+    // trusted: an unknown id falls through to the normal fields.
+    const requested = url.searchParams.get('venue');
+    return {
+      ...data.data,
+      // Distinct venue cities, so this page offers the same list as the generic
+      // one. The branch's own city is not it: the venue may well be elsewhere,
+      // since the branch handles the booking rather than hosting it.
+      cities: [...new Set(data.data.venues.map((venue) => venue.city))].sort(),
+      lockedVenue: requested
+        ? (data.data.venues.find((venue) => String(venue.id) === requested) ?? null)
+        : null
+    };
   } catch {
     throw error(404, 'Branch not found');
   }
@@ -65,6 +76,8 @@ export const actions: Actions = {
           email: String(form.get('email') ?? '').trim(),
           mobile: String(form.get('mobile') ?? '').trim() || null,
           venue_id: venueId ? Number(venueId) : null,
+          venue_name: String(form.get('venue_name') ?? '').trim() || null,
+          city: String(form.get('city') ?? '').trim() || null,
           visit_date: String(form.get('visit_date') ?? '') || null,
           // Clamped rather than trusted: the input has min/max, but a hand-rolled
           // POST does not have to honour them.

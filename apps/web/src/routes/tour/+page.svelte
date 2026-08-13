@@ -1,24 +1,23 @@
 <script lang="ts">
-  import MapPinIcon from '@lucide/svelte/icons/map-pin';
-
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
-  import { Button } from '$lib/components/ui/button';
-  import * as Card from '$lib/components/ui/card';
+  import TourForm from '$lib/components/TourForm.svelte';
+  import TourPitch from '$lib/components/TourPitch.svelte';
   import * as m from '$lib/paraglide/messages';
   import { localizeHref } from '$lib/paraglide/runtime';
-  import { page } from '$app/state';
 
-  import type { PageData } from './$types';
+  import type { ActionData, PageData } from './$types';
 
-  let { data }: { data: PageData } = $props();
+  let { data, form }: { data: PageData; form: ActionData } = $props();
 
-  // A venue chosen on its own page rides through the branch picker, so the form
-  // opens with it already selected.
-  const venueParam = $derived(page.url.searchParams.get('venue'));
+  const ERROR_MESSAGES: Record<string, () => string> = {
+    already_registered: m.tour_error_already,
+    event_full: m.tour_error_full
+  };
 
-  const bookHref = (slug: string) =>
-    localizeHref(`/tour/${slug}${venueParam ? `?venue=${venueParam}` : ''}`);
+  const errorMessage = $derived(
+    form && form.ok === false ? (ERROR_MESSAGES[form.code] ?? m.tour_error_generic)() : ''
+  );
 </script>
 
 <svelte:head>
@@ -28,31 +27,28 @@
 
 <PublicHeader />
 
-<main class="mx-auto w-full max-w-5xl px-4 py-12">
+<main class="mx-auto w-full max-w-3xl px-4 py-12">
+  <!-- No branch picker: the tour visits the venue, so which office handles the
+       booking is our problem to solve, not a question to put to the guest. -->
   <h1 class="text-3xl font-semibold">{m.tour_title()}</h1>
-  <p class="mt-3 max-w-2xl text-muted-foreground">{m.tour_intro()}</p>
 
-  <h2 class="mt-10 mb-4 text-lg font-medium">{m.tour_branch_pick()}</h2>
+  <TourPitch venueName={data.lockedVenue?.name ?? null} />
 
-  {#if data.branches.length === 0}
-    <p class="text-muted-foreground">{m.tour_empty()}</p>
+  {#if form?.ok}
+    <p class="mt-8 rounded-xl border border-border/60 p-4">{m.tour_success()}</p>
+  {:else if !data.open}
+    <p class="mt-8 rounded-xl border border-border/60 p-4">{m.tour_closed()}</p>
   {:else}
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {#each data.branches as branch (branch.id)}
-        <Card.Root>
-          <Card.Header>
-            <Card.Title>{branch.name}</Card.Title>
-            <Card.Description class="flex items-center gap-1">
-              <MapPinIcon class="size-4" />
-              {branch.city}
-            </Card.Description>
-          </Card.Header>
-          <Card.Footer>
-            <Button href={bookHref(branch.slug)}>{m.tour_branch_pick()}</Button>
-          </Card.Footer>
-        </Card.Root>
-      {/each}
-    </div>
+    {#if errorMessage}
+      <p class="mt-6 text-sm text-destructive">{errorMessage}</p>
+    {/if}
+
+    <TourForm
+      venues={data.venues}
+      cities={data.cities}
+      lockedVenue={data.lockedVenue}
+      changeVenueHref={data.lockedVenue ? localizeHref('/tour') : null}
+    />
   {/if}
 </main>
 
