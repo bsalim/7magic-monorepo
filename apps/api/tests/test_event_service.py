@@ -384,3 +384,92 @@ async def test_a_draft_venue_is_not_matched_by_name(session) -> None:
 
     assert registration.venue_id is None
     assert registration.venue_name == "Secret Villa"
+
+
+@pytest.mark.asyncio
+async def test_a_city_picks_the_branch_that_serves_it(session) -> None:
+    jakarta, _ = await _branch_with_event(session)
+    bali = Branch(slug="bali", name="7Magic Bali", city="bali", timezone="Asia/Makassar")
+    session.add(bali)
+    await session.flush()
+    session.add(
+        Event(
+            branch_id=bali.id,
+            name="Book a Tour Bali",
+            registration_opens_at=NOW - timedelta(days=7),
+            registration_closes_at=NOW + timedelta(days=7),
+        )
+    )
+    await session.commit()
+
+    branch, event = await event_service.resolve_tour_target(session, "bali", NOW)
+
+    assert branch is not None
+    assert branch.slug == "bali"
+    assert event is not None
+    assert event.branch_id == bali.id
+
+
+@pytest.mark.asyncio
+async def test_a_city_with_no_branch_still_lands_on_an_event(session) -> None:
+    """Most cities have no branch of their own today. The booking still has to go
+    somewhere, and the branch it names is who gets the alert -- a company-wide event
+    has branch_id NULL, and notification_recipients(None) is empty."""
+    jakarta, _ = await _branch_with_event(session)
+
+    branch, event = await event_service.resolve_tour_target(session, "bandung", NOW)
+
+    assert event is not None
+    assert branch is not None
+    assert branch.id == jakarta.id
+
+
+@pytest.mark.asyncio
+async def test_the_default_branch_takes_a_city_nobody_serves(session) -> None:
+    """Not merely the lowest id: whoever the CMS marked as the default is who the
+    org-wide leads belong to."""
+    await _branch_with_event(session)
+    bali = Branch(
+        slug="bali", name="7Magic Bali", city="bali", timezone="Asia/Makassar", is_default=True
+    )
+    session.add(bali)
+    await session.flush()
+    session.add(
+        Event(
+            branch_id=None,
+            name="Company-wide open house",
+            registration_opens_at=NOW - timedelta(days=7),
+            registration_closes_at=NOW + timedelta(days=7),
+        )
+    )
+    await session.commit()
+
+    branch, event = await event_service.resolve_tour_target(session, "bandung", NOW)
+
+    assert branch is not None
+    assert branch.slug == "bali"
+    assert event is not None
+
+
+@pytest.mark.asyncio
+async def test_no_open_event_anywhere_resolves_to_no_event(session) -> None:
+    branch = Branch(slug="jakarta", name="7Magic Jakarta", timezone="Asia/Jakarta")
+    session.add(branch)
+    await session.commit()
+
+    resolved, event = await event_service.resolve_tour_target(session, "jakarta", NOW)
+
+    assert event is None
+    assert resolved is not None
+
+
+@pytest.mark.asyncio
+async def test_an_unbookable_branch_never_takes_a_lead(session) -> None:
+    jakarta, _ = await _branch_with_event(session)
+    jakarta.bookable = False
+    await session.commit()
+
+    branch, event = await event_service.resolve_tour_target(session, "jakarta", NOW)
+
+    assert branch is None
+    assert event is None

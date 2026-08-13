@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.html import sanitize_html
 from app.domains.branches.models import Branch
+from app.domains.branches.service import branch_service
 from app.domains.events.models import (
     REGISTRATION_STATUSES,
     Event,
@@ -182,6 +183,46 @@ class EventService:
             else:
                 branch_ids.add(event.branch_id)
         return any_branch, branch_ids
+
+    async def resolve_tour_target(
+        self, session: AsyncSession, city: str | None, now: datetime
+    ) -> tuple[Branch | None, Event | None]:
+        """Which branch and event a booking with no branch in the URL belongs to.
+
+        Returns `(notify_branch, event)`. The two are resolved separately on
+        purpose: a company-wide event has `branch_id IS NULL`, and
+        `notification_recipients(None)` is empty, so pairing that event with no
+        branch would accept the lead and tell nobody about it.
+
+        Branches come from branch_service, which selectin-loads opening_hours,
+        closures and settings. A branch reaching notification_recipients any other
+        way raises MissingGreenlet instead of emitting a SELECT.
+        """
+        branches = [
+            branch
+            for branch in await branch_service.list(session, active_only=True)
+            if branch.bookable
+        ]
+        branches.sort(key=lambda branch: branch.id)
+
+        wanted = (city or "").strip().lower()
+        for branch in branches:
+            if branch.city.strip().lower() == wanted:
+                event = await self.open_tour_event(session, branch, now)
+                if event is not None:
+                    return branch, event
+
+        # Nobody serves that city, so fall back to whichever branch the CMS marked
+        # as the default and let its inbox take the lead.
+        fallback = next(
+            (branch for branch in branches if branch.is_default),
+            branches[0] if branches else None,
+        )
+        if fallback is not None:
+            event = await self.open_tour_event(session, fallback, now)
+            if event is not None:
+                return fallback, event
+        return fallback, None
 
     async def head_count(self, session: AsyncSession, event_id: int) -> int:
         return int(
