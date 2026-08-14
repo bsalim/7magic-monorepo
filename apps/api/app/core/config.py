@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Literal
 
 from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -59,6 +60,36 @@ class Settings(BaseSettings):
     lead_notification_from: str = Field(
         default="7Magic Website <onboarding@resend.dev>",
         validation_alias=AliasChoices("lead_notification_from", "LEAD_NOTIFICATION_FROM"),
+    )
+
+    # Which provider actually sends. Both stay configured independently, so the
+    # switch is this one variable and a restart -- and so is switching back. A
+    # Literal rather than a str: a typo must fail at boot, not degrade to
+    # silently sending nothing.
+    mail_provider: Literal["resend", "bird"] = Field(
+        default="resend",
+        validation_alias=AliasChoices("mail_provider", "MAIL_PROVIDER"),
+    )
+    # Separate from BIRD_ACCESS_KEY so the mail key can be rotated or scoped
+    # without touching WhatsApp; the fallbacks mean a single-key setup needs no
+    # extra config.
+    bird_mail_api_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices(
+            "bird_mail_api_key", "BIRD_MAIL_API_KEY", "BIRD_ACCESS_KEY", "BIRD_API_KEY"
+        ),
+    )
+    # Bird files an unset send as "marketing", which is the wrong bucket for a
+    # booking confirmation and changes how it is filtered and unsubscribed from.
+    bird_mail_category: str = Field(
+        default="transactional",
+        validation_alias=AliasChoices("bird_mail_category", "BIRD_MAIL_CATEGORY"),
+    )
+    # Absolute https URL. Blank renders the wordmark instead -- which is also
+    # what the many readers who block remote images end up seeing.
+    email_logo_url: str = Field(
+        default="",
+        validation_alias=AliasChoices("email_logo_url", "EMAIL_LOGO_URL"),
     )
 
     # WhatsApp via Bird (formerly MessageBird). Bird carries WhatsApp only --
