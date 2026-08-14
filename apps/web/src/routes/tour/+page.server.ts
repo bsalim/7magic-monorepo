@@ -1,6 +1,7 @@
 import { fail } from '@sveltejs/kit';
 
 import { fetchJson, getApiBaseUrl } from '$lib/api';
+import { getLocale } from '$lib/paraglide/runtime';
 import type { TourVenue } from '$lib/tour';
 
 import type { Actions, PageServerLoad } from './$types';
@@ -49,7 +50,11 @@ export const actions: Actions = {
         // POST does not have to honour them.
         party_size: Number.isFinite(partySize)
           ? Math.min(Math.max(Math.trunc(partySize), 1), 20)
-          : 1
+          : 1,
+        // The language the guest is reading the form in, so their confirmation
+        // arrives in it. The API falls back to Indonesian for anything it does
+        // not recognise, so this can never fail a booking.
+        locale: getLocale()
       })
     });
 

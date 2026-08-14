@@ -143,7 +143,7 @@ async def register_without_a_branch(payload: PublicRegistration, session: DbSess
         code = 422 if blocked.code == "validation_error" else status.HTTP_409_CONFLICT
         return error_response(status_code=code, code=blocked.code, message=blocked.message)
 
-    await _notify(event=event, registration=registration, branch=branch)
+    await _notify(event=event, registration=registration, branch=branch, locale=payload.locale)
 
     return {
         "data": {
@@ -246,7 +246,7 @@ async def register_for_tour(slug: str, payload: PublicRegistration, session: DbS
         code = 422 if blocked.code == "validation_error" else status.HTTP_409_CONFLICT
         return error_response(status_code=code, code=blocked.code, message=blocked.message)
 
-    await _notify(event=event, registration=registration, branch=branch)
+    await _notify(event=event, registration=registration, branch=branch, locale=payload.locale)
 
     return {
         "data": {
@@ -260,12 +260,22 @@ async def register_for_tour(slug: str, payload: PublicRegistration, session: DbS
     }
 
 
-async def _notify(*, event: Event, registration: EventRegistration, branch: Branch) -> None:
+async def _notify(
+    *,
+    event: Event,
+    registration: EventRegistration,
+    branch: Branch,
+    locale: str | None = None,
+) -> None:
     """Sent after the row is committed, and never allowed to fail the request: a
-    mail-provider outage must not cost a lead."""
+    mail-provider outage must not cost a lead.
+
+    `locale` is the guest's, and reaches only their confirmation. The branch
+    alert below stays in one language: it goes to the team, not the couple.
+    """
     reply_to = branch.settings.reply_to_email if branch.settings else branch.public_email
     subject, body = registration_confirmation(
-        event=event, registration=registration, branch=branch
+        event=event, registration=registration, branch=branch, locale=locale
     )
     try:
         await send_email(to=[registration.email], subject=subject, text=body, reply_to=reply_to)

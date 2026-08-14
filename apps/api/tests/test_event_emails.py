@@ -19,6 +19,7 @@ from app.domains.events.emails import (
     render_template,
 )
 from app.domains.events.models import Event, EventRegistration
+from app.models import Venue
 
 
 @pytest_asyncio.fixture()
@@ -49,7 +50,9 @@ def test_placeholders_are_replaced() -> None:
         build_replacements(event=event, registration=registration, branch_name="7Magic Jakarta"),
     )
 
-    assert rendered == "Halo Rina, sampai jumpa di Book a Tour pada 2026-09-07 pukul 10:00."
+    # The date is prose, not ISO: this text goes to a guest, and 2026-09-07 reads
+    # as machine output. Indonesian is the default when no locale is given.
+    assert rendered == "Halo Rina, sampai jumpa di Book a Tour pada 7 September 2026 pukul 10:00."
 
 
 def test_an_unknown_placeholder_is_left_alone_rather_than_raising() -> None:
@@ -146,3 +149,165 @@ def test_the_branch_alert_names_the_venue_and_city() -> None:
 
     assert "Venue: Some Hall" in body
     assert "City: bandung" in body
+
+
+# --- Guest language and the venue block ---------------------------------------
+# The confirmation is the one email every guest gets, so it is the one that has
+# to arrive in the language they booked in, with enough detail to find the venue.
+
+
+def test_the_confirmation_defaults_to_indonesian() -> None:
+    """Indonesian is canonical. A caller that says nothing about language gets
+    it, which also covers any direct API caller that predates the parameter."""
+    subject, body = registration_confirmation(
+        event=Event(name="Venue Tour"),
+        registration=EventRegistration(
+            guest_name="Dina Pratiwi",
+            email="dina@example.test",
+            visit_date=date(2026, 5, 17),
+            party_size=2,
+        ),
+        branch=Branch(name="7Magic Jakarta"),
+    )
+
+    assert "dikonfirmasi" in subject
+    assert "Halo Dina," in body
+    assert "Jumlah tamu: 2" in body
+
+
+def test_the_confirmation_renders_in_english_when_asked() -> None:
+    subject, body = registration_confirmation(
+        event=Event(name="Venue Tour"),
+        registration=EventRegistration(
+            guest_name="Dina Pratiwi",
+            email="dina@example.test",
+            visit_date=date(2026, 5, 17),
+            party_size=2,
+        ),
+        branch=Branch(name="7Magic Jakarta"),
+        locale="en",
+    )
+
+    assert subject == "Your Venue Tour booking is confirmed"
+    assert "Hi Dina," in body
+    assert "Guests: 2" in body
+
+
+def test_the_visit_date_is_written_in_the_guests_language() -> None:
+    registration = EventRegistration(
+        guest_name="Dina", email="dina@example.test", visit_date=date(2026, 5, 17), party_size=1
+    )
+
+    _s, indonesian = registration_confirmation(
+        event=Event(name="Venue Tour"), registration=registration, branch=None, locale="id"
+    )
+    _s, english = registration_confirmation(
+        event=Event(name="Venue Tour"), registration=registration, branch=None, locale="en"
+    )
+
+    assert "17 Mei 2026" in indonesian
+    assert "17 May 2026" in english
+
+
+def test_a_region_tagged_locale_is_accepted() -> None:
+    """Browsers and Accept-Language send en-GB, not en."""
+    _subject, body = registration_confirmation(
+        event=Event(name="Venue Tour"),
+        registration=EventRegistration(
+            guest_name="Dina", email="dina@example.test", visit_date=date(2026, 5, 17)
+        ),
+        branch=None,
+        locale="en-GB",
+    )
+
+    assert "Hi Dina," in body
+
+
+def test_an_unknown_locale_falls_back_rather_than_failing() -> None:
+    """A booking must never fail over the language of its receipt."""
+    _subject, body = registration_confirmation(
+        event=Event(name="Venue Tour"),
+        registration=EventRegistration(
+            guest_name="Dina", email="dina@example.test", visit_date=date(2026, 5, 17)
+        ),
+        branch=None,
+        locale="klingon",
+    )
+
+    assert "Halo Dina," in body
+
+
+def test_the_confirmation_carries_the_venue_address() -> None:
+    """'Where do I go' is the most important line in a tour confirmation."""
+    venue = Venue(
+        name="The Ritz-Carlton Pacific Place",
+        slug="ritz-carlton-pacific-place",
+        address="Jl. Jend. Sudirman Kav. 52-53",
+        district="Kebayoran Baru",
+        city="jakarta",
+    )
+    registration = EventRegistration(
+        guest_name="Dina", email="dina@example.test", visit_date=date(2026, 5, 17), party_size=2
+    )
+    registration.venue = venue
+
+    _subject, body = registration_confirmation(
+        event=Event(name="Venue Tour"), registration=registration, branch=None, locale="id"
+    )
+
+    assert "Venue: The Ritz-Carlton Pacific Place" in body
+    assert "Alamat: Jl. Jend. Sudirman Kav. 52-53" in body
+    # City is stored lowercased, so it needs casing back for prose.
+    assert "Kebayoran Baru, Jakarta" in body
+
+
+def test_the_address_label_follows_the_locale() -> None:
+    venue = Venue(
+        name="Hotel Indonesia Kempinski",
+        slug="hotel-indonesia-kempinski",
+        address="Jl. M.H. Thamrin No. 1",
+        district="Menteng",
+        city="jakarta",
+    )
+    registration = EventRegistration(guest_name="Dina", email="dina@example.test")
+    registration.venue = venue
+
+    _s, body = registration_confirmation(
+        event=Event(name="Venue Tour"), registration=registration, branch=None, locale="en"
+    )
+
+    assert "Address: Jl. M.H. Thamrin No. 1" in body
+
+
+def test_a_venue_we_do_not_publish_degrades_to_its_name() -> None:
+    """The guest typed a venue with no catalogue row, so there is no address to
+    show -- the block must not render an empty 'Alamat:' line."""
+    registration = EventRegistration(
+        guest_name="Dina",
+        email="dina@example.test",
+        venue_name="Gedung Serbaguna Kelurahan",
+        visit_date=date(2026, 5, 17),
+    )
+
+    _subject, body = registration_confirmation(
+        event=Event(name="Venue Tour"), registration=registration, branch=None, locale="id"
+    )
+
+    assert "Venue: Gedung Serbaguna Kelurahan" in body
+    assert "Alamat:" not in body
+
+
+def test_the_branch_alert_is_not_translated() -> None:
+    """It goes to the team, not the couple, so it stays in one language whatever
+    the guest chose."""
+    registration = EventRegistration(
+        guest_name="Dina", email="dina@example.test", party_size=2, source="public"
+    )
+
+    _subject, body = branch_alert(
+        event=Event(name="Venue Tour"),
+        registration=registration,
+        branch=Branch(name="7Magic Jakarta"),
+    )
+
+    assert "Name: Dina" in body

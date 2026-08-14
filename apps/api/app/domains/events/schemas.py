@@ -86,6 +86,11 @@ class PublicRegistration(EventSchema):
     # to know. `guests` remains for the named-companion path the CMS still uses.
     party_size: int | None = Field(default=None, ge=1, le=20)
     guests: list[GuestInput] = Field(default_factory=list)
+    # The language the guest booked in, so the confirmation arrives in it. Not
+    # stored on the row: it is needed once, at send time. Anything unrecognised
+    # falls back to Indonesian rather than being rejected -- a booking must
+    # never fail over the language of its receipt.
+    locale: str | None = Field(default=None, max_length=10)
 
 
 class RegistrationUpdate(EventSchema):

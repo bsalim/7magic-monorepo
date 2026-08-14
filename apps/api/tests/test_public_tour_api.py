@@ -382,3 +382,80 @@ def test_a_failed_whatsapp_send_never_costs_the_booking(api, monkeypatch) -> Non
     )
 
     assert response.status_code == 201
+
+
+# --- The guest's language -----------------------------------------------------
+
+
+def test_the_guests_language_reaches_their_confirmation(api, monkeypatch) -> None:
+    """The site sends the locale it rendered the form in, so the receipt matches
+    what the guest was reading."""
+    sent: list[dict] = []
+
+    async def fake_send(**kwargs):
+        sent.append(kwargs)
+
+    monkeypatch.setattr(tour_module, "send_email", fake_send)
+
+    branch = _branch(api)
+    _open_event(api, branch["id"])
+
+    response = api.client.post(
+        "/api/v1/public/tour/branches/jakarta/register",
+        json={
+            "name": "Dina Pratiwi",
+            "email": "dina@example.test",
+            "visit_date": _next_weekday(),
+            "locale": "en",
+        },
+    )
+
+    assert response.status_code == 201
+    assert "Hi Dina," in sent[0]["text"]
+    # The branch alert is not translated -- it goes to the team, not the couple.
+    assert "Name: Dina Pratiwi" in sent[1]["text"]
+
+
+def test_a_booking_with_no_locale_is_confirmed_in_indonesian(api, monkeypatch) -> None:
+    """Indonesian is canonical, and it covers any caller predating the parameter."""
+    sent: list[dict] = []
+
+    async def fake_send(**kwargs):
+        sent.append(kwargs)
+
+    monkeypatch.setattr(tour_module, "send_email", fake_send)
+
+    branch = _branch(api)
+    _open_event(api, branch["id"])
+
+    response = api.client.post(
+        "/api/v1/public/tour/branches/jakarta/register",
+        json={"name": "Dina", "email": "dina@example.test", "visit_date": _next_weekday()},
+    )
+
+    assert response.status_code == 201
+    assert "Halo Dina," in sent[0]["text"]
+
+
+def test_an_unrecognised_locale_still_books_the_tour(api, monkeypatch) -> None:
+    """A booking must never fail over the language of its receipt."""
+
+    async def fake_send(**kwargs):
+        return None
+
+    monkeypatch.setattr(tour_module, "send_email", fake_send)
+
+    branch = _branch(api)
+    _open_event(api, branch["id"])
+
+    response = api.client.post(
+        "/api/v1/public/tour/branches/jakarta/register",
+        json={
+            "name": "Dina",
+            "email": "dina@example.test",
+            "visit_date": _next_weekday(),
+            "locale": "zz-ZZ",
+        },
+    )
+
+    assert response.status_code == 201
