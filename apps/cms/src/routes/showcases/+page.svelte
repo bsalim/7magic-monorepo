@@ -1,6 +1,9 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
+  import CheckIcon from '@lucide/svelte/icons/check';
+  import EyeOffIcon from '@lucide/svelte/icons/eye-off';
   import LanguagesIcon from '@lucide/svelte/icons/languages';
+  import PencilIcon from '@lucide/svelte/icons/pencil';
   import PlusIcon from '@lucide/svelte/icons/plus';
   import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert';
   import { toast } from 'svelte-sonner';
@@ -121,23 +124,70 @@
                 {/if}
               </Table.Cell>
               <Table.Cell class="text-right">
-                <form
-                  method="POST"
-                  action="?/delete"
-                  class="inline"
-                  use:enhance={() =>
-                    async ({ result, update }) => {
-                      if (result.type === 'success') {
-                        toast.success('Showcase deleted.');
-                      } else if (result.type === 'failure') {
-                        toast.error(String(result.data?.deleteMessage ?? 'Delete failed.'));
-                      }
-                      await update();
-                    }}
-                >
-                  <input type="hidden" name="id" value={showcase.id} />
-                  <Button type="submit" variant="ghost" size="sm">Delete</Button>
-                </form>
+                <div class="flex items-center justify-end gap-1">
+                  <form
+                    method="POST"
+                    action="?/setStatus"
+                    class="inline"
+                    use:enhance={() =>
+                      async ({ result, update }) => {
+                        if (result.type === 'success') {
+                          toast.success(String(result.data?.statusMessage ?? 'Status updated.'));
+                        } else if (result.type === 'failure') {
+                          toast.error(String(result.data?.statusMessage ?? 'Status change failed.'));
+                        }
+                        await update();
+                      }}
+                  >
+                    <input type="hidden" name="id" value={showcase.id} />
+                    <!-- Archived rows publish too: the shortcut exists to get a
+                         showcase live, whichever state it is parked in. -->
+                    <input
+                      type="hidden"
+                      name="status"
+                      value={showcase.status === 'published' ? 'draft' : 'published'}
+                    />
+                    <Button type="submit" variant="ghost" size="sm">
+                      {#if showcase.status === 'published'}
+                        <EyeOffIcon class="size-4" />
+                        Unpublish
+                      {:else}
+                        <CheckIcon class="size-4" />
+                        Publish
+                      {/if}
+                    </Button>
+                  </form>
+
+                  <Button href={`/showcases/${showcase.id}`} variant="ghost" size="sm">
+                    <PencilIcon class="size-4" />
+                    Edit
+                  </Button>
+
+                  <form
+                    method="POST"
+                    action="?/delete"
+                    class="inline"
+                    use:enhance={() =>
+                      async ({ result, update }) => {
+                        if (result.type === 'success') {
+                          toast.success('Showcase deleted.');
+                        } else if (result.type === 'failure') {
+                          toast.error(String(result.data?.deleteMessage ?? 'Delete failed.'));
+                        }
+                        await update();
+                      }}
+                  >
+                    <input type="hidden" name="id" value={showcase.id} />
+                    <Button
+                      type="submit"
+                      variant="ghost"
+                      size="sm"
+                      class="text-muted-foreground hover:text-destructive"
+                    >
+                      Delete
+                    </Button>
+                  </form>
+                </div>
               </Table.Cell>
             </Table.Row>
           {/each}

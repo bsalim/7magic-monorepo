@@ -37,6 +37,8 @@ export type AdminShowcaseDetail = {
   status: string;
   image_url: string | null;
   image_storage_key: string | null;
+  /** Posted back untouched on save, so editing text does not drop the srcset. */
+  image_variants: Record<string, unknown> | null;
   has_english: boolean;
   source_ref: string | null;
   updated_at: string | null;

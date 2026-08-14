@@ -20,7 +20,10 @@
     status: showcase.status as ShowcaseValues['status'],
     image_url: showcase.image_url ?? '',
     image_storage_key: showcase.image_storage_key ?? '',
-    image_variants: ''
+    // Round-trips the stored srcset through the form's hidden field. Sending
+    // blank here nulls image_variants on the row, so a title fix would cost
+    // the showcase its responsive images.
+    image_variants: showcase.image_variants ? JSON.stringify(showcase.image_variants) : ''
   });
 
   const values = $derived(form?.values ?? fromServer);

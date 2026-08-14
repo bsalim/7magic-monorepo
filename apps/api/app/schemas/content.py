@@ -431,6 +431,10 @@ class ShowcaseAdminDetail(BaseModel):
     status: str
     image_url: str | None = None
     image_storage_key: str | None = None
+    # Returned so an edit can post it back untouched. Without it the CMS form
+    # has nothing to send and the PATCH nulls the row's srcset, degrading the
+    # public card to a single image on every save.
+    image_variants: dict[str, Any] | None = None
     # False when the English fields are blank, so the editor can see what is
     # still untranslated without opening the row.
     has_english: bool = False

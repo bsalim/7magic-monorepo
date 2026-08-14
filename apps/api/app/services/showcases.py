@@ -223,6 +223,7 @@ class ShowcaseService:
             status=row.status,
             image_url=row.image_url,
             image_storage_key=row.image_storage_key,
+            image_variants=row.image_variants if isinstance(row.image_variants, dict) else None,
             has_english=bool((row.title_en or "").strip()),
             source_ref=row.source_ref,
             updated_at=row.updated_at.isoformat() if row.updated_at else None,

@@ -26,7 +26,45 @@ export const load: PageServerLoad = async ({ locals }) => {
   }
 };
 
+const STATUSES = ['draft', 'published', 'archived'] as const;
+
 export const actions: Actions = {
+  /**
+   * Publish/unpublish straight from the list. PATCHes status alone -- the API
+   * updates only the fields present in the body, so the row's text and images
+   * are untouched by this.
+   */
+  setStatus: async ({ locals, request }) => {
+    if (!locals.token) {
+      throw redirect(303, '/login');
+    }
+
+    const form = await request.formData();
+    const id = String(form.get('id') ?? '').trim();
+    const status = String(form.get('status') ?? '').trim();
+    if (!id || !STATUSES.includes(status as (typeof STATUSES)[number])) {
+      return fail(400, { statusMessage: 'Missing showcase id or status.' });
+    }
+
+    try {
+      await apiFetch(`/api/v1/admin/showcases/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+        token: locals.token
+      });
+      return {
+        statusMessage:
+          status === 'published' ? 'Showcase published.' : 'Showcase moved to draft.'
+      };
+    } catch (error) {
+      return fail(error instanceof ApiRequestError ? error.status : 500, {
+        statusMessage:
+          error instanceof ApiRequestError ? error.message : 'Unable to change the status.'
+      });
+    }
+  },
+
   delete: async ({ locals, request }) => {
     if (!locals.token) {
       throw redirect(303, '/login');
