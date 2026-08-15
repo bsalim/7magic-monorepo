@@ -256,9 +256,12 @@ def test_the_confirmation_carries_the_venue_address() -> None:
     )
 
     assert "Venue: The Ritz-Carlton Pacific Place" in body
-    assert "Alamat: Jl. Jend. Sudirman Kav. 52-53" in body
+    # One line, one `Label: value` pair -- the HTML layout emphasises the value
+    # after the colon, and a bare continuation line has no label to anchor to.
     # City is stored lowercased, so it needs casing back for prose.
-    assert "Kebayoran Baru, Jakarta" in body
+    assert (
+        "Alamat: Jl. Jend. Sudirman Kav. 52-53, Kebayoran Baru, Jakarta" in body
+    )
 
 
 def test_the_address_label_follows_the_locale() -> None:

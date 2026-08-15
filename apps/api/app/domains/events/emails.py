@@ -146,16 +146,21 @@ def venue_details(
 
     venue = registration.venue if registration else None
     if venue is not None:
-        if street := (venue.address or "").strip():
-            lines.append(f"{labels['address']}: {street}")
+        # Street and area on one line, so every line in the block is a single
+        # `Label: value` pair. The renderer emphasises the value after the
+        # colon, and a bare continuation line has no label to anchor that to.
         # City is stored lowercased ("jakarta"), so it needs casing back for prose.
-        area = ", ".join(
+        address = ", ".join(
             part
-            for part in ((venue.district or "").strip(), (venue.city or "").strip().title())
+            for part in (
+                (venue.address or "").strip(),
+                (venue.district or "").strip(),
+                (venue.city or "").strip().title(),
+            )
             if part
         )
-        if area:
-            lines.append(area)
+        if address:
+            lines.append(f"{labels['address']}: {address}")
     return "\n".join(lines)
 
 

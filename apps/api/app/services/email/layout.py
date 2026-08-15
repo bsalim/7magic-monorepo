@@ -13,6 +13,7 @@ No I/O and no provider knowledge lives here -- just markup.
 from __future__ import annotations
 
 import html
+import re
 from typing import Any
 
 from app.core.config import get_settings
@@ -24,6 +25,30 @@ _INK = "#172033"
 _MUTED = "#6b7280"
 _LINE = "#e5e7eb"
 _CANVAS = "#f6f7f9"
+
+
+# A detail line: a short label, a colon, then the value. Bounded deliberately --
+# the label may not run past 24 characters or contain sentence punctuation, so
+# ordinary prose that happens to include a colon is left alone.
+_DETAIL_LINE = re.compile(r"^([^:.!?\n]{1,24}):[ \t]+(\S.*)$")
+
+
+def _line(text: str) -> str:
+    """One already-escaped line, with the value emphasised on a detail line.
+
+    "Venue: The Ritz-Carlton" carries one piece of information the reader is
+    scanning for, and it is not the word "Venue". Bolding the value makes the
+    date, the venue and the head count findable at a glance instead of buried in
+    an even-weight block.
+    """
+    match = _DETAIL_LINE.match(text)
+    if not match:
+        return text
+    label, value = match.groups()
+    return (
+        f'<span style="color:{_MUTED}">{label}:</span> '
+        f'<strong style="color:{_INK}">{value}</strong>'
+    )
 
 
 def paragraphs(text: str) -> str:
@@ -40,13 +65,18 @@ def paragraphs(text: str) -> str:
     as a block rather than one run-on line.
     """
     blocks = [block for block in text.split("\n\n") if block.strip()]
-    return "".join(
-        f'<p style="margin:0 0 16px;font-family:{_FONT};font-size:15px;'
-        f'line-height:1.65;color:{_INK}">'
-        f"{html.escape(block.strip()).replace(chr(10), '<br />')}"
-        "</p>"
-        for block in blocks
-    )
+    rendered = []
+    for block in blocks:
+        # Escape first, then match: a label or value containing markup is inert
+        # by the time the detail pattern sees it.
+        lines = [_line(line) for line in html.escape(block.strip()).split("\n")]
+        rendered.append(
+            f'<p style="margin:0 0 16px;font-family:{_FONT};font-size:15px;'
+            f'line-height:1.65;color:{_INK}">'
+            f"{'<br />'.join(lines)}"
+            "</p>"
+        )
+    return "".join(rendered)
 
 
 def _header(logo_url: str) -> str:
@@ -74,17 +104,45 @@ def _header(logo_url: str) -> str:
     )
 
 
+# The registered offices, copied verbatim from the public site's footer
+# (apps/web/src/lib/components/PublicFooter.svelte). Business data -- change it
+# there and here together, or a guest gets a confirmation naming an office the
+# site no longer lists.
+OFFICES: tuple[tuple[str, str], ...] = (
+    ("Jakarta", "Jalan Gajah Mada No. 10, Jakarta, Indonesia 10130"),
+    (
+        "Bali",
+        "Sunday Arshika Hotel - Lobby, Sunset Road Kuta - Bali, Bali, 80612, Indonesia",
+    ),
+    ("Singapore", "110 Pasir Ris Street 11, Singapore 510110"),
+)
+
+
 def _footer(note: str | None) -> str:
-    lines = [
-        '7Magic Wedding &middot; <a href="https://7magicwedding.com" '
-        f'style="color:{_MUTED};text-decoration:underline">7magicwedding.com</a>'
-    ]
-    if note:
-        lines.append(html.escape(note))
+    """Company name and the three registered offices.
+
+    A transactional email that names a real, findable business reads as one, and
+    the addresses are what a guest checks when deciding whether a booking
+    confirmation is genuine.
+    """
+    offices = "".join(
+        f'<tr><td style="padding:2px 0;color:{_INK};white-space:nowrap;'
+        f'vertical-align:top">{html.escape(city)}</td>'
+        f'<td style="padding:2px 0 2px 14px;color:{_MUTED}">{html.escape(address)}</td></tr>'
+        for city, address in OFFICES
+    )
+    trailing = (
+        f'<div style="margin-top:12px">{html.escape(note)}</div>' if note else ""
+    )
     return (
         f'<tr><td style="padding:22px 32px 28px;border-top:1px solid {_LINE};'
         f'font-family:{_FONT};font-size:12px;line-height:1.7;color:{_MUTED}">'
-        f'{"<br />".join(lines)}</td></tr>'
+        f'<div style="font-weight:600;color:{_INK};margin-bottom:8px">'
+        "7Magic Wedding Planner</div>"
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" '
+        f'style="border-collapse:collapse;font-family:{_FONT};font-size:12px;'
+        f'line-height:1.6">{offices}</table>'
+        f"{trailing}</td></tr>"
     )
 
 
