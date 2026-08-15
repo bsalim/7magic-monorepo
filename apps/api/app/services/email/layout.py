@@ -118,31 +118,43 @@ OFFICES: tuple[tuple[str, str], ...] = (
 )
 
 
-def _footer(note: str | None) -> str:
-    """Company name and the three registered offices.
+# Keyed by locale so an Indonesian confirmation does not carry an English
+# heading. Falls back to the base locale for anything unrecognised, which is the
+# same rule the confirmation body follows.
+_BASE_LOCALE = "id"
+OFFICE_HEADING: dict[str, str] = {
+    "id": "Alamat kantor",
+    "en": "Office address",
+}
+
+
+def _footer(note: str | None, locale: str | None = None) -> str:
+    """Company name, then the registered offices under a heading.
 
     A transactional email that names a real, findable business reads as one, and
     the addresses are what a guest checks when deciding whether a booking
     confirmation is genuine.
     """
+    # `.get` rather than a branch: an absent, None or unrecognised locale all
+    # land on the base one, which is the rule the confirmation body follows.
+    heading = OFFICE_HEADING.get(locale or "", OFFICE_HEADING[_BASE_LOCALE])
     offices = "".join(
-        f'<tr><td style="padding:2px 0;color:{_INK};white-space:nowrap;'
-        f'vertical-align:top">{html.escape(city)}</td>'
-        f'<td style="padding:2px 0 2px 14px;color:{_MUTED}">{html.escape(address)}</td></tr>'
+        f'<div style="margin-top:8px">'
+        f'<div style="color:{_INK};font-weight:600">{html.escape(city)}</div>'
+        f'<div style="color:{_MUTED}">{html.escape(address)}</div>'
+        "</div>"
         for city, address in OFFICES
     )
-    trailing = (
-        f'<div style="margin-top:12px">{html.escape(note)}</div>' if note else ""
-    )
+    trailing = f'<div style="margin-top:14px">{html.escape(note)}</div>' if note else ""
     return (
         f'<tr><td style="padding:22px 32px 28px;border-top:1px solid {_LINE};'
-        f'font-family:{_FONT};font-size:12px;line-height:1.7;color:{_MUTED}">'
-        f'<div style="font-weight:600;color:{_INK};margin-bottom:8px">'
-        "7Magic Wedding Planner</div>"
-        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" '
-        f'style="border-collapse:collapse;font-family:{_FONT};font-size:12px;'
-        f'line-height:1.6">{offices}</table>'
-        f"{trailing}</td></tr>"
+        f'font-family:{_FONT};font-size:12px;line-height:1.6;color:{_MUTED}">'
+        # Centred on its own; the addresses below stay left-aligned, where a
+        # multi-line street reads more easily than it would ragged on both sides.
+        f'<div style="text-align:center;font-weight:600;font-size:13px;color:{_INK};'
+        'padding-bottom:14px">7Magic Wedding Planner</div>'
+        f'<div style="color:{_INK};font-weight:600">{html.escape(heading)}</div>'
+        f"{offices}{trailing}</td></tr>"
     )
 
 
@@ -153,6 +165,7 @@ def render_email(
     preheader: str | None = None,
     footer_note: str | None = None,
     logo_url: str | None = None,
+    locale: str | None = None,
 ) -> str:
     """Wrap a rendered body in the header/footer shell.
 
@@ -181,7 +194,7 @@ def render_email(
         f'<h1 style="margin:0 0 18px;font-family:{_FONT};font-size:20px;'
         f'line-height:1.35;font-weight:600;color:{_INK}">{html.escape(heading)}</h1>'
         f"{body_html}</td></tr>"
-        f"{_footer(footer_note)}"
+        f"{_footer(footer_note, locale)}"
         "</table></div>"
     )
 

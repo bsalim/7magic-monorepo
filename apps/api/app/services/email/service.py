@@ -33,7 +33,12 @@ def get_mailer(settings: Settings) -> Mailer:
 
 
 async def send_email(
-    *, to: list[str], subject: str, text: str, reply_to: str | None = None
+    *,
+    to: list[str],
+    subject: str,
+    text: str,
+    reply_to: str | None = None,
+    locale: str | None = None,
 ) -> None:
     """Plain-text send, used by the tour endpoints for both the guest
     confirmation and the branch alert.
@@ -59,7 +64,14 @@ async def send_email(
             # Derived rather than authored: the templates behind these are plain
             # text edited in a CMS textarea and stay that way, and the original
             # ships alongside as the alternative part.
-            html=render_email(heading=subject, body_html=paragraphs(text), preheader=subject),
+            # The locale reaches the shell too, so an Indonesian confirmation
+            # does not carry an English heading in its footer.
+            html=render_email(
+                heading=subject,
+                body_html=paragraphs(text),
+                preheader=subject,
+                locale=locale,
+            ),
             reply_to=reply_to,
         )
     )

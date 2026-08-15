@@ -183,6 +183,36 @@ def test_the_footer_names_the_company() -> None:
     assert "7Magic Wedding Planner" in result
 
 
+def test_the_company_name_is_centred() -> None:
+    result = render_email(heading="Hi", body_html="<p>x</p>", logo_url="")
+
+    assert 'style="text-align:center' in result
+
+
+def test_the_offices_sit_under_a_heading() -> None:
+    result = render_email(heading="Hi", body_html="<p>x</p>", logo_url="", locale="en")
+
+    assert "Office address" in result
+
+
+def test_the_office_heading_follows_the_guests_language() -> None:
+    """An Indonesian confirmation must not carry an English heading."""
+    indonesian = render_email(heading="Hi", body_html="<p>x</p>", logo_url="", locale="id")
+    english = render_email(heading="Hi", body_html="<p>x</p>", logo_url="", locale="en")
+
+    assert "Alamat kantor" in indonesian
+    assert "Office address" not in indonesian
+    assert "Office address" in english
+
+
+def test_an_absent_or_unknown_locale_falls_back_to_indonesian() -> None:
+    """Same rule the confirmation body follows, so the two cannot disagree."""
+    for locale in (None, "", "klingon"):
+        assert "Alamat kantor" in render_email(
+            heading="Hi", body_html="<p>x</p>", logo_url="", locale=locale
+        )
+
+
 def test_the_footer_lists_every_office() -> None:
     """A transactional email that names a real, findable business reads as one."""
     result = render_email(heading="Hi", body_html="<p>x</p>", logo_url="")

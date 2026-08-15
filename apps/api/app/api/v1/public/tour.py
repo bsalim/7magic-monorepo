@@ -278,7 +278,13 @@ async def _notify(
         event=event, registration=registration, branch=branch, locale=locale
     )
     try:
-        await send_email(to=[registration.email], subject=subject, text=body, reply_to=reply_to)
+        await send_email(
+            to=[registration.email],
+            subject=subject,
+            text=body,
+            reply_to=reply_to,
+            locale=locale,
+        )
     except Exception:  # noqa: BLE001 -- logged, never re-raised
         logger.exception("tour confirmation email failed for registration %s", registration.id)
 
