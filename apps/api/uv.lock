@@ -19,6 +19,7 @@ dependencies = [
     { name = "fastapi" },
     { name = "greenlet" },
     { name = "gunicorn" },
+    { name = "messagebird-sdk" },
     { name = "pillow" },
     { name = "pydantic-settings" },
     { name = "python-multipart" },
@@ -45,6 +46,7 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.136.1" },
     { name = "greenlet", specifier = ">=3.2.0" },
     { name = "gunicorn", specifier = ">=26.0.0" },
+    { name = "messagebird-sdk", specifier = ">=0.28.0" },
     { name = "pillow", specifier = ">=12.3.0" },
     { name = "pydantic-settings", specifier = ">=2.7.0" },
     { name = "python-multipart", specifier = ">=0.0.30" },
@@ -554,6 +556,19 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/fb/df/5bd7a48c256faecd1d36edc13133e51397e41b73bb77e1a69deab746ebac/markupsafe-3.0.3-cp314-cp314t-win32.whl", hash = "sha256:915c04ba3851909ce68ccc2b8e2cd691618c4dc4c4232fb7982bca3f41fd8c3d", size = 14819, upload-time = "2025-09-27T18:37:26.285Z" },
     { url = "https://files.pythonhosted.org/packages/1a/8a/0402ba61a2f16038b48b39bccca271134be00c5c9f0f623208399333c448/markupsafe-3.0.3-cp314-cp314t-win_amd64.whl", hash = "sha256:4faffd047e07c38848ce017e8725090413cd80cbc23d86e55c587bf979e579c9", size = 15426, upload-time = "2025-09-27T18:37:27.316Z" },
     { url = "https://files.pythonhosted.org/packages/70/bc/6f1c2f612465f5fa89b95bead1f44dcb607670fd42891d8fdcd5d039f4f4/markupsafe-3.0.3-cp314-cp314t-win_arm64.whl", hash = "sha256:32001d6a8fc98c8cb5c947787c5d08b0a50663d139f1305bac5885d98d9b40fa", size = 14146, upload-time = "2025-09-27T18:37:28.327Z" },
+]
+
+[[package]]
+name = "messagebird-sdk"
+version = "0.28.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "pydantic" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/59/4a/9cbb35dd466ef5655c65057ae720390217976ebc9c2cde24cf63e133ad70/messagebird_sdk-0.28.0.tar.gz", hash = "sha256:b3c6afaa4e03bdf509de29b29301d5e145aa6defd432134566668eb5100f26ca", size = 111771, upload-time = "2026-08-13T15:51:44.418Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f9/7e/e7a36de0adc470ee1fb1a46c36591c4b2c38010dd60ed15761ebd540b88a/messagebird_sdk-0.28.0-py3-none-any.whl", hash = "sha256:acb39f191af4d27c503ee3ea8599472e4cd6cde881a4b7ece2ef7cdef4b81e2d", size = 134883, upload-time = "2026-08-13T15:51:43.096Z" },
 ]
 
 [[package]]

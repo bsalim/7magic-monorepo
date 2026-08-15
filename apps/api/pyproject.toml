@@ -12,6 +12,7 @@ dependencies = [
   "fastapi>=0.136.1",
   "greenlet>=3.2.0",
   "gunicorn>=26.0.0",
+  "messagebird-sdk>=0.28.0",
   "pillow>=12.3.0",
   "pydantic-settings>=2.7.0",
   "python-multipart>=0.0.30",
