@@ -149,9 +149,9 @@ def _footer(note: str | None, locale: str | None = None) -> str:
     return (
         f'<tr><td style="padding:22px 32px 28px;border-top:1px solid {_LINE};'
         f'font-family:{_FONT};font-size:12px;line-height:1.6;color:{_MUTED}">'
-        # Centred on its own; the addresses below stay left-aligned, where a
-        # multi-line street reads more easily than it would ragged on both sides.
-        f'<div style="text-align:center;font-weight:600;font-size:13px;color:{_INK};'
+        # Left, with everything under it. A centred name over left-aligned
+        # addresses reads as two blocks that were laid out separately.
+        f'<div style="font-weight:600;font-size:13px;color:{_INK};'
         'padding-bottom:14px">7Magic Wedding Planner</div>'
         f'<div style="color:{_INK};font-weight:600">{html.escape(heading)}</div>'
         f"{offices}{trailing}</td></tr>"

@@ -183,10 +183,12 @@ def test_the_footer_names_the_company() -> None:
     assert "7Magic Wedding Planner" in result
 
 
-def test_the_company_name_is_centred() -> None:
+def test_the_footer_is_left_aligned() -> None:
+    """The name was briefly centred over left-aligned addresses, which read as
+    two blocks laid out separately."""
     result = render_email(heading="Hi", body_html="<p>x</p>", logo_url="")
 
-    assert 'style="text-align:center' in result
+    assert "text-align:center" not in result
 
 
 def test_the_offices_sit_under_a_heading() -> None:

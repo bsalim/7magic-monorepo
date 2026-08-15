@@ -23,16 +23,24 @@ import os
 
 from app.core.config import get_settings
 
-# Every credential that could cause an outbound call during a test run.
+# Every credential that could cause an outbound call during a test run. Add a
+# new provider key here the moment you add it to Settings: a key reachable from
+# the environment beats the dotenv file, so one missing name is enough to let a
+# test post live mail.
 for _name in (
     "BIRD_API_KEY",
     "BIRD_ACCESS_KEY",
     "BIRD_BASE_URL",
     "BIRD_WEBHOOK_SIGNING_KEY",
+    "BIRD_MAIL_API_KEY",
     "WHATSAPP_TEAM_NUMBER",
     "RESEND_API_KEY",
 ):
     os.environ[_name] = ""
+
+# Back to the default. A developer with MAIL_PROVIDER=bird exported would
+# otherwise have the suite exercise a different provider than CI does.
+os.environ["MAIL_PROVIDER"] = "resend"
 
 get_settings.cache_clear()
 
