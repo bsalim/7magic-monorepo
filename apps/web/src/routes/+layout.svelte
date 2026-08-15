@@ -5,6 +5,7 @@
   import { canonicalUrl } from '$lib/seo/schema';
   import PlausibleAnalytics from '$lib/components/PlausibleAnalytics.svelte';
   import PromotionPopup from '$lib/components/PromotionPopup.svelte';
+  import WhatsappFloatingButton from '$lib/components/WhatsappFloatingButton.svelte';
 
   let { children, data } = $props();
 
@@ -46,5 +47,7 @@
 <PlausibleAnalytics />
 
 {@render children()}
+
+<WhatsappFloatingButton />
 
 <PromotionPopup promotion={data.promotion} />
