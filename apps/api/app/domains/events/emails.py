@@ -8,7 +8,9 @@ must render literally instead of raising mid-send.
 from __future__ import annotations
 
 import logging
+import re
 from datetime import date
+from typing import Any
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -41,9 +43,36 @@ MONTH_NAMES: dict[str, tuple[str, ...]] = {
 }
 
 VENUE_LABELS: dict[str, dict[str, str]] = {
-    "id": {"venue": "Venue", "address": "Alamat"},
-    "en": {"venue": "Venue", "address": "Address"},
+    "id": {
+        "venue": "Venue",
+        "address": "Alamat",
+        "date": "Tanggal",
+        "party_size": "Jumlah tamu",
+    },
+    "en": {
+        "venue": "Venue",
+        "address": "Address",
+        "date": "Date",
+        "party_size": "Guests",
+    },
 }
+
+_WHITESPACE = re.compile(r"\s+")
+
+
+def one_line(value: Any) -> str:
+    """Collapse a user-supplied value onto a single line.
+
+    Every detail in these emails renders as one `Label: value` line, and the
+    HTML layout turns each such line into a styled row. A newline inside a value
+    therefore does not just wrap -- it forges an extra row that looks exactly
+    like a real field. A guest booking as "John\\nEmail: attacker@example.com"
+    put a convincing second Email row into the branch's alert.
+
+    The WhatsApp notifier collapses for the same class of reason; see `_slot` in
+    app/services/whatsapp.py.
+    """
+    return _WHITESPACE.sub(" ", str(value or "")).strip()
 
 PLACEHOLDERS = [
     "first_name",
@@ -54,6 +83,9 @@ PLACEHOLDERS = [
     # The venue with its address, as a multi-line block. `venue` remains the
     # name alone, so an existing template that uses it is unaffected.
     "venue_details",
+    # Venue, address, date and head count as one block, with any line whose
+    # value is unknown left out entirely.
+    "booking_details",
     "branch_name",
     # The branch signing off, falling back to the company when a booking was
     # never routed to one.
@@ -129,11 +161,16 @@ def venue_details(
     is only a name -- `venue_name` with no `venue_id` -- and the block correctly
     degrades to that single line.
     """
+    return detail_lines(venue_detail_pairs(registration, fallback=fallback, locale=locale))
+
+
+def venue_detail_pairs(
+    registration: EventRegistration | None, *, fallback: str = "", locale: str = BASE_LOCALE
+) -> list[tuple[str, str]]:
+    """The venue rows as pairs, so a caller can extend the block rather than
+    re-parse the rendered lines."""
     labels = VENUE_LABELS[normalise_locale(locale)]
-    name = venue_label(registration) or fallback
-    lines = []
-    if name:
-        lines.append(f"{labels['venue']}: {name}")
+    pairs = [(labels["venue"], one_line(venue_label(registration) or fallback))]
 
     venue = registration.venue if registration else None
     if venue is not None:
@@ -141,18 +178,34 @@ def venue_details(
         # `Label: value` pair. The renderer emphasises the value after the
         # colon, and a bare continuation line has no label to anchor that to.
         # City is stored lowercased ("jakarta"), so it needs casing back for prose.
-        address = ", ".join(
-            part
-            for part in (
-                (venue.address or "").strip(),
-                (venue.district or "").strip(),
-                (venue.city or "").strip().title(),
+        pairs.append(
+            (
+                labels["address"],
+                one_line(
+                    ", ".join(
+                        part
+                        for part in (
+                            (venue.address or "").strip(),
+                            (venue.district or "").strip(),
+                            (venue.city or "").strip().title(),
+                        )
+                        if part
+                    )
+                ),
             )
-            if part
         )
-        if address:
-            lines.append(f"{labels['address']}: {address}")
-    return "\n".join(lines)
+    return pairs
+
+
+def detail_lines(pairs: list[tuple[str, str]]) -> str:
+    """Render `Label: value` lines, dropping any whose value is empty.
+
+    A label with nothing after it is not a neutral blank -- it reads as missing
+    information in a confirmation the guest is checking. The empty `Time:` line
+    removed in 1b0089e was exactly this, and building the block from pairs makes
+    the whole class of it impossible rather than fixing one field at a time.
+    """
+    return "\n".join(f"{label}: {value}" for label, value in pairs if value)
 
 
 def build_replacements(
@@ -164,21 +217,34 @@ def build_replacements(
 ) -> dict[str, str]:
     first_name = ""
     if registration and registration.guest_name:
-        first_name = registration.guest_name.strip().split(" ")[0]
+        # Collapsed first: a newline anywhere in a value forges an extra row in
+        # the rendered email, and the name is the one field a guest types freely.
+        first_name = one_line(registration.guest_name).split(" ")[0]
     # The registration's venue, not the event's: a venue tour visits the venue
     # the guest chose. event.venue is only a label on the event itself, and
     # stands in when the registration names nothing.
-    venue = venue_label(registration) or event.venue or ""
+    venue = one_line(venue_label(registration) or event.venue or "")
+    labels = VENUE_LABELS[normalise_locale(locale)]
+    visit_date = format_visit_date(registration.visit_date if registration else None, locale)
+    party_size = str(registration.party_size) if registration else ""
     return {
         "first_name": first_name,
-        "event_name": event.name or "",
-        "visit_date": format_visit_date(
-            registration.visit_date if registration else None, locale
-        ),
-        "visit_slot": (registration.visit_slot if registration else "") or "",
+        "event_name": one_line(event.name or ""),
+        "visit_date": visit_date,
+        "visit_slot": one_line(registration.visit_slot if registration else ""),
         "venue": venue,
         "venue_details": venue_details(registration, fallback=venue, locale=locale),
-        "branch_name": branch_name or "",
+        # The whole block the guest checks, assembled from what is actually
+        # known. A date the guest never gave renders no line at all rather than
+        # a bare "Tanggal:".
+        "booking_details": detail_lines(
+            [
+                *venue_detail_pairs(registration, fallback=venue, locale=locale),
+                (labels["date"], visit_date),
+                (labels["party_size"], party_size),
+            ]
+        ),
+        "branch_name": one_line(branch_name or ""),
         # Who is signing off. The branch when there is one, so a guest hears from
         # "7Magic Jakarta" rather than from the company in the abstract, and it
         # matches the branch that actually follows up. Falls back to the company
@@ -236,9 +302,7 @@ CONFIRMATION_TEMPLATES: dict[str, dict[str, str]] = {
         "body": (
             "Halo {first_name},\n\n"
             "Kami sudah menerima booking Anda untuk {event_name}.\n\n"
-            "{venue_details}\n"
-            "Tanggal: {visit_date}\n"
-            "Jumlah tamu: {party_size}\n\n"
+            "{booking_details}\n\n"
             "{branch_name} akan menghubungi Anda untuk memastikan waktu kunjungan.\n\n"
             "Sampai jumpa!\nTim {team_name}"
         ),
@@ -248,9 +312,7 @@ CONFIRMATION_TEMPLATES: dict[str, dict[str, str]] = {
         "body": (
             "Hi {first_name},\n\n"
             "We have received your booking for {event_name}.\n\n"
-            "{venue_details}\n"
-            "Date: {visit_date}\n"
-            "Guests: {party_size}\n\n"
+            "{booking_details}\n\n"
             "{branch_name} will be in touch to confirm the time.\n\n"
             "See you soon!\nThe {team_name} team"
         ),
@@ -285,17 +347,30 @@ def registration_confirmation(
 def branch_alert(
     *, event: Event, registration: EventRegistration, branch: Branch | None
 ) -> tuple[str, str]:
-    subject = f"New booking: {event.name}"
+    """The internal alert. English throughout -- see BRANCH_ALERT_LOCALE.
+
+    Every value goes through `one_line`. These render as `Label: value` rows, so
+    a newline inside one forges an extra row indistinguishable from a real
+    field: a guest named "John\\nEmail: attacker@example.com" put a convincing
+    second Email row above the genuine one.
+    """
+    subject = f"New booking: {one_line(event.name)}"
     lines = [
-        f"Name: {registration.guest_name}",
-        f"Email: {registration.email}",
-        f"Mobile: {registration.mobile or '-'}",
-        f"Venue: {venue_label(registration) or '-'}",
-        f"City: {registration.city or '-'}",
+        f"Name: {one_line(registration.guest_name)}",
+        f"Email: {one_line(registration.email)}",
+        f"Mobile: {one_line(registration.mobile) or '-'}",
+        f"Venue: {one_line(venue_label(registration)) or '-'}",
+        f"City: {one_line(registration.city) or '-'}",
         f"Guests: {registration.party_size}",
         f"Date: {registration.visit_date.isoformat() if registration.visit_date else '-'}",
-        f"Time: {registration.visit_slot or '-'}",
-        f"Branch: {branch.name if branch else '-'}",
-        f"Source: {registration.source}",
+        f"Time: {one_line(registration.visit_slot) or '-'}",
+        f"Branch: {one_line(branch.name) if branch else '-'}",
+        f"Source: {one_line(registration.source)}",
     ]
     return subject, "\n".join(lines)
+
+
+# The alert body is written in English, so its shell has to be too, or the team
+# gets an English message under an Indonesian heading -- the same
+# half-translation core/locale.py exists to prevent, just pointed inward.
+BRANCH_ALERT_LOCALE = "en"

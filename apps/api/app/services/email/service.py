@@ -50,7 +50,13 @@ async def send_email(
     """
     settings = get_settings()
     mailer = get_mailer(settings)
-    if not mailer.configured or not to:
+    # Two different situations, so two different messages: reporting "not
+    # configured" for an empty recipient list sends whoever reads the log after
+    # a credential that is already fine.
+    if not to:
+        logger.warning("No recipients -- no email sent: %s", subject)
+        return
+    if not mailer.configured:
         logger.warning(
             "%s is not configured -- no email sent: %s", settings.mail_provider, subject
         )

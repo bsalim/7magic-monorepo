@@ -19,7 +19,9 @@
 
   const hidden = $derived(HIDDEN_ON.includes(page.route.id ?? ''));
 
-  const href = $derived(whatsappHref('Hi 7Magic, saya ingin bertanya tentang pernikahan.'));
+  // Translated, like the label beside it: a hardcoded Indonesian prefill meant a
+  // visitor on /en tapped "Chat on WhatsApp" and WhatsApp opened in Indonesian.
+  const href = $derived(whatsappHref(m.wa_float_message()));
 </script>
 
 {#if !hidden}

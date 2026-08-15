@@ -23,15 +23,20 @@ REQUEST_TIMEOUT_SECONDS = 10.0
 
 
 def resolve_mail_base_url(settings: Settings) -> str | None:
-    """The mail key's region host.
+    """The mail key's region host, derived from the key and nothing else.
 
     `whatsapp.resolve_base_url` applies the `bk_{region}_{token}` rule to
     `bird_api_key`; mail has its own key setting, so the same rule is applied to
     that one through a throwaway copy rather than a second implementation of the
     parsing.
+
+    `BIRD_BASE_URL` is deliberately *not* honoured here. It is WhatsApp's
+    override, and reusing it cross-wired the two: an operator pinning the EU
+    host for an EU WhatsApp key would silently send every mail request there
+    with a US mail key, and both call sites swallow the resulting 401 -- so
+    confirmations would vanish with nothing to show for it. Tests reach the
+    mailer through an injected transport, so no override is needed for them.
     """
-    if settings.bird_base_url:
-        return settings.bird_base_url.rstrip("/")
     return resolve_base_url(
         settings.model_copy(update={"bird_api_key": settings.bird_mail_api_key})
     )

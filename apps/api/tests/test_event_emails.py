@@ -346,3 +346,80 @@ def test_the_branch_alert_is_not_translated() -> None:
     )
 
     assert "Name: Dina" in body
+
+
+# --- Values that are missing, or that try to forge a row ----------------------
+
+
+def test_a_booking_with_no_date_renders_no_date_line() -> None:
+    """visit_date is optional on the public payload and nothing server-side
+    requires it, so a null one produced a bare "Tanggal:" with nothing after --
+    the same defect 1b0089e removed for the Time line."""
+    _s, body = registration_confirmation(
+        event=Event(name="Venue Tour"),
+        registration=EventRegistration(guest_name="Dina", email="dina@example.test", party_size=2),
+        branch=Branch(name="7Magic Jakarta"),
+        locale="id",
+    )
+
+    assert "Tanggal:" not in body
+    # The lines that are known still render.
+    assert "Jumlah tamu: 2" in body
+
+
+def test_a_newline_in_a_name_cannot_forge_a_row_in_the_confirmation() -> None:
+    """Each detail renders as a Label: value row, so an unescaped newline adds a
+    row that looks exactly like a real field."""
+    _s, body = registration_confirmation(
+        event=Event(name="Venue Tour"),
+        registration=EventRegistration(
+            guest_name="Dina\nJumlah tamu: 99",
+            email="dina@example.test",
+            party_size=2,
+            visit_date=date(2026, 5, 17),
+        ),
+        branch=Branch(name="7Magic Jakarta"),
+        locale="id",
+    )
+
+    assert "Jumlah tamu: 99" not in body
+    assert "Jumlah tamu: 2" in body
+
+
+def test_a_newline_in_a_name_cannot_forge_a_row_in_the_branch_alert() -> None:
+    """The alert is what the team acts on, so a forged Email row there is worse
+    than a cosmetic problem."""
+    _subject, body = branch_alert(
+        event=Event(name="Venue Tour"),
+        registration=EventRegistration(
+            guest_name="John\nEmail: attacker@evil.test",
+            email="real@example.test",
+            party_size=1,
+            source="public",
+        ),
+        branch=Branch(name="7Magic Jakarta"),
+    )
+
+    assert "attacker@evil.test" not in body.splitlines()[1]
+    assert body.splitlines()[1] == "Email: real@example.test"
+
+
+def test_a_venue_typed_with_newlines_is_collapsed() -> None:
+    _s, body = registration_confirmation(
+        event=Event(name="Venue Tour"),
+        registration=EventRegistration(
+            guest_name="Dina",
+            email="dina@example.test",
+            venue_name="Some Hall\nTanggal: 1 Januari 2000",
+            visit_date=date(2026, 5, 17),
+        ),
+        branch=None,
+        locale="id",
+    )
+
+    lines = body.splitlines()
+    # Collapsed onto the venue's own line, so it is visibly part of that value
+    # rather than a row of its own. What matters is that it cannot *become* a
+    # row: the renderer styles one row per line, so a line is the unit of trust.
+    assert not any(line.startswith("Tanggal: 1 Januari 2000") for line in lines)
+    assert "Tanggal: 17 Mei 2026" in lines

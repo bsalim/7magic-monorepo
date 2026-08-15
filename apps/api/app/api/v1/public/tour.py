@@ -16,6 +16,7 @@ from app.core.errors import error_response
 from app.domains.branches.models import Branch
 from app.domains.branches.service import BranchNotFoundError, branch_service
 from app.domains.events.emails import (
+    BRANCH_ALERT_LOCALE,
     branch_alert,
     notification_recipients,
     registration_confirmation,
@@ -297,7 +298,12 @@ async def _notify(
         event=event, registration=registration, branch=branch
     )
     try:
-        await send_email(to=recipients, subject=alert_subject, text=alert_body)
+        await send_email(
+            to=recipients,
+            subject=alert_subject,
+            text=alert_body,
+            locale=BRANCH_ALERT_LOCALE,
+        )
     except Exception:  # noqa: BLE001
         logger.exception("branch alert email failed for registration %s", registration.id)
 
