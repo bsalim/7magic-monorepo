@@ -54,6 +54,9 @@ PLACEHOLDERS = [
     # name alone, so an existing template that uses it is unaffected.
     "venue_details",
     "branch_name",
+    # The branch signing off, falling back to the company when a booking was
+    # never routed to one.
+    "team_name",
     "party_size",
 ]
 
@@ -180,6 +183,11 @@ def build_replacements(
         "venue": venue,
         "venue_details": venue_details(registration, fallback=venue, locale=locale),
         "branch_name": branch_name or "",
+        # Who is signing off. The branch when there is one, so a guest hears from
+        # "7Magic Jakarta" rather than from the company in the abstract, and it
+        # matches the branch that actually follows up. Falls back to the company
+        # name so an unrouted booking never signs off as "Tim " with a gap.
+        "team_name": branch_name or "7Magic",
         "party_size": str(registration.party_size) if registration else "",
     }
 
@@ -236,7 +244,7 @@ CONFIRMATION_TEMPLATES: dict[str, dict[str, str]] = {
             "Tanggal: {visit_date}\n"
             "Jumlah tamu: {party_size}\n\n"
             "{branch_name} akan menghubungi Anda untuk memastikan waktu kunjungan.\n\n"
-            "Sampai jumpa!\nTim 7Magic"
+            "Sampai jumpa!\nTim {team_name}"
         ),
     },
     "en": {
@@ -248,7 +256,7 @@ CONFIRMATION_TEMPLATES: dict[str, dict[str, str]] = {
             "Date: {visit_date}\n"
             "Guests: {party_size}\n\n"
             "{branch_name} will be in touch to confirm the time.\n\n"
-            "See you soon!\nThe 7Magic team"
+            "See you soon!\nThe {team_name} team"
         ),
     },
 }

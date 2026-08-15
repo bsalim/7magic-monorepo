@@ -297,6 +297,38 @@ def test_a_venue_we_do_not_publish_degrades_to_its_name() -> None:
     assert "Alamat:" not in body
 
 
+def test_the_confirmation_is_signed_by_the_branch() -> None:
+    """A guest should hear from the branch that will actually follow up, not from
+    the company in the abstract."""
+    registration = EventRegistration(
+        guest_name="Dina", email="dina@example.test", visit_date=date(2026, 5, 17)
+    )
+    branch = Branch(name="7Magic Jakarta")
+
+    _s, indonesian = registration_confirmation(
+        event=Event(name="Venue Tour"), registration=registration, branch=branch, locale="id"
+    )
+    _s, english = registration_confirmation(
+        event=Event(name="Venue Tour"), registration=registration, branch=branch, locale="en"
+    )
+
+    assert indonesian.endswith("Tim 7Magic Jakarta")
+    assert english.endswith("The 7Magic Jakarta team")
+
+
+def test_an_unrouted_booking_is_signed_by_the_company() -> None:
+    """No branch means no branch name, and "Tim " with a gap after it would look
+    like a bug to the guest."""
+    _s, body = registration_confirmation(
+        event=Event(name="Venue Tour"),
+        registration=EventRegistration(guest_name="Dina", email="dina@example.test"),
+        branch=None,
+        locale="id",
+    )
+
+    assert body.endswith("Tim 7Magic")
+
+
 def test_the_branch_alert_is_not_translated() -> None:
     """It goes to the team, not the couple, so it stays in one language whatever
     the guest chose."""
