@@ -17,6 +17,7 @@ import re
 from typing import Any
 
 from app.core.config import get_settings
+from app.core.locale import normalise_locale
 
 # 600px is the width that survives every client and every phone.
 _MAX_WIDTH = "600px"
@@ -119,9 +120,7 @@ OFFICES: tuple[tuple[str, str], ...] = (
 
 
 # Keyed by locale so an Indonesian confirmation does not carry an English
-# heading. Falls back to the base locale for anything unrecognised, which is the
-# same rule the confirmation body follows.
-_BASE_LOCALE = "id"
+# heading.
 OFFICE_HEADING: dict[str, str] = {
     "id": "Alamat kantor",
     "en": "Office address",
@@ -135,9 +134,10 @@ def _footer(note: str | None, locale: str | None = None) -> str:
     the addresses are what a guest checks when deciding whether a booking
     confirmation is genuine.
     """
-    # `.get` rather than a branch: an absent, None or unrecognised locale all
-    # land on the base one, which is the rule the confirmation body follows.
-    heading = OFFICE_HEADING.get(locale or "", OFFICE_HEADING[_BASE_LOCALE])
+    # The same normalisation the body uses, not a bare lookup: a bare lookup
+    # missed on a region tag, so an `en-GB` guest got an English confirmation
+    # wrapped in an Indonesian footer.
+    heading = OFFICE_HEADING[normalise_locale(locale)]
     offices = "".join(
         f'<div style="margin-top:8px">'
         f'<div style="color:{_INK};font-weight:600">{html.escape(city)}</div>'

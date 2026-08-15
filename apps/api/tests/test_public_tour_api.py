@@ -437,6 +437,37 @@ def test_a_booking_with_no_locale_is_confirmed_in_indonesian(api, monkeypatch) -
     assert "Halo Dina," in sent[0]["text"]
 
 
+def test_a_region_tagged_locale_gives_a_wholly_english_email(api, monkeypatch) -> None:
+    """Body and shell must agree. They were normalised by two different rules, so
+    an `en-GB` booking produced an English confirmation in an Indonesian
+    footer."""
+    sent: list[dict] = []
+
+    async def fake_send(**kwargs):
+        sent.append(kwargs)
+
+    monkeypatch.setattr(tour_module, "send_email", fake_send)
+
+    branch = _branch(api)
+    _open_event(api, branch["id"])
+
+    response = api.client.post(
+        "/api/v1/public/tour/branches/jakarta/register",
+        json={
+            "name": "Dina",
+            "email": "dina@example.test",
+            "visit_date": _next_weekday(),
+            "locale": "en-GB",
+        },
+    )
+
+    assert response.status_code == 201
+    # The endpoint hands the raw locale on; normalising is the renderer's job,
+    # and both ends of it have to agree.
+    assert sent[0]["locale"] == "en-GB"
+    assert "Hi Dina," in sent[0]["text"]
+
+
 def test_an_unrecognised_locale_still_books_the_tour(api, monkeypatch) -> None:
     """A booking must never fail over the language of its receipt."""
 

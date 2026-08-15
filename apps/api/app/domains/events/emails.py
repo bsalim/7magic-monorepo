@@ -13,16 +13,17 @@ from datetime import date
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.locale import BASE_LOCALE, SUPPORTED_LOCALES, normalise_locale
 from app.domains.branches.models import Branch
 from app.domains.events.models import Event, EventEmailTemplate, EventRegistration
 
+__all__ = ["BASE_LOCALE", "SUPPORTED_LOCALES", "normalise_locale"]
+
 logger = logging.getLogger(__name__)
 
-# Indonesian is canonical, English secondary -- the same rule the site follows.
-# Anything else, including an absent value, renders Indonesian: a guest must get
-# a readable confirmation even when the caller says nothing about language.
-BASE_LOCALE = "id"
-SUPPORTED_LOCALES = ("id", "en")
+# Re-exported: the locale rule moved to core once the email layout needed the
+# same one. Two implementations meant an `en-GB` guest got an English body in an
+# Indonesian shell.
 
 # Month names are a table rather than a call into Python's `locale` module,
 # which is process-global, not thread-safe, and depends on the OS having the
@@ -59,16 +60,6 @@ PLACEHOLDERS = [
     "team_name",
     "party_size",
 ]
-
-
-def normalise_locale(locale: str | None) -> str:
-    """Reduce whatever the caller sent to a locale we can render.
-
-    Accepts a region tag (`en-GB`) by taking the language half, since that is
-    what a browser or an `Accept-Language` header tends to carry.
-    """
-    candidate = (locale or "").strip().lower().replace("_", "-").split("-")[0]
-    return candidate if candidate in SUPPORTED_LOCALES else BASE_LOCALE
 
 
 def format_visit_date(value: date | None, locale: str = BASE_LOCALE) -> str:

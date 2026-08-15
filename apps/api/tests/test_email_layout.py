@@ -215,6 +215,17 @@ def test_an_absent_or_unknown_locale_falls_back_to_indonesian() -> None:
         )
 
 
+def test_a_region_tagged_locale_reaches_the_footer() -> None:
+    """The shell used a bare dict lookup while the body stripped the region tag,
+    so an `en-GB` guest got an English confirmation in an Indonesian footer."""
+    for locale in ("en-GB", "en_US", "EN"):
+        result = render_email(
+            heading="Hi", body_html="<p>x</p>", logo_url="", locale=locale
+        )
+        assert "Office address" in result, locale
+        assert "Alamat kantor" not in result, locale
+
+
 def test_the_footer_lists_every_office() -> None:
     """A transactional email that names a real, findable business reads as one."""
     result = render_email(heading="Hi", body_html="<p>x</p>", logo_url="")
