@@ -162,6 +162,7 @@
     {cityLabel}
     {paxLabel}
     {whatsappHref}
+    {tourHref}
     {photos}
     bind:bookingCard
     onQuote={openQuote}

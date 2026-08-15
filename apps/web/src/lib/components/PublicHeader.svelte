@@ -110,16 +110,19 @@
      again in the nav row once scrolled. Two copies drift. -->
 {#snippet actions()}
   <LanguageSwitcher />
+  <!-- The tour is the funnel, so it carries the one solid CTA and Kontak sits
+       beside it as an outline. Two solid buttons here read as two primaries,
+       which is the same as none. -->
   <Button
     href={localizeHref(TOUR_HREF)}
-    variant="outline"
+    variant="gold"
     size="sm"
     class="font-semibold"
     aria-current={isActive(TOUR_HREF) ? 'page' : undefined}
   >
     {m.nav_free_venue_tour()}
   </Button>
-  <Button variant="gold" size="sm" class="font-semibold" onclick={() => (consultOpen = true)}>
+  <Button variant="outline" size="sm" class="font-semibold" onclick={() => (consultOpen = true)}>
     {m.nav_contact()}
   </Button>
 {/snippet}
@@ -199,7 +202,7 @@
                  longer inherits it. -->
             <Button
               href={localizeHref(TOUR_HREF)}
-              variant="outline"
+              variant="gold"
               size="sm"
               class="mt-2 font-semibold"
               aria-current={isActive(TOUR_HREF) ? 'page' : undefined}
@@ -207,7 +210,7 @@
               {m.nav_free_venue_tour()}
             </Button>
             <Button
-              variant="gold"
+              variant="outline"
               size="sm"
               class="mt-2 font-semibold"
               onclick={() => (consultOpen = true)}
