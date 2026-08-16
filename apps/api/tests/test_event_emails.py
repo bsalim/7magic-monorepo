@@ -170,7 +170,9 @@ def test_the_confirmation_defaults_to_indonesian() -> None:
         branch=Branch(name="7Magic Jakarta"),
     )
 
-    assert "dikonfirmasi" in subject
+    # The event name carries the noun, so the subject does not prefix "Booking" --
+    # an event called "Book a Tour" rendered "Booking Book a Tour Anda".
+    assert subject == "Venue Tour Anda sudah dikonfirmasi"
     assert "Halo Dina," in body
     assert "Jumlah tamu: 2" in body
 

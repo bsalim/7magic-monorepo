@@ -298,7 +298,9 @@ async def template_for(
 # rendered an empty "Time:" on every booking. The follow-up promise covers it.
 CONFIRMATION_TEMPLATES: dict[str, dict[str, str]] = {
     "id": {
-        "subject": "Booking {event_name} Anda sudah dikonfirmasi",
+        # No "Booking" prefix: the event is itself named for what was booked, so
+        # the prefix rendered "Booking Book a Tour Anda". The name carries it.
+        "subject": "{event_name} Anda sudah dikonfirmasi",
         "body": (
             "Halo {first_name},\n\n"
             "Kami sudah menerima booking Anda untuk {event_name}.\n\n"
