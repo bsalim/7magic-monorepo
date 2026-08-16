@@ -35,7 +35,15 @@
 <svelte:window onkeydown={onKeydown} />
 
 <Dialog.Root bind:open>
-  <Dialog.Content class="max-w-5xl border-none bg-transparent p-0 shadow-none">
+  <!-- The width has to be set on the `sm:` variant, not just the base one.
+       Dialog.Content ships `sm:max-w-md`, and a plain `max-w-*` here lands in a
+       different tailwind-merge group, so it survives alongside the override and
+       wins from 640px up — which pinned this lightbox to 448px on every
+       desktop. Capped rather than full-bleed so a photo on an ultrawide is
+       still framed. -->
+  <Dialog.Content
+    class="max-w-[94vw] border-none bg-transparent p-0 shadow-none sm:max-w-[min(1600px,94vw)]"
+  >
     <Dialog.Header class="sr-only">
       <Dialog.Title>{m.vd_photos_of({ venue: venueName })}</Dialog.Title>
     </Dialog.Header>
@@ -45,7 +53,7 @@
         <img
           src={current.src}
           alt={`${venueName} — ${current.label}`}
-          class="max-h-[80vh] w-full rounded-card object-contain"
+          class="max-h-[86vh] w-full rounded-card object-contain"
         />
 
         {#if photos.length > 1}
