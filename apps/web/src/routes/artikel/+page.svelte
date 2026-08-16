@@ -3,24 +3,11 @@
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import { m } from '$lib/paraglide/messages.js';
+  import { pageWindow } from '$lib/pagination';
 
   let { data } = $props();
 
   const pagination = $derived(data.articles.pagination);
-
-  // Condense long runs to first / last / current-and-neighbours so ten pages of
-  // articles do not wrap onto three lines on a phone.
-  function pageWindow(current: number, total: number): (number | 'gap')[] {
-    if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1);
-
-    const wanted = [1, total, current, current - 1, current + 1]
-      .filter((page, index, all) => page >= 1 && page <= total && all.indexOf(page) === index)
-      .sort((a, b) => a - b);
-
-    return wanted.flatMap((page, index) =>
-      index > 0 && page - wanted[index - 1] > 1 ? ['gap' as const, page] : [page]
-    );
-  }
 </script>
 
 <svelte:head>

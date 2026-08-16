@@ -6,6 +6,7 @@
   import { page } from '$app/state';
   import { getLocale, localizeHref } from '$lib/paraglide/runtime';
   import { m } from '$lib/paraglide/messages.js';
+  import { pageWindow, paginationHref } from '$lib/pagination';
   import {
     breadcrumbList,
     graph,
@@ -21,6 +22,10 @@
   const pagination = $derived(data.venues.pagination);
   // The filtered URL, so the described collection is the one actually rendered.
   const pagePath = $derived(page.url.pathname + page.url.search);
+
+  // Reads page.url during render, so the links re-resolve when a filter changes
+  // instead of pointing back at the query the page first loaded with.
+  const hrefFor = (target: number) => paginationHref(page.url, target);
 
   // Shared with <title> and the meta description below. Structured data has to
   // agree with what the page shows, and this page's chrome is not translated
@@ -89,11 +94,12 @@
     </aside>
 
     <div>
+      <!-- The page indicator lives with the pager below, which is also the only
+           place it means anything: a single page of results has nothing to say. -->
       <div class="mb-5 flex items-center justify-between gap-4">
         <p class="text-sm text-slate-600">
-          {data.venues.pagination.total} venues found
+          {pagination.total} venues found
         </p>
-        <p class="text-sm text-slate-500">Page {data.venues.pagination.page} of {Math.max(data.venues.pagination.total_pages, 1)}</p>
       </div>
 
       {#if data.venues.items.length}
@@ -102,6 +108,76 @@
             <VenueCard {venue} />
           {/each}
         </div>
+
+        <!-- Plain links, not buttons: paging is a navigation, so it stays
+             shareable, crawlable, and works with JavaScript unavailable — the
+             same reasoning as the tick-box filters. -->
+        {#if pagination.total_pages > 1}
+          <nav
+            class="mt-10 flex flex-col items-center gap-4 border-t border-border pt-6 sm:flex-row sm:justify-between"
+            aria-label="Venue search pages"
+          >
+            <p class="text-sm text-slate-500">
+              Page {pagination.page} of {pagination.total_pages}
+            </p>
+
+            <div class="flex items-center gap-1">
+              {#if pagination.page > 1}
+                <a
+                  href={hrefFor(pagination.page - 1)}
+                  rel="prev"
+                  class="rounded-md border border-input px-3 py-2 text-sm font-medium hover:bg-muted"
+                >
+                  Previous
+                </a>
+              {:else}
+                <span
+                  class="rounded-md border border-input px-3 py-2 text-sm font-medium text-slate-400 opacity-50"
+                  aria-disabled="true"
+                >
+                  Previous
+                </span>
+              {/if}
+
+              {#each pageWindow(pagination.page, pagination.total_pages) as item}
+                {#if item === 'gap'}
+                  <span class="px-2 text-sm text-slate-500" aria-hidden="true">…</span>
+                {:else if item === pagination.page}
+                  <span
+                    class="rounded-md border border-primary bg-primary px-3 py-2 text-sm font-semibold text-white"
+                    aria-current="page"
+                  >
+                    {item}
+                  </span>
+                {:else}
+                  <a
+                    href={hrefFor(item)}
+                    class="rounded-md border border-input px-3 py-2 text-sm hover:bg-muted"
+                  >
+                    {item}
+                  </a>
+                {/if}
+              {/each}
+
+              {#if pagination.page < pagination.total_pages}
+                <a
+                  href={hrefFor(pagination.page + 1)}
+                  rel="next"
+                  class="rounded-md border border-input px-3 py-2 text-sm font-medium hover:bg-muted"
+                >
+                  Next
+                </a>
+              {:else}
+                <span
+                  class="rounded-md border border-input px-3 py-2 text-sm font-medium text-slate-400 opacity-50"
+                  aria-disabled="true"
+                >
+                  Next
+                </span>
+              {/if}
+            </div>
+          </nav>
+        {/if}
       {:else}
         <div class="rounded-md border border-dashed border-input bg-white p-10 text-center">
           <h2 class="text-2xl font-semibold">No venues match these filters</h2>
