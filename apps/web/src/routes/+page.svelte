@@ -28,6 +28,10 @@
   let { data } = $props();
   let home = $derived(data.home);
 
+  // One string for the tab title and the JSON-LD WebPage name: a mismatch
+  // between the two is what Search Console reports as a duplicate title.
+  const META_TITLE = '7Magic Wedding | Wedding Venue Packages Jakarta Bali Batam Singapore';
+
   // The home page is where the site-wide Organization and WebSite nodes live —
   // the SearchAction on the latter is what lets the venue search surface as a
   // sitelinks search box. Every other page references them by @id.
@@ -42,7 +46,7 @@
         website(),
         webPageNode({
           url: page.url.pathname,
-          name: '7Magic Wedding | Venue Packages Jakarta Bali Batam Singapore',
+          name: META_TITLE,
           locale: getLocale(),
           about: ORGANIZATION_ID
         }),
@@ -85,10 +89,14 @@
 </script>
 
 <svelte:head>
-  <title>7Magic Wedding | Venue Packages Jakarta Bali Batam Singapore</title>
+  <title>{META_TITLE}</title>
   <meta
     name="description"
-    content="Curated wedding venue packages, wedding organizer support, and planning articles for Jakarta, Bali, Batam, and Singapore celebrations."
+    content="Wedding venue Jakarta, Bali, Batam, and Singapore: curated wedding venue packages with pricing up front, wedding organizer support, and planning guides from 7Magic."
+  />
+  <meta
+    name="keywords"
+    content="wedding venue jakarta, venue pernikahan jakarta, wedding venue, wedding venue packages, wedding package jakarta, gedung pernikahan jakarta, wedding organizer jakarta"
   />
   <!-- Svelte parses script contents as raw text, so JSON-LD has to arrive as
        pre-rendered markup rather than as an expression inside the tag. -->
