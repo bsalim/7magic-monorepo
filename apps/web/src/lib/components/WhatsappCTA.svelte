@@ -38,7 +38,7 @@
         {m.cta_whatsapp()}
       </a>
       <a
-        href="https://www.instagram.com/7magicwedding"
+        href="https://www.instagram.com/7magicorganizer/"
         class={cn(
           buttonVariants({ variant: 'outline' }),
           'h-auto py-3 font-semibold text-accent-foreground'
