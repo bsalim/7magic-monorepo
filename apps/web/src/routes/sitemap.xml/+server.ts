@@ -100,7 +100,16 @@ async function venueEntries(fetcher: typeof fetch): Promise<SitemapEntry[]> {
     })
   );
 
-  return items.map((venue) => ({ alternates: bothLocales(venue.path_url) }));
+  // The city hubs that list these venues. Derived from the catalogue rather
+  // than added to STATIC_PATHS: there is no cities endpoint, and that list is
+  // hand-maintained, so a city opening its first venue would otherwise get a
+  // page no crawler is told about.
+  const cities = [...new Set(items.map((venue) => venue.path_url.split('/')[2]))];
+
+  return [
+    ...cities.map((city) => ({ alternates: bothLocales(`/wedding-venue/${city}`) })),
+    ...items.map((venue) => ({ alternates: bothLocales(venue.path_url) }))
+  ];
 }
 
 async function showcaseEntries(fetcher: typeof fetch): Promise<SitemapEntry[]> {

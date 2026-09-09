@@ -6,7 +6,7 @@
   import ResponsiveImage from './ResponsiveImage.svelte';
   import { m } from '$lib/paraglide/messages.js';
   import type { VenueCard } from '$lib/api';
-  import { formatPrice } from '$lib/utils';
+  import { formatPrice, titleCase } from '$lib/utils';
   import { localizeHref } from '$lib/paraglide/runtime';
 
   let { venue }: { venue: VenueCard } = $props();
@@ -36,7 +36,9 @@
     </div>
     <p class="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
       <MapPinIcon size={15} />
-      {venue.district}, {venue.city}
+      <!-- `city` is not consistently capitalized in the catalogue -- Jakarta's
+           rows carry "jakarta" -- so it is cased here rather than trusted. -->
+      {venue.district}, {titleCase(venue.city)}
     </p>
     <p class="mt-4 text-lg font-semibold">{formatPrice(venue.price_start_from)}</p>
     <!-- Zero pax means the package size is unknown, not that the venue seats
