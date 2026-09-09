@@ -2,7 +2,6 @@
   import ArrowRight from '@lucide/svelte/icons/arrow-right';
   import CalendarDays from '@lucide/svelte/icons/calendar-days';
   import Check from '@lucide/svelte/icons/check';
-  import Compass from '@lucide/svelte/icons/compass';
   import Heart from '@lucide/svelte/icons/heart';
   import Sparkles from '@lucide/svelte/icons/sparkles';
   import Users from '@lucide/svelte/icons/users';
@@ -58,15 +57,6 @@
     )
   );
 
-  const quickLinks = [
-    { label: 'Jakarta venues', href: '/wedding-venue/search?city=jakarta' },
-    { label: 'Bali venues', href: '/wedding-venue/search?city=bali' },
-    { label: 'Batam venues', href: '/wedding-venue/search?city=batam' },
-    { label: '5-star hotels', href: '/wedding-venue/search?stars_min=5' },
-    { label: 'Ballroom packages', href: '/wedding-venue/search?q=ballroom' },
-    { label: 'Chapel & garden', href: '/wedding-venue/search?q=chapel' }
-  ];
-
   const weddingStyles = [
     { title: 'Luxury ballroom', copy: 'Grand hotel receptions with complete vendor guidance.', href: '/wedding-venue/search?q=ballroom' },
     { title: 'Garden wedding', copy: 'Open-air celebrations, resort lawns, and softer scenery.', href: '/wedding-venue/search?q=garden' },
@@ -107,22 +97,8 @@
   <PublicHeader />
   <!-- Hero copy comes from Paraglide, not from `home.hero`: the API serves it
        from a static fixture in English only, so the Indonesian site was reading
-       English headings. The image still comes from the payload. -->
-  <HeroVenueSearch title={m.hero_title()} subtitle={m.hero_subtitle()} image={home.hero.image} />
-
-  <section class="bg-brand-ink px-5 py-5 text-white lg:px-8">
-    <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-3">
-      <span class="inline-flex items-center gap-2 text-sm font-semibold text-white/72">
-        <Compass size={16} />
-        Browse fast
-      </span>
-      {#each quickLinks as item}
-        <a href={localizeHref(item.href)} class="rounded-full border border-white/18 bg-white/8 px-4 py-2 text-sm font-semibold text-white/88 transition hover:bg-white hover:text-brand-ink">
-          {item.label}
-        </a>
-      {/each}
-    </div>
-  </section>
+       English headings. The banner images are fixed assets, not payload-driven. -->
+  <HeroVenueSearch title={m.hero_title()} subtitle={m.hero_subtitle()} />
 
   <section class="mx-auto max-w-7xl px-5 py-14 lg:px-8">
     <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">

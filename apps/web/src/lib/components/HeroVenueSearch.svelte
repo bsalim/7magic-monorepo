@@ -1,6 +1,6 @@
 <script lang="ts">
+  import Compass from '@lucide/svelte/icons/compass';
   import SearchIcon from '@lucide/svelte/icons/search';
-  import SparklesIcon from '@lucide/svelte/icons/sparkles';
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
@@ -10,13 +10,23 @@
 
   let {
     title,
-    subtitle,
-    image = '/img/wedding-venue-deal-1920.webp'
+    subtitle
   }: {
     title: string;
     subtitle: string;
-    image?: string;
   } = $props();
+
+  // Jakarta and Bali are the two markets the hero has to sell hardest, so the
+  // banner rotates between them rather than picking one over the other.
+  const banners = ['/img/hero-jakarta.jpg', '/img/hero-bali.jpg'];
+  let activeBanner = $state(0);
+
+  $effect(() => {
+    const id = setInterval(() => {
+      activeBanner = (activeBanner + 1) % banners.length;
+    }, 6000);
+    return () => clearInterval(id);
+  });
 
   const cities = $derived([
     { value: '', label: m.search_all_cities() },
@@ -39,43 +49,48 @@
 
   let cityLabel = $derived(cities.find((item) => item.value === cityValue)?.label ?? m.search_all_cities());
   let starsLabel = $derived(ratings.find((item) => item.value === starsValue)?.label ?? m.search_any());
+
+  const quickLinks = [
+    { label: 'Jakarta venues', href: '/wedding-venue/search?city=jakarta' },
+    { label: 'Bali venues', href: '/wedding-venue/search?city=bali' },
+    { label: 'Batam venues', href: '/wedding-venue/search?city=batam' },
+    { label: '5-star hotels', href: '/wedding-venue/search?stars_min=5' },
+    { label: 'Ballroom packages', href: '/wedding-venue/search?q=ballroom' },
+    { label: 'Chapel & garden', href: '/wedding-venue/search?q=chapel' }
+  ];
 </script>
 
-<section class="relative flex min-h-[660px] items-center overflow-hidden">
-  <picture class="absolute inset-0">
-    <source media="(min-width: 1280px)" srcset={image} type="image/webp" />
-    <source media="(min-width: 768px)" srcset="/img/wedding-venue-deal-1024.webp" type="image/webp" />
+<!-- The banners are pre-designed marketing posters (price, offer, feature
+     icons all baked into the artwork), not photography meant to carry
+     overlaid copy. The section is sized to the images' own 1920x1080 ratio
+     so nothing in the artwork gets cropped, and the title/subtitle stay for
+     SEO and screen readers without being drawn on top of it. -->
+<section class="relative aspect-video w-full overflow-hidden bg-white">
+  {#each banners as banner, index (banner)}
     <img
-      src="/img/wedding-venue-deal-768.jpg"
-      alt="Wedding venue table setting"
-      class="h-full w-full object-cover"
+      src={banner}
+      alt=""
+      class="absolute inset-0 h-full w-full object-contain transition-opacity duration-1000"
+      style:opacity={index === activeBanner ? 1 : 0}
     />
-  </picture>
-  <div class="absolute inset-0 bg-slate-950/35"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black via-black/35 to-transparent"></div>
+  {/each}
+  <h1 class="sr-only">{title}</h1>
+  <p class="sr-only">{subtitle}</p>
+</section>
 
-  <!-- Padding has to be symmetric: the section centers this block and clips at
-       min-height, so a top-only pad pushes the last line out of view once the
-       heading wraps to an extra line. -->
-  <div class="relative z-10 mx-auto w-full max-w-7xl px-5 py-24 lg:px-8">
-    <div class="max-w-4xl text-white">
-      <div class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm backdrop-blur">
-        <SparklesIcon size={16} />
-        {m.hero_badge()}
-      </div>
-      <h1 class="mt-6 max-w-4xl text-4xl font-semibold leading-tight md:text-6xl">
-        {title}
-      </h1>
-      <p class="mt-5 max-w-2xl text-lg leading-8 text-white/80">{subtitle}</p>
-    </div>
-
+<!-- The search form and the quick-link shortcuts used to be two separate
+     sections; combined here so the whole "act on the hero" block reads as
+     one dark bar right under the banner instead of a white card followed by
+     a second, visually unrelated strip. -->
+<div class="bg-brand-ink px-5 py-6 text-white lg:px-8">
+  <div class="mx-auto max-w-7xl">
     <!-- A form action is a navigation like any other, and this one is the main
          one on the site: a bare /wedding-venue/search dropped an English visitor
          onto the Indonesian results the moment they searched. -->
     <form
       action={localizeHref('/wedding-venue/search')}
       method="GET"
-      class="mt-10 max-w-5xl rounded-md bg-card p-4 shadow-2xl md:flex md:items-end md:gap-3 md:p-6"
+      class="rounded-md bg-card p-4 text-slate-900 shadow-2xl md:flex md:items-end md:gap-3 md:p-6"
     >
       <div class="grid flex-1 gap-2">
         <Label for="hero-q">{m.search_venue_name()}</Label>
@@ -111,5 +126,20 @@
         {m.search_submit()}
       </Button>
     </form>
+
+    <div class="mt-5 flex flex-wrap items-center gap-3">
+      <span class="inline-flex items-center gap-2 text-sm font-semibold text-white/72">
+        <Compass size={16} />
+        Browse fast
+      </span>
+      {#each quickLinks as item}
+        <a
+          href={localizeHref(item.href)}
+          class="rounded-full border border-white/18 bg-white/8 px-4 py-2 text-sm font-semibold text-white/88 transition hover:bg-white hover:text-brand-ink"
+        >
+          {item.label}
+        </a>
+      {/each}
+    </div>
   </div>
-</section>
+</div>
