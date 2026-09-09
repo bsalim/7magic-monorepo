@@ -4,10 +4,9 @@
   import { localizeHref } from '$lib/paraglide/runtime';
   import { canonicalUrl } from '$lib/seo/schema';
   import PlausibleAnalytics from '$lib/components/PlausibleAnalytics.svelte';
-  import PromotionPopup from '$lib/components/PromotionPopup.svelte';
   import WhatsappFloatingButton from '$lib/components/WhatsappFloatingButton.svelte';
 
-  let { children, data } = $props();
+  let { children } = $props();
 
   // `localizeHref` rewrites the path structure, which is the whole story for
   // every page whose URL is the same words in both languages. Articles are not
@@ -49,5 +48,3 @@
 {@render children()}
 
 <WhatsappFloatingButton />
-
-<PromotionPopup promotion={data.promotion} />
