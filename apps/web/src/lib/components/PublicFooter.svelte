@@ -3,6 +3,7 @@
   import MapPinIcon from '@lucide/svelte/icons/map-pin';
   import { Separator } from '$lib/components/ui/separator';
   import VenuePartners from './VenuePartners.svelte';
+  import { INSTAGRAM_URL } from '$lib/contact';
   import { m } from '$lib/paraglide/messages.js';
   import { localizeHref } from '$lib/paraglide/runtime';
 
@@ -70,7 +71,7 @@
              @7magicwedding while linking to /7magicorganizer/ would misstate
              where the link goes. -->
         <a
-          href="https://www.instagram.com/7magicorganizer/"
+          href={INSTAGRAM_URL}
           target="_blank"
           rel="noopener noreferrer"
           class="flex w-fit items-center gap-2 transition hover:text-foreground"

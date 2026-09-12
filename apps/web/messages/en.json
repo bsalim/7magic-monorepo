@@ -1,5 +1,7 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
+  "article_published_on": "Published {date}",
+  "article_updated_on": "Updated {date}",
   "articles_empty_body": "Check back for new guides and stories from the 7Magic editorial team.",
   "articles_empty_title": "No published articles yet",
   "articles_eyebrow": "Editorial",

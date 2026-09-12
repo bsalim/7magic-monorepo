@@ -1,12 +1,8 @@
-import {
-  fetchJson,
-  type ArticleListPayload,
-  type ShowcaseListPayload,
-  type VenueListPayload
-} from '$lib/api';
+import { fetchJson, type ArticleListPayload, type ShowcaseListPayload } from '$lib/api';
 import { localizeHref } from '$lib/paraglide/runtime';
-import { fetchVenueJson } from '$lib/server/api';
+import { fetchAllPages, fetchVenueCatalogue } from '$lib/server/catalogue';
 import { buildSitemap, type SitemapEntry } from '$lib/seo/sitemap';
+import { venueCities } from '$lib/venue-groups';
 
 /**
  * Every page worth indexing, in both languages.
@@ -48,25 +44,6 @@ function bothLocales(path: string): Record<string, string> {
   };
 }
 
-/**
- * Walks a paginated endpoint to the end. The list endpoints cap page_size well
- * below the article count, so taking the first page would silently ship a
- * partial sitemap -- the failure mode that looks fine until traffic is missing.
- */
-async function fetchAllPages<T>(
-  get: (url: string) => Promise<unknown>,
-  url: (page: number) => string,
-  read: (payload: never) => { items: T[]; pages: number }
-): Promise<T[]> {
-  const first = read((await get(url(1))) as never);
-  const rest = await Promise.all(
-    Array.from({ length: Math.max(0, first.pages - 1) }, (_, index) =>
-      get(url(index + 2)).then((payload) => read(payload as never).items)
-    )
-  );
-  return [...first.items, ...rest.flat()];
-}
-
 async function articleEntries(fetcher: typeof fetch): Promise<SitemapEntry[]> {
   const items = await fetchAllPages(
     (url) => fetchJson(url, fetcher),
@@ -86,28 +63,12 @@ async function articleEntries(fetcher: typeof fetch): Promise<SitemapEntry[]> {
 }
 
 async function venueEntries(fetcher: typeof fetch): Promise<SitemapEntry[]> {
-  // The database-backed endpoint, matching the search and detail pages.
-  // /api/v1/public/venues still serves the legacy in-memory fixtures, and a
-  // sitemap built from those would advertise four venues and hide the catalogue.
-  const items = await fetchAllPages(
-    (url) => fetchVenueJson(url, fetcher),
-    // 24 is this endpoint's ceiling -- it rejects anything larger with a 422
-    // rather than clamping, so a bigger number here loses every venue.
-    (page) => `/api/v1/venues?page=${page}&page_size=24`,
-    (payload: VenueListPayload) => ({
-      items: payload.items,
-      pages: payload.pagination.total_pages
-    })
-  );
-
-  // The city hubs that list these venues. Derived from the catalogue rather
-  // than added to STATIC_PATHS: there is no cities endpoint, and that list is
-  // hand-maintained, so a city opening its first venue would otherwise get a
-  // page no crawler is told about.
-  const cities = [...new Set(items.map((venue) => venue.path_url.split('/')[2]))];
+  const items = await fetchVenueCatalogue(fetcher);
 
   return [
-    ...cities.map((city) => ({ alternates: bothLocales(`/wedding-venue/${city}`) })),
+    ...venueCities(items).map((city) => ({
+      alternates: bothLocales(`/wedding-venue/${city.slug}`)
+    })),
     ...items.map((venue) => ({ alternates: bothLocales(venue.path_url) }))
   ];
 }

@@ -8,6 +8,26 @@
  */
 
 import type { VenueCard } from '$lib/api';
+import { titleCase } from '$lib/utils';
+
+export type CityEntry = { slug: string; name: string; count: number };
+
+/**
+ * The city hubs the catalogue implies, most venues first. Derived rather than
+ * listed: there is no cities endpoint, and a hand-maintained list would leave a
+ * city opening its first venue with a page nothing points at.
+ */
+export function venueCities(venues: VenueCard[]): CityEntry[] {
+  const counts = new Map<string, number>();
+  for (const venue of venues) {
+    const slug = venue.path_url.split('/')[2];
+    counts.set(slug, (counts.get(slug) ?? 0) + 1);
+  }
+
+  return [...counts]
+    .map(([slug, count]) => ({ slug, name: titleCase(slug), count }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'id'));
+}
 
 export type StarGroup = {
   /** The rating itself. 0 is a venue with no hotel rating, not a bad hotel. */

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { VenueCard } from '$lib/api';
-import { cityFloorPrice, groupByStars } from './venue-groups';
+import { cityFloorPrice, groupByStars, venueCities } from './venue-groups';
 
 const venue = (overrides: Partial<VenueCard>): VenueCard => ({
   id: 1,
@@ -14,6 +14,27 @@ const venue = (overrides: Partial<VenueCard>): VenueCard => ({
   path_url: '/wedding-venue/jakarta/a-venue',
   cover_photo: { alt: 'A Venue', small_url: '/img/venue.webp' },
   ...overrides
+});
+
+describe('venueCities', () => {
+  it('counts venues per city slug, most venues first', () => {
+    const cities = venueCities([
+      venue({ id: 1, path_url: '/wedding-venue/tangerang/a' }),
+      venue({ id: 2, path_url: '/wedding-venue/jakarta/b' }),
+      venue({ id: 3, path_url: '/wedding-venue/jakarta/c' })
+    ]);
+
+    expect(cities).toEqual([
+      { slug: 'jakarta', name: 'Jakarta', count: 2 },
+      { slug: 'tangerang', name: 'Tangerang', count: 1 }
+    ]);
+  });
+
+  it('title-cases a hyphenated slug', () => {
+    const [city] = venueCities([venue({ path_url: '/wedding-venue/tangerang-selatan/a' })]);
+
+    expect(city.name).toBe('Tangerang Selatan');
+  });
 });
 
 describe('groupByStars', () => {

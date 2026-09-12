@@ -15,7 +15,7 @@
  */
 
 import type { ArticleDetail, VenueCard, VenueDetail } from '$lib/api';
-import { CONTACT_EMAIL } from '$lib/contact';
+import { CONTACT_EMAIL, INSTAGRAM_URL } from '$lib/contact';
 import { localizeHref } from '$lib/paraglide/runtime';
 import { titleCase } from '$lib/utils';
 import { whatsappDisplay, whatsappNumber } from '$lib/whatsapp';
@@ -95,7 +95,7 @@ export function organization() {
     // Text is a valid areaServed value, and avoids asserting that Bali is a
     // city or that Singapore is one of ours to administer.
     areaServed: ['Jakarta', 'Bali', 'Singapore'],
-    sameAs: ['https://www.instagram.com/7magicwedding', `https://wa.me/${whatsappNumber}`]
+    sameAs: [INSTAGRAM_URL, `https://wa.me/${whatsappNumber}`]
   };
 }
 

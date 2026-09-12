@@ -1,5 +1,7 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
+  "article_published_on": "Diterbitkan {date}",
+  "article_updated_on": "Diperbarui {date}",
   "articles_empty_body": "Nantikan panduan dan cerita terbaru dari tim editorial 7Magic.",
   "articles_empty_title": "Belum ada artikel terbit",
   "articles_eyebrow": "Editorial",

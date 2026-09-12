@@ -4,6 +4,7 @@
   import WhatsappCTA from '$lib/components/WhatsappCTA.svelte';
   import { page } from '$app/state';
   import { localizeArticleBody } from '$lib/article-body';
+  import { formatLongDate } from '$lib/dates';
   import { getLocale } from '$lib/paraglide/runtime';
   import { m } from '$lib/paraglide/messages.js';
   import {
@@ -17,6 +18,12 @@
 
   let { data } = $props();
   let article = $derived(data.article);
+
+  const published = $derived(formatLongDate(article.published_at, getLocale()));
+  // Compared as rendered days: the API stamps updated_at on every save,
+  // including the one that published, so an article edited only on its
+  // publication day counts as never edited.
+  const updated = $derived(formatLongDate(article.updated_at, getLocale()));
 
   // page.url keeps the /en prefix that reroute strips before matching, so the
   // English copy of an article identifies itself by its own URL, not the
@@ -57,6 +64,12 @@
       <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">{article.summary}</p>
       <div class="mt-5 flex flex-wrap gap-3 text-sm text-slate-500">
         <span>{article.author}</span>
+        {#if published}
+          <time datetime={article.published_at}>{m.article_published_on({ date: published })}</time>
+        {/if}
+        {#if updated && updated !== published}
+          <time datetime={article.updated_at}>{m.article_updated_on({ date: updated })}</time>
+        {/if}
         <span>{article.word_count} words</span>
       </div>
       <img src={article.image_url || '/img/wedding-venue-deal-768.jpg'} alt="" class="mt-8 h-[360px] w-full rounded-md object-cover" />

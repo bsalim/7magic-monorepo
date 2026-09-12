@@ -7,3 +7,9 @@
  * correcting it meant finding four of them.
  */
 export const CONTACT_EMAIL = '7magicorganizer@gmail.com';
+
+/**
+ * The Instagram account, for the same reason: the footer linked
+ * /7magicorganizer/ while the Organization schema claimed /7magicwedding.
+ */
+export const INSTAGRAM_URL = 'https://www.instagram.com/7magicorganizer/';
