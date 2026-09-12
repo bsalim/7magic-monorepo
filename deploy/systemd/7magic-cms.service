@@ -7,8 +7,8 @@ PartOf=7magic.target
 
 [Service]
 Type=simple
-User=www-data
-Group=www-data
+User=7magic
+Group=7magic
 WorkingDirectory=/var/www/7magic-monorepo/apps/cms
 
 # The CMS holds the session cookie, so ORIGIN must match the public HTTPS host

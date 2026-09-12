@@ -7,8 +7,8 @@ PartOf=7magic.target
 
 [Service]
 Type=simple
-User=www-data
-Group=www-data
+User=7magic
+Group=7magic
 WorkingDirectory=/var/www/7magic-monorepo/apps/web
 
 # PORT, HOST, ORIGIN and PUBLIC_API_* live here. ORIGIN is required by

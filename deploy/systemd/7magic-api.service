@@ -9,9 +9,14 @@ PartOf=7magic.target
 
 [Service]
 Type=notify
-User=www-data
-Group=www-data
+User=7magic
+Group=7magic
 WorkingDirectory=/var/www/7magic-monorepo/apps/api
+
+# asyncpg stats ~/.postgresql/* on every connect. With ProtectHome=true below,
+# a HOME under /home answers EACCES rather than ENOENT and the connect fails
+# with a PermissionError. Point HOME at a path that simply does not exist.
+Environment=HOME=/nonexistent
 
 # Defaults for the two variables ExecStart expands. systemd applies these in
 # file order, so the EnvironmentFile below still overrides them — they exist

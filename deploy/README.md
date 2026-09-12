@@ -24,7 +24,7 @@ All three bind to `127.0.0.1`. Caddy terminates TLS and is the only ingress.
 Change these in the unit files if your host differs.
 
 - Code deployed to `/var/www/7magic-monorepo`
-- Services run as `www-data`
+- Services run as `7magic`, a system user that owns the tree and nothing else
 - Environment files at `/var/www/7magic-monorepo/apps/{api,web,cms}/.env`
 - Node at `/usr/bin/node` (v22+), Python venv at `apps/api/.venv`
 
@@ -47,17 +47,24 @@ no runnable server. Both now use `@sveltejs/adapter-node`, which emits
 ## Install
 
 ```bash
-# 1. Code
+# 1. User and code. One system user per app keeps a compromise in one tenant
+#    from reaching the others; www-data owns nothing here. Debian's adduser
+#    rejects names that start with a digit unless told otherwise. The shell is
+#    bash, not nologin: the GitHub Actions deploy key logs in as this user and
+#    sshd runs its forced command through the login shell.
+sudo adduser --system --group --home /home/7magic --shell /bin/bash \
+     --allow-bad-names 7magic
 sudo mkdir -p /var/www/7magic-monorepo
-sudo chown -R www-data:www-data /var/www/7magic-monorepo
-sudo -u www-data git clone <repo> /var/www/7magic-monorepo
+sudo chown 7magic:7magic /var/www/7magic-monorepo
+sudo chmod 750 /var/www/7magic-monorepo
+sudo -u 7magic git clone <repo> /var/www/7magic-monorepo
 
 # 2. Environment files — one per app, alongside the code. They are gitignored,
 #    so a later `git pull` leaves them alone.
 cd /var/www/7magic-monorepo
-sudo -u www-data cp deploy/env/api.env.example apps/api/.env
-sudo -u www-data cp deploy/env/web.env.example apps/web/.env
-sudo -u www-data cp deploy/env/cms.env.example apps/cms/.env
+sudo -u 7magic cp deploy/env/api.env.example apps/api/.env
+sudo -u 7magic cp deploy/env/web.env.example apps/web/.env
+sudo -u 7magic cp deploy/env/cms.env.example apps/cms/.env
 sudo chmod 600 apps/{api,web,cms}/.env
 # then fill in DATABASE_URL, VENUE_READ_API_KEY, R2 credentials, ORIGIN hosts
 
@@ -76,7 +83,17 @@ sudo systemctl reload caddy
 
 ## Build and release
 
-Run as `www-data` from `/var/www/7magic-monorepo`:
+`deploy/release.sh` does all of this and then waits for the three services to
+answer. GitHub Actions runs it on every push to `main` that passes CI (see
+`.github/workflows/ci.yml`): the workflow SSHes in as `7magic` with a key whose
+`authorized_keys` entry forces that script, so the key can do nothing else. By
+hand:
+
+```bash
+sudo -u 7magic bash /var/www/7magic-monorepo/deploy/release.sh
+```
+
+Step by step, as `7magic` from `/var/www/7magic-monorepo`:
 
 ```bash
 git pull
@@ -134,6 +151,17 @@ it fails with a bare permission error.
 
 **Environment files are not shell.** systemd reads them literally, so
 `KEY="value"` puts the quotes *in* the value and `$OTHER` is not expanded.
+
+**Run git in the tree as `7magic`, not as yourself.** git refuses to operate on
+a checkout owned by another user ("dubious ownership"), and a build run as the
+wrong user leaves files the service cannot read. The first `pnpm install` and
+`uv sync` as `7magic` re-download into that user's own cache — the tree was
+previously hardlinked into www-data's shared store, and that is expected.
+
+**`ProtectHome=true` turns a missing `~/.postgresql` into a crash.** asyncpg
+stats `~/.postgresql/postgresql.key` on every connect; behind `ProtectHome` that
+is EACCES rather than ENOENT and every query 500s. The API unit sets
+`HOME=/nonexistent` for that reason — keep it if you change the user.
 
 **Postgres ordering.** The API unit has `After=postgresql.service`. If the
 database is on another host, drop that and rely on `Restart=always` to retry.
