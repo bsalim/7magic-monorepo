@@ -11,7 +11,13 @@ REPO="${REPO_DIR:-/var/www/7magic-monorepo}"
 # A forced-command login has no profile, so PATH is whatever sshd hands out.
 # uv and the corepack pnpm shim live in /usr/local/bin.
 export PATH="/usr/local/bin:/usr/bin:/bin"
+# Nothing here can answer a prompt. CI=1 puts pnpm, corepack and friends in
+# non-interactive mode; the purge flag covers pnpm's "modules directories will
+# be removed and reinstalled" confirmation, which it asks whenever the store
+# behind node_modules changes (e.g. after the tree changed owner).
+export CI=1
 export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+export npm_config_confirm_modules_purge=false
 
 log() { printf '==> %s\n' "$*"; }
 
