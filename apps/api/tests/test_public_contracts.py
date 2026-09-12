@@ -173,15 +173,18 @@ def public_article_client(tmp_path) -> Generator[TestClient, None, None]:
         asyncio.run(engine.dispose())
 
 
-def test_public_home_contract() -> None:
-    client = TestClient(app)
-    response = client.get("/api/v1/public/home")
+def test_public_home_contract(public_article_client: TestClient) -> None:
+    # Everything on the home payload is static except featured_articles, which
+    # reads the articles table — so this needs the seeded database, not the
+    # developer's configured one.
+    response = public_article_client.get("/api/v1/public/home")
 
     assert response.status_code == 200
     payload = response.json()
     assert payload["hero"]["title"]
     assert payload["featured_venues"]
     assert payload["testimonials"]
+    assert payload["featured_articles"]
 
 
 def test_public_venue_search_contract() -> None:
