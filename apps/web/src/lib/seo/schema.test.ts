@@ -8,6 +8,7 @@ import {
   breadcrumbList,
   canonicalUrl,
   countryCodeFor,
+  faqPage,
   graph,
   jsonLdScript,
   optionalUrl,
@@ -16,6 +17,31 @@ import {
   venuePackageNode,
   webPageNode
 } from './schema';
+
+describe('faqPage', () => {
+  it('wraps each question and answer as a Question with an accepted Answer', () => {
+    const node = faqPage([
+      { q: 'Berapa harga paket wedding di Jakarta?', a: 'Mulai Rp 45 juta.' },
+      { q: 'Bisa lihat venue-nya dulu?', a: 'Bisa, kunjungan gratis.' }
+    ]);
+
+    expect(node).toEqual({
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Berapa harga paket wedding di Jakarta?',
+          acceptedAnswer: { '@type': 'Answer', text: 'Mulai Rp 45 juta.' }
+        },
+        {
+          '@type': 'Question',
+          name: 'Bisa lihat venue-nya dulu?',
+          acceptedAnswer: { '@type': 'Answer', text: 'Bisa, kunjungan gratis.' }
+        }
+      ]
+    });
+  });
+});
 
 const card = (over: Partial<VenueCard> = {}): VenueCard => ({
   id: 1,

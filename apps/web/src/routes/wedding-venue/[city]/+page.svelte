@@ -8,6 +8,7 @@
   import {
     breadcrumbList,
     canonicalUrl,
+    faqPage,
     graph,
     jsonLdScript,
     organization,
@@ -15,13 +16,16 @@
     webPageNode,
     website
   } from '$lib/seo/schema';
-  import { formatMillions } from '$lib/utils';
-  import { cityFloorPrice, groupByStars } from '$lib/venue-groups';
+  import { formatMillions, formatPrice } from '$lib/utils';
+  import { cityFloorPrice, cityStats, groupByBudget, groupByStars } from '$lib/venue-groups';
+  import { hubCopy } from './content';
 
   let { data } = $props();
 
   const groups = $derived(groupByStars(data.venues));
   const floor = $derived(cityFloorPrice(data.venues));
+  const budget = $derived(groupByBudget(data.venues));
+  const copy = $derived(hubCopy(getLocale(), data.cityName, cityStats(data.venues)));
 
   const path = $derived(`/wedding-venue/${data.citySlug}`);
   // Localized, for the same reason the venue detail page localizes its own: an
@@ -78,7 +82,8 @@
           { name: m.breadcrumb_home(), path: '/' },
           { name: m.breadcrumb_venues(), path: '/wedding-venue/search' },
           { name: data.cityName }
-        ])
+        ]),
+        faqPage(copy.faq.items)
       )
     )
   );
@@ -108,6 +113,54 @@
     </div>
   </section>
 
+  <!-- The table is the answer to the query this page targets: one row per
+       venue with its starting price, grouped by the budget bands couples
+       search in. The same figures as the cards below, in the form a
+       "berapa harga" query wants. -->
+  <section class="mx-auto max-w-7xl px-5 pt-10 lg:px-8">
+    <h2 class="text-2xl font-semibold">{copy.table.title}</h2>
+    {#each budget as group (group.band.key)}
+      <h3 class="mt-8 text-lg font-semibold">{copy.table.bands[group.band.key]}</h3>
+      <div class="mt-3 overflow-x-auto rounded-md border border-border bg-white">
+        <!-- Fixed widths so the stacked band tables line up as one table. -->
+        <table class="w-full min-w-[40rem] table-fixed text-left text-sm">
+          <thead class="border-b border-border text-xs uppercase tracking-wider text-slate-500">
+            <tr>
+              <th class="w-[40%] px-4 py-3 font-semibold">{copy.table.venue}</th>
+              <th class="w-[25%] px-4 py-3 font-semibold">{copy.table.district}</th>
+              <th class="w-[15%] px-4 py-3 font-semibold">{copy.table.guests}</th>
+              <th class="w-[20%] px-4 py-3 text-right font-semibold">{copy.table.price}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each group.venues as venue (venue.id)}
+              <tr class="border-b border-border last:border-0">
+                <td class="px-4 py-3 font-medium">
+                  <a href={localizeHref(venue.path_url)} class="hover:underline">{venue.name}</a>
+                </td>
+                <td class="px-4 py-3 text-slate-600">{venue.district}</td>
+                <td class="px-4 py-3 text-slate-600">
+                  {venue.price_for_total_pax > 0 ? copy.table.guestsFor(venue.price_for_total_pax) : '—'}
+                </td>
+                <td class="px-4 py-3 text-right font-semibold">
+                  {venue.price_start_from ? formatPrice(venue.price_start_from) : copy.table.priceOnRequest}
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+    {/each}
+  </section>
+
+  <section class="mx-auto max-w-7xl px-5 pt-10 lg:px-8">
+    <div class="max-w-3xl space-y-4 leading-7 text-slate-700">
+      {#each copy.prose as paragraph, index (index)}
+        <p>{paragraph}</p>
+      {/each}
+    </div>
+  </section>
+
   <div class="mx-auto max-w-7xl px-5 py-10 lg:px-8">
     {#each groups as group (group.stars)}
       <section class="mb-12 last:mb-0">
@@ -130,6 +183,24 @@
         </div>
       </section>
     {/each}
+
+    <section class="mt-12 border-t border-border pt-10">
+      <h2 class="text-2xl font-semibold">{copy.faq.title}</h2>
+      <div class="mt-6 grid max-w-3xl gap-3">
+        {#each copy.faq.items as faq (faq.q)}
+          <details class="group rounded-md border border-border bg-white p-5">
+            <summary class="cursor-pointer list-none font-semibold marker:hidden">{faq.q}</summary>
+            <p class="mt-3 leading-7 text-slate-600">{faq.a}</p>
+          </details>
+        {/each}
+      </div>
+      <a
+        href={localizeHref('/tour')}
+        class="mt-6 inline-flex rounded-md bg-primary px-5 py-3 font-semibold text-primary-foreground hover:opacity-90"
+      >
+        {copy.faq.ctaLabel}
+      </a>
+    </section>
 
     <div class="mt-12 border-t border-border pt-6">
       <a

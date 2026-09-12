@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import type { VenueCard } from '$lib/api';
-import { cityFloorPrice, groupByStars, venueCities } from './venue-groups';
+import {
+  BUDGET_BANDS,
+  cityFloorPrice,
+  cityStats,
+  groupByBudget,
+  groupByStars,
+  venueCities
+} from './venue-groups';
 
 const venue = (overrides: Partial<VenueCard>): VenueCard => ({
   id: 1,
@@ -14,6 +21,68 @@ const venue = (overrides: Partial<VenueCard>): VenueCard => ({
   path_url: '/wedding-venue/jakarta/a-venue',
   cover_photo: { alt: 'A Venue', small_url: '/img/venue.webp' },
   ...overrides
+});
+
+describe('groupByBudget', () => {
+  it('buckets by starting price with an exclusive upper bound, on-request last', () => {
+    const groups = groupByBudget([
+      venue({ id: 1, price_start_from: 250_000_000 }),
+      venue({ id: 2, price_start_from: 100_000_000 }),
+      venue({ id: 3, price_start_from: 49_000_000 }),
+      venue({ id: 4, price_start_from: null })
+    ]);
+
+    expect(groups.map((group) => [group.band.key, group.venues.map((v) => v.id)])).toEqual([
+      ['under50', [3]],
+      ['100to200', [2]],
+      ['over200', [1]],
+      ['onRequest', [4]]
+    ]);
+  });
+
+  it('sorts a band cheapest first', () => {
+    const [group] = groupByBudget([
+      venue({ id: 1, price_start_from: 90_000_000 }),
+      venue({ id: 2, price_start_from: 60_000_000 })
+    ]);
+
+    expect(group.venues.map((v) => v.id)).toEqual([2, 1]);
+  });
+});
+
+describe('cityStats', () => {
+  it('derives every figure the copy quotes', () => {
+    const stats = cityStats([
+      venue({ id: 1, price_start_from: 80_000_000, price_for_total_pax: 300, district: 'Kuningan' }),
+      venue({ id: 2, price_start_from: 150_000_000, price_for_total_pax: 500, district: 'SCBD' }),
+      venue({ id: 3, price_start_from: null, price_for_total_pax: 0, district: 'kuningan' })
+    ]);
+
+    expect(stats).toEqual({
+      count: 3,
+      floor: 80_000_000,
+      ceiling: 150_000_000,
+      guestsMin: 300,
+      guestsMax: 500,
+      districts: 2,
+      bands: [
+        { band: BUDGET_BANDS[1], count: 1 },
+        { band: BUDGET_BANDS[2], count: 1 }
+      ]
+    });
+  });
+
+  it('has no figures for a city priced entirely on request', () => {
+    const stats = cityStats([venue({ price_start_from: null, price_for_total_pax: 0 })]);
+
+    expect(stats).toMatchObject({
+      floor: null,
+      ceiling: null,
+      guestsMin: null,
+      guestsMax: null,
+      bands: []
+    });
+  });
 });
 
 describe('venueCities', () => {

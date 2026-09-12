@@ -95,3 +95,74 @@ export function cityFloorPrice(venues: VenueCard[]): number | null {
   const prices = venues.map(realPrice).filter((price): price is number => price !== null);
   return prices.length ? Math.min(...prices) : null;
 }
+
+export type BandKey = 'under50' | '50to100' | '100to200' | 'over200' | 'onRequest';
+
+export type BudgetBand = { key: BandKey; min: number; max: number | null };
+
+/**
+ * The budget bands couples search in ("paket wedding 50 juta"), so each
+ * heading matches a query. The upper bound is exclusive: a venue starting at
+ * exactly Rp 100 juta reads as "Rp 100–200 juta", the band its own price names.
+ */
+export const BUDGET_BANDS: BudgetBand[] = [
+  { key: 'under50', min: 0, max: 50_000_000 },
+  { key: '50to100', min: 50_000_000, max: 100_000_000 },
+  { key: '100to200', min: 100_000_000, max: 200_000_000 },
+  { key: 'over200', min: 200_000_000, max: null }
+];
+
+const ON_REQUEST: BudgetBand = { key: 'onRequest', min: 0, max: null };
+
+export type BudgetGroup = { band: BudgetBand; venues: VenueCard[] };
+
+function bandFor(price: number | null): BudgetBand {
+  if (price === null) return ON_REQUEST;
+  return (
+    BUDGET_BANDS.find((band) => price >= band.min && (band.max === null || price < band.max)) ??
+    ON_REQUEST
+  );
+}
+
+/** Venues by budget band, cheapest band first and priced-on-request last; empty bands omitted. */
+export function groupByBudget(venues: VenueCard[]): BudgetGroup[] {
+  return [...BUDGET_BANDS, ON_REQUEST]
+    .map((band) => ({
+      band,
+      venues: venues.filter((venue) => bandFor(realPrice(venue)) === band).sort(byPriceThenName)
+    }))
+    .filter((group) => group.venues.length > 0);
+}
+
+export type CityStats = {
+  count: number;
+  floor: number | null;
+  /** The highest starting price -- not the dearest package, which the cards do not carry. */
+  ceiling: number | null;
+  guestsMin: number | null;
+  guestsMax: number | null;
+  districts: number;
+  /** Priced bands with at least one venue, cheapest first. */
+  bands: { band: BudgetBand; count: number }[];
+};
+
+/** Every figure the hub copy quotes, so that none of them is typed into the prose. */
+export function cityStats(venues: VenueCard[]): CityStats {
+  const prices = venues.map(realPrice).filter((price): price is number => price !== null);
+  const guests = venues.map((venue) => venue.price_for_total_pax).filter((count) => count > 0);
+
+  return {
+    count: venues.length,
+    floor: prices.length ? Math.min(...prices) : null,
+    ceiling: prices.length ? Math.max(...prices) : null,
+    guestsMin: guests.length ? Math.min(...guests) : null,
+    guestsMax: guests.length ? Math.max(...guests) : null,
+    // Case-folded: the catalogue is not consistent about it, and "Kuningan" and
+    // "kuningan" are one district, not two.
+    districts: new Set(venues.map((venue) => venue.district.trim().toLowerCase()).filter(Boolean))
+      .size,
+    bands: groupByBudget(venues)
+      .filter((group) => group.band.key !== 'onRequest')
+      .map((group) => ({ band: group.band, count: group.venues.length }))
+  };
+}

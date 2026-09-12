@@ -326,3 +326,21 @@ export function articleNode(article: ArticleDetail, path: string, locale: string
     inLanguage: locale
   };
 }
+
+export type Faq = { q: string; a: string };
+
+/**
+ * A page's FAQ block. Google stopped showing FAQ rich results for commercial
+ * sites in 2023, so this is for the answer engines that still read it; the
+ * visible <details> block is what Google itself uses.
+ */
+export function faqPage(faqs: Faq[]) {
+  return {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a }
+    }))
+  };
+}
