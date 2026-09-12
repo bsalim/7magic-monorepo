@@ -3,7 +3,7 @@
   import { page } from '$app/state';
   import { localizeHref } from '$lib/paraglide/runtime';
   import { canonicalUrl } from '$lib/seo/schema';
-  import PlausibleAnalytics from '$lib/components/PlausibleAnalytics.svelte';
+  import GoogleAnalytics from '$lib/components/GoogleAnalytics.svelte';
   import WhatsappFloatingButton from '$lib/components/WhatsappFloatingButton.svelte';
 
   let { children } = $props();
@@ -43,7 +43,7 @@
   {/each}
 </svelte:head>
 
-<PlausibleAnalytics />
+<GoogleAnalytics />
 
 {@render children()}
 
