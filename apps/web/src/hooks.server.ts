@@ -26,7 +26,12 @@ export const handle: Handle = ({ event, resolve }) =>
     });
 
     if (wantsEnglish) {
-      const headers = new Headers({ Location: '/en', 'Cache-Control': 'private, no-store' });
+      // Keep the query string: dropping it here would strip utm_* params off
+      // every ad click that lands on the homepage from abroad.
+      const headers = new Headers({
+        Location: `/en${event.url.search}`,
+        'Cache-Control': 'private, no-store'
+      });
       headers.append(
         'Set-Cookie',
         `${PREF_LOCALE_COOKIE}=en; Path=/; Max-Age=${PREF_LOCALE_MAX_AGE}; SameSite=Lax; HttpOnly${
