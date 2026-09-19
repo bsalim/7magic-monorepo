@@ -236,7 +236,7 @@
     },
     {
       q: 'Is your Singapore team licensed to work in Singapore?',
-      a: 'Yes. Everyone on the 7Magic team who works on Singapore weddings is licensed and legally authorised to work in Singapore. You deal with the same people from your first meeting at our Singapore office through to the wedding day.'
+      a: 'Yes. Everyone on the 7Magic team who works on Singapore weddings is licensed and legally authorised to work in Singapore.'
     },
     {
       q: 'What is ALL Access, and is it part of 7Magic?',
