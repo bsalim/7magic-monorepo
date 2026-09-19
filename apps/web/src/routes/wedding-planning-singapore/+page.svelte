@@ -235,6 +235,10 @@
       a: 'Yes, we plan Singapore weddings. We work from our Singapore office alongside the Jakarta and Bali team. For the wedding day itself we partner with ALL Access, a Singapore concierge technology company, for guest check-in and seating.'
     },
     {
+      q: 'Is your Singapore team licensed to work in Singapore?',
+      a: 'Yes. Everyone on the 7Magic team who works on Singapore weddings is licensed and legally authorised to work in Singapore. You deal with the same people from your first meeting at our Singapore office through to the wedding day.'
+    },
+    {
       q: 'What is ALL Access, and is it part of 7Magic?',
       a: 'ALL Access is a separate Singapore company that makes concierge software for weddings and events. It is not part of 7Magic. We partner with them for what guests use on the day: self check-in, table reveal, live arrivals, and seating and dietary lists that stay in sync. Planning stays with 7Magic throughout.'
     },
