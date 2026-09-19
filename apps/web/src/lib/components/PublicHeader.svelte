@@ -64,6 +64,11 @@
           label: m.service_bali_wedding(),
           desc: m.service_bali_wedding_desc()
         },
+        {
+          href: '/wedding-planning-singapore',
+          label: m.service_wedding_singapore(),
+          desc: m.service_wedding_singapore_desc()
+        },
         { href: '/perjanjian-pranikah', label: m.service_prenup(), desc: m.service_prenup_desc() },
         {
           href: '/bali-event-organizer',

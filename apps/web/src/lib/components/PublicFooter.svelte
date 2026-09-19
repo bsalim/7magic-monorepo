@@ -28,6 +28,7 @@
   // crawlable link to these landing pages from the rest of the site.
   const services = [
     { href: '/bali-wedding-planning', label: m.service_bali_wedding() },
+    { href: '/wedding-planning-singapore', label: m.service_wedding_singapore() },
     { href: '/perjanjian-pranikah', label: m.service_prenup() },
     { href: '/paket-sangjit', label: m.service_sangjit() },
     { href: '/bali-event-organizer', label: m.service_bali_event() }
