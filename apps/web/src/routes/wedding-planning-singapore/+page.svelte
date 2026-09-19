@@ -354,6 +354,7 @@
       `Guests: ${field('guests') || '—'}`,
       `Budget: ${field('budget') || '—'}`,
       `Interested in ALL Access: ${field('concierge_interest') || '—'}`,
+      `Venue in mind: ${field('venue') || '—'}`,
       '',
       field('notes') || 'No extra notes.'
     ].join('\n');
