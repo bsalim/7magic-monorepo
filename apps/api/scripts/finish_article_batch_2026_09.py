@@ -18,6 +18,11 @@ front matter and knows nothing about images, so two things are left over:
           environment. Sources and licences are in
           apps/web/static/img/articles/CREDITS.md.
 
+The last four entries are not part of the batch: the three original sangjit
+articles and "Serba-Serbi Pernikahan Adat Tionghoa" were published without any
+image and showed the venue-deal fallback banner. They already have dates, so
+only their image rows are added.
+
 Articles are found by slug, never by id. Safe to re-run: a date already set or an
 article that already has an image is left as it is.
 
@@ -80,6 +85,30 @@ IMAGES: dict[str, tuple[str, int, int, int]] = {
         287939,
         1880,
         1254,
+    ),
+    "apa-bedanya-acara-sangjit-acara-lamaran-dan-acara-saserahan-dalam-tradisi-tionghoa-yuk-kenali-bedanya-biar-nggak-bingung-lagi": (
+        "articles/12/0cad8113a55749a69b3ea7266cddcfc1-sangjit-12.jpg",
+        339961,
+        1880,
+        1253,
+    ),
+    "acara-sangjit-makna-tahapan-dan-checklist-lengkap-biar-nggak-panik-pas-hari-h": (
+        "articles/13/61aa24d3a7144b08a975217143ddd612-sangjit-13.jpg",
+        308774,
+        1880,
+        1254,
+    ),
+    "acara-lamaran-dalam-adat-tionghoa-simbol-cinta-tradisi-dan-persatuan-dua-keluarga": (
+        "articles/14/201505a552a248c3b54bb2d4ccd4db37-sangjit-14.jpg",
+        136239,
+        1880,
+        1253,
+    ),
+    "serba-serbi-pernikahan-adat-tionghoa-tradisi-mitos-dan-makna-simbolisnya": (
+        "articles/31/0970610ee66e4fcdad59a1e0b1b347a8-serba-serbi-pernikahan-adat-tionghoa-tradisi-mitos-dan-makna-simbolisnya.jpg",
+        279992,
+        1880,
+        1253,
     ),
 }
 

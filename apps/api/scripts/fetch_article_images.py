@@ -36,6 +36,10 @@ META = STAGING / "candidates.json"
 QUERIES: dict[str, str] = {
     # adat-tradisi
     "istilah-tahapan-pernikahan-adat-jawa": "javanese traditional wedding ceremony",
+    # This one search also supplied the photos for the two sibling sangjit
+    # articles (lamaran Tionghoa, sangjit vs lamaran vs seserahan); see picks.json.
+    "acara-sangjit-makna-tahapan-dan-checklist-lengkap-biar-nggak-panik-pas-hari-h": "chinese betrothal ceremony red gift boxes",
+    "serba-serbi-pernikahan-adat-tionghoa-tradisi-mitos-dan-makna-simbolisnya": "chinese wedding bride groom traditional red",
     "menentukan-tanggal-pernikahan-weton-shio": "chinese zodiac lunar calendar",
     "tren-seserahan-mas-kawin-2026": "wedding gift tray hamper",
     "upacara-pedang-pora-pernikahan-militer": "indonesian soldier military uniform ceremony",
