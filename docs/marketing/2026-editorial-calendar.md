@@ -130,6 +130,22 @@ menikah, mengikuti pembaca yang baru saja melewati hari-H.
 | 13 Jul | Bulan madu: waktu ideal dan anggaran | Libur sekolah = musim perjalanan; harga tiket jadi pertimbangan |
 | 20 Jul | Membagi peran rumah tangga setelah menikah | Pembaca yang menikah Juni baru memasuki bulan pertama berumah tangga |
 
+## September — musik dan adat, menyambung artikel yang sedang ramai
+
+Artikel sangjit dan daftar lagu wedding adalah dua halaman dengan trafik
+tertinggi. Enam artikel ini memperdalam keduanya dari sudut budaya yang belum
+digarap: lagu Mandarin dan Hokkien, gending dan pop Jawa, serta logika angka
+dalam adat Tionghoa. Tidak ada angka harga di keenamnya.
+
+| Tgl | Artikel | Alasan |
+|---|---|---|
+| 3 Sep | Playlist sangjit: Mandarin, Hokkien, instrumental | Menjembatani dua halaman teramai; lagu mengikuti urutan acara sangjit |
+| 7 Sep | Lagu Mandarin untuk wedding per momen, plus arti lirik | Daftar pesaing tidak menjelaskan lirik; empat lagu populer ternyata lagu patah hati |
+| 11 Sep | Lagu Jawa: gending per prosesi, campursari, yang dilewati | Melengkapi artikel istilah adat Jawa (21 Jun) dari sisi musik |
+| 15 Sep | Sungkeman dan tea pai, serta lagu pengiringnya | Menyatukan klaster Jawa dan Tionghoa; relevan untuk pernikahan campuran |
+| 19 Sep | Angka baik dan pantangan dalam pernikahan Tionghoa | Pertanyaan lanjutan paling umum setelah membaca artikel sangjit |
+| 21 Sep | Sangjit Hokkien, Khek, Tiociu, dan Kanton | Nyaris tanpa pesaing berbahasa Indonesia; bersumber dari panduan Guo Da Li Singapura |
+
 ---
 
 ## Ringkasan sebaran
@@ -143,4 +159,5 @@ menikah, mengikuti pembaca yang baru saja melewati hari-H.
 | Mei | 8 | Detail eksekusi |
 | Juni | 6 | Hari-H, adat |
 | Juli | 4 | Pemberkatan, pascanikah |
-| **Total** | **48** | |
+| September | 6 | Musik pernikahan, adat Tionghoa dan Jawa |
+| **Total** | **54** | |
