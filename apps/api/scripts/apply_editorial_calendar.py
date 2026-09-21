@@ -87,6 +87,13 @@ CALENDAR: dict[str, tuple[int, int]] = {
     "tahapan-pemberkatan-pernikahan-kristen-protestan": (7, 6),
     "bulan-madu-setelah-menikah-panduan-anggaran": (7, 13),
     "membagi-peran-pekerjaan-rumah-tangga-setelah-menikah": (7, 20),
+    # September -- musik dan adat, menyambung artikel sangjit dan lagu yang ramai dibaca
+    "playlist-sangjit-mandarin-hokkien-instrumental": (9, 3),
+    "lagu-mandarin-untuk-wedding-per-momen-dan-arti-lirik": (9, 7),
+    "lagu-jawa-untuk-pernikahan-gending-campursari": (9, 11),
+    "sungkeman-dan-tea-pai-lagu-pengiring": (9, 15),
+    "angka-baik-dan-pantangan-pernikahan-tionghoa": (9, 19),
+    "sangjit-hokkien-khek-tiociu-kanton-beda-aturan": (9, 21),
 }
 
 

@@ -39,6 +39,11 @@ QUERIES: dict[str, str] = {
     "menentukan-tanggal-pernikahan-weton-shio": "chinese zodiac lunar calendar",
     "tren-seserahan-mas-kawin-2026": "wedding gift tray hamper",
     "upacara-pedang-pora-pernikahan-militer": "indonesian soldier military uniform ceremony",
+    "playlist-sangjit-mandarin-hokkien-instrumental": "chinese engagement red gift trays",
+    "lagu-jawa-untuk-pernikahan-gending-campursari": "gamelan javanese music instrument",
+    "sungkeman-dan-tea-pai-lagu-pengiring": "chinese wedding tea ceremony",
+    "angka-baik-dan-pantangan-pernikahan-tionghoa": "red envelope double happiness chinese wedding",
+    "sangjit-hokkien-khek-tiociu-kanton-beda-aturan": "chinese wedding betrothal gifts red",
     # beauty-fashion
     "makeup-tahan-lama-cuaca-tropis": "bridal makeup artist applying",
     "panduan-memilih-cincin-kawin": "wedding rings close up",
@@ -62,6 +67,7 @@ QUERIES: dict[str, str] = {
     "walimah-syar-i-berkesan": "muslim wedding reception",
     # persiapan-pernikahan
     "cara-menghitung-porsi-katering-pernikahan": "wedding catering buffet food",
+    "lagu-mandarin-untuk-wedding-per-momen-dan-arti-lirik": "guzheng chinese traditional instrument",
     "cara-menyusun-daftar-tamu-undangan-tanpa-drama-keluarga": "writing guest list planning",
     "prosesi-pemberkatan-pernikahan-katolik": "catholic church wedding ceremony",
     "susunan-acara-lamaran-dari-awal-sampai-akhir": "engagement ceremony family",

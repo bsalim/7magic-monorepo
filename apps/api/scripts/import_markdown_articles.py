@@ -2,10 +2,11 @@
 
 Article bodies are stored as HTML, so each file's Markdown body is converted on
 the way in. The converter handles only the subset these files actually use --
-headings, paragraphs, bullet and numbered lists, tables, bold and italic. It is
-deliberately not a general Markdown implementation; anything outside that subset
-(links, code fences, blockquotes, images) is reported as an error rather than
-silently passed through as literal text.
+headings, paragraphs, bullet and numbered lists, tables, bold, italic and
+http(s) links. It is deliberately not a general Markdown implementation; anything
+outside that subset (code fences, blockquotes, images, links to anything but an
+http(s) URL) is reported as an error rather than silently passed through as
+literal text.
 
 Category slugs in the front matter are mapped onto the existing taxonomy via
 CATEGORY_MAP below, so the import does not fragment it with near-duplicates.
@@ -54,7 +55,9 @@ CATEGORY_MAP = {
 # Constructs the converter cannot represent. Matched against the Markdown body
 # so a file using them fails loudly instead of importing mangled HTML.
 UNSUPPORTED = {
-    "link": re.compile(r"\[[^\]]+\]\([^)]+\)"),
+    # http(s) links are converted by inline(); any other target (relative paths,
+    # mailto:, javascript:) still fails, since the body is rendered with {@html}.
+    "non-http link": re.compile(r"\[[^\]]+\]\((?!https?://)[^)]*\)"),
     "image": re.compile(r"!\[[^\]]*\]"),
     "code fence": re.compile(r"^```", re.M),
     "blockquote": re.compile(r"^>\s", re.M),
@@ -94,6 +97,13 @@ def inline(text: str) -> str:
     # Single asterisks only; underscores are left alone because Indonesian prose
     # and identifiers use them without meaning emphasis.
     out = re.sub(r"(?<!\*)\*(?!\s)([^*]+?)(?<!\s)\*(?!\*)", r"<em>\1</em>", out)
+    # Same attributes the CMS editor writes, so imported and hand-edited links
+    # behave alike. Articles cite their sources in a closing "Referensi" list.
+    out = re.sub(
+        r"\[([^\]]+)\]\((https?://[^\s)\"]+)\)",
+        r'<a href="\2" rel="noopener noreferrer" target="_blank">\1</a>',
+        out,
+    )
     return out
 
 
