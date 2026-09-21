@@ -6,7 +6,7 @@
   import ResponsiveImage from './ResponsiveImage.svelte';
   import { m } from '$lib/paraglide/messages.js';
   import type { VenueCard } from '$lib/api';
-  import { formatPrice, titleCase } from '$lib/utils';
+  import { titleCase } from '$lib/utils';
   import { localizeHref } from '$lib/paraglide/runtime';
 
   let { venue }: { venue: VenueCard } = $props();
@@ -40,7 +40,13 @@
            rows carry "jakarta" -- so it is cased here rather than trusted. -->
       {venue.district}, {titleCase(venue.city)}
     </p>
-    <p class="mt-4 text-lg font-semibold">{formatPrice(venue.price_start_from)}</p>
+    <!-- No figure on the card, priced or not: a quote depends on the date and
+         the guest count, so every venue points to the team instead. -->
+    <p class="mt-4 text-lg font-semibold">
+      <a href={localizeHref('/contact')} class="text-accent-foreground hover:underline">
+        {m.card_contact_for_price()}
+      </a>
+    </p>
     <!-- Zero pax means the package size is unknown, not that the venue seats
          nobody. Venues outside Jakarta mostly have no package data yet. -->
     {#if venue.price_for_total_pax > 0}
