@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { fetchJson, type ArticleListPayload } from '$lib/api';
+import { fetchJson, type ArticleCategoryLink, type ArticleListPayload } from '$lib/api';
 import { getLocale, localizeHref } from '$lib/paraglide/runtime';
 
 export async function load({ fetch, url }) {
@@ -14,14 +14,23 @@ export async function load({ fetch, url }) {
     throw redirect(301, `${canonical}${url.search}`);
   }
 
+  // The same parameter names in both locales: they are filters, not content,
+  // and one set keeps a shared link working whichever language it is opened in.
+  const category = url.searchParams.get('category')?.trim() ?? '';
+  // Capped to what the API accepts, so an over-long paste searches on its
+  // beginning instead of failing the whole page with a 422.
+  const q = (url.searchParams.get('q')?.trim() ?? '').slice(0, 80);
+
   const params = new URLSearchParams({ locale });
   const page = url.searchParams.get('page');
   if (page) params.set('page', page);
+  if (category) params.set('category', category);
+  if (q) params.set('q', q);
 
-  return {
-    articles: await fetchJson<ArticleListPayload>(
-      `/api/v1/public/articles?${params.toString()}`,
-      fetch
-    )
-  };
+  const [articles, categories] = await Promise.all([
+    fetchJson<ArticleListPayload>(`/api/v1/public/articles?${params.toString()}`, fetch),
+    fetchJson<ArticleCategoryLink[]>(`/api/v1/public/articles/categories?locale=${locale}`, fetch)
+  ]);
+
+  return { articles, categories, category, q, basePath: canonical };
 }

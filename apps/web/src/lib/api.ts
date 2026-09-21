@@ -136,11 +136,22 @@ export type ArticleListPayload = {
   pagination: Pagination;
 };
 
+// One filter pill on the article index. `slug` is the segment for the requested
+// locale, and is what the list endpoint's `category` filter takes.
+export type ArticleCategoryLink = {
+  slug: string;
+  name: string;
+  count: number;
+};
+
 export type ArticleDetail = ArticleCard & {
   content: string;
   topic: string[];
   word_count: number;
   published_at: string | null;
+  // Ranked by shared topics, then same category. Empty only when the article
+  // is the sole published piece in its category and shares no topic.
+  related: ArticleCard[];
 };
 
 export type HomePayload = {

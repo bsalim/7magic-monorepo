@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ArticleCard from '$lib/components/ArticleCard.svelte';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import WhatsappCTA from '$lib/components/WhatsappCTA.svelte';
@@ -93,6 +94,21 @@
       <WhatsappCTA />
     </aside>
   </article>
+
+  <!-- Outside the two-column grid so the cards get the full width: three
+       abreast on desktop, stacked on a phone. -->
+  {#if article.related.length}
+    <section aria-labelledby="also-read" class="mx-auto max-w-7xl px-5 pb-14 lg:px-8">
+      <h2 id="also-read" class="font-display text-2xl font-semibold md:text-3xl">
+        {m.article_also_read()}
+      </h2>
+      <div class="mt-6 grid gap-6 md:grid-cols-3">
+        {#each article.related as related (related.id)}
+          <ArticleCard article={related} />
+        {/each}
+      </div>
+    </section>
+  {/if}
   <PublicFooter />
 </main>
 

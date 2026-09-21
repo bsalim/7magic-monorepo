@@ -229,6 +229,60 @@ def test_public_articles_use_database_records(public_article_client: TestClient)
     assert payload["items"][0]["image_url"] == "https://cdn.7magic.test/articles/db-article.jpg"
 
 
+def test_public_articles_search_matches_every_word_in_either_language(
+    public_article_client: TestClient,
+) -> None:
+    client = public_article_client
+
+    def slugs(**params: str) -> list[str]:
+        response = client.get("/api/v1/public/articles", params=params)
+        assert response.status_code == 200
+        return [item["slug"] for item in response.json()["items"]]
+
+    # Body text, case-insensitively; the draft also says "Draft" and stays hidden.
+    assert slugs(q="INDONESIA bahasa") == ["no-english-slug"]
+    # The English title finds the article from the Indonesian index too.
+    assert slugs(q="guide (en)") == ["database-wedding-venue-guide"]
+    # "english" is only in this article's English body; the other published
+    # article has it in its title but never says "article".
+    assert slugs(q="english article") == ["database-wedding-venue-guide"]
+    assert slugs(q="bahasa venue") == []
+    assert slugs(q="draft") == []
+    # Combines with the category filter, and a blank query filters nothing.
+    assert len(slugs(q="  ", category="wedding-venue")) == 2
+
+
+def test_article_search_ranks_title_above_summary_above_body() -> None:
+    from types import SimpleNamespace
+
+    from app.services.articles import _search_score
+
+    def article(title: str, summary: str, topic: list[str]) -> SimpleNamespace:
+        return SimpleNamespace(
+            title_id=title, title_en=None, summary_id=summary, summary_en=None, topic=topic
+        )
+
+    in_title = article("Acara Sangjit", "Panduan", [])
+    in_topic = article("Tea Pai", "Tradisi teh", ["sangjit"])
+    in_body_only = article("Hotel di Jakarta", "Ballroom mewah", [])
+
+    scores = [_search_score(item, ["sangjit"]) for item in (in_title, in_topic, in_body_only)]
+    assert scores == [3, 2, 1]
+
+
+def test_public_article_categories_count_published_articles_per_locale(
+    public_article_client: TestClient,
+) -> None:
+    indonesian = public_article_client.get("/api/v1/public/articles/categories")
+    english = public_article_client.get(
+        "/api/v1/public/articles/categories", params={"locale": "en"}
+    )
+
+    # Two published, one draft: the draft is not counted.
+    assert indonesian.json() == [{"slug": "wedding-venue", "name": "Wedding Venue", "count": 2}]
+    assert english.json()[0]["slug"] == "wedding-venues"
+
+
 def test_public_article_detail_uses_database_record(public_article_client: TestClient) -> None:
     response = public_article_client.get(
         "/api/v1/public/articles/wedding-venue/database-wedding-venue-guide"
@@ -239,6 +293,41 @@ def test_public_article_detail_uses_database_record(public_article_client: TestC
     assert payload["title"] == "Database Wedding Venue Guide"
     assert payload["content"] == "<h2>DB Article</h2><p>Real article table content.</p>"
     assert payload["topic"] == ["packages"]
+
+
+def test_public_article_detail_lists_related_published_articles(
+    public_article_client: TestClient,
+) -> None:
+    """All three seeded articles share a topic; only the other published one qualifies."""
+    response = public_article_client.get(
+        "/api/v1/public/articles/wedding-venue/database-wedding-venue-guide"
+    )
+
+    related = response.json()["related"]
+    assert [item["slug"] for item in related] == ["no-english-slug"]
+    assert related[0]["path"] == "/artikel/wedding-venue/no-english-slug"
+
+
+def test_related_articles_rank_by_shared_topics_then_fall_back_to_category() -> None:
+    from types import SimpleNamespace
+
+    from app.services.articles import _related_articles
+
+    def article(id: int, topic: list[str], category_id: int = 1) -> SimpleNamespace:
+        return SimpleNamespace(id=id, topic=topic, category_id=category_id)
+
+    current = article(1, ["sangjit", "Adat-Tionghoa"])
+    pool = [
+        current,
+        article(2, ["adat-tionghoa"], category_id=2),
+        article(3, ["SANGJIT", "adat-tionghoa"], category_id=2),
+        article(4, [], category_id=1),
+        article(5, ["lagu-pernikahan"], category_id=2),
+    ]
+
+    # Two shared topics beat one, case-insensitively and across categories; the
+    # untagged same-category article only fills the slot nothing else claimed.
+    assert [item.id for item in _related_articles(current, pool)] == [3, 2, 4]
 
 
 def test_english_article_resolves_by_its_english_slug(public_article_client: TestClient) -> None:

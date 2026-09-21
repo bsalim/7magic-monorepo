@@ -197,6 +197,16 @@ class ArticleListResponse(BaseModel):
     pagination: Pagination
 
 
+class ArticleCategoryLink(BaseModel):
+    """One filter pill on the article index."""
+
+    # The URL segment for the requested locale, which is also what the list
+    # endpoint's `category` filter accepts.
+    slug: str
+    name: str
+    count: int
+
+
 class ArticleCreate(BaseModel):
     """Both languages on one payload. Indonesian is required; English is
     optional and blank means the article falls back to Indonesian."""
@@ -285,6 +295,9 @@ class ArticleDetail(ArticleCard):
     topic: list[str]
     word_count: int
     published_at: datetime | None = None
+    # "Baca juga" cards. Defaulted so the legacy in-memory catalog, which has no
+    # notion of related articles, keeps building this schema unchanged.
+    related: list[ArticleCard] = Field(default_factory=list)
 
 
 class ContactLeadCreate(BaseModel):

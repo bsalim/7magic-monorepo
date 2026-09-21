@@ -15,6 +15,7 @@ from app.schemas.content import (
     ArticleAdminSummary,
     ArticleCard,
     ArticleCreate,
+    ArticleCategoryLink,
     ArticleDetail,
     ArticleListResponse,
     ArticleUpdate,
@@ -99,6 +100,63 @@ def _article_card(article: Article, locale: str = BASE_LOCALE) -> ArticleCard:
             if article.has_translation(code)
         },
     )
+
+
+def _search_text(article: Article) -> str:
+    return " ".join(
+        part
+        for part in (
+            article.title_id,
+            article.title_en,
+            article.summary_id,
+            article.summary_en,
+            article.content_text,
+            # `content_text` is the Indonesian body only. There is no stored
+            # plain-text English, so it is stripped here; this runs only when
+            # someone searches, over the few articles that have a translation.
+            _plain_text(article.body_en or ""),
+            " ".join(article.topic or []),
+        )
+        if part
+    ).casefold()
+
+
+def _search_score(article: Article, terms: list[str]) -> int:
+    """Per word: 3 for the title, 2 for the summary or a topic, 1 for body only."""
+    title = f"{article.title_id} {article.title_en or ''}".casefold()
+    lead = " ".join(
+        [article.summary_id or "", article.summary_en or "", *(article.topic or [])]
+    ).casefold()
+    return sum(3 if term in title else 2 if term in lead else 1 for term in terms)
+
+
+RELATED_LIMIT = 3
+
+
+def _related_articles(article: Article, pool: list[Article]) -> list[Article]:
+    """Pick the "Baca juga" set: most shared topics first, then same category.
+
+    `pool` arrives newest-first and the sort is stable, so recency breaks ties.
+    Topics are compared casefolded because they are free text from the CMS. The
+    category fallback exists for the many articles whose topics nobody else
+    shares; without it their section would simply be empty.
+    """
+    own = {topic.casefold() for topic in (article.topic or []) if topic}
+    others = [item for item in pool if item.id != article.id]
+
+    def shared(item: Article) -> int:
+        return len(own & {topic.casefold() for topic in (item.topic or []) if topic})
+
+    related = sorted((item for item in others if shared(item)), key=shared, reverse=True)
+    related = related[:RELATED_LIMIT]
+    if len(related) < RELATED_LIMIT:
+        chosen = {item.id for item in related}
+        related += [
+            item
+            for item in others
+            if item.id not in chosen and item.category_id == article.category_id
+        ][: RELATED_LIMIT - len(related)]
+    return related
 
 
 class ArticleService:
@@ -382,6 +440,7 @@ class ArticleService:
         category: str | None = None,
         topic: str | None = None,
         author_slug: str | None = None,
+        q: str | None = None,
         page: int = 1,
         page_size: int = 12,
         locale: str = BASE_LOCALE,
@@ -395,6 +454,20 @@ class ArticleService:
                 for article in articles
                 if topic_query in [item.casefold() for item in (article.topic or [])]
             ]
+        if terms := (q or "").casefold().split():
+            # Every word must appear, in either language: a reader on /en still
+            # types "sangjit", and most English bodies are blank and fall back to
+            # Indonesian anyway. Done in Python like the filters around it -- the
+            # published set is a few hundred rows and is already loaded.
+            articles = [
+                article
+                for article in articles
+                if all(term in _search_text(article) for term in terms)
+            ]
+            # Stable, so the newest-first order survives within a score. Without
+            # this a venue page that mentions sangjit once in passing outranks
+            # the sangjit guides simply by being newer or featured.
+            articles.sort(key=lambda article: _search_score(article, terms), reverse=True)
         if author_slug:
             articles = [
                 article
@@ -416,6 +489,24 @@ class ArticleService:
             ),
         )
 
+    async def public_categories(
+        self, session: AsyncSession, *, locale: str = BASE_LOCALE
+    ) -> list[ArticleCategoryLink]:
+        """Categories that have something published, busiest first."""
+        counts: dict[int, int] = {}
+        categories: dict[int, ArticleCategory] = {}
+        for article in await self._published_articles(session, locale=locale):
+            counts[article.category_id] = counts.get(article.category_id, 0) + 1
+            categories[article.category_id] = article.category
+        return [
+            ArticleCategoryLink(
+                slug=categories[category_id].slug_for(locale),
+                name=categories[category_id].category,
+                count=count,
+            )
+            for category_id, count in sorted(counts.items(), key=lambda item: -item[1])
+        ]
+
     async def featured_articles(
         self, session: AsyncSession, *, limit: int = 4, locale: str = BASE_LOCALE
     ) -> list[ArticleCard]:
@@ -430,7 +521,16 @@ class ArticleService:
         slug: str,
         locale: str = BASE_LOCALE,
     ) -> ArticleDetail:
-        articles = await self._published_articles(session, category=category, locale=locale)
+        # Loaded once, unfiltered, and narrowed here: the "Baca juga" cards below
+        # need every category, and a second query would double the cost of the
+        # site's most visited page. Either category segment matches, as in
+        # `_published_articles`.
+        published = await self._published_articles(session, locale=locale)
+        articles = [
+            item
+            for item in published
+            if category in (item.category.category_slug, item.category.category_slug_en)
+        ]
         # Either slug resolves, in both locales. An English reader following a
         # link minted before the English slugs existed still lands on the article
         # rather than a 404, and `path` on the response tells the caller which URL
@@ -450,6 +550,12 @@ class ArticleService:
             topic=article.topic or [],
             word_count=article.word_count or _count_words_from_html(content),
             published_at=article.published_at,
+            related=[
+                _article_card(item, locale)
+                # Unfiltered on purpose: a cluster spans categories -- the sangjit
+                # playlist sits in traditions, the Mandarin song list in preparation.
+                for item in _related_articles(article, published)
+            ],
         )
 
     async def _published_articles(

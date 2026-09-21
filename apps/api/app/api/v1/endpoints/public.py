@@ -10,6 +10,7 @@ from app.core.database import get_db_session
 from app.core.errors import error_response
 from app.schemas.content import (
     PromotionPopupPublic,
+    ArticleCategoryLink,
     ArticleDetail,
     Locale,
     ArticleListResponse,
@@ -66,6 +67,7 @@ async def venue_detail(city: str, slug: str) -> dict:
 async def list_articles(
     session: Annotated[AsyncSession, Depends(get_db_session)],
     category: str | None = None,
+    q: Annotated[str | None, Query(max_length=80)] = None,
     page: Annotated[int, Query(ge=1)] = 1,
     page_size: Annotated[int, Query(ge=1, le=50)] = 12,
     locale: Annotated[Locale, Query()] = "id",
@@ -73,10 +75,19 @@ async def list_articles(
     return await article_service.public_articles(
         session,
         category=category,
+        q=q,
         page=page,
         page_size=page_size,
         locale=locale,
     )
+
+
+@router.get("/articles/categories")
+async def list_article_categories(
+    session: Annotated[AsyncSession, Depends(get_db_session)],
+    locale: Annotated[Locale, Query()] = "id",
+) -> list[ArticleCategoryLink]:
+    return await article_service.public_categories(session, locale=locale)
 
 
 @router.get("/articles/categories/{category}")

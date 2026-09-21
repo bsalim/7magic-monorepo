@@ -266,7 +266,8 @@ describe('articleNode', () => {
     content: '<p>x</p>',
     topic: ['venue', 'budget'],
     word_count: 900,
-    published_at: '2026-01-01T00:00:00'
+    published_at: '2026-01-01T00:00:00',
+    related: []
   };
 
   it('carries the dates, author and publisher a BlogPosting needs', () => {
