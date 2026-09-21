@@ -43,6 +43,7 @@ def make_settings(**overrides: Any) -> Settings:
         "bird_base_url": None,
         "lead_notification_from": "7Magic <hello@7magicwedding.com>",
         "lead_notification_email": "info@7magicwedding.com",
+        "admin_emails": "",
         "email_logo_url": "",
     }
     base.update(overrides)
@@ -376,6 +377,47 @@ async def test_a_lead_notification_carries_html_and_a_text_alternative() -> None
     assert "Dina" in payload["html"]
     assert "Dina" in payload["text"]
     assert payload["to"] == ["info@7magicwedding.com"]
+
+
+@pytest.mark.asyncio
+async def test_a_lead_notification_goes_to_every_admin_email() -> None:
+    """ADMIN_EMAILS is typed by hand into an env file, so stray spaces, a trailing
+    comma and the same address in another case all have to be survivable."""
+    transport = RecordingTransport()
+    settings = make_settings(
+        mail_provider="bird",
+        admin_emails=" owner@example.com, team@example.com ,Owner@Example.com,",
+    )
+    notifier = EmailNotifier(settings)
+    notifier._mailer = BirdMailer(settings, transport=transport)
+
+    assert await notifier.send_lead_notification(
+        subject="New enquiry", heading="New contact enquiry", fields={"Name": "Dina"}
+    )
+
+    assert sent(transport)["to"] == ["owner@example.com", "team@example.com"]
+
+
+def test_blank_admin_emails_fall_back_to_the_notification_inbox() -> None:
+    assert make_settings(admin_emails=" , ").lead_recipients == ["info@7magicwedding.com"]
+
+
+@pytest.mark.asyncio
+async def test_a_multi_line_lead_message_keeps_its_line_breaks_in_html() -> None:
+    transport = RecordingTransport()
+    settings = make_settings(mail_provider="bird")
+    notifier = EmailNotifier(settings)
+    notifier._mailer = BirdMailer(settings, transport=transport)
+
+    await notifier.send_lead_notification(
+        subject="s",
+        heading="h",
+        fields={"Message": "LEAD: Paket Sangjit\nLokasi: <Jakarta>"},
+    )
+
+    # Escaped and broken, in that order: the angle brackets must not survive as
+    # markup, and the break must not be escaped into visible text.
+    assert "LEAD: Paket Sangjit<br>Lokasi: &lt;Jakarta&gt;" in sent(transport)["html"]
 
 
 def test_an_unconfigured_notifier_reports_itself_as_such() -> None:

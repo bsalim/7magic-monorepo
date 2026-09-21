@@ -199,6 +199,10 @@ def render_email(
     )
 
 
+def _with_breaks(value: Any) -> str:
+    return html.escape(str(value)).replace("\r\n", "\n").replace("\n", "<br>")
+
+
 def _row(label: str, value: Any) -> str:
     if value in (None, ""):
         return ""
@@ -206,7 +210,10 @@ def _row(label: str, value: Any) -> str:
         "<tr>"
         f'<td style="padding:6px 12px 6px 0;color:{_MUTED};white-space:nowrap">'
         f"{html.escape(label)}</td>"
-        f'<td style="padding:6px 0"><strong>{html.escape(str(value))}</strong></td>'
+        # Escaped first, then the breaks: landing-page forms send a multi-line
+        # summary (date, location, guests, package) that otherwise collapses
+        # into one unreadable run of text.
+        f'<td style="padding:6px 0"><strong>{_with_breaks(value)}</strong></td>'
         "</tr>"
     )
 

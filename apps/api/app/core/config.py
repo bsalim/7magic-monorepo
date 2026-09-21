@@ -57,6 +57,14 @@ class Settings(BaseSettings):
         default="info@7magicwedding.com",
         validation_alias=AliasChoices("lead_notification_email", "LEAD_NOTIFICATION_EMAIL"),
     )
+    # Who receives lead notifications, as a comma-separated list. Kept a plain
+    # string because pydantic-settings wants JSON for a list-typed variable, and
+    # `ADMIN_EMAILS=a@x.com,b@y.com` is what anyone editing an env file will type.
+    # Empty means "just the inbox above", so existing deployments are unchanged.
+    admin_emails: str = Field(
+        default="",
+        validation_alias=AliasChoices("admin_emails", "ADMIN_EMAILS"),
+    )
     lead_notification_from: str = Field(
         default="7Magic Website <onboarding@resend.dev>",
         validation_alias=AliasChoices("lead_notification_from", "LEAD_NOTIFICATION_FROM"),
@@ -188,6 +196,23 @@ class Settings(BaseSettings):
     ]
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
+
+    @property
+    def lead_recipients(self) -> list[str]:
+        """ADMIN_EMAILS when set, otherwise the single notification inbox.
+
+        De-duplicated case-insensitively, order kept: listing the same address
+        twice should not deliver the same alert twice.
+        """
+        seen: set[str] = set()
+        recipients: list[str] = []
+        for address in self.admin_emails.split(","):
+            address = address.strip()
+            if address and address.casefold() not in seen:
+                seen.add(address.casefold())
+                recipients.append(address)
+        return recipients or [self.lead_notification_email]
+
 
 
 @lru_cache

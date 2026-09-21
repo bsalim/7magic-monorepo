@@ -27,6 +27,14 @@ from app.services.email import EmailNotifier
 from app.services.whatsapp import WhatsAppNotifier, join_contact
 
 
+def _lead_label(message: str | None) -> str | None:
+    """`Paket Sangjit` from a message whose first line is `LEAD: Paket Sangjit`."""
+    first_line = (message or "").strip().splitlines()[0:1]
+    if first_line and first_line[0].upper().startswith("LEAD:"):
+        return first_line[0][5:].strip()[:80] or None
+    return None
+
+
 class LeadService:
     def __init__(self) -> None:
         self._notifier = EmailNotifier(get_settings())
@@ -53,9 +61,17 @@ class LeadService:
         await session.commit()
         await session.refresh(lead)
 
+        # Landing-page forms open their message with "LEAD: <what>". Surfacing it
+        # lets the inbox tell a sangjit quote request from a general question
+        # without opening the mail.
+        label = _lead_label(payload.message)
         await self._notifier.send_lead_notification(
-            subject=f"New website enquiry from {payload.name}",
-            heading="New contact enquiry",
+            subject=(
+                f"{label}: request from {payload.name}"
+                if label
+                else f"New website enquiry from {payload.name}"
+            ),
+            heading=f"{label} request" if label else "New contact enquiry",
             fields={
                 "Name": payload.name,
                 "Email": payload.email,

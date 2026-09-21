@@ -111,7 +111,7 @@ class EmailNotifier:
         try:
             await self._mailer.send(
                 EmailMessage(
-                    to=[self._settings.lead_notification_email],
+                    to=self._settings.lead_recipients,
                     subject=subject,
                     text="\n".join(text_lines),
                     html=render_lead_email(heading=heading, fields=fields),
