@@ -22,6 +22,11 @@
 
   // One key at a time, so opening a menu closes its sibling.
   let openMenu = $state<string | null>(null);
+  // The panels also open by CSS alone (hover, keyboard focus), so the menu works
+  // on a page whose JavaScript never started. That needs an off switch: after a
+  // link is followed the pointer is still over the panel, and CSS would hold it
+  // open across the navigation. Cleared when the pointer leaves.
+  let cssOpenSuppressed = $state(false);
   let menusEl = $state<HTMLElement | undefined>(undefined);
 
   // The header is h-18 (72px) tall above the nav row and pins with exactly that
@@ -98,7 +103,10 @@
     }
   }}
   onkeydown={(event) => {
-    if (event.key === 'Escape') openMenu = null;
+    if (event.key === 'Escape') {
+      openMenu = null;
+      cssOpenSuppressed = true;
+    }
   }}
 />
 
@@ -262,10 +270,13 @@
         <!-- Opens on hover for pointer users and on click for touch, since
              this row is visible from md up and that includes tablets. -->
         <div
-          class="relative flex"
+          class="group relative flex"
           role="presentation"
           onmouseenter={() => (openMenu = menu.key)}
-          onmouseleave={() => (openMenu = null)}
+          onmouseleave={() => {
+            openMenu = null;
+            cssOpenSuppressed = false;
+          }}
         >
           <button
             type="button"
@@ -286,14 +297,26 @@
             />
           </button>
 
-          {#if openMenu === menu.key}
-            <div
-              class="absolute left-0 top-full z-40 w-[19rem] rounded-md border border-border bg-background p-2 shadow-lg"
-            >
+          <!-- Always rendered, shown by state or by CSS: the links are in the
+               server HTML for crawlers, and hover still opens the menu when
+               hydration failed. -->
+          <div
+            class={cn(
+              'absolute left-0 top-full z-40 w-[19rem] rounded-md border border-border bg-background p-2 shadow-lg',
+              openMenu === menu.key
+                ? 'block'
+                : cssOpenSuppressed
+                  ? 'hidden'
+                  : 'hidden group-focus-within:block group-hover:block'
+            )}
+          >
               {#each menu.items as item (item.href)}
                 <a
                   href={localizeHref(item.href)}
-                  onclick={() => (openMenu = null)}
+                  onclick={() => {
+                    openMenu = null;
+                    cssOpenSuppressed = true;
+                  }}
                   aria-current={isActive(item.href) ? 'page' : undefined}
                   class={cn(
                     'block rounded-md px-3 py-2.5 transition hover:bg-muted',
@@ -306,8 +329,7 @@
                   </span>
                 </a>
               {/each}
-            </div>
-          {/if}
+          </div>
         </div>
       {/each}
     </div>
