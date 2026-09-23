@@ -5,6 +5,8 @@
   import * as Sheet from '$lib/components/ui/sheet';
   import LanguageSwitcher from './LanguageSwitcher.svelte';
   import ConsultationModal from './ConsultationModal.svelte';
+  import SgFlag from './SgFlag.svelte';
+  import BaliTempleIcon from './BaliTempleIcon.svelte';
   import { m } from '$lib/paraglide/messages.js';
   import { deLocalizeHref, localizeHref } from '$lib/paraglide/runtime';
   import { page } from '$app/state';
@@ -40,6 +42,18 @@
 
   const links = $derived([
     { href: '/wedding-venue/search', label: m.nav_venues() },
+    {
+      href: '/wedding-planning-singapore',
+      label: m.nav_singapore_wedding(),
+      icon: SgFlag,
+      iconClass: 'h-3 w-[18px] shrink-0 rounded-[2px]'
+    },
+    {
+      href: '/bali-wedding-planning',
+      label: m.nav_bali_wedding(),
+      icon: BaliTempleIcon,
+      iconClass: 'size-4 shrink-0 text-brand-gold'
+    },
     { href: '/wedding-showcases', label: m.nav_showcases() },
     { href: '/paket-sangjit', label: m.service_sangjit() },
     { href: '/artikel', label: m.nav_articles() },
@@ -57,23 +71,12 @@
   // than added as top-level links: it keeps the marketplace nav short, and it
   // stops these pages being orphaned from the site's internal linking.
   //
-  // Sangjit is the exception, promoted to a top-level link. Layanan holds the
-  // lines that are not wedding-day work.
+  // Sangjit, Bali and Singapore are the exceptions, promoted to top-level links.
   const menus = $derived([
     {
       key: 'services',
       label: m.nav_services(),
       items: [
-        {
-          href: '/bali-wedding-planning',
-          label: m.service_bali_wedding(),
-          desc: m.service_bali_wedding_desc()
-        },
-        {
-          href: '/wedding-planning-singapore',
-          label: m.service_wedding_singapore(),
-          desc: m.service_wedding_singapore_desc()
-        },
         { href: '/perjanjian-pranikah', label: m.service_prenup(), desc: m.service_prenup_desc() },
         {
           href: '/bali-event-organizer',
@@ -179,10 +182,11 @@
                 href={localizeHref(link.href)}
                 aria-current={isActive(link.href) ? 'page' : undefined}
                 class={cn(
-                  'rounded-md px-3 py-2 text-sm font-medium hover:bg-muted',
+                  'flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-muted',
                   isActive(link.href) && 'bg-muted text-foreground'
                 )}
               >
+                {#if link.icon}<link.icon class={link.iconClass} />{/if}
                 {link.label}
               </a>
             {/each}
@@ -252,12 +256,13 @@
         href={localizeHref(link.href)}
         aria-current={isActive(link.href) ? 'page' : undefined}
         class={cn(
-          'flex items-center border-b-2 text-[15px] transition',
+          'flex items-center gap-1.5 border-b-2 text-[15px] transition',
           isActive(link.href)
             ? 'border-brand-gold font-semibold text-foreground'
             : 'border-transparent text-muted-foreground hover:text-foreground'
         )}
       >
+        {#if link.icon}<link.icon class={link.iconClass} />{/if}
         {link.label}
       </a>
     {/each}
