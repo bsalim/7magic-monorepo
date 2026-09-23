@@ -7,6 +7,7 @@
   import * as Select from '$lib/components/ui/select';
   import { m } from '$lib/paraglide/messages.js';
   import { localizeHref } from '$lib/paraglide/runtime';
+  import { cn } from '$lib/utils';
 
   let {
     title,
@@ -16,16 +17,26 @@
     subtitle: string;
   } = $props();
 
-  // Jakarta and Bali are the two markets the hero has to sell hardest, so the
-  // banner rotates between them rather than picking one over the other.
-  const banners = ['/img/hero-jakarta.jpg', '/img/hero-bali.jpg'];
+  // Order is the marketing team's: the headline all-in deal leads, then
+  // Singapore, then the multi-city banner. Served from R2, uploaded by
+  // apps/api/scripts/upload_home_banners.py, which keys them by file name.
+  const BANNER_BASE = 'https://media.7magicwedding.com/banners/home';
+  const banners = [
+    '7magic-wedding-all-in-venue-deal-Rp95juta.jpg',
+    '7magic-wedding-singapore-wedding-packages.jpg',
+    '7magic-wedding-jakarta-bintan-bali.jpg',
+    '7magic-wedding-bali-all-in-venue-deal-Rp95jt.jpg'
+  ].map((name) => `${BANNER_BASE}/${name}`);
   let activeBanner = $state(0);
 
+  // Keyed on activeBanner so picking a dot restarts the 6s countdown instead
+  // of the next tick landing a moment after the click.
   $effect(() => {
-    const id = setInterval(() => {
+    activeBanner;
+    const id = setTimeout(() => {
       activeBanner = (activeBanner + 1) % banners.length;
     }, 6000);
-    return () => clearInterval(id);
+    return () => clearTimeout(id);
   });
 
   const cities = $derived([
@@ -52,6 +63,7 @@
 
   const quickLinks = [
     { label: 'Jakarta venues', href: '/wedding-venue/search?city=jakarta' },
+    { label: 'Singapore venues', href: '/wedding-venue/search?city=singapore' },
     { label: 'Bali venues', href: '/wedding-venue/search?city=bali' },
     { label: 'Batam venues', href: '/wedding-venue/search?city=batam' },
     { label: '5-star hotels', href: '/wedding-venue/search?stars_min=5' },
@@ -62,18 +74,38 @@
 
 <!-- The banners are pre-designed marketing posters (price, offer, feature
      icons all baked into the artwork), not photography meant to carry
-     overlaid copy. The section is sized to the images' own 1920x1080 ratio
-     so nothing in the artwork gets cropped, and the title/subtitle stay for
-     SEO and screen readers without being drawn on top of it. -->
-<section class="relative aspect-video w-full overflow-hidden bg-white">
-  {#each banners as banner, index (banner)}
-    <img
-      src={banner}
-      alt=""
-      class="absolute inset-0 h-full w-full object-contain transition-opacity duration-1000"
-      style:opacity={index === activeBanner ? 1 : 0}
-    />
-  {/each}
+     overlaid copy. The frame is sized to the images' own 1920x950 ratio so
+     nothing in the artwork gets cropped, and the title/subtitle stay for SEO
+     and screen readers without being drawn on top of it. Held to the page
+     container rather than bleeding full-width: at full width on a large
+     screen the poster grew taller than the viewport. -->
+<section class="mx-auto max-w-7xl px-5 pt-6 lg:px-8">
+  <div class="relative aspect-[1920/950] w-full overflow-hidden rounded-md bg-white">
+    {#each banners as banner, index (banner)}
+      <img
+        src={banner}
+        alt=""
+        loading={index === 0 ? 'eager' : 'lazy'}
+        class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000"
+        style:opacity={index === activeBanner ? 1 : 0}
+      />
+    {/each}
+
+    <div class="absolute inset-x-0 bottom-3 flex justify-center gap-2">
+      {#each banners as banner, index (banner)}
+        <button
+          type="button"
+          aria-label={`Banner ${index + 1}`}
+          aria-current={index === activeBanner}
+          onclick={() => (activeBanner = index)}
+          class={cn(
+            'h-2 rounded-full bg-white/60 shadow transition-all hover:bg-white',
+            index === activeBanner ? 'w-6 bg-white' : 'w-2'
+          )}
+        ></button>
+      {/each}
+    </div>
+  </div>
   <h1 class="sr-only">{title}</h1>
   <p class="sr-only">{subtitle}</p>
 </section>
