@@ -100,6 +100,9 @@ QUERIES: dict[str, str] = {
     "intimate-wedding-100-tamu-jakarta-rincian-biaya": "intimate wedding reception dinner",
     "masjid-gedung-favorit-jabodetabek-akad-nikah": "mosque interior indonesia",
     "menikah-di-bali-budget-masuk-akal": "bali wedding villa tropical",
+    # Prenup cluster, October 2026.
+    "perjanjian-pranikah-pisah-harta-kpr-dan-utang": "couple signing mortgage house documents",
+    "perjanjian-pranikah-perkawinan-campuran-wna": "interracial couple wedding rings hands",
 }
 
 CANDIDATES = 3

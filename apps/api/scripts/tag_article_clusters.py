@@ -94,6 +94,15 @@ CLUSTERS: dict[str, list[str]] = {
         "susunan-acara-lamaran-dari-awal-sampai-akhir",
         "tren-seserahan-mas-kawin-2026",
     ],
+    # Doubles as a display switch: the article page shows the banner for the
+    # /perjanjian-pranikah landing page on anything carrying this topic.
+    "perjanjian-pranikah": [
+        "perjanjian-pranikah-panduan-lengkap",
+        "perjanjian-pranikah-pisah-harta-kpr-dan-utang",
+        "perjanjian-pranikah-perkawinan-campuran-wna",
+        "perjanjian-pranikah-dan-hak-waris-pasangan",
+        "percakapan-keuangan-sebelum-menikah",
+    ],
 }
 
 
