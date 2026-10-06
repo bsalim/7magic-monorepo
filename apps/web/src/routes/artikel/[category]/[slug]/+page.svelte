@@ -7,7 +7,7 @@
   import { page } from '$app/state';
   import { localizeArticleBody } from '$lib/article-body';
   import { formatLongDate } from '$lib/dates';
-  import { getLocale } from '$lib/paraglide/runtime';
+  import { getLocale, localizeHref } from '$lib/paraglide/runtime';
   import { m } from '$lib/paraglide/messages.js';
   import {
     articleNode,
@@ -96,7 +96,12 @@
         <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">Topics</p>
         <div class="mt-4 flex flex-wrap gap-2">
           {#each article.topic as topic}
-            <span class="rounded-full bg-secondary px-3 py-1 text-sm font-semibold text-accent-foreground">{topic}</span>
+            <a
+              href={localizeHref(`/artikel?topic=${encodeURIComponent(topic)}`)}
+              class="rounded-full bg-secondary px-3 py-1 text-sm font-semibold text-accent-foreground transition hover:bg-accent hover:underline"
+            >
+              {topic}
+            </a>
           {/each}
         </div>
       </div>

@@ -18,6 +18,7 @@
   "articles_pagination_label": "Halaman artikel",
   "articles_prev": "Sebelumnya",
   "articles_results_for": "{count} artikel untuk “{query}”",
+  "articles_results_for_topic": "{count} artikel dengan topik “{topic}”",
   "articles_search_label": "Cari artikel",
   "articles_search_placeholder": "Cari sangjit, lagu pernikahan, venue…",
   "articles_search_submit": "Cari",

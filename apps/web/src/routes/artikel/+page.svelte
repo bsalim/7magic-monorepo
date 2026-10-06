@@ -11,15 +11,19 @@
   let { data } = $props();
 
   const pagination = $derived(data.articles.pagination);
-  const filtered = $derived(Boolean(data.category || data.q));
+  const filtered = $derived(Boolean(data.category || data.q || data.topic));
 
   // Every link on the page goes through here so a filter survives paging and a
   // page number never survives a filter change. basePath is already localized,
   // which keeps an English reader on /en/articles.
-  function href(next: { category?: string; q?: string; page?: number }) {
+  function href(next: { category?: string; q?: string; page?: number; topic?: string }) {
     const params = new URLSearchParams();
     const category = next.category ?? data.category;
     const q = next.q ?? data.q;
+    // A topic survives paging only: picking a category or searching leaves it,
+    // since the topic listing cannot be combined with either.
+    const topic = next.topic ?? ('category' in next || 'q' in next ? '' : data.topic);
+    if (topic) params.set('topic', topic);
     if (category) params.set('category', category);
     if (q) params.set('q', q);
     if (next.page && next.page > 1) params.set('page', String(next.page));
@@ -101,7 +105,14 @@
       </nav>
     </div>
 
-    {#if data.q}
+    {#if data.topic}
+      <p class="mb-6 text-sm text-muted-foreground">
+        {m.articles_results_for_topic({ count: pagination.total, topic: data.topic })}
+        <a href={href({ q: '', category: '', topic: '' })} class="ml-2 font-semibold text-foreground underline">
+          {m.articles_clear_filters()}
+        </a>
+      </p>
+    {:else if data.q}
       <p class="mb-6 text-sm text-muted-foreground">
         {m.articles_results_for({ count: pagination.total, query: data.q })}
         <a href={href({ q: '', category: '' })} class="ml-2 font-semibold text-foreground underline">
@@ -191,7 +202,7 @@
         <h2 class="font-display text-2xl font-bold">{m.articles_no_results_title()}</h2>
         <p class="mt-3 text-muted-foreground">{m.articles_no_results_body()}</p>
         <a
-          href={href({ q: '', category: '' })}
+          href={href({ q: '', category: '', topic: '' })}
           class="mt-5 inline-block font-semibold text-foreground underline"
         >
           {m.articles_clear_filters()}

@@ -20,17 +20,31 @@ export async function load({ fetch, url }) {
   // Capped to what the API accepts, so an over-long paste searches on its
   // beginning instead of failing the whole page with a 422.
   const q = (url.searchParams.get('q')?.trim() ?? '').slice(0, 80);
+  // The topic chips on an article link here. The topic endpoint takes no
+  // category or search, so a topic view is exclusive of both.
+  const topic = (url.searchParams.get('topic')?.trim() ?? '').slice(0, 80);
 
   const params = new URLSearchParams({ locale });
   const page = url.searchParams.get('page');
   if (page) params.set('page', page);
-  if (category) params.set('category', category);
-  if (q) params.set('q', q);
+  if (!topic && category) params.set('category', category);
+  if (!topic && q) params.set('q', q);
+
+  const listPath = topic
+    ? `/api/v1/public/articles/topics/${encodeURIComponent(topic)}`
+    : '/api/v1/public/articles';
 
   const [articles, categories] = await Promise.all([
-    fetchJson<ArticleListPayload>(`/api/v1/public/articles?${params.toString()}`, fetch),
+    fetchJson<ArticleListPayload>(`${listPath}?${params.toString()}`, fetch),
     fetchJson<ArticleCategoryLink[]>(`/api/v1/public/articles/categories?locale=${locale}`, fetch)
   ]);
 
-  return { articles, categories, category, q, basePath: canonical };
+  return {
+    articles,
+    categories,
+    category: topic ? '' : category,
+    q: topic ? '' : q,
+    topic,
+    basePath: canonical
+  };
 }

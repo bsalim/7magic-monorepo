@@ -102,6 +102,8 @@ CLUSTERS: dict[str, list[str]] = {
         "perjanjian-pranikah-perkawinan-campuran-wna",
         "perjanjian-pranikah-dan-hak-waris-pasangan",
         "percakapan-keuangan-sebelum-menikah",
+        # Written in the CMS, already carried the topic before this cluster.
+        "perjanjian-pranikah-pro-kontra-tren-dan-realita-untuk-pasangan-millennial",
     ],
 }
 
