@@ -50,6 +50,7 @@ CATEGORY_MAP = {
     "beauty-fashion": "Beauty & Fashion",
     "tips-hubungan": "Tips Hubungan",
     "pernikahan-islami": "Pernikahan Islami",
+    "pernikahan-selebriti": "Pernikahan Selebriti",
 }
 
 # Constructs the converter cannot represent. Matched against the Markdown body

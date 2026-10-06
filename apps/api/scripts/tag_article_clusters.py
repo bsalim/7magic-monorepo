@@ -105,6 +105,38 @@ CLUSTERS: dict[str, list[str]] = {
         # Written in the CMS, already carried the topic before this cluster.
         "perjanjian-pranikah-pro-kontra-tren-dan-realita-untuk-pasangan-millennial",
     ],
+    # Celebrity weddings: the shared topic links the batch, the sub-topics keep
+    # "Baca juga" on the same side of the Indonesian/international split.
+    "pernikahan-selebriti": [
+        "pernikahan-angga-yunanda-shenina-cinnamon-bvlgari-bali",
+        "pernikahan-luna-maya-maxime-bouttier-bali-jakarta",
+        "pernikahan-al-ghazali-alyssa-daguise-st-regis-jcc",
+        "pernikahan-amanda-manopo-kenny-austin-langham-jakarta",
+        "pernikahan-brisia-jodie-jonathan-alden-katedral-jakarta",
+        "pernikahan-el-rumi-syifa-hadju-raffles-jakarta",
+        "pernikahan-jennifer-coppen-justin-hubner-bali",
+        "pernikahan-artis-indonesia-2025-2026-tren-yang-bisa-ditiru",
+        "pernikahan-selena-gomez-benny-blanco-santa-barbara",
+        "pernikahan-dua-lipa-callum-turner-london-sicilia",
+        "pernikahan-taylor-swift-travis-kelce-madison-square-garden",
+        "pernikahan-selebriti-dunia-2025-2026-ide-yang-bisa-ditiru",
+    ],
+    "pernikahan-artis-indonesia": [
+        "pernikahan-angga-yunanda-shenina-cinnamon-bvlgari-bali",
+        "pernikahan-luna-maya-maxime-bouttier-bali-jakarta",
+        "pernikahan-al-ghazali-alyssa-daguise-st-regis-jcc",
+        "pernikahan-amanda-manopo-kenny-austin-langham-jakarta",
+        "pernikahan-brisia-jodie-jonathan-alden-katedral-jakarta",
+        "pernikahan-el-rumi-syifa-hadju-raffles-jakarta",
+        "pernikahan-jennifer-coppen-justin-hubner-bali",
+        "pernikahan-artis-indonesia-2025-2026-tren-yang-bisa-ditiru",
+    ],
+    "pernikahan-selebriti-dunia": [
+        "pernikahan-selena-gomez-benny-blanco-santa-barbara",
+        "pernikahan-dua-lipa-callum-turner-london-sicilia",
+        "pernikahan-taylor-swift-travis-kelce-madison-square-garden",
+        "pernikahan-selebriti-dunia-2025-2026-ide-yang-bisa-ditiru",
+    ],
 }
 
 

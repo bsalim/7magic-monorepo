@@ -102,6 +102,19 @@ QUERIES: dict[str, str] = {
     "menikah-di-bali-budget-masuk-akal": "bali wedding villa tropical",
     # Prenup cluster, October 2026.
     "perjanjian-pranikah-pisah-harta-kpr-dan-utang": "couple signing mortgage house documents",
+    # Celebrity weddings, October 2026: scene photos, never the couples themselves.
+    "pernikahan-angga-yunanda-shenina-cinnamon-bvlgari-bali": "bali cliff resort wedding white",
+    "pernikahan-luna-maya-maxime-bouttier-bali-jakarta": "jasmine bridal hair kebaya",
+    "pernikahan-al-ghazali-alyssa-daguise-st-regis-jcc": "indonesian wedding ballroom",
+    "pernikahan-amanda-manopo-kenny-austin-langham-jakarta": "garden wedding ceremony aisle",
+    "pernikahan-brisia-jodie-jonathan-alden-katedral-jakarta": "cathedral wedding ceremony",
+    "pernikahan-el-rumi-syifa-hadju-raffles-jakarta": "javanese traditional wedding couple",
+    "pernikahan-jennifer-coppen-justin-hubner-bali": "cliff wedding ceremony ocean sunset",
+    "pernikahan-selena-gomez-benny-blanco-santa-barbara": "lily of the valley bridal bouquet",
+    "pernikahan-dua-lipa-callum-turner-london-sicilia": "sicily villa wedding",
+    "pernikahan-taylor-swift-travis-kelce-madison-square-garden": "peach flowers wedding reception",
+    "pernikahan-artis-indonesia-2025-2026-tren-yang-bisa-ditiru": "indonesian wedding ceremony",
+    "pernikahan-selebriti-dunia-2025-2026-ide-yang-bisa-ditiru": "luxury wedding gown detail",
     "perjanjian-pranikah-perkawinan-campuran-wna": "interracial couple wedding rings hands",
 }
 
