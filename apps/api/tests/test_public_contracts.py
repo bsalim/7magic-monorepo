@@ -270,6 +270,23 @@ def test_article_search_ranks_title_above_summary_above_body() -> None:
     assert scores == [3, 2, 1]
 
 
+def test_article_index_is_newest_first_regardless_of_featured() -> None:
+    from types import SimpleNamespace
+
+    from app.services.articles import _newest_first
+
+    def article(id: int, published: datetime | None, featured: bool) -> SimpleNamespace:
+        return SimpleNamespace(id=id, published_at=published, featured=featured)
+
+    old_featured = article(1, datetime(2025, 1, 1, tzinfo=timezone.utc), True)
+    new_plain = article(2, datetime(2026, 10, 5, tzinfo=timezone.utc), False)
+    undated = article(3, None, True)
+    same_day = article(4, datetime(2026, 10, 5, tzinfo=timezone.utc), False)
+
+    ordered = _newest_first([old_featured, undated, new_plain, same_day])
+    assert [item.id for item in ordered] == [4, 2, 1, 3]
+
+
 def test_public_article_categories_count_published_articles_per_locale(
     public_article_client: TestClient,
 ) -> None:

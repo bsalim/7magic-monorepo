@@ -121,6 +121,23 @@ def _search_text(article: Article) -> str:
     ).casefold()
 
 
+def _newest_first(articles: list[Article]) -> list[Article]:
+    """The public index order: by publication date only, undated rows last.
+
+    `_published_articles` puts featured articles first, which suits the home
+    page's picks but pinned five old articles above everything new on the index.
+    """
+    return sorted(
+        articles,
+        key=lambda article: (
+            article.published_at is not None,
+            article.published_at or datetime.min.replace(tzinfo=timezone.utc),
+            article.id,
+        ),
+        reverse=True,
+    )
+
+
 def _search_score(article: Article, terms: list[str]) -> int:
     """Per word: 3 for the title, 2 for the summary or a topic, 1 for body only."""
     title = f"{article.title_id} {article.title_en or ''}".casefold()
@@ -445,7 +462,9 @@ class ArticleService:
         page_size: int = 12,
         locale: str = BASE_LOCALE,
     ) -> ArticleListResponse:
-        articles = await self._published_articles(session, category=category, locale=locale)
+        articles = _newest_first(
+            await self._published_articles(session, category=category, locale=locale)
+        )
 
         if topic:
             topic_query = topic.casefold()
@@ -466,7 +485,7 @@ class ArticleService:
             ]
             # Stable, so the newest-first order survives within a score. Without
             # this a venue page that mentions sangjit once in passing outranks
-            # the sangjit guides simply by being newer or featured.
+            # the sangjit guides simply by being newer.
             articles.sort(key=lambda article: _search_score(article, terms), reverse=True)
         if author_slug:
             articles = [
