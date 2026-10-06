@@ -1,6 +1,7 @@
 <script lang="ts">
   import ArticleCard from '$lib/components/ArticleCard.svelte';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
+  import PrenupBanner from '$lib/components/PrenupBanner.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import WhatsappCTA from '$lib/components/WhatsappCTA.svelte';
   import { page } from '$app/state';
@@ -16,6 +17,11 @@
     organization,
     website
   } from '$lib/seo/schema';
+
+  // Set on articles by scripts/tag_article_clusters.py. Keyed off the topic
+  // rather than a list of slugs so a new prenup article picks up the banner as
+  // soon as it is tagged, with no deploy.
+  const PRENUP_TOPIC = 'perjanjian-pranikah';
 
   let { data } = $props();
   let article = $derived(data.article);
@@ -83,6 +89,9 @@
     </div>
 
     <aside class="space-y-5">
+      {#if article.topic.includes(PRENUP_TOPIC)}
+        <PrenupBanner />
+      {/if}
       <div class="rounded-md border border-border bg-white p-5">
         <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">Topics</p>
         <div class="mt-4 flex flex-wrap gap-2">
