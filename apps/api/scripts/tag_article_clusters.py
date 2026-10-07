@@ -137,6 +137,26 @@ CLUSTERS: dict[str, list[str]] = {
         "pernikahan-taylor-swift-travis-kelce-madison-square-garden",
         "pernikahan-selebriti-dunia-2025-2026-ide-yang-bisa-ditiru",
     ],
+    # Older slugs say "singapore", newer ones "singapura"; both are the same cluster.
+    "menikah-di-singapura": [
+        "lokasi-prewedding-unik-singapura",
+        "7-venue-rooftop-paling-instagramable-di-singapore-untuk-akad-resepsi-view-marina-bay-city-lights-bikin-makin-syahdu",
+        "nikah-bergaya-vintage-ala-kolonial-ini-3-venue-heritage-di-singapore-yang-super-elegan-instagramable",
+        "nikah-di-private-space-ini-venue-eksklusif-ala-private-villa-rooftop-wedding-di-singapore",
+        "nikah-di-tengah-kota-ini-dia-3-venue-wedding-strategis-dekat-mrt-di-singapore-anti-ribet-buat-tamu-lokal-internasional",
+        "nikah-outdoor-di-tengah-alam-ini-5-garden-wedding-venue-paling-romantis-di-singapore",
+        "sunset-wedding-vibes-2-venue-tepi-pantai-marina-paling-romantis-di-singapore",
+        "venue-halal-friendly-di-singapore-tempat-akad-resepsi-sekaligus-yang-nyaman-untuk-semua-tamu-muslim",
+        "mau-nikah-di-singapura-ini-10-hotel-bintang-5-paling-hits-buat-wedding-mewah-elegan",
+        "nikah-intimate-gak-harus-mahal-8-venue-micro-wedding-super-aesthetic-di-tengah-kota-singapura",
+        "tradisi-pernikahan-multietnis-di-singapura",
+    ],
+    "foto-prewedding": [
+        "lokasi-prewedding-unik-singapura",
+        "prewedding-negative-space-minimalis",
+        "sepuluh-gaya-fotografi-pernikahan",
+        "kecewa-sama-foto-wedding-tenang-ini-4-cara-biar-tetap-estetik-nggak-nyesel",
+    ],
 }
 
 
