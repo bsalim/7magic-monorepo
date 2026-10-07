@@ -2,6 +2,7 @@
   import StarIcon from '@lucide/svelte/icons/star';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import VenueCard from '$lib/components/VenueCard.svelte';
   import { getLocale, localizeHref } from '$lib/paraglide/runtime';
   import { m } from '$lib/paraglide/messages.js';
@@ -97,6 +98,8 @@
        pre-rendered markup rather than as an expression inside the tag. -->
   {@html jsonLd}
 </svelte:head>
+
+<SocialMeta title={title} description={description} url={canonical} />
 
 <main class="min-h-screen bg-background text-slate-900">
   <PublicHeader />

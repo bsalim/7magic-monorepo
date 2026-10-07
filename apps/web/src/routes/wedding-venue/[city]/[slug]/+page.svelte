@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import VenueClosingCta from '$lib/components/venue-detail/VenueClosingCta.svelte';
   import VenueHero from '$lib/components/venue-detail/VenueHero.svelte';
   import VenueOverview from '$lib/components/venue-detail/VenueOverview.svelte';
@@ -151,6 +152,14 @@
        verbatim instead of the structured data. -->
   {@html jsonLd}
 </svelte:head>
+
+<SocialMeta
+  title={venue.seo?.title ?? `${venue.name} | 7Magic Wedding`}
+  description={venue.seo?.meta_description ?? venue.description}
+  image={primaryPhoto}
+  imageAlt={venue.name}
+  url={localizeHref(venue.seo?.canonical_url ?? venue.path_url)}
+/>
 
 <svelte:window onkeydown={handleKeydown} />
 

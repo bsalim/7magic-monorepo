@@ -4,6 +4,7 @@
 
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Input } from '$lib/components/ui/input';
@@ -25,6 +26,8 @@
   <title>{m.contact_meta_title()}</title>
   <meta name="description" content={m.contact_meta_description()} />
 </svelte:head>
+
+<SocialMeta title={m.contact_meta_title()} description={m.contact_meta_description()} />
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />

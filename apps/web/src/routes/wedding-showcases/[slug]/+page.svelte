@@ -2,6 +2,7 @@
   import ArrowLeftIcon from '@lucide/svelte/icons/arrow-left';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
   import { m } from '$lib/paraglide/messages.js';
   import { getLocale } from '$lib/paraglide/runtime';
@@ -25,6 +26,13 @@
   <title>{showcase.title} | 7Magic</title>
   <meta name="description" content={showcase.body.slice(0, 160) || showcase.title} />
 </svelte:head>
+
+<SocialMeta
+  title={showcase.title}
+  description={showcase.body.slice(0, 160) || showcase.title}
+  image={showcase.image?.large_url ?? showcase.image?.small_url}
+  imageAlt={showcase.image?.alt}
+/>
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />

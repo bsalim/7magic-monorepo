@@ -4,6 +4,7 @@
   import MessageCircleIcon from '@lucide/svelte/icons/message-circle';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
   import { m } from '$lib/paraglide/messages.js';
   import { cn } from '$lib/utils';
@@ -243,6 +244,8 @@
   <title>{m.beo_meta_title()}</title>
   <meta name="description" content={m.beo_meta_description()} />
 </svelte:head>
+
+<SocialMeta title={m.beo_meta_title()} description={m.beo_meta_description()} />
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />

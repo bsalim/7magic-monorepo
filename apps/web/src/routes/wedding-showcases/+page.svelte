@@ -3,6 +3,7 @@
   import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
   import { buttonVariants } from '$lib/components/ui/button';
   import { m } from '$lib/paraglide/messages.js';
@@ -30,6 +31,8 @@
   <title>{m.showcases_title()} | 7Magic</title>
   <meta name="description" content={m.showcases_subtitle()} />
 </svelte:head>
+
+<SocialMeta title={`${m.showcases_title()} | 7Magic`} description={m.showcases_subtitle()} />
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />

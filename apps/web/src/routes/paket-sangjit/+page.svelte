@@ -3,6 +3,7 @@
   import MessageCircleIcon from '@lucide/svelte/icons/message-circle';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
   import { cn } from '$lib/utils';
   import { whatsappDisplay, whatsappHref } from '$lib/whatsapp';
@@ -363,14 +364,15 @@
 
   const inputClass =
     'rounded-md border border-input bg-background px-3 py-2.5 text-[15px] placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/30';
+
+  const META_TITLE = 'Paket Sangjit Jakarta — Dekorasi, Baki Seserahan, MC & Dokumentasi | 7Magic';
+  const META_DESCRIPTION =
+    'Paket sangjit Jakarta: dekorasi, baki seserahan lengkap dengan isinya, pembawa baki, MC dwibahasa, dan dokumentasi. Susunan acara dan isi 12 baki kami jelaskan lengkap. Penawaran dalam dua hari kerja.';
 </script>
 
 <svelte:head>
-  <title>Paket Sangjit Jakarta — Dekorasi, Baki Seserahan, MC & Dokumentasi | 7Magic</title>
-  <meta
-    name="description"
-    content="Paket sangjit Jakarta: dekorasi, baki seserahan lengkap dengan isinya, pembawa baki, MC dwibahasa, dan dokumentasi. Susunan acara dan isi 12 baki kami jelaskan lengkap. Penawaran dalam dua hari kerja."
-  />
+  <title>{META_TITLE}</title>
+  <meta name="description" content={META_DESCRIPTION} />
   <meta
     name="keywords"
     content="paket sangjit, sangjit Jakarta, dekorasi sangjit, isi baki sangjit, isi nampan sangjit, susunan acara sangjit, seserahan sangjit, MC sangjit, harga sangjit Jakarta"
@@ -378,6 +380,8 @@
   <link rel="canonical" href="https://7magicwedding.com/paket-sangjit" />
   {@html `<script type="application/ld+json">${faqJsonLd}</script>`}
 </svelte:head>
+
+<SocialMeta title={META_TITLE} description={META_DESCRIPTION} url="/paket-sangjit" />
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />

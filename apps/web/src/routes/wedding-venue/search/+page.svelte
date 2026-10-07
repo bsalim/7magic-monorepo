@@ -1,6 +1,7 @@
 <script lang="ts">
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import VenueCard from '$lib/components/VenueCard.svelte';
   import VenueFilters from '$lib/components/VenueFilters.svelte';
   import { page } from '$app/state';
@@ -70,6 +71,8 @@
        pre-rendered markup rather than as an expression inside the tag. -->
   {@html jsonLd}
 </svelte:head>
+
+<SocialMeta title={`${pageTitle} | 7Magic Wedding`} description={pageDescription} />
 
 <main class="min-h-screen bg-background text-slate-900">
   <PublicHeader />

@@ -3,6 +3,7 @@
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PrenupBanner from '$lib/components/PrenupBanner.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import WhatsappCTA from '$lib/components/WhatsappCTA.svelte';
   import { page } from '$app/state';
   import { localizeArticleBody } from '$lib/article-body';
@@ -61,6 +62,17 @@
        pre-rendered markup rather than as an expression inside the tag. -->
   {@html jsonLd}
 </svelte:head>
+
+<SocialMeta
+  title={article.title}
+  description={article.summary}
+  image={article.image_url}
+  imageAlt={article.title}
+  type="article"
+  publishedTime={article.published_at}
+  modifiedTime={article.updated_at || article.published_at}
+  section={article.category}
+/>
 
 <main class="min-h-screen bg-background text-slate-900">
   <PublicHeader />

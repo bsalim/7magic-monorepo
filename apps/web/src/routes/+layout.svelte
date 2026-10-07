@@ -38,6 +38,11 @@
 
 <svelte:head>
   <link rel="icon" href="/favicons/favicon.ico" sizes="any" />
+  <!-- Without this, Google Discover shows a small thumbnail or skips the page:
+       its large-card format, which is where trend and celebrity pieces earn
+       their traffic, requires opting in. Google merges multiple robots tags,
+       so a page's own noindex still applies alongside it. -->
+  <meta name="robots" content="max-image-preview:large" />
   {#each hreflangs as link (link.locale)}
     <link rel="alternate" hreflang={link.locale} href={link.href} />
   {/each}

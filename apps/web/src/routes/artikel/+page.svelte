@@ -3,6 +3,7 @@
   import ArticleCard from '$lib/components/ArticleCard.svelte';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { m } from '$lib/paraglide/messages.js';
@@ -40,6 +41,8 @@
     <meta name="robots" content="noindex,follow" />
   {/if}
 </svelte:head>
+
+<SocialMeta title={m.articles_meta_title()} description={m.articles_meta_description()} />
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />

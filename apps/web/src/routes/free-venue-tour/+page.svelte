@@ -16,6 +16,7 @@
 
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { buttonVariants } from '$lib/components/ui/button';
   import { localizeHref } from '$lib/paraglide/runtime';
   import { cityImage } from '$lib/tour';
@@ -106,15 +107,18 @@
       a: 'Ask for the day that suits you and we will confirm the time, or tell you the nearest we can manage. If you would rather sort it in a message, WhatsApp us.'
     }
   ];
+
+  const META_TITLE = 'Book a Free Venue Tour | 7Magic Wedding';
+  const META_DESCRIPTION =
+    'Visit a 7Magic wedding venue in person, free and with no obligation. Choose the venue you want to see, pick a day that suits you, and meet the team who would run your day.';
 </script>
 
 <svelte:head>
-  <title>Book a Free Venue Tour | 7Magic Wedding</title>
-  <meta
-    name="description"
-    content="Visit a 7Magic wedding venue in person, free and with no obligation. Choose the venue you want to see, pick a day that suits you, and meet the team who would run your day."
-  />
+  <title>{META_TITLE}</title>
+  <meta name="description" content={META_DESCRIPTION} />
 </svelte:head>
+
+<SocialMeta title={META_TITLE} description={META_DESCRIPTION} />
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />

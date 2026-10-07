@@ -7,6 +7,7 @@
   // rather than keeping a second, worse version in step with it.
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import VenueVendors from '$lib/components/venue-detail/VenueVendors.svelte';
   import * as m from '$lib/paraglide/messages';
 </script>
@@ -15,6 +16,8 @@
   <title>{m.vendors_meta_title()}</title>
   <meta name="description" content={m.vendors_meta_description()} />
 </svelte:head>
+
+<SocialMeta title={m.vendors_meta_title()} description={m.vendors_meta_description()} />
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />

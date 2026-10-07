@@ -1,6 +1,7 @@
 <script lang="ts">
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import TourForm from '$lib/components/TourForm.svelte';
   import TourPitch from '$lib/components/TourPitch.svelte';
   import * as m from '$lib/paraglide/messages';
@@ -24,6 +25,8 @@
   <title>{m.tour_meta_title()}</title>
   <meta name="description" content={m.tour_meta_description()} />
 </svelte:head>
+
+<SocialMeta title={m.tour_meta_title()} description={m.tour_meta_description()} />
 
 <PublicHeader />
 

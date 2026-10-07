@@ -9,6 +9,7 @@
   import HeroVenueSearch from '$lib/components/HeroVenueSearch.svelte';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import VenueCard from '$lib/components/VenueCard.svelte';
   import { page } from '$app/state';
   import { getLocale } from '$lib/paraglide/runtime';
@@ -30,6 +31,8 @@
   // One string for the tab title and the JSON-LD WebPage name: a mismatch
   // between the two is what Search Console reports as a duplicate title.
   const META_TITLE = '7Magic Wedding | Wedding Venue Packages Jakarta Bali Batam Singapore';
+  const META_DESCRIPTION =
+    'Wedding venue Jakarta, Bali, Batam, and Singapore: curated wedding venue packages with pricing up front, wedding organizer support, and planning guides from 7Magic.';
 
   // The home page is where the site-wide Organization and WebSite nodes live —
   // the SearchAction on the latter is what lets the venue search surface as a
@@ -80,10 +83,7 @@
 
 <svelte:head>
   <title>{META_TITLE}</title>
-  <meta
-    name="description"
-    content="Wedding venue Jakarta, Bali, Batam, and Singapore: curated wedding venue packages with pricing up front, wedding organizer support, and planning guides from 7Magic."
-  />
+  <meta name="description" content={META_DESCRIPTION} />
   <meta
     name="keywords"
     content="wedding venue jakarta, venue pernikahan jakarta, wedding venue, wedding venue packages, wedding package jakarta, gedung pernikahan jakarta, wedding organizer jakarta"
@@ -92,6 +92,8 @@
        pre-rendered markup rather than as an expression inside the tag. -->
   {@html jsonLd}
 </svelte:head>
+
+<SocialMeta title={META_TITLE} description={META_DESCRIPTION} />
 
 <main class="min-h-screen bg-background text-slate-900">
   <PublicHeader />

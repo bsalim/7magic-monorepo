@@ -5,10 +5,15 @@
   import UsersIcon from '@lucide/svelte/icons/users';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { buttonVariants } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { cn } from '$lib/utils';
   import { localizeHref } from '$lib/paraglide/runtime';
+
+  const META_TITLE = 'About 7Magic Wedding | Crafting Magical Moments since 2007';
+  const META_DESCRIPTION =
+    'Since 2007, 7Magic Organizer has been crafting unforgettable wedding experiences throughout Indonesia and Singapore.';
 
   // Copy ported from the production site at https://7magicwedding.com/about
   const pillars = [
@@ -38,12 +43,11 @@
 </script>
 
 <svelte:head>
-  <title>About 7Magic Wedding | Crafting Magical Moments since 2007</title>
-  <meta
-    name="description"
-    content="Since 2007, 7Magic Organizer has been crafting unforgettable wedding experiences throughout Indonesia and Singapore."
-  />
+  <title>{META_TITLE}</title>
+  <meta name="description" content={META_DESCRIPTION} />
 </svelte:head>
+
+<SocialMeta title={META_TITLE} description={META_DESCRIPTION} />
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />

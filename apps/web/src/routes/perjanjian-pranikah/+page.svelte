@@ -4,6 +4,7 @@
   import MessageCircleIcon from '@lucide/svelte/icons/message-circle';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
   import { getLocale, localizeHref } from '$lib/paraglide/runtime';
   import { canonicalUrl } from '$lib/seo/schema';
@@ -143,6 +144,8 @@
   {@html `<script type="application/ld+json">${faqJsonLd}</script>`}
   {@html `<script type="application/ld+json">${serviceJsonLd}</script>`}
 </svelte:head>
+
+<SocialMeta title={copy.meta.title} description={copy.meta.description} url={canonical} />
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />

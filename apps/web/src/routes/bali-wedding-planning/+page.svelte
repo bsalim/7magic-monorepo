@@ -4,6 +4,7 @@
   import SearchIcon from '@lucide/svelte/icons/search';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
+  import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
   import {
     breadcrumbList,
@@ -314,6 +315,8 @@
   <link rel="canonical" href="https://7magicwedding.com{CANONICAL_PATH}" />
   {@html pageJsonLd}
 </svelte:head>
+
+<SocialMeta title={metaTitle} description={metaDescription} url={CANONICAL_PATH} />
 
 <main class="min-h-screen bg-background text-foreground">
   <PublicHeader />
