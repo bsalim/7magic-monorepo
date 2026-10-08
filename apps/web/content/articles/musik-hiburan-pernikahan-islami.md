@@ -9,11 +9,11 @@ date: 2026-08-01
 status: draft
 ---
 
-Dari sekian banyak keputusan dalam merencanakan pernikahan, urusan musik dan hiburan sering menjadi salah satu yang paling banyak didiskusikan ulang oleh pasangan Muslim — bukan karena rumit secara teknis, tapi karena ada beragam pandangan yang perlu dipahami dengan jernih sebelum memutuskan. Kabar baiknya, ada banyak pilihan yang tetap meriah, menyenangkan bagi tamu dari berbagai latar belakang, dan nyaman secara syariat.
+Dari sekian banyak keputusan dalam merencanakan pernikahan, urusan musik dan hiburan sering menjadi salah satu yang paling banyak didiskusikan ulang oleh pasangan Muslim: bukan karena rumit secara teknis, tapi karena ada beragam pandangan yang perlu dipahami dengan jernih sebelum memutuskan. Kabar baiknya, ada banyak pilihan yang tetap meriah, menyenangkan bagi tamu dari berbagai latar belakang, dan nyaman secara syariat.
 
 ## Mengapa Musik dalam Walimah Perlu Dipikirkan Matang-matang
 
-Musik di resepsi bukan sekadar latar suara — ia membentuk suasana, memengaruhi bagaimana keluarga besar merasakan acara, dan bagi sebagian pasangan menjadi cerminan nilai yang ingin dibawa ke rumah tangga baru mereka. Karena itu, sebelum booking vendor entertainment, penting memahami dulu peta pandangan ulama soal musik agar keputusan Anda didasari pemahaman, bukan sekadar ikut arus atau menghindar tanpa alasan jelas.
+Musik di resepsi bukan sekadar latar suara: ia membentuk suasana, memengaruhi bagaimana keluarga besar merasakan acara, dan bagi sebagian pasangan menjadi cerminan nilai yang ingin dibawa ke rumah tangga baru mereka. Karena itu, sebelum booking vendor entertainment, penting memahami dulu peta pandangan ulama soal musik agar keputusan Anda didasari pemahaman, bukan sekadar ikut arus atau menghindar tanpa alasan jelas.
 
 ## Perbedaan Pandangan Ulama tentang Musik
 
@@ -31,13 +31,13 @@ Gambus, alat musik petik mirip oud yang biasa mengiringi lagu-lagu bertema relig
 
 ## Akustik Islami dan Musik Instrumental Minim
 
-Bagi pasangan yang menginginkan nuansa musik lebih kontemporer namun tetap dalam batas yang lebih hati-hati, opsi akustik islami — biasanya gitar akustik atau cajon minimalis mengiringi vokal nasyid atau lagu-lagu bertema syukur dan cinta yang santun — cukup diminati di kalangan pasangan muda perkotaan. Ini menjadi jalan tengah bagi mereka yang mengikuti pandangan yang membolehkan alat musik bermelodi dengan syarat lirik dan konteksnya baik.
+Bagi pasangan yang menginginkan nuansa musik lebih kontemporer namun tetap dalam batas yang lebih hati-hati, opsi akustik islami (biasanya gitar akustik atau cajon minimalis mengiringi vokal nasyid atau lagu-lagu bertema syukur dan cinta yang santun) cukup diminati di kalangan pasangan muda perkotaan. Ini menjadi jalan tengah bagi mereka yang mengikuti pandangan yang membolehkan alat musik bermelodi dengan syarat lirik dan konteksnya baik.
 
 Penting dicatat, opsi ini tetap masuk wilayah khilafiyah karena melibatkan alat musik bermelodi di luar rebana. Jika Anda atau keluarga besar Anda mengikuti pandangan yang lebih ketat, sebaiknya tetap pada opsi rebana/marawis murni tanpa gitar atau keyboard.
 
 ## Menyusun Playlist Resepsi untuk Keluarga Besar
 
-Menyusun playlist yang nyaman bagi keluarga besar — dari kakek nenek hingga sepupu generasi Z — butuh kepekaan tersendiri. Beberapa prinsip yang biasa kami sarankan:
+Menyusun playlist yang nyaman bagi keluarga besar (dari kakek nenek hingga sepupu generasi Z) butuh kepekaan tersendiri. Beberapa prinsip yang biasa kami sarankan:
 
 - Buka acara dengan nasyid atau lantunan shalawat sebagai penyambutan tamu, memberi kesan tenang dan hangat sejak awal
 - Sisipkan lagu-lagu daerah atau religi yang dikenali generasi orang tua di sesi tengah acara, karena mereka sering menjadi tamu yang paling lama duduk menikmati suasana
@@ -83,7 +83,7 @@ Ini salah satu titik yang paling beragam pandangannya. Sebagian ulama membolehka
 
 ### Bagaimana jika keluarga besar terbiasa dengan hiburan musik konvensional dan keberatan dengan nasyid saja?
 
-Coba tawarkan format kombinasi — misalnya gambus atau akustik islami dengan repertoar yang lebih riang di sesi awal, lalu nasyid atau shalawat di sesi penutup. Diskusi terbuka dengan menjelaskan alasan Anda biasanya lebih efektif daripada pembatasan sepihak tanpa penjelasan.
+Coba tawarkan format kombinasi: misalnya gambus atau akustik islami dengan repertoar yang lebih riang di sesi awal, lalu nasyid atau shalawat di sesi penutup. Diskusi terbuka dengan menjelaskan alasan Anda biasanya lebih efektif daripada pembatasan sepihak tanpa penjelasan.
 
 ### Apakah boleh menyewa sound system besar meski hiburannya tetap nasyid atau marawis?
 

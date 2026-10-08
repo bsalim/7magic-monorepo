@@ -43,7 +43,7 @@ Tes HIV kini menjadi bagian standar pemeriksaan pranikah di banyak fasilitas kes
 
 ### TORCH
 
-TORCH adalah singkatan dari Toxoplasma, Rubella, Cytomegalovirus, dan Herpes — sekelompok infeksi yang terutama relevan bagi calon ibu karena bisa berdampak pada kehamilan kalau terinfeksi saat hamil. Ini termasuk tes dengan biaya lebih tinggi, berkisar Rp800.000-1,8 juta untuk panel lengkap per orang, karena setiap komponen infeksi diperiksa terpisah. Banyak dokter kandungan menyarankan tes ini terutama untuk pasangan yang berencana segera memiliki momongan setelah menikah.
+TORCH adalah singkatan dari Toxoplasma, Rubella, Cytomegalovirus, dan Herpes, sekelompok infeksi yang terutama relevan bagi calon ibu karena bisa berdampak pada kehamilan kalau terinfeksi saat hamil. Ini termasuk tes dengan biaya lebih tinggi, berkisar Rp800.000-1,8 juta untuk panel lengkap per orang, karena setiap komponen infeksi diperiksa terpisah. Banyak dokter kandungan menyarankan tes ini terutama untuk pasangan yang berencana segera memiliki momongan setelah menikah.
 
 ### Pemeriksaan kesuburan dasar
 
@@ -67,11 +67,11 @@ Ada beberapa jalur yang bisa dipilih, tergantung kebutuhan dan anggaran:
 
 **Laboratorium klinik swasta jaringan besar**, seperti Prodia atau Kimia Farma Diagnostika, biasanya menawarkan "Paket Pranikah" atau "Paket Premarital Screening" yang menggabungkan darah lengkap, golongan darah, hepatitis B, dan HIV seharga sekitar Rp800.000-1,5 juta per orang. Dengan tambahan TORCH dan thalasemia, paket lebih lengkap bisa mencapai Rp2-3,5 juta per orang.
 
-**Rumah sakit umum**, seperti RS Pondok Indah, RS Siloam, atau RS Hermina di berbagai cabang Jabodetabek, biasanya menawarkan paket "Premarital Check-up" yang menggabungkan tes laboratorium dengan konsultasi dokter dan kadang USG dasar. Kisaran biaya paket lengkap per 2026 umumnya Rp1,5-4 juta per orang — paket dasar di kelas menengah sekitar Rp1,5-2,5 juta, sementara paket lengkap dengan TORCH dan konsultasi genetik di rumah sakit kelas atas bisa mencapai Rp3,5-4 juta.
+**Rumah sakit umum**, seperti RS Pondok Indah, RS Siloam, atau RS Hermina di berbagai cabang Jabodetabek, biasanya menawarkan paket "Premarital Check-up" yang menggabungkan tes laboratorium dengan konsultasi dokter dan kadang USG dasar. Kisaran biaya paket lengkap per 2026 umumnya Rp1,5-4 juta per orang: paket dasar di kelas menengah sekitar Rp1,5-2,5 juta, sementara paket lengkap dengan TORCH dan konsultasi genetik di rumah sakit kelas atas bisa mencapai Rp3,5-4 juta.
 
-**Laboratorium klinik swasta tanpa paket.** Kalau ingin memilih tes secara satuan, jumlahkan saja harga per item di atas — biasanya lebih murah dibanding paket kalau hanya perlu beberapa tes spesifik, tapi kurang praktis kalau ingin semua tes sekaligus.
+**Laboratorium klinik swasta tanpa paket.** Kalau ingin memilih tes secara satuan, jumlahkan saja harga per item di atas: biasanya lebih murah dibanding paket kalau hanya perlu beberapa tes spesifik, tapi kurang praktis kalau ingin semua tes sekaligus.
 
-Sebelum memilih, ada baiknya menelepon dulu untuk menanyakan detail paket, karena isi "paket pranikah" antar fasilitas kesehatan bisa cukup berbeda — ada yang sudah termasuk USG dan konsultasi dokter, ada yang hanya tes laboratorium murni. Untuk anggaran terbatas, kombinasi darah lengkap, golongan darah, hepatitis B, dan HIV tanpa paket sudah mencakup pemeriksaan paling esensial dengan total sekitar Rp350.000-700.000 per orang.
+Sebelum memilih, ada baiknya menelepon dulu untuk menanyakan detail paket, karena isi "paket pranikah" antar fasilitas kesehatan bisa cukup berbeda: ada yang sudah termasuk USG dan konsultasi dokter, ada yang hanya tes laboratorium murni. Untuk anggaran terbatas, kombinasi darah lengkap, golongan darah, hepatitis B, dan HIV tanpa paket sudah mencakup pemeriksaan paling esensial dengan total sekitar Rp350.000-700.000 per orang.
 
 ## Kapan waktu terbaik melakukannya
 

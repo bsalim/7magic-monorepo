@@ -15,11 +15,11 @@ Ada momen yang sering luput dari daftar persiapan pernikahan, padahal dampaknya 
 
 Selama masih pacaran atau bertunangan, keluarga biasanya masih memberi ruang. Begitu status berubah jadi menantu resmi, ekspektasi ikut berubah: orang tua Anda mungkin berharap anaknya pulang seperti biasa, sementara orang tua pasangan berharap menantu baru datang untuk pertama kalinya sebagai bagian keluarga. Keduanya wajar dan sah, dan justru karena sama-sama sah itulah dibutuhkan kesepakatan, bukan improvisasi mendadak di H-3 Lebaran.
 
-Pasangan yang sudah menikah lintas kota atau lintas pulau — misalnya satu dari Jakarta, satu dari Medan atau Makassar — biasanya merasakan tekanan ini lebih berat, karena mudik ke dua tempat dalam satu musim libur sering kali tidak realistis dari sisi waktu maupun biaya tiket. Kalau situasi Anda seperti ini, wajar kalau pola bergantian tahun terasa lebih masuk akal dibanding memaksakan dua kota sekaligus.
+Pasangan yang sudah menikah lintas kota atau lintas pulau (misalnya satu dari Jakarta, satu dari Medan atau Makassar) biasanya merasakan tekanan ini lebih berat, karena mudik ke dua tempat dalam satu musim libur sering kali tidak realistis dari sisi waktu maupun biaya tiket. Kalau situasi Anda seperti ini, wajar kalau pola bergantian tahun terasa lebih masuk akal dibanding memaksakan dua kota sekaligus.
 
 ## Menentukan mudik ke keluarga siapa
 
-Ada beberapa pola yang biasa dipakai pasangan Indonesia, dan tidak ada yang paling benar — yang penting cocok dengan situasi Anda berdua.
+Ada beberapa pola yang biasa dipakai pasangan Indonesia, dan tidak ada yang paling benar, yang penting cocok dengan situasi Anda berdua.
 
 **Pola bergantian tahun.** Tahun ganjil ke keluarga istri, tahun genap ke keluarga suami, atau sebaliknya. Pola ini paling mudah dijelaskan ke kedua keluarga karena adil secara matematis dan bisa direncanakan jauh hari.
 
@@ -45,7 +45,7 @@ Dua hal praktis yang membantu: diskusikan durasi menginap di masing-masing rumah
 
 ## Mengelola ekspektasi kedua keluarga
 
-Ini bagian yang paling sering menimbulkan gesekan diam-diam. Orang tua jarang menyampaikan kekecewaan secara langsung; biasanya muncul lewat sindiran halus, komentar ke saudara lain, atau nada suara di telepon yang berubah. Cara paling efektif menghindarinya adalah komunikasi lebih awal dan konsisten, bukan menunggu ditanya — sampaikan rencana begitu tanggal cuti bersama diumumkan pemerintah, lengkap dengan alasannya, misalnya "tahun ini kami di Bandung dulu karena Ibu baru operasi, tahun depan giliran ke Solo." Orang tua umumnya lebih mudah menerima keputusan yang disertai alasan dibanding keputusan yang terasa datang tiba-tiba.
+Ini bagian yang paling sering menimbulkan gesekan diam-diam. Orang tua jarang menyampaikan kekecewaan secara langsung; biasanya muncul lewat sindiran halus, komentar ke saudara lain, atau nada suara di telepon yang berubah. Cara paling efektif menghindarinya adalah komunikasi lebih awal dan konsisten, bukan menunggu ditanya: sampaikan rencana begitu tanggal cuti bersama diumumkan pemerintah, lengkap dengan alasannya, misalnya "tahun ini kami di Bandung dulu karena Ibu baru operasi, tahun depan giliran ke Solo." Orang tua umumnya lebih mudah menerima keputusan yang disertai alasan dibanding keputusan yang terasa datang tiba-tiba.
 
 Kalau salah satu keluarga terbiasa berkumpul besar saat Lebaran dan keluarga lain lebih santai, video call singkat di hari H bisa jadi jalan tengah untuk keluarga yang tidak dikunjungi tahun itu. Cara ini sederhana tapi cukup meredakan rasa "dilewatkan".
 
@@ -60,7 +60,7 @@ Setelah menikah, pengeluaran Lebaran biasanya melonjak dari yang dibayangkan saa
 
 Sebagai gambaran konkret, ambil contoh pasangan di Jakarta yang istrinya berasal dari Solo dan suaminya dari Medan. Tahun ini giliran mudik ke Solo, sementara keluarga di Medan dihubungi lewat video call di hari H dan tetap dikirimkan salam tempel. Rinciannya: tiket pesawat pulang-pergi berdua Rp4 juta, angpau untuk sekitar 15 keponakan dan anak saudara Rp1,2 juta, salam tempel untuk empat orang tua (dua dikunjungi langsung, dua ditransfer) Rp2,5 juta, dan oleh-oleh plus dana cadangan kondangan dadakan Rp1,5 juta. Totalnya sekitar Rp9,2 juta untuk satu musim Lebaran.
 
-Kalau pasangan ini mulai menabung khusus sejak empat bulan sebelum Ramadan, artinya perlu menyisihkan sekitar Rp2,3 juta per bulan di rekening terpisah — jauh lebih ringan dibanding menyiapkannya mendadak sebulan sebelum Lebaran.
+Kalau pasangan ini mulai menabung khusus sejak empat bulan sebelum Ramadan, artinya perlu menyisihkan sekitar Rp2,3 juta per bulan di rekening terpisah, jauh lebih ringan dibanding menyiapkannya mendadak sebulan sebelum Lebaran.
 
 Kalau anggaran bulanan tidak memungkinkan angka sebesar itu, komponen paling realistis untuk dikompromikan lebih dulu adalah oleh-oleh dan salam tempel, dibanding tiket dan angpau dasar yang lebih sulit ditawar. Memilih moda transportasi lebih hemat, seperti kereta dibanding pesawat untuk rute Jawa, juga memangkas pengeluaran terbesar tanpa mengorbankan kunjungan itu sendiri.
 
@@ -85,7 +85,7 @@ Sangat disarankan. Banyak pasangan baru kaget karena pengeluaran Lebaran ternyat
 Ini sering terjadi, terutama kalau anak tersebut merasa sungkan. Solusi yang cukup efektif adalah menyampaikan keputusan bersama-sama saat menelepon atau bertemu orang tua, sehingga terasa sebagai keputusan berdua, bukan keputusan sepihak.
 
 ### Kalau anggaran Lebaran dan DP vendor pernikahan bentrok di tahun yang sama, mana yang diprioritaskan?
-Pisahkan dulu pos yang punya tenggat pasti — DP vendor biasanya terikat batas waktu kontrak — dari pos yang masih bisa disesuaikan skalanya, seperti jumlah oleh-oleh atau nominal salam tempel. Membicarakannya berdua sejak awal jauh lebih baik daripada menutup salah satu pos dengan utang konsumtif.
+Pisahkan dulu pos yang punya tenggat pasti (DP vendor biasanya terikat batas waktu kontrak) dari pos yang masih bisa disesuaikan skalanya, seperti jumlah oleh-oleh atau nominal salam tempel. Membicarakannya berdua sejak awal jauh lebih baik daripada menutup salah satu pos dengan utang konsumtif.
 
 ## Langkah berikutnya
 

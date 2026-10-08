@@ -32,9 +32,9 @@ Susunan ini bukan aturan baku dan bisa disesuaikan, yang penting jumlahnya tetap
 
 Sebagai gambaran realistis untuk keluarga di Jabodetabek, dengan penyesuaian di kota lain biasanya 10-20% lebih hemat di luar Jawa dan sekitar 15-25% lebih mahal untuk vendor premium di Bali:
 
-- **Hemat (Rp8 juta – Rp15 juta):** 7 tray, brand lokal untuk busana dan sepatu, perhiasan emas ringan sekitar 2-3 gram, skincare lokal, box seserahan sederhana tanpa dekorasi bunga segar.
-- **Menengah (Rp20 juta – Rp45 juta):** 9-11 tray, campuran brand lokal menengah dan sesekali brand nasional, perhiasan emas 5-8 gram, skincare dan kosmetik kelas menengah, box dengan dekorasi kain tile dan bunga segar sederhana.
-- **Mewah (Rp60 juta – Rp150 juta atau lebih):** 11-13 tray, brand internasional untuk tas dan sepatu, perhiasan emas lebih dari 10 gram atau berlian, gadget, dekorasi box dengan bunga impor dan lighting, sering menyewa jasa styling profesional untuk penataan.
+- **Hemat (Rp8 juta: Rp15 juta):** 7 tray, brand lokal untuk busana dan sepatu, perhiasan emas ringan sekitar 2-3 gram, skincare lokal, box seserahan sederhana tanpa dekorasi bunga segar.
+- **Menengah (Rp20 juta: Rp45 juta):** 9-11 tray, campuran brand lokal menengah dan sesekali brand nasional, perhiasan emas 5-8 gram, skincare dan kosmetik kelas menengah, box dengan dekorasi kain tile dan bunga segar sederhana.
+- **Mewah (Rp60 juta: Rp150 juta atau lebih):** 11-13 tray, brand internasional untuk tas dan sepatu, perhiasan emas lebih dari 10 gram atau berlian, gadget, dekorasi box dengan bunga impor dan lighting, sering menyewa jasa styling profesional untuk penataan.
 
 Angka ini bisa naik cukup jauh kalau memasukkan barang elektronik besar atau perhiasan berlian, jadi anggap ini sebagai kisaran dasar untuk item personal, bukan termasuk hantaran adat lain seperti seserahan uang tunai terpisah.
 

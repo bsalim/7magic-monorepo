@@ -513,7 +513,7 @@
                  the number used to do. -->
             <div class="mt-5">
               <p class="font-display text-lg font-semibold text-brand-gold-hover">
-                Hubungi kami untuk harga
+                Cek harga & tanggal kosong
               </p>
               <p class="mt-1 text-sm text-muted-foreground">{p.skala}</p>
             </div>

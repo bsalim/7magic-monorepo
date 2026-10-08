@@ -9,7 +9,7 @@ date: 2026-08-01
 status: draft
 ---
 
-Akad nikah adalah momen inti dari seluruh rangkaian pernikahan, dan banyak pasangan di Jabodetabek ingin momen ini berlangsung di tempat yang punya makna, bukan sekadar ruangan kosong yang disulap jadi cantik lewat dekorasi. Wilayah Jakarta, Depok, Tangerang, dan sekitarnya punya banyak masjid yang memang terbiasa menampung acara akad, masing-masing dengan karakter, aturan, dan kebiasaan yang berbeda-beda — dan sebagian besar bedanya baru terasa saat Anda sudah di lapangan, bukan saat membaca brosur.
+Akad nikah adalah momen inti dari seluruh rangkaian pernikahan, dan banyak pasangan di Jabodetabek ingin momen ini berlangsung di tempat yang punya makna, bukan sekadar ruangan kosong yang disulap jadi cantik lewat dekorasi. Wilayah Jakarta, Depok, Tangerang, dan sekitarnya punya banyak masjid yang memang terbiasa menampung acara akad, masing-masing dengan karakter, aturan, dan kebiasaan yang berbeda-beda: dan sebagian besar bedanya baru terasa saat Anda sudah di lapangan, bukan saat membaca brosur.
 
 ## Masjid Istiqlal
 
@@ -29,7 +29,7 @@ Masjid modern di kawasan Bintaro ini punya reputasi baik soal manajemen acara ka
 
 ## Masjid Cut Meutia, Menteng
 
-Bangunan bersejarah era kolonial ini punya karakter arsitektur yang unik dan sangat disukai untuk foto, tapi kapasitasnya kecil, biasanya hanya nyaman untuk 100-150 tamu inti. Karena statusnya sebagai bangunan cagar budaya, dekorasi dibatasi ketat — tidak boleh ada paku atau instalasi yang menempel ke dinding, dan pemasangan lighting tambahan perlu persetujuan khusus. Popularitasnya tinggi untuk akad intim bernuansa vintage, jadi booking sebaiknya dilakukan empat sampai enam bulan sebelumnya. Parkir terbatas karena lokasinya di tengah kawasan Menteng yang padat, jadi pertimbangkan parkir valet atau area parkir alternatif untuk tamu. Tidak ada ruang resepsi di lokasi ini. Infaq berkisar Rp3 juta sampai Rp7 juta.
+Bangunan bersejarah era kolonial ini punya karakter arsitektur yang unik dan sangat disukai untuk foto, tapi kapasitasnya kecil, biasanya hanya nyaman untuk 100-150 tamu inti. Karena statusnya sebagai bangunan cagar budaya, dekorasi dibatasi ketat: tidak boleh ada paku atau instalasi yang menempel ke dinding, dan pemasangan lighting tambahan perlu persetujuan khusus. Popularitasnya tinggi untuk akad intim bernuansa vintage, jadi booking sebaiknya dilakukan empat sampai enam bulan sebelumnya. Parkir terbatas karena lokasinya di tengah kawasan Menteng yang padat, jadi pertimbangkan parkir valet atau area parkir alternatif untuk tamu. Tidak ada ruang resepsi di lokasi ini. Infaq berkisar Rp3 juta sampai Rp7 juta.
 
 ## Masjid At-Tin, TMII
 
@@ -45,15 +45,15 @@ Masjid raya yang relatif baru ini punya kompleks luas dengan desain modern, dan 
 
 ## Aturan yang Hampir Selalu Berlaku di Semua Masjid
 
-Beberapa aturan ini konsisten di hampir semua masjid, jadi baik disiapkan dari awal daripada kaget saat survei. Dress code menutup aurat berlaku untuk pengantin, keluarga inti, dan sering juga tamu — gaun terbuka, backless, atau kerudung transparan biasanya tidak diizinkan masuk ruang ibadah. Dekorasi dibatasi: sebagian besar masjid melarang paku atau instalasi menempel ke dinding, dan bunga hidup berlebihan kadang perlu izin khusus karena urusan kebersihan pasca-acara. Waktu acara selalu mengikuti jadwal salat lima waktu — akad harus dijadwalkan di luar jendela azan dan iqamah, dan kalau acara Anda kebetulan berbenturan dengan waktu Dzuhur atau Ashar, prosesi harus dijeda sementara jamaah salat. Musik hidup dengan alat musik penuh hampir selalu dilarang di dalam masjid; yang biasanya diizinkan hanya nasyid akustik atau tanpa musik sama sekali, dengan volume sound system dijaga tetap sopan.
+Beberapa aturan ini konsisten di hampir semua masjid, jadi baik disiapkan dari awal daripada kaget saat survei. Dress code menutup aurat berlaku untuk pengantin, keluarga inti, dan sering juga tamu: gaun terbuka, backless, atau kerudung transparan biasanya tidak diizinkan masuk ruang ibadah. Dekorasi dibatasi: sebagian besar masjid melarang paku atau instalasi menempel ke dinding, dan bunga hidup berlebihan kadang perlu izin khusus karena urusan kebersihan pasca-acara. Waktu acara selalu mengikuti jadwal salat lima waktu: akad harus dijadwalkan di luar jendela azan dan iqamah, dan kalau acara Anda kebetulan berbenturan dengan waktu Dzuhur atau Ashar, prosesi harus dijeda sementara jamaah salat. Musik hidup dengan alat musik penuh hampir selalu dilarang di dalam masjid; yang biasanya diizinkan hanya nasyid akustik atau tanpa musik sama sekali, dengan volume sound system dijaga tetap sopan.
 
 ## Biaya Penghulu KUA di Luar Kantor
 
-Akad nikah yang dilangsungkan di kantor KUA pada jam kerja tidak dikenakan biaya sama sekali. Begitu Anda meminta penghulu datang ke lokasi lain — termasuk ke masjid manapun di daftar ini — atau di luar jam kerja, berlaku tarif resmi pemerintah sebesar Rp600.000, yang masuk sebagai penerimaan negara bukan pajak, bukan uang pribadi penghulu. Angka ini nasional dan seharusnya sama di semua wilayah KUA, jadi kalau ada yang meminta jauh lebih tinggi dengan alasan "biaya tambahan", tanyakan rinciannya secara terbuka.
+Akad nikah yang dilangsungkan di kantor KUA pada jam kerja tidak dikenakan biaya sama sekali. Begitu Anda meminta penghulu datang ke lokasi lain (termasuk ke masjid manapun di daftar ini) atau di luar jam kerja, berlaku tarif resmi pemerintah sebesar Rp600.000, yang masuk sebagai penerimaan negara bukan pajak, bukan uang pribadi penghulu. Angka ini nasional dan seharusnya sama di semua wilayah KUA, jadi kalau ada yang meminta jauh lebih tinggi dengan alasan "biaya tambahan", tanyakan rinciannya secara terbuka.
 
 ## Menggabungkan Akad Masjid dengan Resepsi Hotel di Hari Sama
 
-Pola paling umum di Jabodetabek adalah akad pagi di masjid, lalu resepsi siang atau sore di hotel. Masalah terbesarnya selalu sama: waktu tempuh Jakarta yang tidak bisa diprediksi. Sisakan jeda minimal dua sampai tiga jam antara selesai akad dan mulai resepsi, bukan sekadar waktu tempuh normal di peta, karena rombongan keluarga, rias ulang pengantin, dan sesi foto tambahan semuanya butuh waktu. Kalau memungkinkan, pilih masjid dan hotel yang berada di kawasan yang sama — misalnya akad di Al-Azhar dengan resepsi di hotel Kebayoran atau Senayan — supaya buffer waktu tidak habis di jalan. Siapkan juga transportasi khusus untuk keluarga inti dan penghulu jika diperlukan di lokasi kedua, dan beri tahu tamu jam resepsi yang sedikit lebih longgar dari jam akad supaya tidak ada yang menunggu terlalu lama di hotel.
+Pola paling umum di Jabodetabek adalah akad pagi di masjid, lalu resepsi siang atau sore di hotel. Masalah terbesarnya selalu sama: waktu tempuh Jakarta yang tidak bisa diprediksi. Sisakan jeda minimal dua sampai tiga jam antara selesai akad dan mulai resepsi, bukan sekadar waktu tempuh normal di peta, karena rombongan keluarga, rias ulang pengantin, dan sesi foto tambahan semuanya butuh waktu. Kalau memungkinkan, pilih masjid dan hotel yang berada di kawasan yang sama (misalnya akad di Al-Azhar dengan resepsi di hotel Kebayoran atau Senayan) supaya buffer waktu tidak habis di jalan. Siapkan juga transportasi khusus untuk keluarga inti dan penghulu jika diperlukan di lokasi kedua, dan beri tahu tamu jam resepsi yang sedikit lebih longgar dari jam akad supaya tidak ada yang menunggu terlalu lama di hotel.
 
 ## Pertanyaan yang sering muncul
 
@@ -71,4 +71,4 @@ Boleh, dan ini umum terjadi. Yang perlu diperhatikan hanya kesesuaian pakaian de
 
 ## Langkah Berikutnya
 
-Sebelum menghubungi pihak masjid, siapkan tiga hal: perkiraan jumlah tamu inti yang datang ke akad, apakah Anda butuh venue resepsi terpisah atau bisa satu lokasi, dan nama KUA sesuai domisili di buku nikah Anda. Dengan tiga informasi ini, kunjungan survei ke masjid pilihan Anda bisa langsung membahas hal konkret — slot waktu, biaya penghulu di luar kantor, dan aturan dekorasi — daripada sekadar melihat-lihat ruangan tanpa arah.
+Sebelum menghubungi pihak masjid, siapkan tiga hal: perkiraan jumlah tamu inti yang datang ke akad, apakah Anda butuh venue resepsi terpisah atau bisa satu lokasi, dan nama KUA sesuai domisili di buku nikah Anda. Dengan tiga informasi ini, kunjungan survei ke masjid pilihan Anda bisa langsung membahas hal konkret (slot waktu, biaya penghulu di luar kantor, dan aturan dekorasi) daripada sekadar melihat-lihat ruangan tanpa arah.

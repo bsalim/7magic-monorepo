@@ -35,7 +35,7 @@ Kalau dana dari THR terbatas dan tidak cukup untuk DP semua vendor sekaligus, ur
 
 1. **Venue dan tanggal.** Ini fondasi semua keputusan lain. Tanpa tanggal dan lokasi pasti, vendor lain sulit dikonfirmasi.
 2. **Wedding organizer**, kalau Anda memakai jasa WO, karena WO sering jadi jembatan koordinasi vendor lain dan sebagian WO populer juga cepat penuh bookingnya.
-3. **Fotografer dan videografer favorit**, terutama kalau Anda sudah menaksir satu nama tertentu — vendor ini biasanya paling cepat habis slotnya untuk musim ramai seperti April-Juni dan September-Desember.
+3. **Fotografer dan videografer favorit**, terutama kalau Anda sudah menaksir satu nama tertentu, vendor ini biasanya paling cepat habis slotnya untuk musim ramai seperti April-Juni dan September-Desember.
 4. **Katering**, setelah perkiraan jumlah tamu mulai jelas.
 5. **MUA dan dekorasi**, biasanya masih bisa menyusul beberapa bulan setelah yang lain terkunci, meskipun vendor favorit tetap sebaiknya tidak ditunda terlalu lama.
 
@@ -55,9 +55,9 @@ Ini bagian yang sering bikin dilema: THR juga dibutuhkan untuk mudik, angpau, da
 
 Sebagai gambaran, kalau THR dan bonus tahunan gabungan sekitar Rp15 juta:
 
-- **40% untuk kebutuhan Lebaran** (sekitar Rp6 juta) — mudik, angpau, salam tempel
-- **50% untuk DP vendor pernikahan** (sekitar Rp7,5 juta) — cukup untuk DP satu atau dua vendor menengah, misalnya DP awal MUA sekaligus DP fotografer
-- **10% dana cadangan** (sekitar Rp1,5 juta) — untuk kebutuhan mendadak yang selalu muncul di musim Lebaran
+- **40% untuk kebutuhan Lebaran** (sekitar Rp6 juta): mudik, angpau, salam tempel
+- **50% untuk DP vendor pernikahan** (sekitar Rp7,5 juta): cukup untuk DP satu atau dua vendor menengah, misalnya DP awal MUA sekaligus DP fotografer
+- **10% dana cadangan** (sekitar Rp1,5 juta), untuk kebutuhan mendadak yang selalu muncul di musim Lebaran
 
 Proporsi ini fleksibel, tapi intinya sama: tentukan porsi di awal sebelum uang cair, jangan menunggu sisa. Kalau ditunggu sisa, biasanya yang tersisa untuk pernikahan jauh lebih kecil dari yang diharapkan.
 
@@ -72,7 +72,7 @@ Sebagai perbandingan kasar, kalau kekurangan DP venue Rp10 juta ditutup lewat pa
 Beberapa prinsip yang membantu menghindari jebakan ini:
 
 - Kalau harus mencicil DP, pastikan cicilan berasal dari penghasilan rutin yang bisa diprediksi, bukan dari asumsi bonus tahun depan yang belum pasti besarnya.
-- Hindari menggeser DP satu vendor dari kartu kredit ke kartu kredit lain hanya untuk menunda pembayaran — ini biasanya tanda anggaran keseluruhan sudah tidak realistis dan perlu dievaluasi ulang, bukan ditutupi.
+- Hindari menggeser DP satu vendor dari kartu kredit ke kartu kredit lain hanya untuk menunda pembayaran: ini biasanya tanda anggaran keseluruhan sudah tidak realistis dan perlu dievaluasi ulang, bukan ditutupi.
 - Kalau vendor impian melebihi anggaran meski sudah dioptimalkan, lebih baik cari alternatif vendor dengan kualitas mirip di harga lebih rendah, daripada memaksakan dengan utang berbunga tinggi.
 - Diskusikan dengan pasangan setiap kali ada keputusan finansial besar terkait vendor, supaya tidak ada pihak yang merasa dibebani sendirian.
 
@@ -87,7 +87,7 @@ Wajar, terutama untuk venue populer di Jakarta dan Bali yang permintaannya tingg
 Tidak masalah menunda satu tahun dan fokus dulu ke vendor dengan DP lebih kecil, sambil menabung khusus untuk vendor prioritas di siklus THR berikutnya. Banyak pasangan mengunci venue dan vendor secara bertahap selama dua sampai tiga siklus bonus tahunan, seperti pada simulasi di atas.
 
 ### Apakah lebih baik DP penuh di satu vendor atau DP kecil di banyak vendor?
-Umumnya lebih aman mengunci vendor paling krusial — venue dan tanggal — lebih dulu dengan DP penuh sesuai kontrak, baru menyebar sisa dana ke vendor lain. Mengunci banyak vendor sekaligus dengan DP minim berisiko kalau ternyata ada perubahan anggaran di tengah jalan.
+Umumnya lebih aman mengunci vendor paling krusial (venue dan tanggal) lebih dulu dengan DP penuh sesuai kontrak, baru menyebar sisa dana ke vendor lain. Mengunci banyak vendor sekaligus dengan DP minim berisiko kalau ternyata ada perubahan anggaran di tengah jalan.
 
 ### Perlu tidak minta diskon kalau membayar DP lebih awal atau lunas di muka?
 Boleh dicoba, dan cukup umum vendor memberi sedikit kelonggaran harga untuk pembayaran lunas di muka atau booking jauh-jauh hari, terutama di luar musim ramai. Tidak ada salahnya bertanya langsung saat negosiasi kontrak.

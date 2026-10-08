@@ -21,9 +21,9 @@ Untuk pasangan Islam, pencatatan pernikahan dilakukan di Kantor Urusan Agama (KU
 
 Sejak Permendagri Nomor 108 Tahun 2019, penomoran N1 sampai N6 secara resmi sudah digabung jadi satu Surat Pengantar Perkawinan dari kelurahan, tapi di lapangan sebagian besar kelurahan dan KUA masih memakai istilah lama karena isinya tetap sama. Tiga yang paling sering ditanyakan:
 
-- **N1** — Surat Keterangan untuk Nikah dari kelurahan, berisi identitas dan status Anda sebagai warga setempat. Ini dokumen dasar yang membuka semua proses berikutnya.
-- **N3** — Surat Persetujuan Mempelai, pernyataan tertulis bahwa kedua calon menikah atas kemauan sendiri tanpa paksaan. Ditandatangani di kelurahan atau di hadapan penghulu.
-- **N5** — Surat Izin Orang Tua, wajib dilampirkan kalau salah satu atau kedua calon pengantin berusia di bawah 21 tahun. Tanpa ini, KUA tidak akan memproses pendaftaran sampai izin tertulis orang tua diserahkan.
+- **N1**: Surat Keterangan untuk Nikah dari kelurahan, berisi identitas dan status Anda sebagai warga setempat. Ini dokumen dasar yang membuka semua proses berikutnya.
+- **N3**: Surat Persetujuan Mempelai, pernyataan tertulis bahwa kedua calon menikah atas kemauan sendiri tanpa paksaan. Ditandatangani di kelurahan atau di hadapan penghulu.
+- **N5**: Surat Izin Orang Tua, wajib dilampirkan kalau salah satu atau kedua calon pengantin berusia di bawah 21 tahun. Tanpa ini, KUA tidak akan memproses pendaftaran sampai izin tertulis orang tua diserahkan.
 
 Selain tiga formulir itu, siapkan juga fotokopi KTP dan KK (minimal 2 lembar), fotokopi akta kelahiran, pas foto 2x3 dan 4x6 latar biru (4-5 lembar), fotokopi KTP dua orang saksi, surat izin komandan bagi anggota TNI/Polri, serta akta cerai atau akta kematian pasangan sebelumnya bila berstatus duda/janda.
 
@@ -39,7 +39,7 @@ Pendaftaran sekarang bisa dilakukan daring lewat Simkah (Sistem Informasi Manaje
 
 ### Biaya Nikah di KUA
 
-Menikah di kantor KUA pada jam dan hari kerja gratis, sesuai PP Nomor 48 Tahun 2014. Kalau akad dilaksanakan di luar kantor KUA — di rumah, gedung, atau venue pernikahan — atau di luar jam kerja termasuk akhir pekan, ada biaya pencatatan nikah Rp600.000 yang disetor langsung ke kas negara lewat bank, bukan ke petugas secara tunai. Jangan bayar ke perorangan meski diminta dengan alasan "biaya tambahan", karena itu di luar aturan resmi.
+Menikah di kantor KUA pada jam dan hari kerja gratis, sesuai PP Nomor 48 Tahun 2014. Kalau akad dilaksanakan di luar kantor KUA (di rumah, gedung, atau venue pernikahan) atau di luar jam kerja termasuk akhir pekan, ada biaya pencatatan nikah Rp600.000 yang disetor langsung ke kas negara lewat bank, bukan ke petugas secara tunai. Jangan bayar ke perorangan meski diminta dengan alasan "biaya tambahan", karena itu di luar aturan resmi.
 
 ## Jalur Katolik
 

@@ -9,7 +9,7 @@ date: 2026-08-01
 status: draft
 ---
 
-Perjanjian pranikah masih sering dianggap topik tabu di banyak keluarga Indonesia, padahal ini murni soal manajemen risiko finansial, bukan tanda kurang cinta. Bagi sebagian pasangan yang akan menikah tahun ini, membahasnya justru bisa menghindarkan konflik besar di kemudian hari. Artikel ini memberi gambaran umum saja — untuk kasus Anda secara spesifik, tetap wajib berkonsultasi dengan notaris.
+Perjanjian pranikah masih sering dianggap topik tabu di banyak keluarga Indonesia, padahal ini murni soal manajemen risiko finansial, bukan tanda kurang cinta. Bagi sebagian pasangan yang akan menikah tahun ini, membahasnya justru bisa menghindarkan konflik besar di kemudian hari. Artikel ini memberi gambaran umum saja: untuk kasus Anda secara spesifik, tetap wajib berkonsultasi dengan notaris.
 
 ## Apa itu perjanjian pranikah dan apa isinya
 
@@ -23,7 +23,7 @@ Isi perjanjian pranikah bisa mencakup beberapa hal, misalnya:
 - Pengaturan warisan dan hak anak dari pernikahan sebelumnya, jika salah satu pihak pernah menikah.
 - Ketentuan mengenai harta yang diperoleh selama pernikahan, apakah tetap dipisah atau digabung sebagian.
 
-Perlu digarisbawahi, perjanjian pranikah tidak bisa mengatur hal-hal yang melanggar hukum, kesusilaan, atau agama, dan tidak bisa menghapus kewajiban nafkah suami terhadap istri dan anak. Perjanjian ini juga tidak bisa dipakai untuk menentukan di muka siapa yang mendapat hak asuh anak jika kelak bercerai — hak asuh selalu diputuskan pengadilan berdasarkan kepentingan terbaik anak, bukan klausul yang disepakati bertahun-tahun sebelumnya.
+Perlu digarisbawahi, perjanjian pranikah tidak bisa mengatur hal-hal yang melanggar hukum, kesusilaan, atau agama, dan tidak bisa menghapus kewajiban nafkah suami terhadap istri dan anak. Perjanjian ini juga tidak bisa dipakai untuk menentukan di muka siapa yang mendapat hak asuh anak jika kelak bercerai: hak asuh selalu diputuskan pengadilan berdasarkan kepentingan terbaik anak, bukan klausul yang disepakati bertahun-tahun sebelumnya.
 
 ## Kapan pasangan benar-benar perlu mempertimbangkannya
 
@@ -31,11 +31,11 @@ Tidak semua pasangan membutuhkan perjanjian pranikah, tapi ada beberapa situasi 
 
 **Bisnis keluarga.** Jika salah satu atau kedua calon mempelai punya saham di bisnis keluarga, perjanjian pranikah membantu memastikan bisnis tersebut tidak otomatis menjadi harta bersama jika suatu saat terjadi perceraian. Ini sering jadi syarat yang diminta orang tua sebelum menyerahkan saham atau posisi di perusahaan.
 
-**Aset yang sudah dimiliki sebelum menikah.** Rumah warisan, apartemen hasil kerja keras sendiri, atau investasi yang sudah terkumpul bertahun-tahun sebelum bertemu pasangan — banyak orang ingin aset ini tetap tercatat sebagai milik pribadi, bukan otomatis melebur jadi harta bersama.
+**Aset yang sudah dimiliki sebelum menikah.** Rumah warisan, apartemen hasil kerja keras sendiri, atau investasi yang sudah terkumpul bertahun-tahun sebelum bertemu pasangan: banyak orang ingin aset ini tetap tercatat sebagai milik pribadi, bukan otomatis melebur jadi harta bersama.
 
 **Pasangan berkewarganegaraan asing (WNA).** Dalam pernikahan campuran, perjanjian pranikah punya fungsi tambahan yang cukup krusial: tanpa pemisahan harta, WNI yang menikah dengan WNA berpotensi kehilangan hak untuk memiliki tanah dengan status Hak Milik atau Hak Guna Bangunan, karena aset itu dianggap harta bersama yang melibatkan pihak asing. Banyak pasangan campuran membuat perjanjian pranikah semata-mata untuk menjaga hak kepemilikan properti di Indonesia. Jika dokumen identitas atau status pernikahan pihak WNA diterbitkan di luar negeri, dokumen itu biasanya perlu diterjemahkan tersumpah dan dilegalisasi kedutaan atau apostille, menambah satu sampai dua minggu di luar jadwal konsultasi normal.
 
-**Utang bawaan.** Jika salah satu pihak membawa utang dari sebelum menikah — cicilan kredit tanpa agunan, utang usaha yang belum lunas, atau tanggungan lain — perjanjian pranikah bisa memastikan pasangan yang tidak terlibat tidak ikut menanggung utang tersebut jika terjadi perpisahan.
+**Utang bawaan.** Jika salah satu pihak membawa utang dari sebelum menikah (cicilan kredit tanpa agunan, utang usaha yang belum lunas, atau tanggungan lain) perjanjian pranikah bisa memastikan pasangan yang tidak terlibat tidak ikut menanggung utang tersebut jika terjadi perpisahan.
 
 Perjanjian pranikah bukan hanya untuk pasangan dengan aset besar. Pasangan dengan aset sederhana pun kadang membuatnya sebagai praktik pencatatan yang rapi, terutama jika salah satu pihak berencana memulai usaha sendiri dan ingin kejelasan sejak awal soal status harta usaha itu nantinya.
 
@@ -43,14 +43,14 @@ Perjanjian pranikah bukan hanya untuk pasangan dengan aset besar. Pasangan denga
 
 Sesuai namanya, perjanjian pranikah dibuat dan ditandatangani sebelum akad nikah atau pemberkatan berlangsung, kemudian disahkan di hadapan notaris dan dicatatkan di lembaga pencatat perkawinan setelah menikah.
 
-Perjanjian pascanikah (postnuptial agreement) adalah kesepakatan serupa yang dibuat setelah pasangan sudah resmi menikah. Sejak putusan Mahkamah Konstitusi tahun 2016, pasangan yang sudah menikah kini juga bisa membuat perjanjian ini, misalnya karena situasi berubah — salah satu pihak baru memulai bisnis, menerima warisan besar, atau pasangan baru menyadari pentingnya pemisahan harta setelah bertahun-tahun menikah. Prosesnya secara substansi mirip, hanya waktunya berbeda, dan biasanya membutuhkan itikad baik yang lebih matang dari kedua pihak karena harta sudah mulai bercampur.
+Perjanjian pascanikah (postnuptial agreement) adalah kesepakatan serupa yang dibuat setelah pasangan sudah resmi menikah. Sejak putusan Mahkamah Konstitusi tahun 2016, pasangan yang sudah menikah kini juga bisa membuat perjanjian ini, misalnya karena situasi berubah: salah satu pihak baru memulai bisnis, menerima warisan besar, atau pasangan baru menyadari pentingnya pemisahan harta setelah bertahun-tahun menikah. Prosesnya secara substansi mirip, hanya waktunya berbeda, dan biasanya membutuhkan itikad baik yang lebih matang dari kedua pihak karena harta sudah mulai bercampur.
 
 ## Apa yang dibutuhkan notaris dari Anda
 
 Siapkan dokumen berikut sebelum konsultasi pertama, agar notaris bisa langsung menyusun draf awal alih-alih menghabiskan sesi pertama hanya mengumpulkan data:
 
 - Fotokopi KTP, Kartu Keluarga, dan akta kelahiran kedua calon mempelai, serta NPWP jika ada.
-- Daftar aset masing-masing pihak beserta bukti kepemilikan — sertifikat tanah atau apartemen, BPKB kendaraan, buku tabungan atau rekening koran terakhir, dan bukti kepemilikan saham atau akta pendirian perusahaan jika relevan.
+- Daftar aset masing-masing pihak beserta bukti kepemilikan: sertifikat tanah atau apartemen, BPKB kendaraan, buku tabungan atau rekening koran terakhir, dan bukti kepemilikan saham atau akta pendirian perusahaan jika relevan.
 - Daftar utang yang masih berjalan, termasuk cicilan KPR, kredit tanpa agunan, atau pinjaman usaha.
 - Jika salah satu pihak WNA, paspor dan dokumen status pernikahan yang sudah diterjemahkan dan dilegalisasi.
 
@@ -77,9 +77,9 @@ Selalu minta rincian biaya di awal konsultasi, dan tanyakan apakah biaya sudah t
 
 ## Mitos: perjanjian pranikah berarti tidak percaya pasangan
 
-Ini mungkin anggapan paling umum yang membuat banyak pasangan enggan membahasnya. Padahal, perjanjian pranikah pada dasarnya adalah percakapan jujur tentang keuangan sebelum resmi menyatukan hidup — hal yang justru menunjukkan kematangan, bukan kecurigaan. Banyak pasangan justru merasa lebih tenang setelah menandatangani perjanjian ini karena batasan sudah jelas sejak awal, sehingga tidak perlu berandai-andai atau berdebat soal harta di kemudian hari. Membicarakannya lebih awal juga sering membuka diskusi yang lebih dalam tentang nilai-nilai finansial masing-masing.
+Ini mungkin anggapan paling umum yang membuat banyak pasangan enggan membahasnya. Padahal, perjanjian pranikah pada dasarnya adalah percakapan jujur tentang keuangan sebelum resmi menyatukan hidup: hal yang justru menunjukkan kematangan, bukan kecurigaan. Banyak pasangan justru merasa lebih tenang setelah menandatangani perjanjian ini karena batasan sudah jelas sejak awal, sehingga tidak perlu berandai-andai atau berdebat soal harta di kemudian hari. Membicarakannya lebih awal juga sering membuka diskusi yang lebih dalam tentang nilai-nilai finansial masing-masing.
 
-Keberatan lain yang sering muncul: "kalau saya yang mengusulkan, apa pasangan saya tersinggung?" Cara mengangkatnya biasanya lebih menentukan daripada isinya — mengajak bicara sebagai keputusan bersama yang menguntungkan keduanya, bukan tuntutan sepihak, jauh lebih mudah diterima daripada menyampaikannya mendadak menjelang hari H.
+Keberatan lain yang sering muncul: "kalau saya yang mengusulkan, apa pasangan saya tersinggung?" Cara mengangkatnya biasanya lebih menentukan daripada isinya: mengajak bicara sebagai keputusan bersama yang menguntungkan keduanya, bukan tuntutan sepihak, jauh lebih mudah diterima daripada menyampaikannya mendadak menjelang hari H.
 
 ## Pertanyaan yang sering muncul
 
@@ -97,7 +97,7 @@ Berlaku mengikat di antara suami-istri sejak ditandatangani di hadapan notaris, 
 
 ### Apakah perlu pengacara terpisah selain notaris?
 
-Notaris berwenang menyusun dan mengesahkan akta perjanjian pranikah. Namun jika ada situasi kompleks — misalnya sengketa aset keluarga atau kepemilikan lintas negara — konsultasi tambahan dengan pengacara bisa membantu memastikan kepentingan Anda terwakili dengan baik.
+Notaris berwenang menyusun dan mengesahkan akta perjanjian pranikah. Namun jika ada situasi kompleks (misalnya sengketa aset keluarga atau kepemilikan lintas negara) konsultasi tambahan dengan pengacara bisa membantu memastikan kepentingan Anda terwakili dengan baik.
 
 ### Apa yang terjadi jika salah satu pihak menolak menandatangani mendekati hari pernikahan?
 

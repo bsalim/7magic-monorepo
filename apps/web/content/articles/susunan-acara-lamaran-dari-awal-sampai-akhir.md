@@ -33,7 +33,7 @@ Setelah itu, dilakukan penyerahan seserahan. Seserahan dibawa oleh perwakilan mu
 
 ## Sesi 3: Pemasangan Cincin (10-15 menit)
 
-Calon mempelai wanita dipanggil masuk atau maju ke depan (kalau sebelumnya dipisahkan), lalu cincin lamaran dipasangkan oleh calon mempelai pria, kadang dibantu diarahkan oleh ibu dari salah satu pihak sebagai simbol restu. Momen ini biasanya jadi titik foto utama, jadi pastikan fotografer sudah di posisi terbaik sebelum sesi dimulai, bukan baru bergegas saat cincin sudah setengah terpasang — ini kesalahan paling sering terjadi dan tidak bisa diulang.
+Calon mempelai wanita dipanggil masuk atau maju ke depan (kalau sebelumnya dipisahkan), lalu cincin lamaran dipasangkan oleh calon mempelai pria, kadang dibantu diarahkan oleh ibu dari salah satu pihak sebagai simbol restu. Momen ini biasanya jadi titik foto utama, jadi pastikan fotografer sudah di posisi terbaik sebelum sesi dimulai, bukan baru bergegas saat cincin sudah setengah terpasang, ini kesalahan paling sering terjadi dan tidak bisa diulang.
 
 Sebagian keluarga menambahkan sesi tukar cincin, di mana calon mempelai wanita juga memasangkan cincin ke calon mempelai pria sebagai simbol kesetaraan komitmen. Ini bukan kewajiban adat, lebih preferensi pasangan modern, jadi diskusikan dulu dengan kedua keluarga.
 
@@ -87,7 +87,7 @@ Tidak wajib, tapi sangat membantu terutama kalau jumlah tamu di atas 15 orang at
 
 ### Siapa yang menanggung biaya lamaran, pihak pria atau wanita?
 
-Secara adat umum di Indonesia, pihak pria menanggung seserahan dan cincin, sementara pihak wanita menanggung tempat dan konsumsi karena mereka yang menjadi tuan rumah. Tapi ini bukan aturan baku — banyak keluarga modern sekarang membagi rata atau menyesuaikan dengan kemampuan masing-masing, jadi bicarakan secara terbuka sejak awal.
+Secara adat umum di Indonesia, pihak pria menanggung seserahan dan cincin, sementara pihak wanita menanggung tempat dan konsumsi karena mereka yang menjadi tuan rumah. Tapi ini bukan aturan baku: banyak keluarga modern sekarang membagi rata atau menyesuaikan dengan kemampuan masing-masing, jadi bicarakan secara terbuka sejak awal.
 
 ### Bagaimana kalau salah satu keluarga tidak terbiasa dengan adat tertentu?
 

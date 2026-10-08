@@ -66,7 +66,7 @@ Sebagai gambaran kasar untuk budgeting awal (harga bervariasi tergantung vendor 
 
 ## Cara Menghindari Sisa Berlebihan
 
-Kalau kekhawatiran Anda justru sebaliknya, yaitu takut makanan sisa terlalu banyak dan mubazir, ada beberapa cara mengelolanya. Pertama, gunakan sistem RSVP tegas dengan tenggat H-14, dan follow up personal ke tamu yang belum konfirmasi H-7. Data RSVP akurat adalah alat paling ampuh menekan buffer yang tidak perlu. Kedua, diskusikan dengan vendor katering soal kebijakan makanan sisa sejak kontrak ditandatangani — beberapa vendor di Jakarta dan Bandung sudah menawarkan opsi makanan sisa dikemas untuk dibawa pulang tamu atau disumbangkan ke panti asuhan dan lembaga sosial mitra mereka. Ketiga, pilih menu dengan komponen fleksibel jumlahnya, misalnya nasi dan lauk pendamping yang mudah disesuaikan porsinya di tempat, dibanding menu yang seluruhnya sudah diporsi dari dapur sejak awal seperti set menu box.
+Kalau kekhawatiran Anda justru sebaliknya, yaitu takut makanan sisa terlalu banyak dan mubazir, ada beberapa cara mengelolanya. Pertama, gunakan sistem RSVP tegas dengan tenggat H-14, dan follow up personal ke tamu yang belum konfirmasi H-7. Data RSVP akurat adalah alat paling ampuh menekan buffer yang tidak perlu. Kedua, diskusikan dengan vendor katering soal kebijakan makanan sisa sejak kontrak ditandatangani, beberapa vendor di Jakarta dan Bandung sudah menawarkan opsi makanan sisa dikemas untuk dibawa pulang tamu atau disumbangkan ke panti asuhan dan lembaga sosial mitra mereka. Ketiga, pilih menu dengan komponen fleksibel jumlahnya, misalnya nasi dan lauk pendamping yang mudah disesuaikan porsinya di tempat, dibanding menu yang seluruhnya sudah diporsi dari dapur sejak awal seperti set menu box.
 
 ## Contoh Perhitungan Lengkap: 500 Undangan
 
@@ -80,7 +80,7 @@ Misalkan Anda mengundang 500 tamu untuk resepsi malam Sabtu di Jakarta dengan fo
 6. **Total budget katering**: 590 x Rp280.000 = Rp165,2 juta
 7. **Jumlah stall makanan** yang disarankan untuk 550 tamu: 6 stall menu utama (1 per ~90 tamu) plus 3 stall dessert/minuman
 
-Angka akhir ini terlihat jauh lebih besar dari sekadar mengalikan 500 tamu dengan harga per porsi (yang hanya akan menghasilkan Rp140 juta), tapi selisih Rp25,2 juta itu justru yang membuat perhitungan Anda realistis dan tidak meleset di hari H — baik dari sisi kekurangan makanan maupun dari sisi kru yang kelaparan di tengah acara.
+Angka akhir ini terlihat jauh lebih besar dari sekadar mengalikan 500 tamu dengan harga per porsi (yang hanya akan menghasilkan Rp140 juta), tapi selisih Rp25,2 juta itu justru yang membuat perhitungan Anda realistis dan tidak meleset di hari H, baik dari sisi kekurangan makanan maupun dari sisi kru yang kelaparan di tengah acara.
 
 ## Pertanyaan yang sering muncul
 

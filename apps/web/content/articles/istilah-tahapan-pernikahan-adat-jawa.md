@@ -53,9 +53,9 @@ Doa dan syukuran bersama yang digelar keluarga dan tetangga untuk memohon kelanc
 
 Akad nikah atau **ijab kabul** biasanya dilangsungkan pagi hari, momen inti secara hukum dan agama yang mengesahkan pasangan sebagai suami istri. Setelah itu berlangsung **panggih**, pertemuan pertama kedua mempelai setelah resmi menikah, prosesi paling ikonis dari pernikahan adat Jawa dengan beberapa tahap berurutan:
 
-- **Balangan gantal** — kedua mempelai saling melempar daun sirih yang digulung dengan benang, simbol pelepasan rindu dan bibit cinta yang mulai bersemi di antara mereka.
-- **Ngidak endhog (wiji dadi)** — mempelai pria menginjak telur ayam mentah hingga pecah, lalu kakinya dibasuh air kembang oleh mempelai wanita. Melambangkan kesiapan pria menjadi kepala keluarga yang bertanggung jawab menghasilkan keturunan (wiji dadi, "benih yang menjadi"), dan kesetiaan istri melayani serta mendampingi suaminya.
-- **Sindur binayang** — kedua mempelai berjalan menuju pelaminan diapit dan dituntun dari belakang oleh ayah mempelai wanita menggunakan kain sindur bermotif merah putih yang dikalungkan ibu, menandakan restu dan bimbingan orang tua yang menyertai perjalanan hidup mereka berdua.
+- **Balangan gantal**: kedua mempelai saling melempar daun sirih yang digulung dengan benang, simbol pelepasan rindu dan bibit cinta yang mulai bersemi di antara mereka.
+- **Ngidak endhog (wiji dadi)**: mempelai pria menginjak telur ayam mentah hingga pecah, lalu kakinya dibasuh air kembang oleh mempelai wanita. Melambangkan kesiapan pria menjadi kepala keluarga yang bertanggung jawab menghasilkan keturunan (wiji dadi, "benih yang menjadi"), dan kesetiaan istri melayani serta mendampingi suaminya.
+- **Sindur binayang**: kedua mempelai berjalan menuju pelaminan diapit dan dituntun dari belakang oleh ayah mempelai wanita menggunakan kain sindur bermotif merah putih yang dikalungkan ibu, menandakan restu dan bimbingan orang tua yang menyertai perjalanan hidup mereka berdua.
 
 Sampai di pelaminan, ada **timbang** atau **pangkon**, kedua mempelai duduk di pangkuan ayah mempelai wanita sambil "ditimbang" untuk menunjukkan bahwa kasih sayang orang tua kepada anak dan menantu sama besarnya, tidak ada yang dibedakan.
 
@@ -79,11 +79,11 @@ Gaya Surakarta mengembangkan variasi yang disebut **paes ageng kanigaran**, adap
 
 Sebagai gambaran kasar, di luar biaya venue dan katering:
 
-- **Rias pengantin adat Jawa (paes ageng atau kanigaran) per hari**, termasuk sanggul dan aksesoris kepala: Rp8 juta – Rp25 juta, tergantung jam terbang MUA dan kota.
-- **Sewa busana basahan atau kanigaran lengkap** dengan kalung, bros, dan selop: Rp5 juta – Rp15 juta per pasang per hari.
-- **Dekorasi tratag, tarub, dan tuwuhan**, termasuk kembar mayang dan sesaji: Rp10 juta – Rp25 juta di Jabodetabek, sedikit lebih murah di Solo dan Yogya karena bahan lebih mudah didapat.
-- **Pambiwara atau MC prosesi adat** yang memandu siraman sampai panggih dalam bahasa Jawa krama: Rp3 juta – Rp7 juta.
-- **Paket lengkap dari siraman sampai panggih**, biasanya ditawarkan wedding organizer spesialis adat sebagai satu paket: Rp50 juta – Rp150 juta di luar venue, tergantung jumlah prosesi yang diambil penuh atau disederhanakan.
+- **Rias pengantin adat Jawa (paes ageng atau kanigaran) per hari**, termasuk sanggul dan aksesoris kepala: Rp8 juta, Rp25 juta, tergantung jam terbang MUA dan kota.
+- **Sewa busana basahan atau kanigaran lengkap** dengan kalung, bros, dan selop: Rp5 juta, Rp15 juta per pasang per hari.
+- **Dekorasi tratag, tarub, dan tuwuhan**, termasuk kembar mayang dan sesaji: Rp10 juta, Rp25 juta di Jabodetabek, sedikit lebih murah di Solo dan Yogya karena bahan lebih mudah didapat.
+- **Pambiwara atau MC prosesi adat** yang memandu siraman sampai panggih dalam bahasa Jawa krama: Rp3 juta, Rp7 juta.
+- **Paket lengkap dari siraman sampai panggih**, biasanya ditawarkan wedding organizer spesialis adat sebagai satu paket: Rp50 juta, Rp150 juta di luar venue, tergantung jumlah prosesi yang diambil penuh atau disederhanakan.
 
 Angka ini bisa lebih hemat kalau Anda menyederhanakan sebagian tahap, misalnya menggabungkan siraman dan midodareni dalam satu hari atau memangkas panggih menjadi versi 30-45 menit.
 

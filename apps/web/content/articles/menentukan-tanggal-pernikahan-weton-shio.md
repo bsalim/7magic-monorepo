@@ -23,13 +23,13 @@ Cara menghitungnya: jumlahkan neptu hari dan neptu pasaran kelahiran masing-masi
 
 Salah satu tabel primbon yang paling umum dipakai untuk membaca kecocokan pasangan adalah dengan membagi total neptu tersebut dengan 7, lalu melihat sisa baginya:
 
-- **Sisa 1 — Pegat**: dipercaya rawan masalah besar atau perpisahan, biasanya jadi sinyal bagi keluarga untuk lebih berhati-hati, bukan larangan mutlak.
-- **Sisa 2 — Ratu**: dianggap serasi, saling menghormati, dan disegani lingkungan sekitar.
-- **Sisa 3 — Jodoh**: kombinasi yang dianggap paling cocok, saling melengkapi dalam jangka panjang.
-- **Sisa 4 — Topo**: awal pernikahan mungkin diwarnai cobaan atau kesulitan ekonomi, tapi dipercaya berujung pada kebahagiaan setelah melewati fase itu.
-- **Sisa 5 — Tinari**: dipercaya mudah rezeki dan kecukupan secara materi.
-- **Sisa 6 — Padu**: sering diartikan sering bertengkar soal hal kecil, tapi tidak sampai berujung perpisahan besar.
-- **Sisa 0 (atau 7) — Sujanan**: dipercaya rawan masalah kepercayaan atau perselingkuhan salah satu pihak.
+- **Sisa 1: Pegat**: dipercaya rawan masalah besar atau perpisahan, biasanya jadi sinyal bagi keluarga untuk lebih berhati-hati, bukan larangan mutlak.
+- **Sisa 2: Ratu**: dianggap serasi, saling menghormati, dan disegani lingkungan sekitar.
+- **Sisa 3: Jodoh**: kombinasi yang dianggap paling cocok, saling melengkapi dalam jangka panjang.
+- **Sisa 4: Topo**: awal pernikahan mungkin diwarnai cobaan atau kesulitan ekonomi, tapi dipercaya berujung pada kebahagiaan setelah melewati fase itu.
+- **Sisa 5: Tinari**: dipercaya mudah rezeki dan kecukupan secara materi.
+- **Sisa 6: Padu**: sering diartikan sering bertengkar soal hal kecil, tapi tidak sampai berujung perpisahan besar.
+- **Sisa 0 (atau 7): Sujanan**: dipercaya rawan masalah kepercayaan atau perselingkuhan salah satu pihak.
 
 Pada contoh di atas, 25 dibagi 7 hasilnya 3 sisa 4, sehingga masuk kategori Topo. Penting digarisbawahi, metode dan tabel pembacaan ini bisa sedikit berbeda antar daerah dan antar ahli primbon, jadi angka di atas sebaiknya jadi bahan diskusi awal, bukan vonis final. Kalau keluarga Anda masih memegang tradisi ini, cara paling aman tetap berkonsultasi dengan sesepuh keluarga atau ahli primbon terpercaya. Di Jakarta, banyak keluarga keturunan Jawa yang tetap menghubungi kerabat di Solo atau Yogyakarta untuk memastikan hitungan sebelum menetapkan tanggal final, prosesnya biasanya memakan waktu satu sampai dua minggu karena harus dicocokkan dengan beberapa alternatif tanggal.
 
@@ -37,10 +37,10 @@ Pada contoh di atas, 25 dibagi 7 hasilnya 3 sisa 4, sehingga masuk kategori Topo
 
 Untuk keluarga Tionghoa-Indonesia, penentuan tanggal biasanya melibatkan perhitungan shio kedua mempelai. Sistem astrologi Tionghoa mengenal empat kelompok shio yang dianggap paling harmonis satu sama lain, disebut triad kecocokan:
 
-- **Tikus, Naga, dan Monyet** — dianggap sama-sama ambisius dan saling mendukung.
-- **Kerbau, Ular, dan Ayam** — dianggap sama-sama pekerja keras dan realistis dalam mengelola rumah tangga.
-- **Macan, Kuda, dan Anjing** — dianggap sama-sama mandiri dan menghargai kebebasan pasangan.
-- **Kelinci, Kambing, dan Babi** — dianggap sama-sama lembut dan mengutamakan keharmonisan.
+- **Tikus, Naga, dan Monyet**, dianggap sama-sama ambisius dan saling mendukung.
+- **Kerbau, Ular, dan Ayam**, dianggap sama-sama pekerja keras dan realistis dalam mengelola rumah tangga.
+- **Macan, Kuda, dan Anjing**, dianggap sama-sama mandiri dan menghargai kebebasan pasangan.
+- **Kelinci, Kambing, dan Babi**, dianggap sama-sama lembut dan mengutamakan keharmonisan.
 
 Di sisi lain, ada enam pasangan shio yang dianggap saling berseberangan atau "chong" karena posisinya tepat berlawanan dalam siklus dua belas tahun: Tikus dengan Kuda, Kerbau dengan Kambing, Macan dengan Monyet, Kelinci dengan Ayam, Naga dengan Anjing, serta Ular dengan Babi. Bukan berarti pasangan dengan shio berseberangan tidak boleh menikah, tapi ahli feng shui biasanya menyarankan ritual penyeimbang tertentu atau lebih selektif memilih tanggal resepsi untuk meredam energi yang dianggap bertabrakan.
 
