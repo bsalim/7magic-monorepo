@@ -109,6 +109,10 @@ def inline(text: str) -> str:
 
 
 def convert(md: str, path: Path) -> str:
+    # Drafts carry editor notes as HTML comments (what to fill in on a
+    # wedding day). They are for whoever edits the file, never the page, and
+    # the paragraph pass below would otherwise escape them into visible text.
+    md = re.sub(r"<!--.*?-->", "", md, flags=re.S)
     for label, pattern in UNSUPPORTED.items():
         if pattern.search(md):
             raise ConversionError(f"{path.name}: unsupported Markdown ({label})")

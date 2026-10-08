@@ -120,6 +120,10 @@ CLUSTERS: dict[str, list[str]] = {
         "pernikahan-dua-lipa-callum-turner-london-sicilia",
         "pernikahan-taylor-swift-travis-kelce-madison-square-garden",
         "pernikahan-selebriti-dunia-2025-2026-ide-yang-bisa-ditiru",
+        # Run-up pieces of 9 October 2026, and the schedule that spans both sides.
+        "pernikahan-song-ji-ho-kim-so-ri",
+        "pernikahan-asnawi-mangkualam-yuriska-patricia",
+        "jadwal-pernikahan-artis-2026-2027",
     ],
     "pernikahan-artis-indonesia": [
         "pernikahan-angga-yunanda-shenina-cinnamon-bvlgari-bali",
@@ -130,12 +134,14 @@ CLUSTERS: dict[str, list[str]] = {
         "pernikahan-el-rumi-syifa-hadju-raffles-jakarta",
         "pernikahan-jennifer-coppen-justin-hubner-bali",
         "pernikahan-artis-indonesia-2025-2026-tren-yang-bisa-ditiru",
+        "pernikahan-asnawi-mangkualam-yuriska-patricia",
     ],
     "pernikahan-selebriti-dunia": [
         "pernikahan-selena-gomez-benny-blanco-santa-barbara",
         "pernikahan-dua-lipa-callum-turner-london-sicilia",
         "pernikahan-taylor-swift-travis-kelce-madison-square-garden",
         "pernikahan-selebriti-dunia-2025-2026-ide-yang-bisa-ditiru",
+        "pernikahan-song-ji-ho-kim-so-ri",
     ],
     # Older slugs say "singapore", newer ones "singapura"; both are the same cluster.
     "menikah-di-singapura": [

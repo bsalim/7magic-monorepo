@@ -7,7 +7,7 @@ excerpt_en: "Asnawi Mangkualam proposed to Yuriska Patricia on a boat on Lake Be
 
 "Somewhere between vintage dreams and forever." That English line was the caption on the pre-wedding photos Asnawi Mangkualam posted to Instagram in early October 2026. In them he wears a three-piece suit with a fine pinstripe, while Yuriska Patricia wears a strapless gown whose long train is covered in large three-dimensional white flowers. Only a few days earlier, their photographer had posted a teaser from a pre-wedding session with a very different mood, the two of them in orange-and-gold Makassar traditional dress.
 
-The wedding of the national-team footballer and the actress is said to be only days away. Even so, as of writing on 7 October 2026, the date and the venue have not been announced. Nor is it known which adat, or regional tradition, the ceremony will follow.
+Since early October, the wedding of the national-team footballer and the actress has been said to be only days away. Even so, as of publication on 9 October 2026, the date and the venue have not been announced. Nor is it known which adat, or regional tradition, the ceremony will follow.
 
 This article gathers their story so far, from the moment Asnawi proposed on a boat to the health check they had before the wedding. We will fill in the wedding-day sections once the wedding has taken place.
 
@@ -20,7 +20,7 @@ This article gathers their story so far, from the moment Asnawi proposed on a bo
 - **Monday, 28 September 2026**: photographer Rio Motret posted a teaser of a pre-wedding shoot in Makassar traditional dress.
 - **Thursday, 1 October 2026**: a video of the couple's premarital health check was reported.
 - **Early October 2026**: Asnawi posted their vintage-themed pre-wedding photos.
-- **The wedding**: the date and venue have not been announced.
+- **The wedding**: as of 9 October 2026, the date and venue have not been announced.
 
 ## Who Asnawi Mangkualam and Yuriska Patricia are
 
@@ -34,11 +34,11 @@ A player at a club abroad who had knee surgery this year, and an actress with sh
 
 ## A proposal on a boat on Lake Beratan
 
-How the two first met has never been reported. Talk of a romance picked up in late 2025, when netizens noticed matching post locations and comments going back and forth. In March 2026, on Hanif Thamrin's YouTube channel, Asnawi described his girlfriend without naming her: "Sudah punya pacar, pemain sinetron. Rambutnya panjang, kulit kuning langsat," meaning "I have a girlfriend, she acts in sinetron. Long hair, fair golden skin." Many netizens believed he meant Yuriska, and by then the pair were said to have been together for almost a year. Asnawi's younger brother had said on a TikTok live that his older brother planned to propose at the end of the year. As it turned out, the proposal came much sooner.
+How the two first met has never been reported. Talk of a romance picked up in late 2025, when netizens noticed matching post locations and comments going back and forth. In March 2026, on Hanif Thamrin's YouTube channel, Asnawi described his girlfriend without naming her: "Sudah punya pacar, pemain sinetron. Rambutnya panjang, kulit kuning langsat," meaning "I have a girlfriend, she acts in sinetron. Long hair, fair golden skin." Many netizens believed he meant Yuriska, and by then the pair were said to have been together for almost a year. Asnawi's younger sister had said on a TikTok live that her older brother planned to propose at the end of the year. As it turned out, the proposal came much sooner.
 
 On Wednesday, 17 June 2026, Asnawi posted the proposal video on Instagram. The two were on holiday in Bali. On a boat on Lake Beratan in Bedugul, with mountains and mist behind them, Asnawi went down on one knee and held out a ring. The video includes the line "Will you marry me?". Both were dressed in white. Asnawi wore a white shirt and trousers, and Yuriska wore a long white dress and held a bouquet in pastel pink and white.
 
-In his caption, Asnawi thanked Yuriska for her love and her patience, and for always believing in him. Yuriska answered with a post of her own: "My answer was, is, and always will be yes."
+In his caption, Asnawi thanked Yuriska for her love and her patience. Yuriska answered with a post of her own: "My answer was, is, and always will be yes."
 
 Matching outfits make proposal photos and video look polished straight away. If your proposal is a surprise, of course, you can't discuss clothes with your partner. Ask their best friend to make sure they wear a colour that goes with yours on the day, without giving away the reason.
 
@@ -46,7 +46,7 @@ Matching outfits make proposal photos and video look polished straight away. If 
 
 Nine days after the video went up, on Friday, 26 June 2026, the two families met for the formal lamaran in Bandung, Yuriska's birthplace. It was an intimate event with family and close friends, using Bugis-Makassar traditional elements given a modern touch. Pastel pink dominated the outfits, while the decor was mostly white with soft pastel flowers.
 
-Asnawi wore a jas tutu, the traditional Bugis-Makassar jacket, in pink with matching trousers and a Bugis silk sarong wrapped at the waist. Yuriska didn't wear a baju bodo, the traditional Bugis blouse. She chose a pink brocade kebaya with a Bugis silk sarong, or lipa' sabbe, as the bottom piece, plus a gold headpiece in her updo. If you want to include traditional elements without wearing full traditional dress, this approach is worth copying: keep the traditional cloth as the bottom piece, then pair it with a kebaya you can move freely in.
+Asnawi wore a jas tutu, the traditional Bugis-Makassar jacket, in pink with matching trousers and a Bugis silk sarong wrapped at the waist. Yuriska chose a pink brocade kebaya with a Bugis silk sarong, or lipa' sabbe, as the bottom piece, plus a gold headpiece in her updo. If you want to include traditional elements without wearing full traditional dress, this approach is worth copying: keep the traditional cloth as the bottom piece, then pair it with a kebaya you can move freely in.
 
 The seserahan, the gifts carried to the engagement, included a football and a pair of sports shoes, a nod to Asnawi's profession. Azizah Salsha was among the guests. In his post, Asnawi marked the date of the event with the numbers "26-6-2026".
 
@@ -68,21 +68,15 @@ Two looks from one traditional session give you photos for different purposes. T
 
 ## The second pre-wedding shoot: vintage glam in the studio
 
-The second session was also shot by Rio Motret, but the mood was the opposite. In a studio with a warm brown backdrop and equally warm lighting, Yuriska wore a strapless gown by Lindsposa. The gown was embellished with silver crystals and sequins, with a long train full of large three-dimensional white flowers. Asnawi wore a dark three-piece suit with a fine pinstripe by Andrea Marco Suit, with a white shirt, a dark tie and a large brooch. The jewellery came from The Palace Jewelry, and the stylist was Meizy Latuconsina. These were the photos Asnawi posted in early October.
+The second session was also shot by Rio Motret, but the mood was the opposite. In a studio with a warm brown backdrop and equally warm lighting, Yuriska wore a strapless gown by Lindsposa. The gown was embellished with silver crystals and sequins, with a long train full of large three-dimensional white flowers. Asnawi wore a dark three-piece suit with a fine pinstripe by Andrea Marco Suit, with a white shirt, a dark tie and a large brooch. The jewellery came from The Palace Jewelry, the stylist was Meizy Latuconsina, and Yuriska's make-up was done by MUA Dodi Basara. These were the photos Asnawi posted in early October.
 
 There is a lesson in these two sessions you can use. Using the same photographer for two opposing themes keeps your photos feeling like one family. And when the gown, the suit and the jewellery come from different labels, a stylist helps pull them together into a single look.
 
-## The akad
+## Ahead of the wedding day
 
-<!-- HARI H: date and weekday (check with datetime), time if stated, city and venue spelled as the venue spells it, the adat used (for example mappacci if Bugis-Makassar; use the ceremony names exactly as the couple or the WO use them), and whether the akad and reception fall on the same day. Mahar only as officially stated, no figures unless quoted directly by the couple or the officiant. Every fact from two media groups or the couple's own post. Once the venue is confirmed, add it to the title. End with one idea an Indonesian couple can borrow. -->
+Asnawi and Yuriska's engagement used Bugis-Makassar traditional elements, and their first pre-wedding shoot used Makassar traditional dress. Even so, the adat for the wedding itself has not been confirmed, and neither have the date and the venue. Once the wedding has taken place, we will add the details of the akad, the bridal outfits and the reception to this article.
 
-## The wedding-day look
-
-<!-- HARI H: akad and reception outfits, the designer of each look, MUA, hair, jewellery. Check whether Lindsposa, Andrea Marco Suit, The Palace Jewelry, Meizy Latuconsina or Rio Motret are involved again. Vendors only if tagged by the couple or named by two media groups. End with one idea to borrow. -->
-
-## The reception
-
-<!-- HARI H: the reception's atmosphere, WO, decor, photographer and videographer if tagged, public-figure guests confirmed by their own posts or two media groups, the couple's captions verbatim with their post dates. End with one idea to borrow. -->
+<!-- HARI H: replace this section with three sections, "The akad", "The wedding-day look" and "The reception", mirroring the ID file block for block. (1) The akad: date and weekday (check with datetime), time if stated, city and venue spelled as the venue spells it, the adat used (for example mappacci if Bugis-Makassar; use the ceremony names exactly as the couple or the WO use them), and whether the akad and reception fall on the same day. Mahar only as officially stated, no figures unless quoted directly by the couple or the officiant. Once the venue is confirmed, add it to the title. (2) The wedding-day look: akad and reception outfits, the designer of each look, MUA, hair, jewellery; check whether Lindsposa, Andrea Marco Suit, The Palace Jewelry, Meizy Latuconsina, Dodi Basara or Rio Motret are involved again. (3) The reception: atmosphere, WO, decor, photographer and videographer if tagged, public-figure guests confirmed by their own posts or two media groups, the couple's captions verbatim with their post dates. End each section with one idea to borrow and add it to the list below. Vendors and every fact only from two media groups or the couple's own post. Also update the opening paragraphs, "The wedding" item under "What we know so far", the excerpt and the References. -->
 
 ## What you can borrow
 
@@ -109,7 +103,9 @@ This article was put together with the help of the sources below. Our thanks to 
 - [Liputan6: Asnawi Mangkualam and Yuriska Patricia's Pre-Wedding Shoot in Makassar Traditional Dress](https://www.liputan6.com/showbiz/read/8301847/prewedding-asnawi-mangkualam-dan-yuriska-patricia-berbalut-adat-makassar)
 - [Kompas.com: Asnawi Mangkualam and Yuriska Patricia's Vintage-Style Pre-Wedding Shoot](https://lifestyle.kompas.com/read/2026/10/05/180000620/gaya-prewedding-asnawi-mangkualam-dan-yuriska-patricia-bernuansa-vintage)
 - [KapanLagi: Asnawi Mangkualam and Yuriska Patricia's Vintage Pre-Wedding Shoot, Elegant and Romantic](https://www.kapanlagi.com/showbiz/selebriti/prewedding-asnawi-mangkualam-dan-yuriska-patricia-bergaya-vintage-elegan-romantis-b612a2204b.html)
+- [Wolipop: Asnawi Mangkualam and Yuriska Patricia's Pre-Wedding Photos, Vintage and Elegant](https://wolipop.detik.com/foto-wedding/d-8698160/foto-prewedding-asnawi-mangkualam-yuriska-patricia-tampil-vintage-nan-elegan)
 - [IDN Times: Profile of Yuriska Patricia, Proposed to by Asnawi Mangkualam](https://www.idntimes.com/hype/entertainment/profil-dan-biodata-yuriska-patricia-00-sd4vv-ty9fxj)
 - [Liputan6: Yuriska Patricia Moved to Tears by Her Unexpected SCTV Awards 2024 Win](https://www.liputan6.com/showbiz/read/5797877/yuriska-patricia-menangis-haru-tak-menyangka-raih-penghargaan-sctv-awards-2024)
+- [detikHealth: On the ACL Injury That Put Asnawi on the Operating Table](https://health.detik.com/kebugaran/d-8333320/menyoal-cedera-acl-dialami-asnawi-sampai-harus-naik-meja-operasi)
 - [JawaPos.com: Injury Forces Asnawi Mangkualam to End His Season Early, National Teammates Send Prayers and Support](https://www.jawapos.com/sepak-bola-indonesia/017125093/cedera-paksaasnawi-mangkualam-akhiri-musim-lebih-cepat-pemain-timnas-berikan-doa-dan-dukungan)
 - [VIVA: Asnawi's Funny Post About Fearing the Teasing if Indonesia Lost to Thailand: It Could Give Me a Heart Attack](https://www.viva.co.id/gaya-hidup/showbiz/1933708-lucunya-cuitan-asnawi-yang-takut-diledek-kalau-timnas-indonesia-kalah-dari-thailand-bisa-jantungan)

@@ -11,7 +11,7 @@ status: draft
 
 "Somewhere between vintage dreams and forever." Kalimat berbahasa Inggris itu menjadi keterangan foto prewedding yang diunggah Asnawi Mangkualam di Instagram pada awal Oktober 2026. Di foto-foto itu ia memakai setelan tiga potong bermotif garis halus, sementara Yuriska Patricia mengenakan gaun strapless dengan ekor panjang yang dipenuhi bunga putih tiga dimensi berukuran besar. Hanya beberapa hari sebelumnya, fotografer mereka mengunggah teaser sesi prewedding yang suasananya jauh berbeda, dengan keduanya berbusana adat Makassar berwarna oranye dan emas.
 
-Pernikahan pemain Timnas Indonesia dan aktris ini disebut tinggal menghitung hari. Meski begitu, sampai artikel ini ditulis pada 7 Oktober 2026, tanggal dan tempatnya belum diumumkan. Adat yang akan dipakai pun belum diketahui.
+Sejak awal Oktober, pernikahan pemain Timnas Indonesia dan aktris ini disebut tinggal menghitung hari. Meski begitu, sampai artikel ini terbit pada 9 Oktober 2026, tanggal dan tempatnya belum diumumkan. Adat yang akan dipakai pun belum diketahui.
 
 Artikel ini merangkum perjalanan mereka sejauh ini, mulai dari momen Asnawi melamar di atas kapal sampai pemeriksaan kesehatan sebelum menikah. Bagian tentang hari pernikahan akan kami lengkapi setelah acaranya berlangsung.
 
@@ -24,7 +24,7 @@ Artikel ini merangkum perjalanan mereka sejauh ini, mulai dari momen Asnawi mela
 - **Senin, 28 September 2026**: fotografer Rio Motret mengunggah teaser prewedding berbusana adat Makassar.
 - **Kamis, 1 Oktober 2026**: video pemeriksaan kesehatan pranikah keduanya diberitakan.
 - **Awal Oktober 2026**: Asnawi mengunggah foto prewedding bertema vintage.
-- **Pernikahan**: tanggal dan tempatnya belum diumumkan.
+- **Pernikahan**: sampai 9 Oktober 2026, tanggal dan tempatnya belum diumumkan.
 
 ## Siapa Asnawi Mangkualam dan Yuriska Patricia
 
@@ -42,7 +42,7 @@ Bagaimana keduanya pertama kali bertemu belum pernah diberitakan. Kabar kedekata
 
 Pada Rabu, 17 Juni 2026, Asnawi mengunggah video lamarannya di Instagram. Mereka sedang berlibur di Bali. Di atas kapal di Danau Beratan, Bedugul, dengan latar pegunungan dan kabut, Asnawi berlutut dengan satu kaki dan menyodorkan cincin. Video itu memuat kalimat "Will you marry me?". Keduanya berbusana putih. Asnawi memakai kemeja dan celana putih, Yuriska memakai gaun panjang putih sambil memegang buket bunga berwarna pastel merah muda dan putih.
 
-Dalam keterangan videonya, Asnawi berterima kasih kepada Yuriska atas cinta dan kesabarannya, juga karena ia selalu percaya kepadanya. Yuriska menjawab lewat unggahannya sendiri: "My answer was, is, and always will be yes."
+Dalam keterangan videonya, Asnawi berterima kasih kepada Yuriska atas cinta dan kesabarannya. Yuriska menjawab lewat unggahannya sendiri: "My answer was, is, and always will be yes."
 
 Busana yang senada membuat foto dan video lamaran langsung terlihat rapi. Kalau lamaran Anda berupa kejutan, calon pasangan tentu tidak bisa diajak berdiskusi soal baju. Mintalah bantuan sahabatnya untuk memastikan ia memakai warna yang serasi dengan pilihan Anda di hari itu, tanpa membocorkan alasannya.
 
@@ -50,7 +50,7 @@ Busana yang senada membuat foto dan video lamaran langsung terlihat rapi. Kalau 
 
 Sembilan hari setelah video itu diunggah, pada Jumat, 26 Juni 2026, kedua keluarga bertemu dalam acara lamaran resmi di Bandung, kota kelahiran Yuriska. Acaranya intim, dihadiri keluarga dan sahabat dekat, dengan unsur adat Bugis-Makassar yang diberi sentuhan modern. Warna pink pastel mendominasi busana, sedangkan dekorasinya didominasi putih dengan bunga-bunga berwarna pastel yang lembut.
 
-Asnawi memakai jas tutu, jas tradisional Bugis-Makassar, berwarna pink dengan celana senada dan sarung sutra Bugis yang dililitkan di pinggang. Yuriska tidak memakai baju bodo. Ia memilih kebaya brokat pink dengan bawahan sarung sutra Bugis atau lipa' sabbe, ditambah hiasan kepala emas di sanggulnya. Kalau Anda ingin memasukkan unsur adat tanpa memakai busana adat lengkap, cara ini layak ditiru: pertahankan kain adatnya sebagai bawahan, lalu padukan dengan kebaya yang membuat Anda leluasa bergerak.
+Asnawi memakai jas tutu, jas tradisional Bugis-Makassar, berwarna pink dengan celana senada dan sarung sutra Bugis yang dililitkan di pinggang. Yuriska memilih kebaya brokat pink dengan bawahan sarung sutra Bugis atau lipa' sabbe, ditambah hiasan kepala emas di sanggulnya. Kalau Anda ingin memasukkan unsur adat tanpa memakai busana adat lengkap, cara ini layak ditiru: pertahankan kain adatnya sebagai bawahan, lalu padukan dengan kebaya yang membuat Anda leluasa bergerak.
 
 Di antara seserahannya ada sebuah bola sepak dan sepasang sepatu olahraga, penanda profesi Asnawi. Azizah Salsha termasuk tamu yang hadir. Di unggahannya, Asnawi menandai tanggal acara itu dengan angka "26-6-2026".
 
@@ -72,21 +72,15 @@ Dua tampilan dari satu sesi adat memberi Anda pilihan foto untuk keperluan yang 
 
 ## Prewedding kedua: vintage glam di studio
 
-Sesi kedua juga dipotret Rio Motret, tetapi suasananya bertolak belakang. Di studio berlatar cokelat hangat dengan pencahayaan yang juga hangat, Yuriska memakai gaun strapless dari Lindsposa. Gaunnya berhias kristal dan payet perak, dengan ekor panjang penuh bunga putih tiga dimensi berukuran besar. Asnawi memakai setelan tiga potong berwarna gelap bermotif garis halus dari Andrea Marco Suit, dengan kemeja putih, dasi gelap dan bros besar. Perhiasannya dari The Palace Jewelry, dan penata gayanya Meizy Latuconsina. Foto-foto inilah yang diunggah Asnawi pada awal Oktober.
+Sesi kedua juga dipotret Rio Motret, tetapi suasananya bertolak belakang. Di studio berlatar cokelat hangat dengan pencahayaan yang juga hangat, Yuriska memakai gaun strapless dari Lindsposa. Gaunnya berhias kristal dan payet perak, dengan ekor panjang penuh bunga putih tiga dimensi berukuran besar. Asnawi memakai setelan tiga potong berwarna gelap bermotif garis halus dari Andrea Marco Suit, dengan kemeja putih, dasi gelap dan bros besar. Perhiasannya dari The Palace Jewelry, penata gayanya Meizy Latuconsina, dan riasan Yuriska dikerjakan oleh MUA Dodi Basara. Foto-foto inilah yang diunggah Asnawi pada awal Oktober.
 
 Dari dua sesi ini ada pelajaran yang bisa Anda pakai. Memakai fotografer yang sama untuk dua tema yang berseberangan membuat gaya foto Anda tetap terasa satu keluarga. Lalu, ketika gaun, jas dan perhiasan datang dari label yang berbeda, seorang penata gaya membantu menyatukan semuanya dalam satu tampilan.
 
-## Akad nikah
+## Menjelang hari pernikahan
 
-<!-- HARI H: tanggal dan nama hari (cek dengan datetime), jam kalau disebut, kota dan venue dengan ejaan venue sendiri, adat yang dipakai (misalnya mappacci kalau Bugis-Makassar; pakai nama prosesi persis seperti yang dipakai pasangan atau WO), dan apakah akad dan resepsi di hari yang sama. Mahar hanya seperti diumumkan resmi, tanpa angka kecuali dikutip langsung dari pasangan atau penghulu. Setiap fakta dari dua grup media atau unggahan pasangan sendiri. Kalau venue sudah pasti, tambahkan ke judul. Akhiri dengan satu ide yang bisa ditiru pasangan Indonesia. -->
+Lamaran Asnawi dan Yuriska memakai unsur adat Bugis-Makassar, dan sesi prewedding pertama mereka memakai busana adat Makassar. Meski begitu, adat untuk hari pernikahannya belum dikonfirmasi, begitu pula tanggal dan tempatnya. Setelah acaranya berlangsung, artikel ini akan kami lengkapi dengan detail akad nikah, busana pengantin dan resepsinya.
 
-## Busana pengantin
-
-<!-- HARI H: busana akad dan resepsi, desainer tiap tampilan, MUA, rambut, perhiasan. Cek apakah Lindsposa, Andrea Marco Suit, The Palace Jewelry, Meizy Latuconsina atau Rio Motret kembali terlibat. Vendor hanya kalau ditandai pasangan atau disebut dua grup media. Akhiri dengan satu ide yang bisa ditiru. -->
-
-## Resepsi
-
-<!-- HARI H: suasana resepsi, WO, dekorasi, fotografer dan videografer kalau ditandai, tamu publik figur yang dikonfirmasi lewat unggahan sendiri atau dua grup media, keterangan unggahan pasangan secara verbatim beserta tanggal unggahnya. Akhiri dengan satu ide yang bisa ditiru. -->
+<!-- HARI H: ganti bagian ini dengan tiga bagian, yaitu "Akad nikah", "Busana pengantin" dan "Resepsi", lalu ubah juga di file EN blok per blok. (1) Akad nikah: tanggal dan nama hari (cek dengan datetime), jam kalau disebut, kota dan venue dengan ejaan venue sendiri, adat yang dipakai (misalnya mappacci kalau Bugis-Makassar; pakai nama prosesi persis seperti yang dipakai pasangan atau WO), dan apakah akad dan resepsi di hari yang sama. Mahar hanya seperti diumumkan resmi, tanpa angka kecuali dikutip langsung dari pasangan atau penghulu. Kalau venue sudah pasti, tambahkan ke judul. (2) Busana pengantin: busana akad dan resepsi, desainer tiap tampilan, MUA, rambut, perhiasan; cek apakah Lindsposa, Andrea Marco Suit, The Palace Jewelry, Meizy Latuconsina, Dodi Basara atau Rio Motret kembali terlibat. (3) Resepsi: suasana, WO, dekorasi, fotografer dan videografer kalau ditandai, tamu publik figur yang dikonfirmasi lewat unggahan sendiri atau dua grup media, keterangan unggahan pasangan secara verbatim beserta tanggal unggahnya. Akhiri tiap bagian dengan satu ide yang bisa ditiru dan tambahkan ke daftar di bawah. Vendor dan setiap fakta hanya dari dua grup media atau unggahan pasangan sendiri. Perbarui juga paragraf pembuka, poin "Pernikahan" di daftar "Yang sudah diketahui", excerpt dan Referensi. -->
 
 ## Yang bisa Anda tiru
 
@@ -113,7 +107,9 @@ Artikel ini disusun dengan bantuan sumber-sumber berikut. Terima kasih kepada pa
 - [Liputan6: Prewedding Asnawi Mangkualam dan Yuriska Patricia Berbalut Adat Makassar](https://www.liputan6.com/showbiz/read/8301847/prewedding-asnawi-mangkualam-dan-yuriska-patricia-berbalut-adat-makassar)
 - [Kompas.com: Gaya Prewedding Asnawi Mangkualam dan Yuriska Patricia, Bernuansa Vintage](https://lifestyle.kompas.com/read/2026/10/05/180000620/gaya-prewedding-asnawi-mangkualam-dan-yuriska-patricia-bernuansa-vintage)
 - [KapanLagi: Prewedding Asnawi Mangkualam dan Yuriska Patricia Bergaya Vintage, Elegan Romantis](https://www.kapanlagi.com/showbiz/selebriti/prewedding-asnawi-mangkualam-dan-yuriska-patricia-bergaya-vintage-elegan-romantis-b612a2204b.html)
+- [Wolipop: Foto Prewedding Asnawi Mangkualam-Yuriska Patricia, Tampil Vintage nan Elegan](https://wolipop.detik.com/foto-wedding/d-8698160/foto-prewedding-asnawi-mangkualam-yuriska-patricia-tampil-vintage-nan-elegan)
 - [IDN Times: Profil dan Biodata Yuriska Patricia, Dilamar Asnawi Mangkualam](https://www.idntimes.com/hype/entertainment/profil-dan-biodata-yuriska-patricia-00-sd4vv-ty9fxj)
 - [Liputan6: Yuriska Patricia Menangis Haru Tak Menyangka Raih Penghargaan SCTV Awards 2024](https://www.liputan6.com/showbiz/read/5797877/yuriska-patricia-menangis-haru-tak-menyangka-raih-penghargaan-sctv-awards-2024)
+- [detikHealth: Menyoal Cedera ACL yang Dialami Asnawi sampai Harus Naik Meja Operasi](https://health.detik.com/kebugaran/d-8333320/menyoal-cedera-acl-dialami-asnawi-sampai-harus-naik-meja-operasi)
 - [JawaPos.com: Cedera Paksa Asnawi Mangkualam Akhiri Musim Lebih Cepat, Pemain Timnas Berikan Doa dan Dukungan](https://www.jawapos.com/sepak-bola-indonesia/017125093/cedera-paksaasnawi-mangkualam-akhiri-musim-lebih-cepat-pemain-timnas-berikan-doa-dan-dukungan)
 - [VIVA: Lucunya Cuitan Asnawi yang Takut Diledek Kalau Timnas Indonesia Kalah dari Thailand: Bisa Jantungan](https://www.viva.co.id/gaya-hidup/showbiz/1933708-lucunya-cuitan-asnawi-yang-takut-diledek-kalau-timnas-indonesia-kalah-dari-thailand-bisa-jantungan)

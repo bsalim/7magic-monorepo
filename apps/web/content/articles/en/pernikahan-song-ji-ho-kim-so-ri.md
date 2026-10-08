@@ -7,21 +7,21 @@ excerpt_en: "Song Ji Ho and Kim So Ri announced their wedding on 6 October 2026 
 
 Kim So Ri's letter opens with a short line: "안녕하세요. 소리입니다", or "Hello, this is So Ri." It was written by hand and posted to Instagram on the morning of Tuesday, 6 October 2026, Korean time. On the same day, Song Ji Ho posted a handwritten letter of his own.
 
-The news in both was the same: they will marry in October 2026. Before that morning there had been no reports that the two were dating, so the public learned about the relationship and the wedding plans at once. As of writing, the date and the venue have not been announced.
+The news in both was the same: they will marry in October 2026. Before that morning there had been no reports that the two were dating, so the public learned about the relationship and the wedding plans at once. As of 9 October 2026, neither the couple nor Song's agency has announced the date or the venue.
 
 This article gathers what is already known about the couple and the way they shared their news. We will fill in the wedding-day sections once the wedding has taken place.
 
 ## What we know so far
 
 - **Tuesday, 6 October 2026, morning in Korea:** the wedding announcement. It came as a statement from Song's agency, Inyeon Entertainment; a pre-wedding shoot by AALIA Studio; and a handwritten letter from each of them on Instagram.
-- **October 2026:** the wedding. The date has not been announced.
-- **Venue:** not announced.
+- **October 2026:** the wedding, as Song and Kim each wrote in their letters. The date has not been officially announced.
+- **Venue:** not officially announced.
 
 ## Who Song Ji Ho and Kim So Ri are
 
 Song Ji Ho is an actor born in January 1992, aged 34 at the time of the announcement. He made his debut in the film *Friend 2* (English title *Friend: The Great Legacy*) in 2013. K-drama fans know him best as Im Geum, older brother of Im Sol, played by Kim Hye-yoon, in the tvN drama *Lovely Runner* (2024). The year before, he appeared in *Doctor Cha* (JTBC) as Seo Jung-min, the son of Uhm Jung-hwa's character. He has also been in *Stranger* seasons one and two, *Matrimonial Chaos* and *Search: WWW*. His most recent drama, *To My Beloved Thief* on KBS2, finished its run in February 2026. In it he played Hong Dae-il, older brother of Hong Eun-jo, played by Nam Ji-hyun.
 
-Kim So Ri was born in July 1990, two years older than Song, and was 36 at the time of the announcement. She is a singer and actress. She debuted in 2016 in CoCoSoRi, a female duo, and is also a member of the girl group Real Girl Project (R.G.P.). She took part in the JTBC competition show *Mix Nine* and the Mnet dating show *Somebody 2*. In March 2026 she appeared in the Netflix film *Made in Korea*, a Korea and India co-production, as Han Sol, the vocalist of a band.
+Kim So Ri was born in July 1990, two years older than Song, and was 36 at the time of the announcement. She is a singer and actress. She debuted as a singer in 2016 in CoCoSoRi, a female duo, and was also a member of the project girl group Real Girls Project (R.G.P.). She took part in the JTBC competition show *Mix Nine* and the Mnet dating show *Somebody 2*. In March 2026 she appeared in the Netflix film *Made in Korea*, a Korea and India co-production, as Han Sol, the vocalist of a band.
 
 Song is signed to Inyeon Entertainment, while Kim is with b.able company. Coverage so far quotes only Song's agency. How and when they met has never been reported.
 
@@ -31,7 +31,7 @@ According to Inyeon, Song will keep acting after the wedding. Couples who both w
 
 Inyeon Entertainment's statement was brief. Song will marry his fiancée, a fellow entertainer, after a long relationship built on mutual trust. In Korean, the agency used the phrase 백년가약 (baengnyeon gayak), literally a promise for a hundred years, a figurative way of saying marriage.
 
-The letters from the two of them were far more personal. Song, writing on his account @ziffffo, said that this October he has promised to marry the person he wants to spend his life with. They have stood by each other for a long time and grown together, supporting each other in happy times and sad ones. With her, he wrote, he can be wholly himself, comfortable and happy, and he wants to share that happiness. He also wrote that he still has a long way to go, as a person and as an actor, and that he will work to become a better person and a better actor.
+The letters from the two of them were far more personal. Song, writing on his account @ziffffo, said that this October he has promised to marry the person he wants to spend his life with. They have stood by each other for a long time and grown together, supporting each other in happy times and sad ones. With her, he wrote, he can be wholly himself, comfortable and happy, and he wants to share that happiness. He shared that he has kept the messages fans sent him during hard times, and would now and then read them again for strength. He also wrote that he still has a long way to go, as a person and as an actor, and that he will work to become a better person and a better actor.
 
 Kim, writing on her account @lovesori_, said she still can't quite believe the day has finally come for her, too, to share news like this. She shared that she once wrote down a prayer about the partner she hoped for, and that the man she is with now closely resembles what she wrote. She described him as someone who is happy just being together, who is grateful for small things. Near the end of her letter she wrote that they will share joys and hardships and look after each other, and that they want to pass on the love they have received, then asked her fans for their blessing.
 
@@ -45,21 +45,15 @@ Korean-style studio pre-wedding shoots are popular with Indonesian couples. If y
 
 ## A date kept off the record
 
-The announcement named only the month, October 2026. The date and venue were not made public, and as of writing no outlet has reported them. Korean media wrote that the two had been in 오랜 시간 교제 (oraen sigan gyoje), meaning a relationship of long standing, but none said for how many years.
+The announcement named only the month, October 2026. The date and venue were not made public, and as of 9 October 2026 neither the couple nor Song's agency had announced them. Korean media wrote that the two had been in 오랜 시간 교제 (oraen sigan gyoje), meaning a relationship of long standing, but none said for how many years.
 
 Ordinary couples can use this pattern too. Announcing that you will marry doesn't mean sharing the date and location with everyone. The general news can go on social media, while the event details appear only on the invitations for guests who are actually invited. This helps if your guest list is limited and you don't want acquaintances to feel left out. Ask close family, too, not to post the invitation before the day.
 
-## The ceremony
+## The wedding day
 
-<!-- HARI H: date and weekday (check the weekday), time, city and venue, private or not, who attended, officiant (주례), MC (사회), singers (축가). Every fact needs two sources. End with one idea an Indonesian couple can borrow. -->
+When this article went live, Song Ji Ho and Kim So Ri's wedding day had not yet come. Once it has taken place, we will fill in this section with the story of the day, including what they wore. We will only include details confirmed by two separate sources or by the couple themselves.
 
-## The wedding-day look
-
-<!-- HARI H: the gown and tuxedo on the day, the designer if named, hanbok for the 폐백 if photos show it. Do not use the accounts AALIA tagged unless two sources confirm their role. End with one idea to borrow. -->
-
-## The reception
-
-<!-- HARI H: the reception, celebrity guests named by two sources, any statement from Inyeon or b.able that day, new posts from either of them, honeymoon plans if announced. End with one idea to borrow. -->
+<!-- HARI H, for the next editor. Replace this section with three: "## The ceremony", "## The wedding-day look", "## The reception", each ending with one idea an Indonesian couple can borrow, mirroring the Indonesian file block for block. (1) Ceremony: date and weekday (check with datetime), time, city and venue, private (비공개) or not, who attended, officiant (주례), MC (사회), singers (축가). (2) Look: the gown and tuxedo on the day, the designer if named, hanbok for the 폐백 if photos show it. The accounts AALIA tagged (@eloon_official, @genericobespoke, @merry_prance, @jacqueline__wedding, @yourbroad, @q.uillin, @binna_jeon) may only be used if two sources confirm their role. (3) Reception: celebrity guests named by two sources, any statement from Inyeon or b.able company that day, new posts from @ziffffo and @lovesori_, honeymoon plans if announced. Every fact needs two independent sources; Indonesian outlets relaying Soompi do not count as a second source. UNCONFIRMED LEAD: Tenasia ran a [단독] exclusive on 8 Oct 2026 at 17:27 KST (https://www.tenasia.co.kr/article/2026100815474) saying the wedding is on the evening of Friday 23 Oct 2026 at Samcheonggak (삼청각), Seoul. TV Report and Kbizoom only relay Tenasia, so there is no second source yet and the agency has not confirmed it. Do not print it before confirmation. After the day, also update the opening paragraphs, the "What we know so far" list, the "A date kept off the record" section, the title and the excerpt. DELETE THIS COMMENT before import: the article converter does not strip HTML comments and would print it as a paragraph. -->
 
 ## What you can borrow
 
@@ -81,5 +75,5 @@ This article was put together with the help of the sources below. Our thanks to 
 - [StarNews: Song Ji Ho, Kim Hye-yoon's Brother in Lovely Runner, to Marry Kim So Ri, Releases Pre-Wedding Photos](https://www.starnewskorea.com/star/2026/10/06/2026100608074699431)
 - [Ilgan Sports: Lovely Runner's Song Ji Ho to Marry Kim So Ri in October](https://isplus.com/article/view/isp202610060018)
 - [TopStarNews: Somebody 2's Kim So Ri to Marry Song Ji Ho in October, Much Like What She Prayed For in a Spouse](https://www.topstarnews.net/news/articleView.html?idxno=16239472)
+- [StarNews: Full Text of Song Ji Ho's Letter on His October Wedding](https://www.starnewskorea.com/en/star/2026/10/06/2026100610004349598)
 - [NewDaily: Song Ji Ho, Kim Hye-yoon's Brother in Lovely Runner, to Marry Kim So Ri in October](https://www.newdaily.co.kr/site/data/html/2026/10/06/2026100600305.html)
-- [RRI: Actor Song Ji Ho and Kim So Ri Announce Their Wedding, to Be Held in October 2026](https://rri.co.id/hiburan/2791204/aktor-song-ji-ho-dan-kim-so-ri-umumkan-pernikahan-digelar-oktober-2026)

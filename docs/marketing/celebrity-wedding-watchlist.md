@@ -32,8 +32,13 @@ batch:
 
 - **Don't backdate.** `published_at` is the real publish time, because being
   first is the whole point here.
-- **Use an openly licensed header photo.** It goes up to R2 the usual way. The
-  couple's own wedding photos are copyrighted and never go in the header.
+- **Use a photo of the couple as the header, with the credit printed on it.**
+  Changed on 2026-10-07 at the owner's request; stock scenes were the earlier
+  rule. Crop and credit it with `apps/api/scripts/credit_article_photo.py`,
+  then upload it to R2 the usual way. A printed credit names the owner, it is
+  not a licence: prefer agency press handouts and the couple's own posts, and
+  ask the photographer where you can. Roundups with no single couple still use
+  an openly licensed scene.
 
 Then paste the URL into WhatsApp and check the preview shows the photo and
 headline.
