@@ -57,8 +57,7 @@
     { href: '/wedding-showcases', label: m.nav_showcases() },
     { href: '/paket-sangjit', label: m.service_sangjit() },
     { href: '/artikel', label: m.nav_articles() },
-    { href: '/our-vendors', label: m.nav_vendors() },
-    { href: '/about', label: m.nav_about() }
+    { href: '/our-vendors', label: m.nav_vendors() }
   ]);
 
   // Beside Kontak rather than in `links`: the brand row stays pinned on desktop,
@@ -72,17 +71,26 @@
   // stops these pages being orphaned from the site's internal linking.
   //
   // Sangjit, Bali and Singapore are the exceptions, promoted to top-level links.
+  //
+  // Events holds the event organizer pages, one per city, so the next city's
+  // page is one more item here rather than another top-level link.
   const menus = $derived([
     {
-      key: 'services',
-      label: m.nav_services(),
+      key: 'events',
+      label: m.nav_events(),
       items: [
-        { href: '/perjanjian-pranikah', label: m.service_prenup(), desc: m.service_prenup_desc() },
         {
           href: '/bali-event-organizer',
           label: m.service_bali_event(),
           desc: m.service_bali_event_desc()
         }
+      ]
+    },
+    {
+      key: 'services',
+      label: m.nav_services(),
+      items: [
+        { href: '/perjanjian-pranikah', label: m.service_prenup(), desc: m.service_prenup_desc() }
       ]
     }
   ]);

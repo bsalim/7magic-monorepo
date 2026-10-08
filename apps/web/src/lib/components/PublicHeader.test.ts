@@ -32,7 +32,27 @@ describe('PublicHeader', () => {
     expect(hrefs).toContain('/wedding-venue/search');
     expect(hrefs).toContain('/artikel');
     expect(hrefs).toContain('/our-vendors');
-    expect(hrefs).toContain('/about');
+  });
+
+  // Tentang lives in the footer's company column; the top nav is kept for the
+  // pages that sell something.
+  it('leaves the about page out of the header', () => {
+    render(PublicHeader);
+    expect(navLinks().map((a) => a.getAttribute('href'))).not.toContain('/about');
+  });
+
+  // Event organizer pages are grouped per city under Events, apart from the
+  // wedding services in Layanan Kami, so a new city slots in without crowding
+  // the top-level links.
+  it('groups the event organizer pages under Events, apart from the services', () => {
+    render(PublicHeader);
+    const panel = (label: string) =>
+      screen.getAllByRole('button', { name: new RegExp(label) })[0].parentElement!;
+    const hrefsIn = (el: HTMLElement) =>
+      [...el.querySelectorAll('a')].map((a) => a.getAttribute('href'));
+
+    expect(hrefsIn(panel('Events'))).toEqual(['/bali-event-organizer']);
+    expect(hrefsIn(panel('Layanan Kami'))).toEqual(['/perjanjian-pranikah']);
   });
 
   it('marks the matching nav item as the current page', () => {
