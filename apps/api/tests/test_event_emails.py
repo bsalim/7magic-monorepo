@@ -17,6 +17,7 @@ from app.domains.events.emails import (
     notification_recipients,
     registration_confirmation,
     render_template,
+    tour_alert_recipients,
 )
 from app.domains.events.models import Event, EventRegistration
 from app.models import Venue
@@ -98,6 +99,34 @@ async def test_a_branch_with_no_recipients_yields_an_empty_list(session) -> None
     branch = await session.scalar(select(Branch).where(Branch.slug == "bali"))
 
     assert notification_recipients(branch) == []
+
+
+OFFICE = ["byonosalim@gmail.com", "7magicorganizer@gmail.com"]
+
+
+@pytest.mark.asyncio
+async def test_a_branch_list_wins_over_the_office_fallback(session) -> None:
+    branch = Branch(slug="jakarta", name="7Magic Jakarta", timezone="Asia/Jakarta")
+    branch.settings = BranchSettings(tour_notification_recipients=["ops@7magic.test"])
+    session.add(branch)
+    await session.commit()
+
+    assert tour_alert_recipients(branch, fallback=OFFICE) == ["ops@7magic.test"]
+
+
+# All three production branches had empty lists until 2026-10-08, so every
+# tour booking alerted nobody by email. An empty list now means "the office".
+@pytest.mark.asyncio
+async def test_an_empty_branch_list_falls_back_to_the_office(session) -> None:
+    session.add(Branch(slug="bali", name="7Magic Bali", timezone="Asia/Makassar"))
+    await session.commit()
+    branch = await session.scalar(select(Branch).where(Branch.slug == "bali"))
+
+    assert tour_alert_recipients(branch, fallback=OFFICE) == OFFICE
+
+
+def test_no_branch_falls_back_to_the_office() -> None:
+    assert tour_alert_recipients(None, fallback=OFFICE) == OFFICE
 
 
 def test_the_confirmation_names_the_venue_as_the_location() -> None:

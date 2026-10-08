@@ -18,8 +18,8 @@ from app.domains.branches.service import BranchNotFoundError, branch_service
 from app.domains.events.emails import (
     BRANCH_ALERT_LOCALE,
     branch_alert,
-    notification_recipients,
     registration_confirmation,
+    tour_alert_recipients,
     venue_label,
 )
 from app.domains.events.models import Event, EventRegistration
@@ -291,7 +291,7 @@ async def _notify(
 
     await _whatsapp_alert(registration=registration, branch=branch)
 
-    recipients = notification_recipients(branch)
+    recipients = tour_alert_recipients(branch, fallback=get_settings().lead_recipients)
     if not recipients:
         return
     alert_subject, alert_body = branch_alert(

@@ -280,6 +280,18 @@ def notification_recipients(branch: Branch | None) -> list[str]:
     return seen
 
 
+def tour_alert_recipients(branch: Branch | None, *, fallback: list[str]) -> list[str]:
+    """Who gets the team email for a tour booking: the branch's own list, or the
+    office inbox when the branch has none.
+
+    An empty list used to mean nobody, and a new branch starts with an empty list,
+    so every booking at a newly created branch was accepted and told to no one by
+    email. `fallback` is the contact-form recipients (ADMIN_EMAILS), passed in so
+    this module stays free of settings.
+    """
+    return notification_recipients(branch) or list(fallback)
+
+
 async def template_for(
     session: AsyncSession, event_id: int, kind: str
 ) -> EventEmailTemplate | None:
