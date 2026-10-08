@@ -32,6 +32,7 @@ const STATIC_PATHS = [
   '/perjanjian-pranikah',
   '/bali-wedding-planning',
   '/wedding-planning-singapore',
+  '/jabodetabek-wedding',
   '/bali-event-organizer',
   '/privacy',
   '/terms'

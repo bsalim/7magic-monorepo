@@ -1,5 +1,6 @@
 <script lang="ts">
   import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
+  import LandmarkIcon from '@lucide/svelte/icons/landmark';
   import MenuIcon from '@lucide/svelte/icons/menu';
   import { Button, buttonVariants } from '$lib/components/ui/button';
   import * as Sheet from '$lib/components/ui/sheet';
@@ -49,6 +50,12 @@
       iconClass: 'h-3 w-[18px] shrink-0 rounded-[2px]'
     },
     {
+      href: '/jabodetabek-wedding',
+      label: m.nav_jabodetabek_wedding(),
+      icon: LandmarkIcon,
+      iconClass: 'size-4 shrink-0 text-brand-gold'
+    },
+    {
       href: '/bali-wedding-planning',
       label: m.nav_bali_wedding(),
       icon: BaliTempleIcon,
@@ -70,7 +77,8 @@
   // than added as top-level links: it keeps the marketplace nav short, and it
   // stops these pages being orphaned from the site's internal linking.
   //
-  // Sangjit, Bali and Singapore are the exceptions, promoted to top-level links.
+  // Sangjit, Bali, Singapore and Jabodetabek are the exceptions, promoted to
+  // top-level links.
   //
   // Events holds the event organizer pages, one per city, so the next city's
   // page is one more item here rather than another top-level link.
@@ -132,8 +140,11 @@
 -->
 <!-- One snippet for the pair, because it renders twice: once in the brand row and
      again in the nav row once scrolled. Two copies drift. -->
-{#snippet actions()}
-  <LanguageSwitcher />
+{#snippet actions(withLanguage = true)}
+  <!-- The scrolled nav row leaves the switcher out: it is the one item there
+       that is not a destination, and the row has no room for it. It stays in
+       the brand row and the mobile sheet. -->
+  {#if withLanguage}<LanguageSwitcher />{/if}
   <!-- The tour is the funnel, so it carries the one solid CTA and Kontak sits
        beside it as an outline. Two solid buttons here read as two primaries,
        which is the same as none. -->
@@ -252,9 +263,16 @@
        collapsed-state logo and CTA in and out cannot change the header's
        height. Items stretch to the row so the active underline stays flush
        with the bottom border. -->
-  <div class="mx-auto hidden h-12 max-w-7xl items-stretch gap-7 px-5 md:flex lg:px-8">
+  <!-- The scrolled row also carries the logo and the actions, so its gaps
+       tighten to keep every label on one line. -->
+  <div
+    class={cn(
+      'mx-auto hidden h-12 max-w-7xl items-stretch px-5 md:flex lg:px-8',
+      scrolled ? 'gap-3' : 'gap-7'
+    )}
+  >
     {#if scrolled}
-      <a href={localizeHref('/')} class="mr-2 flex items-center">
+      <a href={localizeHref('/')} class="mr-2 flex shrink-0 items-center">
         <img src="/img/7magic-logo.png" alt="7Magic Wedding" class="h-8 w-auto object-contain" />
       </a>
     {/if}
@@ -264,13 +282,17 @@
         href={localizeHref(link.href)}
         aria-current={isActive(link.href) ? 'page' : undefined}
         class={cn(
-          'flex items-center gap-1.5 border-b-2 text-[15px] transition',
+          'flex items-center gap-1.5 whitespace-nowrap border-b-2 transition',
+          scrolled ? 'text-[14px]' : 'text-[15px]',
           isActive(link.href)
             ? 'border-brand-gold font-semibold text-foreground'
             : 'border-transparent text-muted-foreground hover:text-foreground'
         )}
       >
-        {#if link.icon}<link.icon class={link.iconClass} />{/if}
+        <!-- Icons drop out of the scrolled row: with the logo and the actions
+             beside them the labels no longer fit, and the browser would squeeze
+             the logo to nothing first. -->
+        {#if link.icon && !scrolled}<link.icon class={link.iconClass} />{/if}
         {link.label}
       </a>
     {/each}
@@ -278,7 +300,11 @@
     <!-- role="presentation": this wrapper only groups the triggers and their
          panels and exists to scope the hover handlers and the click-outside
          test; the semantics live on the buttons and links inside it. -->
-    <div class="flex items-stretch gap-7" role="presentation" bind:this={menusEl}>
+    <div
+      class={cn('flex items-stretch', scrolled ? 'gap-3' : 'gap-7')}
+      role="presentation"
+      bind:this={menusEl}
+    >
       {#each menus as menu (menu.key)}
         <!-- Opens on hover for pointer users and on click for touch, since
              this row is visible from md up and that includes tablets. -->
@@ -297,7 +323,8 @@
             aria-haspopup="true"
             onclick={() => (openMenu = menu.key)}
             class={cn(
-              'flex items-center gap-1.5 border-b-2 text-[15px] transition',
+              'flex items-center gap-1.5 whitespace-nowrap border-b-2 transition',
+          scrolled ? 'text-[14px]' : 'text-[15px]',
               menuActive(menu)
                 ? 'border-brand-gold font-semibold text-foreground'
                 : 'border-transparent text-muted-foreground hover:text-foreground'
@@ -349,7 +376,7 @@
 
     {#if scrolled}
       <div class="ml-auto flex items-center gap-3">
-        {@render actions()}
+        {@render actions(false)}
       </div>
     {/if}
   </div>

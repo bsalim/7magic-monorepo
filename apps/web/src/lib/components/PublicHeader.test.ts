@@ -34,6 +34,14 @@ describe('PublicHeader', () => {
     expect(hrefs).toContain('/our-vendors');
   });
 
+  it('places Jabodetabek Wedding right after Singapore Wedding', () => {
+    render(PublicHeader);
+    const order = [...new Set(screen.getAllByRole('link').map((a) => a.getAttribute('href')))];
+    const singapore = order.indexOf('/wedding-planning-singapore');
+    expect(singapore).toBeGreaterThan(-1);
+    expect(order[singapore + 1]).toBe('/jabodetabek-wedding');
+  });
+
   // Tentang lives in the footer's company column; the top nav is kept for the
   // pages that sell something.
   it('leaves the about page out of the header', () => {
