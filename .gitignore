@@ -52,5 +52,9 @@ apps/web/src/lib/paraglide/
 apps/web/static/img/ig/*
 !apps/web/static/img/ig/7magic-ig-index.csv
 
+# Pexels candidates from fetch_article_images.py --stage, kept only for review.
+# Picks are recorded in docs/marketing/article-images/picks.json.
+apps/web/static/img/articles/_staging/
+
 # Internal product docs, kept local
 prd/
