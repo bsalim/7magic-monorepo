@@ -158,6 +158,7 @@ CLUSTERS: dict[str, list[str]] = {
         "tradisi-pernikahan-multietnis-di-singapura",
     ],
     "menikah-di-bali": [
+        "apa-itu-elopement-menikah-berdua-di-bali",
         "lokasi-prewedding-unik-bali",
         "menikah-di-bali-budget-masuk-akal",
         "nikah-hemat-di-bali-ini-dia-3-venue-wedding-budget-di-bawah-50-juta-yang-tetap-estetik-intim",
