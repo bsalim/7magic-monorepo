@@ -23,7 +23,7 @@ There is no official definition, and vendors use all three terms loosely. A prac
 
 - **Elopement:** the couple alone, or with a few others. A handy test is whether everyone present fits around one dinner table. The day centres on the ceremony and the photos, not a banquet.
 - **Micro wedding:** roughly a dozen to a few dozen guests, usually close family and best friends. There is a shared meal and a bit of a running order.
-- **Intimate wedding:** in Indonesia this often means a small reception with dozens of guests, up to about a hundred. The structure resembles a normal reception, just shorter. We break down the costs in our [guide to a 100-guest intimate wedding in Jakarta](https://7magicwedding.com/artikel/venue-lokasi/intimate-wedding-100-tamu-jakarta-rincian-biaya).
+- **Intimate wedding:** in Indonesia this often means a small reception with dozens of guests, up to about a hundred. The structure resembles a normal reception, just shorter. We break down the costs in our [guide to a 100-guest intimate wedding in Jakarta](https://7magicwedding.com/artikel/wedding-venue/intimate-wedding-100-tamu-jakarta-rincian-biaya).
 
 The difference you feel most is not the number of guests but who you plan around. A reception is designed for the guests. An elopement is designed for the two of you, and almost every decision, from the time of the ceremony to what you wear, can be made without thinking about anyone else.
 
@@ -66,7 +66,7 @@ Because the process is long, many foreign couples choose to complete the legal m
 
 The choice of setting is what makes Bali popular. Limestone cliffs at Uluwatu and Melasti Beach, the beaches of Nusa Dua and Jimbaran, rice fields and valleys around Ubud, waterfalls such as Tibumana, private villas, even a boat sailing at sunset.
 
-Packages look much the same from one vendor to the next. As an example, Go Real Escapes, one of the companies selling elopement packages in Bali, lists a floral arch, a bouquet and boutonniere, a non-legal English-speaking celebrant, and a photographer for two hours. Its prices run from Rp18.4 million for a villa ceremony to Rp33 million for a catamaran, with no validity date given. The villa package does not include renting the villa. Compare details like these before choosing, and for an overall picture of wedding costs in Bali, see our [comparison of villas, hotels and beach clubs](https://7magicwedding.com/artikel/venue-lokasi/menikah-di-bali-budget-masuk-akal).
+Packages look much the same from one vendor to the next. As an example, Go Real Escapes, one of the companies selling elopement packages in Bali, lists a floral arch, a bouquet and boutonniere, a non-legal English-speaking celebrant, and a photographer for two hours. Its prices run from Rp18.4 million for a villa ceremony to Rp33 million for a catamaran, with no validity date given. The villa package does not include renting the villa. Compare details like these before choosing, and for an overall picture of wedding costs in Bali, see our [comparison of villas, hotels and beach clubs](https://7magicwedding.com/artikel/wedding-venue/menikah-di-bali-budget-masuk-akal).
 
 A few things that are often missed:
 

@@ -27,7 +27,7 @@ Tidak ada definisi resmi, dan vendor memakai ketiga istilah ini dengan longgar. 
 
 - **Elopement:** pasangan saja, atau ditambah beberapa orang. Ukuran gampangnya, semua yang hadir muat di satu meja makan malam. Acaranya berpusat pada upacara dan sesi foto, bukan jamuan.
 - **Micro wedding:** sekitar belasan sampai beberapa puluh tamu, biasanya keluarga inti dan sahabat. Sudah ada makan bersama dan sedikit susunan acara.
-- **Intimate wedding:** di Indonesia sering berarti resepsi kecil dengan puluhan sampai sekitar seratus tamu. Strukturnya mirip resepsi biasa, hanya lebih ringkas. Rincian biayanya kami bahas di [panduan intimate wedding 100 tamu di Jakarta](https://7magicwedding.com/artikel/venue-lokasi/intimate-wedding-100-tamu-jakarta-rincian-biaya).
+- **Intimate wedding:** di Indonesia sering berarti resepsi kecil dengan puluhan sampai sekitar seratus tamu. Strukturnya mirip resepsi biasa, hanya lebih ringkas. Rincian biayanya kami bahas di [panduan intimate wedding 100 tamu di Jakarta](https://7magicwedding.com/artikel/wedding-venue/intimate-wedding-100-tamu-jakarta-rincian-biaya).
 
 Perbedaan yang paling terasa bukan jumlah tamunya, melainkan siapa yang diajak bicara saat merencanakan. Resepsi dirancang untuk tamu. Elopement dirancang untuk Anda berdua, dan hampir semua keputusan, dari jam upacara sampai baju, bisa diambil tanpa memikirkan orang lain.
 
@@ -70,7 +70,7 @@ Karena prosesnya panjang, banyak pasangan asing memilih mengurus pernikahan sah 
 
 Pilihan latarnya yang membuat Bali populer. Tebing kapur di Uluwatu dan Pantai Melasti, pantai di Nusa Dua dan Jimbaran, sawah dan lembah di Ubud, air terjun seperti Tibumana, villa pribadi, sampai kapal yang berlayar saat matahari terbenam.
 
-Isi paketnya cukup seragam antarvendor. Sebagai contoh, Go Real Escapes, salah satu penyedia paket elopement di Bali, mencantumkan dekorasi lengkung bunga, buket dan korsase, celebrant non-legal berbahasa Inggris, serta fotografer selama dua jam. Harganya tertulis mulai Rp18,4 juta untuk upacara di villa sampai Rp33 juta untuk kapal katamaran, tanpa keterangan tanggal berlaku. Paket di villa itu belum termasuk sewa villanya. Bandingkan detail seperti ini sebelum memilih, dan untuk gambaran biaya menikah di Bali secara umum, lihat [perbandingan villa, hotel, dan beach club](https://7magicwedding.com/artikel/venue-lokasi/menikah-di-bali-budget-masuk-akal).
+Isi paketnya cukup seragam antarvendor. Sebagai contoh, Go Real Escapes, salah satu penyedia paket elopement di Bali, mencantumkan dekorasi lengkung bunga, buket dan korsase, celebrant non-legal berbahasa Inggris, serta fotografer selama dua jam. Harganya tertulis mulai Rp18,4 juta untuk upacara di villa sampai Rp33 juta untuk kapal katamaran, tanpa keterangan tanggal berlaku. Paket di villa itu belum termasuk sewa villanya. Bandingkan detail seperti ini sebelum memilih, dan untuk gambaran biaya menikah di Bali secara umum, lihat [perbandingan villa, hotel, dan beach club](https://7magicwedding.com/artikel/wedding-venue/menikah-di-bali-budget-masuk-akal).
 
 Beberapa hal yang sering terlewat:
 
