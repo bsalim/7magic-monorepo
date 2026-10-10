@@ -54,6 +54,7 @@ def venue_card(venue: dict[str, Any]) -> VenueCard:
         slug=venue["slug"],
         city=venue["city"],
         district=venue["district"],
+        address=venue["address"],
         stars=venue["stars"],
         price_start_from=venue["price_start_from"],
         price_for_total_pax=venue["price_for_total_pax"],
@@ -150,7 +151,6 @@ class CatalogService:
     def _venue_detail_from_record(self, venue: dict[str, Any]) -> VenueDetail:
         return VenueDetail(
             **venue_card(venue).model_dump(),
-            address=venue["address"],
             description=venue["description"],
             status=venue["status"],
             gallery=sorted(venue["gallery"], key=lambda photo: photo.get("sort_order", 0)),

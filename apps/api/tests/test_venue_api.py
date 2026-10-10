@@ -193,6 +193,9 @@ def test_website_venue_routes_return_active_database_venues_only(
         venue_list = list_response.json()
         assert [item["slug"] for item in venue_list["items"]] == ["active-venue"]
         assert "storage_key" not in venue_list["items"][0]
+        # The card carries the street address so the price-and-date modal opened
+        # from a listing can show where the venue is without a second request.
+        assert venue_list["items"][0]["address"] == "Jl. Active No.1"
         assert venue_list["pagination"] == {
             "page": 1,
             "page_size": 12,

@@ -67,6 +67,7 @@ export type VenueCard = {
   slug: string;
   city: string;
   district: string;
+  address: string;
   stars: number;
   price_start_from: number | null;
   price_for_total_pax: number;
@@ -87,7 +88,6 @@ export type VenueListPayload = {
 };
 
 export type VenueDetail = VenueCard & {
-  address: string;
   description: string;
   status: string;
   gallery: Array<{

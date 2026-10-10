@@ -150,6 +150,7 @@ def public_venue_card(venue: dict[str, Any]) -> dict[str, Any]:
         "slug": venue["slug"],
         "city": venue["city"],
         "district": venue["district"],
+        "address": venue["address"],
         "stars": venue["stars"],
         "price_start_from": venue["price_start_from"],
         "price_for_total_pax": venue["price_for_total_pax"],

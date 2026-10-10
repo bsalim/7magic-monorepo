@@ -515,7 +515,6 @@ class VenueService:
     def _detail(self, venue: Venue, *, include_internal_photo_fields: bool = True) -> VenueDetail:
         return VenueDetail(
             **self._card(venue).model_dump(),
-            address=venue.address,
             description=venue.description or "",
             status=venue.status,
             gallery=[
@@ -543,6 +542,7 @@ class VenueService:
             slug=venue.slug,
             city=venue.city,
             district=venue.district,
+            address=venue.address,
             stars=venue.stars,
             price_start_from=_int_or_none(venue.price_start_from),
             price_for_total_pax=venue.price_for_total_pax,

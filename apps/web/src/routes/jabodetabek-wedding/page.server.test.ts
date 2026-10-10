@@ -13,6 +13,7 @@ function venue(overrides: Partial<VenueCard>): VenueCard {
     slug: 'venue',
     city: 'jakarta',
     district: 'Menteng',
+    address: '',
     stars: 5,
     price_start_from: 100_000_000,
     price_for_total_pax: 200,

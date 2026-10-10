@@ -7,9 +7,9 @@
   import VenueHero from '$lib/components/venue-detail/VenueHero.svelte';
   import VenueOverview from '$lib/components/venue-detail/VenueOverview.svelte';
   import VenuePackages from '$lib/components/venue-detail/VenuePackages.svelte';
-  import VenueQuoteModal from '$lib/components/venue-detail/VenueQuoteModal.svelte';
   import VenueStickyBar from '$lib/components/venue-detail/VenueStickyBar.svelte';
   import VenueVendors from '$lib/components/venue-detail/VenueVendors.svelte';
+  import VenueInquiryDialog from '$lib/components/VenueInquiryDialog.svelte';
   import { normalizePhotos } from '$lib/components/venue-detail/photos';
   import type { VenueDetail } from '$lib/api';
   import { page } from '$app/state';
@@ -37,7 +37,6 @@
 
   let venue = $derived(data.venue);
   let modalOpen = $state(false);
-  let submitted = $state(false);
   let showSticky = $state(false);
   let bookingCard: HTMLElement | undefined = $state();
 
@@ -107,17 +106,6 @@
 
   function openQuote() {
     modalOpen = true;
-    submitted = false;
-  }
-
-  function closeQuote() {
-    modalOpen = false;
-  }
-
-  function handleKeydown(event: KeyboardEvent) {
-    if (event.key === 'Escape' && modalOpen) {
-      closeQuote();
-    }
   }
 
   onMount(() => {
@@ -161,7 +149,6 @@
   url={localizeHref(venue.seo?.canonical_url ?? venue.path_url)}
 />
 
-<svelte:window onkeydown={handleKeydown} />
 
 <PublicHeader />
 
@@ -194,13 +181,5 @@
     onQuote={openQuote}
   />
 
-  <VenueQuoteModal
-    venueName={venue.name}
-    venueId={venue.id}
-    venueSlug={venue.slug}
-    open={modalOpen}
-    bind:submitted
-    onClose={closeQuote}
-    onSubmitted={trackQuoteRequest}
-  />
+  <VenueInquiryDialog {venue} bind:open={modalOpen} onSubmitted={trackQuoteRequest} />
 </main>

@@ -49,6 +49,7 @@ const card = (over: Partial<VenueCard> = {}): VenueCard => ({
   slug: 'grand-ballroom',
   city: 'jakarta',
   district: 'Kuningan',
+  address: '',
   stars: 5,
   price_start_from: 120_000_000,
   price_for_total_pax: 300,

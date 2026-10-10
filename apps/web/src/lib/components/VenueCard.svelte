@@ -1,9 +1,10 @@
 <script lang="ts">
   import MapPinIcon from '@lucide/svelte/icons/map-pin';
   import StarIcon from '@lucide/svelte/icons/star';
-  import UsersIcon from '@lucide/svelte/icons/users';
   import * as Card from '$lib/components/ui/card';
   import ResponsiveImage from './ResponsiveImage.svelte';
+  import VenueInquiryDialog from './VenueInquiryDialog.svelte';
+  import { trackEvent } from '$lib/analytics';
   import { m } from '$lib/paraglide/messages.js';
   import type { VenueCard } from '$lib/api';
   import { titleCase } from '$lib/utils';
@@ -14,6 +15,11 @@
   // Cards sit in a 1-to-4 column grid, so the rendered width tracks the
   // viewport rather than the container's max width.
   const cardSizes = '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw';
+
+  // Always mounted, never lazily on click: a dialog created inside the opening
+  // click reads that click's own pointerup as an outside press and shuts at once.
+  // Closed, bits-ui renders no content, so a grid of these costs next to nothing.
+  let inquiryOpen = $state(false);
 </script>
 
 <Card.Root class="gap-0 overflow-hidden py-0 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
@@ -41,19 +47,20 @@
       {venue.district}, {titleCase(venue.city)}
     </p>
     <!-- No figure on the card, priced or not: a quote depends on the date and
-         the guest count, so every venue points to the team instead. -->
-    <p class="mt-4 text-lg font-semibold">
-      <a href={localizeHref('/contact')} class="text-accent-foreground hover:underline">
-        {m.card_contact_for_price()}
-      </a>
-    </p>
-    <!-- Zero pax means the package size is unknown, not that the venue seats
-         nobody. Venues outside Jakarta mostly have no package data yet. -->
-    {#if venue.price_for_total_pax > 0}
-      <p class="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-        <UsersIcon size={15} />
-        {m.card_package_for_guests({ count: venue.price_for_total_pax })}
-      </p>
-    {/if}
+         the guest count, so every venue asks the team for this venue instead. -->
+    <button
+      type="button"
+      class="mt-4 text-left text-lg font-semibold text-accent-foreground hover:underline"
+      onclick={() => (inquiryOpen = true)}
+    >
+      {m.card_contact_for_price()}
+    </button>
   </Card.Content>
 </Card.Root>
+
+<VenueInquiryDialog
+  {venue}
+  bind:open={inquiryOpen}
+  onSubmitted={() =>
+    trackEvent('Venue Quote Requested', { venue: venue.name, city: titleCase(venue.city) })}
+/>

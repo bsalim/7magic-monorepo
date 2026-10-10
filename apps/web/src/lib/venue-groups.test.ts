@@ -15,6 +15,7 @@ const venue = (overrides: Partial<VenueCard>): VenueCard => ({
   slug: 'a-venue',
   city: 'Jakarta',
   district: 'Kuningan',
+  address: '',
   stars: 5,
   price_start_from: 100_000_000,
   price_for_total_pax: 300,

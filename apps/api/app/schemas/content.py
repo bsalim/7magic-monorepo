@@ -34,6 +34,7 @@ class VenueCard(BaseModel):
     slug: str
     city: str
     district: str
+    address: str
     stars: int
     price_start_from: int | None
     price_for_total_pax: int
@@ -125,7 +126,6 @@ class VenueAdminSummary(BaseModel):
 
 
 class VenueDetail(VenueCard):
-    address: str
     description: str
     status: str
     gallery: list[dict[str, Any]]
