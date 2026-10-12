@@ -117,6 +117,7 @@ QUERIES: dict[str, str] = {
     "pernikahan-selebriti-dunia-2025-2026-ide-yang-bisa-ditiru": "luxury wedding gown detail",
     "perjanjian-pranikah-perkawinan-campuran-wna": "interracial couple wedding rings hands",
     "apa-itu-elopement-menikah-berdua-di-bali": "bali wedding couple cliff ocean",
+    "prewedding-indoor-saat-kabut-asap-batam-bintan-singapura": "asian couple prewedding photoshoot indoor",
 }
 
 CANDIDATES = 3

@@ -146,6 +146,7 @@ CLUSTERS: dict[str, list[str]] = {
     # Older slugs say "singapore", newer ones "singapura"; both are the same cluster.
     "menikah-di-singapura": [
         "lokasi-prewedding-unik-singapura",
+        "prewedding-indoor-saat-kabut-asap-batam-bintan-singapura",
         "7-venue-rooftop-paling-instagramable-di-singapore-untuk-akad-resepsi-view-marina-bay-city-lights-bikin-makin-syahdu",
         "nikah-bergaya-vintage-ala-kolonial-ini-3-venue-heritage-di-singapore-yang-super-elegan-instagramable",
         "nikah-di-private-space-ini-venue-eksklusif-ala-private-villa-rooftop-wedding-di-singapore",
@@ -181,6 +182,7 @@ CLUSTERS: dict[str, list[str]] = {
     "foto-prewedding": [
         "lokasi-prewedding-unik-bali",
         "lokasi-prewedding-unik-singapura",
+        "prewedding-indoor-saat-kabut-asap-batam-bintan-singapura",
         "prewedding-negative-space-minimalis",
         "sepuluh-gaya-fotografi-pernikahan",
         "kecewa-sama-foto-wedding-tenang-ini-4-cara-biar-tetap-estetik-nggak-nyesel",
