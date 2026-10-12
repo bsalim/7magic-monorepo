@@ -124,8 +124,9 @@ def _search_text(article: Article) -> str:
 def _newest_first(articles: list[Article]) -> list[Article]:
     """The public index order: by publication date only, undated rows last.
 
-    `_published_articles` puts featured articles first, which suits the home
-    page's picks but pinned five old articles above everything new on the index.
+    `_published_articles` puts featured articles first, which pinned five old
+    articles above everything new on the index and on the home page's latest
+    articles.
     """
     return sorted(
         articles,
@@ -526,11 +527,11 @@ class ArticleService:
             for category_id, count in sorted(counts.items(), key=lambda item: -item[1])
         ]
 
-    async def featured_articles(
+    async def latest_articles(
         self, session: AsyncSession, *, limit: int = 4, locale: str = BASE_LOCALE
     ) -> list[ArticleCard]:
         articles = await self._published_articles(session, locale=locale)
-        return [_article_card(article, locale) for article in articles[:limit]]
+        return [_article_card(article, locale) for article in _newest_first(articles)[:limit]]
 
     async def article_detail(
         self,

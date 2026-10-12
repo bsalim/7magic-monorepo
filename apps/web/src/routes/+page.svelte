@@ -239,6 +239,30 @@
     </div>
   </section>
 
+  {#if home.featured_articles.length}
+    <section class="mx-auto max-w-7xl px-5 py-14 lg:px-8">
+      <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">
+            {m.home_articles_eyebrow()}
+          </p>
+          <h2 class="mt-3 text-3xl font-semibold md:text-4xl">{m.home_articles_title()}</h2>
+          <p class="mt-3 max-w-2xl text-slate-600">{m.home_articles_body()}</p>
+        </div>
+        <a href={localizeHref('/artikel')} class="inline-flex items-center gap-2 font-semibold text-accent-foreground">
+          {m.home_venues_view_all()}
+          <ArrowRight size={18} />
+        </a>
+      </div>
+
+      <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {#each home.featured_articles as article (article.id)}
+          <ArticleCard {article} />
+        {/each}
+      </div>
+    </section>
+  {/if}
+
   <section class="mx-auto max-w-7xl px-5 py-14 lg:px-8">
     <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
       <div>

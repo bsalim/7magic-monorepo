@@ -1,9 +1,13 @@
 import { fetchJson, type HomePayload, type VenueListPayload } from '$lib/api';
 import { fetchVenueJson } from '$lib/server/api';
+import { getLocale } from '$lib/paraglide/runtime';
 
 export async function load({ fetch }) {
+  // The home payload carries the latest articles, which have English titles and
+  // English URLs; without the locale /en would list them in Indonesian.
+  const locale = getLocale();
   const [home, venueList, baliVenues, singaporeVenues, batamVenues] = await Promise.all([
-    fetchJson<HomePayload>('/api/v1/public/home', fetch),
+    fetchJson<HomePayload>(`/api/v1/public/home?locale=${locale}`, fetch),
     fetchVenueJson<VenueListPayload>('/api/v1/venues?page_size=12', fetch),
     fetchVenueJson<VenueListPayload>('/api/v1/venues?city=bali&page_size=4', fetch),
     fetchVenueJson<VenueListPayload>('/api/v1/venues?city=singapore&page_size=4', fetch),

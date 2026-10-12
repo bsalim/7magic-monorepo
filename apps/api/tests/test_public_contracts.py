@@ -187,6 +187,16 @@ def test_public_home_contract(public_article_client: TestClient) -> None:
     assert payload["featured_articles"]
 
 
+def test_public_home_articles_follow_locale(public_article_client: TestClient) -> None:
+    response = public_article_client.get("/api/v1/public/home", params={"locale": "en"})
+
+    assert response.status_code == 200
+    titles = [article["title"] for article in response.json()["featured_articles"]]
+    # Newest first, drafts left out, and an untranslated article falls back to
+    # its Indonesian title rather than dropping off the English home page.
+    assert titles == ["Database Wedding Venue Guide (EN)", "No English Slug"]
+
+
 def test_public_venue_search_contract() -> None:
     client = TestClient(app)
     response = client.get("/api/v1/public/venues", params={"city": "jakarta", "stars_min": 5})

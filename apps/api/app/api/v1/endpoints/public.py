@@ -32,11 +32,14 @@ router = APIRouter()
 
 
 @router.get("/home", response_model=HomeResponse)
-async def home(session: Annotated[AsyncSession, Depends(get_db_session)]) -> HomeResponse:
+async def home(
+    session: Annotated[AsyncSession, Depends(get_db_session)],
+    locale: Annotated[Locale, Query()] = "id",
+) -> HomeResponse:
     home_payload = catalog_service.home()
-    return home_payload.model_copy(
-        update={"featured_articles": await article_service.featured_articles(session)}
-    )
+    # Six fills the home page's three-column grid twice over.
+    latest = await article_service.latest_articles(session, limit=6, locale=locale)
+    return home_payload.model_copy(update={"featured_articles": latest})
 
 
 @router.get("/venues")
