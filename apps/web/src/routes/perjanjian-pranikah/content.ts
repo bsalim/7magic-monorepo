@@ -25,10 +25,10 @@ import type { Locale } from '$lib/paraglide/runtime';
  * registration. Confirmed by 7Magic. Written per locale because Indonesian
  * groups thousands with periods and English with commas -- the same number.
  */
-const PRICE = { id: 'Rp 3.500.000', en: 'Rp 3,500,000' } as const;
+const PRICE = { id: 'Rp 4.000.000', en: 'Rp 4,000,000' } as const;
 
 /** The figure as it appears mid-sentence, spoken rather than written out. */
-const PRICE_SHORT = { id: 'Rp 3,5 juta', en: 'Rp 3.5 million' } as const;
+const PRICE_SHORT = { id: 'Rp 4 juta', en: 'Rp 4 million' } as const;
 
 export type ComparisonRow = { label: string; price: string; note: string; ours: boolean };
 export type Segment = { title: string; copy: string; alt: string };
@@ -145,7 +145,7 @@ const id: PrenupCopy = {
   meta: {
     title: `Perjanjian Pranikah Jakarta — ${PRICE_SHORT.id} All-in, Akta Notaris + Pencatatan | 7Magic`,
     description:
-      'Jasa perjanjian pranikah dan pisah harta di Jakarta. Rp 3,5 juta sudah termasuk konsultasi, draft, akta notaris, dan pencatatan di Dukcapil. Bisa juga dibuat setelah menikah. Konsultasi awal gratis.',
+      'Jasa perjanjian pranikah dan pisah harta di Jakarta. Rp 4 juta sudah termasuk konsultasi, draft, akta notaris, dan pencatatan di Dukcapil. Bisa juga dibuat setelah menikah. Konsultasi awal gratis.',
     keywords:
       'perjanjian pranikah, perjanjian pra nikah, biaya perjanjian pranikah, perjanjian pisah harta, perjanjian perkawinan, prenuptial agreement Indonesia, perjanjian pranikah WNA, notaris perjanjian pranikah Jakarta'
   },
@@ -320,12 +320,12 @@ const id: PrenupCopy = {
   faqTitle: 'Pertanyaan yang paling sering masuk',
   faqs: [
     {
-      q: 'Kenapa Rp 3,5 juta, sementara di tempat lain bisa sampai Rp 15 juta?',
-      a: 'Karena notaris kami ada di dalam grup, jadi tidak ada lapisan perantara yang mengambil margin. Angka Rp 3,5 juta berlaku untuk perjanjian dengan struktur aset standar — properti, rekening, kendaraan, dan usaha perorangan. Kalau kasus Anda melibatkan perusahaan tertutup atau aset di luar negeri, kami bilang di konsultasi awal, sebelum Anda bayar apa pun.'
+      q: 'Kenapa Rp 4 juta, sementara di tempat lain bisa sampai Rp 15 juta?',
+      a: 'Karena notaris kami ada di dalam grup, jadi tidak ada lapisan perantara yang mengambil margin. Angka Rp 4 juta berlaku untuk perjanjian dengan struktur aset standar — properti, rekening, kendaraan, dan usaha perorangan. Kalau kasus Anda melibatkan perusahaan tertutup atau aset di luar negeri, kami bilang di konsultasi awal, sebelum Anda bayar apa pun.'
     },
     {
       q: 'Apakah harga itu sudah termasuk biaya pencatatan di Dukcapil?',
-      a: 'Sudah. Konsultasi, draft, akta notaris, dan pencatatan semuanya di dalam Rp 3,5 juta. Tidak ada tagihan susulan untuk langkah-langkah itu.'
+      a: 'Sudah. Konsultasi, draft, akta notaris, dan pencatatan semuanya di dalam Rp 4 juta. Tidak ada tagihan susulan untuk langkah-langkah itu.'
     },
     {
       q: 'Saya sudah menikah. Masih bisa buat?',
@@ -421,7 +421,7 @@ const en: PrenupCopy = {
   meta: {
     title: `Prenuptial Agreement Jakarta — ${PRICE_SHORT.en} All-in, Notarial Deed + Registration | 7Magic`,
     description:
-      'Prenuptial and separation-of-property agreements in Jakarta. Rp 3,500,000 covers the consultation, drafting, the notarial deed and registration with Dukcapil. Can also be made after you are married. First consultation free.',
+      'Prenuptial and separation-of-property agreements in Jakarta. Rp 4,000,000 covers the consultation, drafting, the notarial deed and registration with Dukcapil. Can also be made after you are married. First consultation free.',
     keywords:
       'prenuptial agreement Indonesia, prenup Jakarta, separation of property agreement, marital agreement Indonesia, prenup cost Indonesia, prenuptial agreement foreigner Indonesia, postnuptial agreement Indonesia, notary prenuptial agreement Jakarta'
   },
@@ -596,12 +596,12 @@ const en: PrenupCopy = {
   faqTitle: 'The questions we are asked most',
   faqs: [
     {
-      q: 'Why Rp 3.5 million when elsewhere it runs to Rp 15 million?',
-      a: 'Because our notary is in-house, so there is no intermediary taking a margin. The Rp 3.5 million figure applies to agreements with a standard asset structure — property, accounts, vehicles and a sole proprietorship. If your case involves a private company or assets held abroad, we say so at the first consultation, before you have paid anything.'
+      q: 'Why Rp 4 million when elsewhere it runs to Rp 15 million?',
+      a: 'Because our notary is in-house, so there is no intermediary taking a margin. The Rp 4 million figure applies to agreements with a standard asset structure — property, accounts, vehicles and a sole proprietorship. If your case involves a private company or assets held abroad, we say so at the first consultation, before you have paid anything.'
     },
     {
       q: 'Does the price include the Dukcapil registration fee?',
-      a: 'It does. The consultation, drafting, the notarial deed and registration are all inside the Rp 3.5 million. There is no follow-up invoice for any of those steps.'
+      a: 'It does. The consultation, drafting, the notarial deed and registration are all inside the Rp 4 million. There is no follow-up invoice for any of those steps.'
     },
     {
       q: 'I am already married. Can I still make one?',
@@ -722,4 +722,4 @@ export const SEGMENT_IMAGES = [
 export const NOTARY = { name: '', decree: '', area: '' };
 
 /** The price as a bare number, for the Offer in the JSON-LD. */
-export const OFFER_PRICE = '3500000';
+export const OFFER_PRICE = '4000000';
