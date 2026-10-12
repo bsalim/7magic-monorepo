@@ -1,5 +1,5 @@
 /**
- * Copy for the city hub's prose, price table and FAQ, in both languages.
+ * Copy for the city hub's prose and FAQ, in both languages.
  *
  * One locale-keyed module rather than Paraglide keys, for the reason the
  * prenup page gives: this is an argument that changes as a whole, not a set of
@@ -16,16 +16,6 @@ import { formatMillions } from '$lib/utils';
 import type { BandKey, CityStats } from '$lib/venue-groups';
 
 export type HubCopy = {
-  table: {
-    title: string;
-    venue: string;
-    district: string;
-    guests: string;
-    price: string;
-    priceOnRequest: string;
-    guestsFor: (count: number) => string;
-    bands: Record<BandKey, string>;
-  };
   prose: string[];
   faq: { title: string; items: Faq[]; ctaLabel: string };
 };
@@ -69,29 +59,13 @@ export function hubCopy(locale: Locale, city: string, stats: CityStats): HubCopy
           : ` Starting prices run from ${price(stats.floor)} to ${price(stats.ceiling)}${bands ? `: ${bands}.` : '.'}`;
 
     return {
-      table: {
-        title: `Wedding package prices in ${city}`,
-        venue: 'Venue',
-        district: 'District',
-        guests: 'Package for',
-        price: 'From',
-        priceOnRequest: 'On request',
-        guestsFor: (count) => `${n(count)} guests`,
-        bands: {
-          under50: 'Under Rp 50 million',
-          '50to100': 'Rp 50–100 million',
-          '100to200': 'Rp 100–200 million',
-          over200: 'Rp 200 million and up',
-          onRequest: 'Price on request'
-        }
-      },
       prose: [
         `Wedding packages in ${city} are sold per package for a set number of guests, and starting prices vary widely between venues. Most hotel packages include the ballroom hire and the meal; decoration, the bridal room and the sound system differ from venue to venue, so always check the package details on each venue's page.`,
         `This page lists ${n(stats.count)} ${stats.count === 1 ? 'venue' : 'venues'} in ${city}${stats.districts > 1 ? `, across ${stats.districts} districts` : ''}.${priceSentence}`,
         `We group venues by hotel star rating because that is how most couples narrow a shortlist: five-star for a large reception with international hotel service, four- and three-star for a more measured budget with capacity that is often no smaller. Venues without a hotel rating — halls, restaurants, private spaces — are at the bottom.`,
         guestRange
-          ? `The quickest way to filter: settle the guest count first, since the package prices here are calculated for ${guestRange} guests. Then compare venues by price in the table above, and open a venue's page for the package details and gallery.`
-          : `The quickest way to filter: settle the guest count first, then compare venues by price in the table above, and open a venue's page for the package details and gallery.`,
+          ? `The quickest way to filter: settle the guest count first, since the package prices here are calculated for ${guestRange} guests. Then compare the venues listed above, and open a venue's page for the package details and gallery.`
+          : `The quickest way to filter: settle the guest count first, then compare the venues listed above, and open a venue's page for the package details and gallery.`,
         `Once you have two or three candidates, we can arrange a free venue visit — we set the date with the venue, and our team comes along.`
       ],
       faq: {
@@ -151,29 +125,13 @@ export function hubCopy(locale: Locale, city: string, stats: CityStats): HubCopy
         : ` Harga awal berkisar ${price(stats.floor)} sampai ${price(stats.ceiling)}${bands ? `: ${bands}.` : '.'}`;
 
   return {
-    table: {
-      title: `Harga paket wedding ${city}`,
-      venue: 'Venue',
-      district: 'Wilayah',
-      guests: 'Paket untuk',
-      price: 'Mulai dari',
-      priceOnRequest: 'Sesuai permintaan',
-      guestsFor: (count) => `${n(count)} tamu`,
-      bands: {
-        under50: 'Di bawah Rp 50 juta',
-        '50to100': 'Rp 50–100 juta',
-        '100to200': 'Rp 100–200 juta',
-        over200: 'Rp 200 juta ke atas',
-        onRequest: 'Harga sesuai permintaan'
-      }
-    },
     prose: [
       `Paket wedding di ${city} umumnya dijual per paket untuk jumlah tamu tertentu, dan harga awalnya berbeda jauh antar venue. Sebagian besar paket hotel sudah mencakup sewa ballroom dan menu makan; dekorasi, kamar pengantin, dan sound system berbeda-beda per venue, jadi selalu cek rincian paket di halaman masing-masing.`,
       `Di halaman ini ada ${n(stats.count)} venue di ${city}${stats.districts > 1 ? `, tersebar di ${stats.districts} wilayah` : ''}.${priceSentence}`,
       `Kami mengelompokkan venue menurut bintang hotel karena itu cara kebanyakan pasangan menyaring: bintang lima untuk resepsi besar dengan standar layanan hotel internasional, bintang empat dan tiga untuk anggaran yang lebih terukur dengan kapasitas yang sering tidak kalah. Venue tanpa bintang hotel — gedung, restoran, ruang privat — ada di bagian paling bawah.`,
       guestRange
-        ? `Cara paling cepat menyaring: tentukan dulu jumlah tamu, karena harga paket di sini dihitung untuk ${guestRange} tamu. Setelah itu bandingkan harga per venue di tabel di atas, lalu buka halaman venue untuk rincian paket dan galeri.`
-        : `Cara paling cepat menyaring: tentukan dulu jumlah tamu, lalu bandingkan harga per venue di tabel di atas, dan buka halaman venue untuk rincian paket dan galeri.`,
+        ? `Cara paling cepat menyaring: tentukan dulu jumlah tamu, karena harga paket di sini dihitung untuk ${guestRange} tamu. Setelah itu bandingkan venue di daftar di atas, lalu buka halaman venue untuk rincian paket dan galeri.`
+        : `Cara paling cepat menyaring: tentukan dulu jumlah tamu, lalu bandingkan venue di daftar di atas, dan buka halaman venue untuk rincian paket dan galeri.`,
       `Kalau sudah ada dua atau tiga kandidat, kami bisa mengatur kunjungan gratis ke venue — tanggalnya kami urus dengan pihak venue, dan tim kami ikut mendampingi.`
     ],
     faq: {

@@ -34,7 +34,6 @@ describe('hubCopy', () => {
       'Di halaman ini ada 61 venue di Jakarta, tersebar di 5 wilayah. Harga awal berkisar Rp 45 juta sampai Rp 950 juta: 3 venue di bawah Rp 50 juta, 20 di kisaran Rp 50–100 juta dan 8 dari Rp 200 juta ke atas.'
     );
     expect(copy.faq.items[2].a).toContain('dihitung untuk 200–1.000 tamu');
-    expect(copy.table.guestsFor(1000)).toBe('1.000 tamu');
   });
 
   it('translates the same figures into English', () => {
@@ -43,7 +42,6 @@ describe('hubCopy', () => {
     expect(copy.prose[1]).toBe(
       'This page lists 61 venues in Jakarta, across 5 districts. Starting prices run from Rp 45 million to Rp 950 million: 3 venues under Rp 50 million, 20 between Rp 50 and 100 million and 8 at Rp 200 million and above.'
     );
-    expect(copy.table.guestsFor(1000)).toBe('1,000 guests');
   });
 
   it('never quotes a price for a city priced entirely on request', () => {
@@ -53,6 +51,15 @@ describe('hubCopy', () => {
 
       expect(text).not.toContain('Rp ');
       expect(text).not.toContain('null');
+    }
+  });
+
+  // The price table is gone; the prose sits below the venue cards now and must
+  // point the reader at them, not at a table that no longer exists.
+  it('refers the reader to the venue list, never to a table', () => {
+    for (const locale of ['id', 'en'] as const) {
+      const text = hubCopy(locale, 'Jakarta', jakarta).prose.join(' ');
+      expect(text).not.toMatch(/tabel|table/i);
     }
   });
 
