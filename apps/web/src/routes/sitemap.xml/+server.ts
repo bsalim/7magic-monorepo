@@ -2,6 +2,7 @@ import { fetchJson, type ArticleListPayload, type ShowcaseListPayload } from '$l
 import { localizeHref } from '$lib/paraglide/runtime';
 import { fetchAllPages, fetchVenueCatalogue } from '$lib/server/catalogue';
 import { buildSitemap, type SitemapEntry } from '$lib/seo/sitemap';
+import { STATIC_PATHS } from '$lib/seo/static-paths';
 import { venueCities } from '$lib/venue-groups';
 
 /**
@@ -12,31 +13,6 @@ import { venueCities } from '$lib/venue-groups';
  * claiming otherwise. The cache header below keeps that from costing a fan-out
  * of API calls per crawl.
  */
-
-/**
- * Routes with no data behind them. Listed explicitly rather than discovered from
- * the filesystem, because "has a +page.svelte" and "should be in the sitemap"
- * are different questions -- /articles is a redirect and belongs in neither.
- */
-const STATIC_PATHS = [
-  '/',
-  '/artikel',
-  '/wedding-venue/search',
-  '/wedding-showcases',
-  '/our-vendors',
-  '/about',
-  '/contact',
-  '/free-venue-tour',
-  '/tour',
-  '/paket-sangjit',
-  '/perjanjian-pranikah',
-  '/bali-wedding-planning',
-  '/wedding-planning-singapore',
-  '/jabodetabek-wedding',
-  '/bali-event-organizer',
-  '/privacy',
-  '/terms'
-];
 
 /** Both locales of a path whose segments are the same words in both. */
 function bothLocales(path: string): Record<string, string> {

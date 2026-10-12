@@ -7,38 +7,53 @@
   import { OFFICES } from '$lib/offices';
   import { m } from '$lib/paraglide/messages.js';
   import { localizeHref } from '$lib/paraglide/runtime';
+  import {
+    ALL_VENUES_HREF,
+    companyLinks,
+    eventLinks,
+    inspirationLinks,
+    legalLinks,
+    packageLinks,
+    tourLinks,
+    venueRegions,
+    type NavLink
+  } from '$lib/site-nav';
 
-  // City names are proper nouns and stay untranslated; only the catch-all
-  // link needs a message.
-  const venues = [
-    { href: '/wedding-venue/search?city=jakarta', label: 'Jakarta' },
-    { href: '/wedding-venue/search?city=bali', label: 'Bali' },
-    { href: '/wedding-venue/search?city=batam', label: 'Batam' },
-    { href: '/wedding-venue/search?city=singapore', label: 'Singapore' },
-    { href: '/wedding-venue/search', label: m.footer_all_venues() }
-  ];
+  // The footer is the site map a person can read: every page in sitemap.xml
+  // that is not a single article, venue or showcase is linked from here, in
+  // the same groups as the header. Those three are reached through their index
+  // pages, as on any catalogue site -- listing hundreds of them here would bury
+  // the rest.
+  const regions = venueRegions();
 
-  const company = [
-    { href: '/about', label: m.nav_about() },
-    { href: '/our-vendors', label: m.nav_vendors() },
-    { href: '/artikel', label: m.nav_articles() },
-    { href: '/contact', label: m.nav_contact() }
-  ];
-
-  // Mirrors the "Our Services" dropdown in PublicHeader. Also the only
-  // crawlable link to these landing pages from the rest of the site.
-  const services = [
-    { href: '/bali-wedding-planning', label: m.service_bali_wedding() },
-    { href: '/wedding-planning-singapore', label: m.service_wedding_singapore() },
-    { href: '/jabodetabek-wedding', label: m.service_wedding_jabodetabek() },
-    { href: '/perjanjian-pranikah', label: m.service_prenup() },
-    { href: '/paket-sangjit', label: m.service_sangjit() },
-    { href: '/bali-event-organizer', label: m.service_bali_event() }
-  ];
-
-  const legal = [
-    { href: '/privacy', label: m.footer_privacy() },
-    { href: '/terms', label: m.footer_terms() }
+  // Columns hold one or two groups so seven groups fit four tracks without the
+  // short ones (Events, Legal) standing alone in a tall empty column.
+  const columns: { id: string; heading: string; links: NavLink[] }[][] = [
+    [
+      {
+        id: 'venues',
+        heading: m.nav_wedding_venue(),
+        links: [
+          ...regions.flatMap((region) => region.venues),
+          { href: ALL_VENUES_HREF, label: m.footer_all_venues() }
+        ]
+      }
+    ],
+    [
+      {
+        id: 'packages',
+        heading: m.nav_packages(),
+        links: [...regions.flatMap((region) => region.packages), ...packageLinks(), ...tourLinks()]
+      }
+    ],
+    [
+      { id: 'inspiration', heading: m.nav_inspiration(), links: inspirationLinks() },
+      { id: 'events', heading: m.nav_events(), links: eventLinks() }
+    ],
+    [
+      { id: 'company', heading: m.footer_company(), links: companyLinks() },
+      { id: 'legal', heading: m.footer_legal(), links: legalLinks() }
+    ]
   ];
 
   // `placeholder` greys out an office whose address is not confirmed yet; all
@@ -60,12 +75,18 @@
 <VenuePartners />
 
 <footer class="border-t border-border bg-background px-5 py-14 lg:px-8">
-  <!-- Six tracks, not five: the brand block takes two so the four link
-       columns each keep enough width that no item wraps mid-label. -->
-  <div class="mx-auto grid max-w-7xl gap-10 md:grid-cols-2 lg:grid-cols-6 lg:gap-8">
-    <div class="lg:col-span-2">
-      <!-- The logo is a 129x48 wordmark; size it by height so it is not squashed. -->
-      <img src="/img/7magic-logo.png" alt="7Magic Wedding" class="h-11 w-auto object-contain" />
+  <!-- The brand block takes the wider first track; the four link columns share
+       the rest evenly. -->
+  <div
+    class="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.3fr)_repeat(4,minmax(0,1fr))] lg:gap-8"
+  >
+    <div class="sm:col-span-2 lg:col-span-1">
+      <!-- A link home, so the footer covers the one sitemap page it otherwise
+           would not. The logo is a 129x48 wordmark; size it by height so it is
+           not squashed. -->
+      <a href={localizeHref('/')} class="inline-block">
+        <img src="/img/7magic-logo.png" alt="7Magic Wedding" class="h-11 w-auto object-contain" />
+      </a>
       <p class="mt-4 max-w-xs text-sm leading-6 text-muted-foreground">
         {m.footer_tagline()}
       </p>
@@ -84,58 +105,41 @@
       </div>
     </div>
 
-    <div>
-      <p class="font-display text-sm font-semibold text-foreground">{m.footer_wedding_venues()}</p>
-      <div class="mt-4 grid gap-2.5 text-sm">
-        {#each venues as item (item.href)}
-          <a href={localizeHref(item.href)} class="text-muted-foreground transition hover:text-foreground">
-            {item.label}
-          </a>
+    {#each columns as column, index (index)}
+      <div class="grid content-start gap-8">
+        <!-- A labelled <nav> per group with a real heading and list, so a
+             screen reader's landmark and heading menus show the site map's
+             structure rather than a run of anonymous links. -->
+        {#each column as group (group.id)}
+          <nav aria-labelledby="footer-nav-{group.id}">
+            <h2
+              id="footer-nav-{group.id}"
+              class="font-display text-sm font-semibold text-foreground"
+            >
+              {group.heading}
+            </h2>
+            <ul class="mt-4 grid gap-2.5 text-sm">
+              {#each group.links as link (link.href)}
+                <li>
+                  <a
+                    href={localizeHref(link.href)}
+                    class="text-muted-foreground transition hover:text-foreground"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              {/each}
+            </ul>
+          </nav>
         {/each}
       </div>
-    </div>
-
-    <div>
-      <p class="font-display text-sm font-semibold text-foreground">{m.footer_company()}</p>
-      <div class="mt-4 grid gap-2.5 text-sm">
-        {#each company as item (item.href)}
-          <a href={localizeHref(item.href)} class="text-muted-foreground transition hover:text-foreground">
-            {item.label}
-          </a>
-        {/each}
-      </div>
-    </div>
-
-    <div>
-      <p class="font-display text-sm font-semibold text-foreground">{m.footer_services()}</p>
-      <div class="mt-4 grid gap-2.5 text-sm">
-        {#each services as item (item.href)}
-          <a
-            href={localizeHref(item.href)}
-            class="whitespace-nowrap text-muted-foreground transition hover:text-foreground"
-          >
-            {item.label}
-          </a>
-        {/each}
-      </div>
-    </div>
-
-    <div>
-      <p class="font-display text-sm font-semibold text-foreground">{m.footer_legal()}</p>
-      <div class="mt-4 grid gap-2.5 text-sm">
-        {#each legal as item (item.href)}
-          <a href={localizeHref(item.href)} class="text-muted-foreground transition hover:text-foreground">
-            {item.label}
-          </a>
-        {/each}
-      </div>
-    </div>
+    {/each}
   </div>
 
   <Separator class="mx-auto mt-12 max-w-7xl" />
 
   <div class="mx-auto mt-8 max-w-7xl">
-    <p class="font-display text-sm font-semibold text-foreground">{m.footer_offices()}</p>
+    <h2 class="font-display text-sm font-semibold text-foreground">{m.footer_offices()}</h2>
     <div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {#each offices as office (office.city)}
         <div class="rounded-card border border-border p-4">

@@ -1,8 +1,11 @@
 <script lang="ts">
+  import type { Component, Snippet } from 'svelte';
+  import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
   import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
   import LandmarkIcon from '@lucide/svelte/icons/landmark';
   import MenuIcon from '@lucide/svelte/icons/menu';
-  import { Button, buttonVariants } from '$lib/components/ui/button';
+  import ShipIcon from '@lucide/svelte/icons/ship';
+  import { Button } from '$lib/components/ui/button';
   import * as Sheet from '$lib/components/ui/sheet';
   import LanguageSwitcher from './LanguageSwitcher.svelte';
   import ConsultationModal from './ConsultationModal.svelte';
@@ -11,6 +14,16 @@
   import { m } from '$lib/paraglide/messages.js';
   import { deLocalizeHref, localizeHref } from '$lib/paraglide/runtime';
   import { page } from '$app/state';
+  import {
+    ALL_VENUES_HREF,
+    VENDORS_HREF,
+    eventLinks,
+    inspirationLinks,
+    packageLinks,
+    venueRegions,
+    type NavLink,
+    type VenueRegion
+  } from '$lib/site-nav';
   import { cn } from '$lib/utils';
 
   // pathname is injectable so the header renders in tests without a router.
@@ -30,7 +43,6 @@
   // link is followed the pointer is still over the panel, and CSS would hold it
   // open across the navigation. Cleared when the pointer leaves.
   let cssOpenSuppressed = $state(false);
-  let menusEl = $state<HTMLElement | undefined>(undefined);
 
   // The header is h-18 (72px) tall above the nav row and pins with exactly that
   // much of itself above the viewport, so 72 is the point where the brand row
@@ -41,91 +53,67 @@
     scrolled = window.scrollY > (scrolled ? 56 : 72);
   }
 
-  const links = $derived([
-    { href: '/wedding-venue/search', label: m.nav_venues() },
-    {
-      href: '/wedding-planning-singapore',
-      label: m.nav_singapore_wedding(),
-      icon: SgFlag,
-      iconClass: 'h-3 w-[18px] shrink-0 rounded-[2px]'
-    },
-    {
-      href: '/jabodetabek-wedding',
-      label: m.nav_jabodetabek_wedding(),
-      icon: LandmarkIcon,
-      iconClass: 'size-4 shrink-0 text-brand-gold'
-    },
-    {
-      href: '/bali-wedding-planning',
-      label: m.nav_bali_wedding(),
-      icon: BaliTempleIcon,
-      iconClass: 'size-4 shrink-0 text-brand-gold'
-    },
-    { href: '/wedding-showcases', label: m.nav_showcases() },
-    { href: '/paket-sangjit', label: m.service_sangjit() },
-    { href: '/artikel', label: m.nav_articles() },
-    { href: '/our-vendors', label: m.nav_vendors() }
-  ]);
-
-  // Beside Kontak rather than in `links`: the brand row stays pinned on desktop,
-  // so the tour CTA is reachable at any scroll position instead of scrolling away
-  // with the nav row. Outline, not gold -- two gold buttons side by side split the
-  // eye, and Kontak is still the primary action.
+  // Beside Kontak rather than in the nav row: the brand row stays pinned on
+  // desktop, so the tour CTA is reachable at any scroll position instead of
+  // scrolling away with the nav row. Outline, not gold -- two gold buttons side
+  // by side split the eye, and Kontak is still the primary action.
   const TOUR_HREF = '/tour';
 
-  // The standalone acquisition landing pages, grouped behind dropdowns rather
-  // than added as top-level links: it keeps the marketplace nav short, and it
-  // stops these pages being orphaned from the site's internal linking.
-  //
-  // Sangjit, Bali, Singapore and Jabodetabek are the exceptions, promoted to
-  // top-level links.
-  //
-  // Events holds the event organizer pages, one per city, so the next city's
-  // page is one more item here rather than another top-level link.
-  const menus = $derived([
-    {
-      key: 'events',
-      label: m.nav_events(),
-      items: [
-        {
-          href: '/bali-event-organizer',
-          label: m.service_bali_event(),
-          desc: m.service_bali_event_desc()
-        }
-      ]
-    },
-    {
-      key: 'services',
-      label: m.nav_services(),
-      items: [
-        { href: '/perjanjian-pranikah', label: m.service_prenup(), desc: m.service_prenup_desc() }
-      ]
-    }
-  ]);
+  // The row reads Wedding Venue, Paket & Layanan, Vendor, Inspirasi, Events.
+  // Venue and Vendor are the marketplace's two catalogues, so Vendor stays a
+  // plain link; everything else is a group, so a new landing page is one more
+  // item in a menu rather than another top-level link.
+  const regions = $derived(venueRegions());
+  const allVenues = $derived({ href: ALL_VENUES_HREF, label: m.nav_all_venues() });
+  const menus = $derived({
+    packages: { key: 'packages', label: m.nav_packages(), items: packageLinks() },
+    inspiration: { key: 'inspiration', label: m.nav_inspiration(), items: inspirationLinks() },
+    events: { key: 'events', label: m.nav_events(), items: eventLinks() }
+  });
+
+  // Keyed by region so the icons stay a header concern; the footer lists the
+  // same regions as plain text.
+  const regionIcons: Record<VenueRegion['key'], { icon: Component<{ class?: string }>; class: string }> = {
+    jabodetabek: { icon: LandmarkIcon, class: 'size-4 shrink-0 text-brand-gold' },
+    bali: { icon: BaliTempleIcon, class: 'size-4 shrink-0 text-brand-gold' },
+    batam: { icon: ShipIcon, class: 'size-4 shrink-0 text-brand-gold' },
+    singapore: { icon: SgFlag, class: 'h-3 w-[18px] shrink-0 rounded-[2px]' }
+  };
 
   function isActive(href: string) {
     return current === href || current.startsWith(`${href}/`);
   }
 
-  function menuActive(menu: { items: { href: string }[] }) {
-    return menu.items.some((item) => isActive(item.href));
+  // Any venue page lights the menu, not only the cities it lists: a city the
+  // catalogue adds later still belongs under Wedding Venue.
+  let venuesActive = $derived(
+    current.startsWith('/wedding-venue/') ||
+      regions.some((region) => region.packages.some((link) => isActive(link.href)))
+  );
+
+  function closeMenus() {
+    openMenu = null;
+    cssOpenSuppressed = true;
+  }
+
+  function panelVisibility(key: string) {
+    if (openMenu === key) return 'block';
+    return cssOpenSuppressed ? 'hidden' : 'hidden group-focus-within:block group-hover:block';
   }
 </script>
 
 <svelte:window
   onscroll={onScroll}
   onpointerdown={(event) => {
-    // Click-outside close. The triggers live inside menusEl, so their own
-    // clicks never reach this branch and the toggles keep working.
-    if (openMenu && menusEl && !menusEl.contains(event.target as Node)) {
+    // Click-outside close, scoped to the open menu's own group so its trigger
+    // and panel keep working; pressing a sibling trigger closes this one first.
+    const target = event.target as Element | null;
+    if (openMenu && !target?.closest?.(`[data-menu="${openMenu}"]`)) {
       openMenu = null;
     }
   }}
   onkeydown={(event) => {
-    if (event.key === 'Escape') {
-      openMenu = null;
-      cssOpenSuppressed = true;
-    }
+    if (event.key === 'Escape') closeMenus();
   }}
 />
 
@@ -162,6 +150,161 @@
   </Button>
 {/snippet}
 
+{#snippet regionHeading(region: VenueRegion, extraClass = '')}
+  {@const Icon = regionIcons[region.key].icon}
+  <p
+    class={cn(
+      'flex items-center gap-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground',
+      extraClass
+    )}
+  >
+    <Icon class={regionIcons[region.key].class} />
+    {region.label}
+  </p>
+{/snippet}
+
+<!-- A trigger and its panel. The venue menu passes `wide` and its own panel
+     body; the others list their items with a one-line description each. -->
+{#snippet menuGroup(
+  key: string,
+  label: string,
+  active: boolean,
+  items: NavLink[],
+  wide = false,
+  body: Snippet | undefined = undefined
+)}
+  <!-- Opens on hover for pointer users and on click for touch, since this row
+       is visible from md up and that includes tablets. The wide panel is
+       positioned against the whole row rather than its trigger, so it cannot
+       run off the right edge once the compact logo pushes the trigger along. -->
+  <div
+    class={cn('group flex', !wide && 'relative')}
+    role="presentation"
+    data-menu={key}
+    onmouseenter={() => (openMenu = key)}
+    onmouseleave={() => {
+      openMenu = null;
+      cssOpenSuppressed = false;
+    }}
+  >
+    <button
+      type="button"
+      aria-expanded={openMenu === key}
+      aria-haspopup="true"
+      onclick={() => (openMenu = key)}
+      class={cn(
+        'flex items-center gap-1.5 whitespace-nowrap border-b-2 transition',
+        scrolled ? 'text-[14px]' : 'text-[15px]',
+        active
+          ? 'border-brand-gold font-semibold text-foreground'
+          : 'border-transparent text-muted-foreground hover:text-foreground'
+      )}
+    >
+      {label}
+      <ChevronDownIcon size={15} class={cn('transition', openMenu === key && 'rotate-180')} />
+    </button>
+
+    <!-- Always rendered, shown by state or by CSS: the links are in the server
+         HTML for crawlers, and hover still opens the menu when hydration
+         failed. -->
+    <div
+      class={cn(
+        'absolute top-full z-40 rounded-md border border-border bg-background shadow-lg',
+        wide
+          ? 'left-5 w-[min(54rem,calc(100%-2.5rem))] p-4 lg:left-8 lg:w-[min(54rem,calc(100%-4rem))]'
+          : 'left-0 w-[19rem] p-2',
+        panelVisibility(key)
+      )}
+    >
+      {#if body}
+        {@render body()}
+      {:else}
+        {#each items as item (item.href)}
+          <a
+            href={localizeHref(item.href)}
+            onclick={closeMenus}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class={cn(
+              'block rounded-md px-3 py-2.5 transition hover:bg-muted',
+              isActive(item.href) && 'bg-muted'
+            )}
+          >
+            <span class="block text-sm font-medium text-foreground">{item.label}</span>
+            {#if item.desc}
+              <span class="mt-0.5 block text-xs leading-5 text-muted-foreground">{item.desc}</span>
+            {/if}
+          </a>
+        {/each}
+      {/if}
+    </div>
+  </div>
+{/snippet}
+
+{#snippet venuePanel()}
+  <div class="grid gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+    {#each regions as region (region.key)}
+      <div>
+        {@render regionHeading(region)}
+        <ul class="mt-2 grid gap-0.5">
+          <!-- The region's landing page leads, set in the darker ink: it is the
+               page that sells something, and the city hubs below it are lists. -->
+          {#each [...region.packages, ...region.venues] as link (link.href)}
+            <li>
+              <a
+                href={localizeHref(link.href)}
+                onclick={closeMenus}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                class={cn(
+                  'block rounded-md px-3 py-1.5 text-sm transition hover:bg-muted hover:text-foreground',
+                  region.packages.includes(link)
+                    ? 'font-medium text-foreground'
+                    : 'text-muted-foreground',
+                  isActive(link.href) && 'bg-muted text-foreground'
+                )}
+              >
+                {link.label}
+              </a>
+            </li>
+          {/each}
+        </ul>
+      </div>
+    {/each}
+  </div>
+  <div class="mt-4 border-t border-border pt-3">
+    <a
+      href={localizeHref(allVenues.href)}
+      onclick={closeMenus}
+      aria-current={isActive(allVenues.href) ? 'page' : undefined}
+      class="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold text-foreground transition hover:bg-muted"
+    >
+      {allVenues.label}
+      <ArrowRightIcon size={15} />
+    </a>
+  </div>
+{/snippet}
+
+{#snippet sheetHeading(label: string)}
+  <p
+    class="mt-4 px-3 pb-1 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground"
+  >
+    {label}
+  </p>
+{/snippet}
+
+{#snippet sheetLink(link: NavLink, extraClass = '')}
+  <a
+    href={localizeHref(link.href)}
+    aria-current={isActive(link.href) ? 'page' : undefined}
+    class={cn(
+      'rounded-md px-3 py-2 text-sm font-medium hover:bg-muted',
+      isActive(link.href) && 'bg-muted text-foreground',
+      extraClass
+    )}
+  >
+    {link.label}
+  </a>
+{/snippet}
+
 <header
   class="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur md:-top-18"
 >
@@ -191,51 +334,39 @@
             </Button>
           {/snippet}
         </Sheet.Trigger>
-        <Sheet.Content side="right" class="w-72">
+        <!-- Scrolls: with the venue regions spelled out the list is taller
+             than a phone screen. -->
+        <Sheet.Content side="right" class="w-72 overflow-y-auto">
           <Sheet.Header>
             <Sheet.Title>7Magic Wedding</Sheet.Title>
           </Sheet.Header>
-          <nav class="grid gap-1 px-4">
-            {#each links as link (link.href)}
-              <a
-                href={localizeHref(link.href)}
-                aria-current={isActive(link.href) ? 'page' : undefined}
-                class={cn(
-                  'flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-muted',
-                  isActive(link.href) && 'bg-muted text-foreground'
-                )}
-              >
-                {#if link.icon}<link.icon class={link.iconClass} />{/if}
-                {link.label}
-              </a>
-            {/each}
-
-            <!-- Section headings rather than nested disclosures: the sheet has
-                 room, and it saves a tap to reach a landing page. -->
-            {#each menus as menu (menu.key)}
-              <p
-                class="mt-3 px-3 pb-1 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground"
-              >
-                {menu.label}
-              </p>
-              {#each menu.items as item (item.href)}
-                <a
-                  href={localizeHref(item.href)}
-                  aria-current={isActive(item.href) ? 'page' : undefined}
-                  class={cn(
-                    'rounded-md px-3 py-2 text-sm font-medium hover:bg-muted',
-                    isActive(item.href) && 'bg-muted text-foreground'
-                  )}
-                >
-                  {item.label}
-                </a>
+          <!-- Section headings rather than nested disclosures: the sheet has
+               room, and it saves a tap to reach a landing page. Same groups,
+               same order as the desktop row. -->
+          <nav class="grid gap-1 px-4 pb-6" aria-label={m.nav_main()}>
+            {@render sheetHeading(m.nav_wedding_venue())}
+            {#each regions as region (region.key)}
+              {@render regionHeading(region, 'mt-2 py-1 normal-case tracking-normal text-xs text-foreground')}
+              {#each [...region.packages, ...region.venues] as link (link.href)}
+                {@render sheetLink(link, 'pl-9')}
               {/each}
             {/each}
+            {@render sheetLink(allVenues, 'mt-1 font-semibold')}
 
-            <div class="mt-1"><LanguageSwitcher /></div>
-            <!-- Spelled out here rather than rendered from `links`: the tour CTA
-                 moved out of the nav row and into the actions pair, so the sheet no
-                 longer inherits it. -->
+            {@render sheetHeading(menus.packages.label)}
+            {#each menus.packages.items as item (item.href)}{@render sheetLink(item)}{/each}
+
+            {@render sheetLink({ href: VENDORS_HREF, label: m.nav_vendors() }, 'mt-3')}
+
+            {#each [menus.inspiration, menus.events] as menu (menu.key)}
+              {@render sheetHeading(menu.label)}
+              {#each menu.items as item (item.href)}{@render sheetLink(item)}{/each}
+            {/each}
+
+            <div class="mt-3"><LanguageSwitcher /></div>
+            <!-- Spelled out here rather than rendered from the nav groups: the
+                 tour CTA lives in the actions pair, so the sheet does not
+                 inherit it. -->
             <Button
               href={localizeHref(TOUR_HREF)}
               variant="gold"
@@ -262,13 +393,14 @@
   <!-- Nav row — h-12 rather than sized by its contents, so swapping the
        collapsed-state logo and CTA in and out cannot change the header's
        height. Items stretch to the row so the active underline stays flush
-       with the bottom border. -->
+       with the bottom border. `relative` anchors the wide venue panel. -->
   <!-- The scrolled row also carries the logo and the actions, so its gaps
        tighten to keep every label on one line. -->
-  <div
+  <nav
+    aria-label={m.nav_main()}
     class={cn(
-      'mx-auto hidden h-12 max-w-7xl items-stretch px-5 md:flex lg:px-8',
-      scrolled ? 'gap-3' : 'gap-7'
+      'relative mx-auto hidden h-12 max-w-7xl items-stretch px-5 md:flex lg:px-8',
+      scrolled ? 'gap-4' : 'gap-8'
     )}
   >
     {#if scrolled}
@@ -277,109 +409,43 @@
       </a>
     {/if}
 
-    {#each links as link (link.href)}
-      <a
-        href={localizeHref(link.href)}
-        aria-current={isActive(link.href) ? 'page' : undefined}
-        class={cn(
-          'flex items-center gap-1.5 whitespace-nowrap border-b-2 transition',
-          scrolled ? 'text-[14px]' : 'text-[15px]',
-          isActive(link.href)
-            ? 'border-brand-gold font-semibold text-foreground'
-            : 'border-transparent text-muted-foreground hover:text-foreground'
-        )}
-      >
-        <!-- Icons drop out of the scrolled row: with the logo and the actions
-             beside them the labels no longer fit, and the browser would squeeze
-             the logo to nothing first. -->
-        {#if link.icon && !scrolled}<link.icon class={link.iconClass} />{/if}
-        {link.label}
-      </a>
-    {/each}
+    {@render menuGroup('venues', m.nav_wedding_venue(), venuesActive, [], true, venuePanel)}
+    {@render menuGroup(
+      menus.packages.key,
+      menus.packages.label,
+      menus.packages.items.some((item) => isActive(item.href)),
+      menus.packages.items
+    )}
 
-    <!-- role="presentation": this wrapper only groups the triggers and their
-         panels and exists to scope the hover handlers and the click-outside
-         test; the semantics live on the buttons and links inside it. -->
-    <div
-      class={cn('flex items-stretch', scrolled ? 'gap-3' : 'gap-7')}
-      role="presentation"
-      bind:this={menusEl}
+    <a
+      href={localizeHref(VENDORS_HREF)}
+      aria-current={isActive(VENDORS_HREF) ? 'page' : undefined}
+      class={cn(
+        'flex items-center whitespace-nowrap border-b-2 transition',
+        scrolled ? 'text-[14px]' : 'text-[15px]',
+        isActive(VENDORS_HREF)
+          ? 'border-brand-gold font-semibold text-foreground'
+          : 'border-transparent text-muted-foreground hover:text-foreground'
+      )}
     >
-      {#each menus as menu (menu.key)}
-        <!-- Opens on hover for pointer users and on click for touch, since
-             this row is visible from md up and that includes tablets. -->
-        <div
-          class="group relative flex"
-          role="presentation"
-          onmouseenter={() => (openMenu = menu.key)}
-          onmouseleave={() => {
-            openMenu = null;
-            cssOpenSuppressed = false;
-          }}
-        >
-          <button
-            type="button"
-            aria-expanded={openMenu === menu.key}
-            aria-haspopup="true"
-            onclick={() => (openMenu = menu.key)}
-            class={cn(
-              'flex items-center gap-1.5 whitespace-nowrap border-b-2 transition',
-          scrolled ? 'text-[14px]' : 'text-[15px]',
-              menuActive(menu)
-                ? 'border-brand-gold font-semibold text-foreground'
-                : 'border-transparent text-muted-foreground hover:text-foreground'
-            )}
-          >
-            {menu.label}
-            <ChevronDownIcon
-              size={15}
-              class={cn('transition', openMenu === menu.key && 'rotate-180')}
-            />
-          </button>
+      {m.nav_vendors()}
+    </a>
 
-          <!-- Always rendered, shown by state or by CSS: the links are in the
-               server HTML for crawlers, and hover still opens the menu when
-               hydration failed. -->
-          <div
-            class={cn(
-              'absolute left-0 top-full z-40 w-[19rem] rounded-md border border-border bg-background p-2 shadow-lg',
-              openMenu === menu.key
-                ? 'block'
-                : cssOpenSuppressed
-                  ? 'hidden'
-                  : 'hidden group-focus-within:block group-hover:block'
-            )}
-          >
-              {#each menu.items as item (item.href)}
-                <a
-                  href={localizeHref(item.href)}
-                  onclick={() => {
-                    openMenu = null;
-                    cssOpenSuppressed = true;
-                  }}
-                  aria-current={isActive(item.href) ? 'page' : undefined}
-                  class={cn(
-                    'block rounded-md px-3 py-2.5 transition hover:bg-muted',
-                    isActive(item.href) && 'bg-muted'
-                  )}
-                >
-                  <span class="block text-sm font-medium text-foreground">{item.label}</span>
-                  <span class="mt-0.5 block text-xs leading-5 text-muted-foreground">
-                    {item.desc}
-                  </span>
-                </a>
-              {/each}
-          </div>
-        </div>
-      {/each}
-    </div>
+    {#each [menus.inspiration, menus.events] as menu (menu.key)}
+      {@render menuGroup(
+        menu.key,
+        menu.label,
+        menu.items.some((item) => isActive(item.href)),
+        menu.items
+      )}
+    {/each}
 
     {#if scrolled}
       <div class="ml-auto flex items-center gap-3">
         {@render actions(false)}
       </div>
     {/if}
-  </div>
+  </nav>
 </header>
 
 <ConsultationModal bind:open={consultOpen} />

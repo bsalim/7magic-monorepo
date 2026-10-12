@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/svelte';
+import { render, screen, within } from '@testing-library/svelte';
 import { afterEach, describe, expect, it } from 'vitest';
 import { tick } from 'svelte';
 import PublicHeader from './PublicHeader.svelte';
@@ -12,6 +12,10 @@ const scrollTo = async (y: number) => {
 const brandRow = () => screen.getAllByAltText('7Magic Wedding')[0].closest('a')!.parentElement!;
 
 afterEach(() => scrollTo(0));
+
+/** A menu's trigger and panel share one wrapper. */
+const panelOf = (label: string) =>
+  screen.getByRole('button', { name: new RegExp(label) }).parentElement!;
 
 const navLinks = () =>
   screen.getAllByRole('link').filter((a) => {
@@ -34,12 +38,49 @@ describe('PublicHeader', () => {
     expect(hrefs).toContain('/our-vendors');
   });
 
-  it('places Jabodetabek Wedding right after Singapore Wedding', () => {
+  // The row is Wedding Venue, Paket & Layanan, Vendor, Inspirasi, Events:
+  // Vendor stays a plain link beside the menus, as the marketplace's other
+  // catalogue.
+  it('orders the top-level items with Vendor as the one plain link', () => {
     render(PublicHeader);
-    const order = [...new Set(screen.getAllByRole('link').map((a) => a.getAttribute('href')))];
-    const singapore = order.indexOf('/wedding-planning-singapore');
-    expect(singapore).toBeGreaterThan(-1);
-    expect(order[singapore + 1]).toBe('/jabodetabek-wedding');
+    const row = screen.getAllByRole('navigation', { name: 'Navigasi utama' })[0];
+    const items = [...row.children].map((el) =>
+      el.matches('a') ? `link:${el.textContent!.trim()}` : el.querySelector('button')!.textContent!.trim()
+    );
+    expect(items).toEqual(['Wedding Venue', 'Paket & Layanan', 'link:Vendor', 'Inspirasi', 'Events']);
+  });
+
+  // One column per region the business operates in. The Singapore, Jabodetabek
+  // and Bali landing pages moved in here from the top level, and Batam -- which
+  // had no nav entry at all -- now has a column of its own.
+  it('groups the venue menu by region, each with its city hubs', () => {
+    render(PublicHeader);
+    const panel = panelOf('Wedding Venue');
+    const columns = [...panel.querySelectorAll('ul')].map((ul) => ({
+      region: ul.previousElementSibling!.textContent!.trim(),
+      hrefs: [...ul.querySelectorAll('a')].map((a) => a.getAttribute('href'))
+    }));
+
+    expect(columns).toEqual([
+      {
+        region: 'Jabodetabek',
+        hrefs: [
+          '/jabodetabek-wedding',
+          '/wedding-venue/jakarta',
+          '/wedding-venue/tangerang',
+          '/wedding-venue/bogor',
+          '/wedding-venue/bekasi'
+        ]
+      },
+      { region: 'Bali', hrefs: ['/bali-wedding-planning', '/wedding-venue/bali'] },
+      { region: 'Batam', hrefs: ['/wedding-venue/batam'] },
+      { region: 'Singapura', hrefs: ['/wedding-planning-singapore', '/wedding-venue/singapore'] }
+    ]);
+    expect(within(panel).getByText('Venue Bali')).toBeInTheDocument();
+    expect(within(panel).getByRole('link', { name: /Lihat Semua Venue/ })).toHaveAttribute(
+      'href',
+      '/wedding-venue/search'
+    );
   });
 
   // Tentang lives in the footer's company column; the top nav is kept for the
@@ -50,17 +91,20 @@ describe('PublicHeader', () => {
   });
 
   // Event organizer pages are grouped per city under Events, apart from the
-  // wedding services in Layanan Kami, so a new city slots in without crowding
-  // the top-level links.
-  it('groups the event organizer pages under Events, apart from the services', () => {
+  // wedding packages, so a new city slots in without crowding the top level.
+  it('groups packages, inspiration and events into their own menus', () => {
     render(PublicHeader);
-    const panel = (label: string) =>
-      screen.getAllByRole('button', { name: new RegExp(label) })[0].parentElement!;
     const hrefsIn = (el: HTMLElement) =>
       [...el.querySelectorAll('a')].map((a) => a.getAttribute('href'));
 
-    expect(hrefsIn(panel('Events'))).toEqual(['/bali-event-organizer']);
-    expect(hrefsIn(panel('Layanan Kami'))).toEqual(['/perjanjian-pranikah']);
+    expect(hrefsIn(panelOf('Paket & Layanan'))).toEqual(['/paket-sangjit', '/perjanjian-pranikah']);
+    expect(hrefsIn(panelOf('Inspirasi'))).toEqual(['/wedding-showcases', '/artikel']);
+    expect(hrefsIn(panelOf('Events'))).toEqual(['/bali-event-organizer']);
+  });
+
+  it('marks the venue menu active on a city hub it does not list', () => {
+    render(PublicHeader, { props: { pathname: '/wedding-venue/surabaya' } });
+    expect(screen.getByRole('button', { name: /Wedding Venue/ })).toHaveClass('border-brand-gold');
   });
 
   it('marks the matching nav item as the current page', () => {
