@@ -4,6 +4,7 @@
   import { Separator } from '$lib/components/ui/separator';
   import VenuePartners from './VenuePartners.svelte';
   import { INSTAGRAM_URL } from '$lib/contact';
+  import { OFFICES } from '$lib/offices';
   import { m } from '$lib/paraglide/messages.js';
   import { localizeHref } from '$lib/paraglide/runtime';
 
@@ -40,17 +41,17 @@
     { href: '/terms', label: m.footer_terms() }
   ];
 
-  // Bali is a placeholder until the address is confirmed.
+  // `placeholder` greys out an office whose address is not confirmed yet; all
+  // three are confirmed today.
   const offices = [
-    {
-      city: m.footer_office_jakarta(),
-      lines: ['Jalan Gajah Mada No. 10', 'Jakarta, Indonesia 10130'],
-      placeholder: false
-    },
-    { city: m.footer_office_bali(), lines: ['Sunday Arshika Hotel - Lobby, Sunset Road Kuta - Bali', 'Bali, 80612, Indonesia'], placeholder: false },
-    { city: m.footer_office_singapore(), lines: ['110 Pasir Ris Street 11', 'Singapore 510110'], placeholder: false }
+    { city: m.footer_office_jakarta(), lines: OFFICES.jakarta, placeholder: false },
+    { city: m.footer_office_bali(), lines: OFFICES.bali, placeholder: false },
+    { city: m.footer_office_singapore(), lines: OFFICES.singapore, placeholder: false }
   ];
 
+  // The range starts the year 7Magic began; the end year follows the clock so
+  // the footer never needs a January edit.
+  const FOUNDED = 2007;
   const year = new Date().getFullYear();
 </script>
 
@@ -159,6 +160,6 @@
   <Separator class="mx-auto mt-10 max-w-7xl" />
 
   <div class="mx-auto mt-5 max-w-7xl text-xs text-muted-foreground">
-    © {year} 7Magic Wedding. {m.footer_rights()}
+    © {FOUNDED}–{year} 7Magic Wedding. {m.footer_rights()}
   </div>
 </footer>
