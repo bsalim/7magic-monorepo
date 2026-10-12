@@ -53,9 +53,17 @@ Book an indoor backup now, before you actually need it. When the haze thickens, 
 
 Singapore has several indoor locations that do take wedding photo sessions, and all of them need a booking or permit in advance.
 
-- **Flower Dome and Cloud Forest, Gardens by the Bay.** These two cooled conservatories are the closest answer for couples who want a garden feel without breathing the outside air. The operator requires approval for commercial photography, applied for at least 14 days ahead, and does not allow tripods on weekends and public holidays.
-- **National Gallery Singapore.** Columned corridors and domed halls in the former Supreme Court and City Hall buildings. Wedding photo sessions must be booked at least 10 working days ahead, with a maximum of five people per group, handheld equipment only, and no artworks in frame.
-- **Jewel Changi Airport.** The HSBC Rain Vortex and Canopy Park suit couples who have just landed. Jewel requires an application for all wedding photo and video sessions.
+**Flower Dome and Cloud Forest, Gardens by the Bay.** These two cooled conservatories are the closest answer for couples who want a garden feel without breathing the outside air. The operator requires approval for commercial photography, applied for at least 14 days ahead, and does not allow tripods on weekends and public holidays.
+
+![Visitors under the glass roof of the Flower Dome at Gardens by the Bay, among baobab trees and cacti](https://media.7magicwedding.com/articles/2026-10/8a24a90b33e54984a063dcb899eb4e36-prewedding-kabut-asap-singapura-flower-dome_lg_1200w.jpg "The Flower Dome during normal opening hours. For an empty dome, book a slot before opening. Photo: [Rov Camato / Pexels](https://www.pexels.com/photo/glass-roofed-building-700414/)")
+
+**National Gallery Singapore.** Columned corridors and domed halls in the former Supreme Court and City Hall buildings. Wedding photo sessions must be booked at least 10 working days ahead, with a maximum of five people per group, handheld equipment only, and no artworks in frame.
+
+![The glass-roofed atrium at National Gallery Singapore, with white colonial-style walls](https://media.7magicwedding.com/articles/2026-10/93377ff66b3f46d7aea7a086b3c476f3-prewedding-kabut-asap-singapura-national-gallery_lg_1200w.jpg "A glass-roofed atrium at National Gallery Singapore. Photo: [sephylmism / Pexels](https://www.pexels.com/photo/interior-of-national-gallery-singapore-with-glass-roof-31950344/)")
+
+**Jewel Changi Airport.** The HSBC Rain Vortex and Canopy Park suit couples who have just landed. Jewel requires an application for all wedding photo and video sessions.
+
+![The HSBC Rain Vortex at Jewel Changi Airport seen from above, surrounded by an indoor forest](https://media.7magicwedding.com/articles/2026-10/e3a9f169febb4d1290256e5d6c6cc853-prewedding-kabut-asap-singapura-jewel_lg_1200w.jpg "The HSBC Rain Vortex inside Jewel's indoor forest. Photo: [Tin Pham / Pexels](https://www.pexels.com/photo/futuristic-glass-fountain-in-huge-garden-7250203/)")
 
 The costs, best times and permit process for all three are in our [guide to 14 unique prewedding locations in Singapore](https://7magicwedding.com/artikel/photography/lokasi-prewedding-unik-singapura). Hotel lobbies and ballrooms are often overlooked too. Many [five-star hotels in Singapore](https://7magicwedding.com/wedding-venue/singapore) have grand staircases, long corridors and floor-to-ceiling windows that stay bright even when the sky outside is grey.
 

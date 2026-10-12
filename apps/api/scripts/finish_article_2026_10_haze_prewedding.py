@@ -12,6 +12,11 @@ prices.
   image   Pexels #9062135, a couple by a window in soft light, by QUIN Bridal.
           Logged in CREDITS.md and picks.json. Uploaded once to R2 at full
           size; this only registers the object.
+  inline  Three Singapore photos in the body, cropped to 3:2 and uploaded to
+          articles/2026-10/ on R2, credited in their captions: Flower Dome
+          (Pexels #700414, Rov Camato), National Gallery Singapore (#31950344,
+          sephylmism) and Jewel's Rain Vortex (#7250203, Tin Pham). Added after
+          publishing, so they reached the live page through refresh_article_body.py.
 
 Import first (import_markdown_articles.py, then import_article_translations_md.py,
 then tag_article_clusters.py), then:

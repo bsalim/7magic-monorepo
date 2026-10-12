@@ -2,9 +2,10 @@
 
 Article bodies are stored as HTML, so each file's Markdown body is converted on
 the way in. The converter handles only the subset these files actually use --
-headings, paragraphs, bullet and numbered lists, tables, bold, italic and
-http(s) links. It is deliberately not a general Markdown implementation; anything
-outside that subset (code fences, blockquotes, images, links to anything but an
+headings, paragraphs, bullet and numbered lists, tables, bold, italic, http(s)
+links, and figures (an image on a line of its own, see FIGURE). It is
+deliberately not a general Markdown implementation; anything outside that subset
+(code fences, blockquotes, inline or off-site images, links to anything but an
 http(s) URL) is reported as an error rather than silently passed through as
 literal text.
 
@@ -53,13 +54,23 @@ CATEGORY_MAP = {
     "pernikahan-selebriti": "Pernikahan Selebriti",
 }
 
+# An image standing alone on its line, served from our R2 bucket, with an
+# optional caption in the title slot: ![alt](https://media.../x.jpg "Caption").
+# Off-site images are refused because articles must not hotlink: images live on
+# R2, where the upload step also renders the responsive variants.
+MEDIA_PREFIX = "https://media.7magicwedding.com/"
+FIGURE = re.compile(
+    r'^!\[([^\]]*)\]\((' + re.escape(MEDIA_PREFIX) + r'[^\s)"]+)(?:\s+"([^"]*)")?\)$'
+)
+
 # Constructs the converter cannot represent. Matched against the Markdown body
 # so a file using them fails loudly instead of importing mangled HTML.
 UNSUPPORTED = {
     # http(s) links are converted by inline(); any other target (relative paths,
     # mailto:, javascript:) still fails, since the body is rendered with {@html}.
     "non-http link": re.compile(r"\[[^\]]+\]\((?!https?://)[^)]*\)"),
-    "image": re.compile(r"!\[[^\]]*\]"),
+    # Any image that is not a whole-line FIGURE: inline, indented or off-site.
+    "image": re.compile(r"^(?!" + FIGURE.pattern[1:-1] + r"$).*!\[", re.M),
     "code fence": re.compile(r"^```", re.M),
     "blockquote": re.compile(r"^>\s", re.M),
     "heading level 1": re.compile(r"^# ", re.M),
@@ -129,6 +140,16 @@ def convert(md: str, path: Path) -> str:
             i += 1
             continue
 
+        if figure := FIGURE.match(stripped):
+            alt, src, caption = figure.groups()
+            caption_html = f"<figcaption>{inline(caption)}</figcaption>" if caption else ""
+            out.append(
+                f'<figure><img src="{html.escape(src)}" alt="{html.escape(alt)}" loading="lazy">'
+                f"{caption_html}</figure>"
+            )
+            i += 1
+            continue
+
         if heading := re.match(r"^(#{2,4})\s+(.*)$", stripped):
             level = len(heading.group(1))
             out.append(f"<h{level}>{inline(heading.group(2).strip())}</h{level}>")
@@ -175,7 +196,7 @@ def convert(md: str, path: Path) -> str:
         para: list[str] = []
         while i < len(lines):
             nxt = lines[i].strip()
-            if not nxt or re.match(r"^(#{2,4}\s|[-*]\s|\d+\.\s|\|)", nxt):
+            if not nxt or re.match(r"^(#{2,4}\s|[-*]\s|\d+\.\s|\||!\[)", nxt):
                 break
             para.append(nxt)
             i += 1

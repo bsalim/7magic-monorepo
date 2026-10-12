@@ -299,6 +299,28 @@
     }
   }
 
+  /* Figures come from the Markdown importer: a full-width photo with its credit
+     underneath. The credit links out to the photographer, so it keeps the
+     body's link colour but drops to caption size. */
+  :global(.article-body figure) {
+    margin: 1.75em 0;
+  }
+
+  :global(.article-body figure img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  :global(.article-body figcaption) {
+    margin-top: 0.6em;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
+
   :global(.article-body blockquote) {
     margin: 1.25em 0;
     padding-left: 1em;

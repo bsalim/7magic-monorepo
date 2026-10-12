@@ -51,7 +51,10 @@ class TagStream(HTMLParser):
         self.tags: list[tuple[str, tuple]] = []
 
     def handle_starttag(self, tag, attrs):
-        self.tags.append((tag, tuple(sorted(attrs))))
+        # An image's alt is prose, translated like any text node, so it is left
+        # out of the structure both languages must share.
+        kept = (attr for attr in attrs if attr[0] != "alt")
+        self.tags.append((tag, tuple(sorted(kept))))
 
     def handle_endtag(self, tag):
         self.tags.append((f"/{tag}", ()))

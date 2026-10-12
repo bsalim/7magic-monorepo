@@ -57,9 +57,17 @@ Pesan cadangan dalam ruangan sekarang, sebelum Anda benar-benar membutuhkannya. 
 
 Singapura punya beberapa lokasi dalam ruangan yang memang menerima sesi foto pernikahan, dan semuanya butuh pemesanan atau izin lebih dulu.
 
-- **Flower Dome dan Cloud Forest, Gardens by the Bay.** Dua konservatori berpendingin ini adalah jawaban paling dekat untuk pasangan yang menginginkan nuansa taman tanpa harus menghirup udara luar. Pengelola meminta persetujuan untuk foto komersial, dengan pengajuan paling lambat 14 hari sebelumnya, dan melarang tripod pada akhir pekan dan hari libur.
-- **National Gallery Singapore.** Koridor berkolom dan ruang berkubah di bekas gedung Mahkamah Agung dan Balai Kota. Pemesanan sesi foto pernikahan paling lambat 10 hari kerja sebelumnya, maksimal lima orang per kelompok, hanya peralatan genggam, dan karya seni tidak boleh masuk bingkai.
-- **Jewel Changi Airport.** HSBC Rain Vortex dan Canopy Park cocok kalau Anda baru mendarat. Jewel mewajibkan aplikasi untuk semua sesi foto dan video pernikahan.
+**Flower Dome dan Cloud Forest, Gardens by the Bay.** Dua konservatori berpendingin ini adalah jawaban paling dekat untuk pasangan yang menginginkan nuansa taman tanpa harus menghirup udara luar. Pengelola meminta persetujuan untuk foto komersial, dengan pengajuan paling lambat 14 hari sebelumnya, dan melarang tripod pada akhir pekan dan hari libur.
+
+![Pengunjung di bawah atap kaca Flower Dome, Gardens by the Bay, di antara pohon baobab dan kaktus](https://media.7magicwedding.com/articles/2026-10/8a24a90b33e54984a063dcb899eb4e36-prewedding-kabut-asap-singapura-flower-dome_lg_1200w.jpg "Flower Dome pada jam buka biasa. Untuk kubah yang lengang, pesan slot sebelum buka. Foto: [Rov Camato / Pexels](https://www.pexels.com/photo/glass-roofed-building-700414/)")
+
+**National Gallery Singapore.** Koridor berkolom dan ruang berkubah di bekas gedung Mahkamah Agung dan Balai Kota. Pemesanan sesi foto pernikahan paling lambat 10 hari kerja sebelumnya, maksimal lima orang per kelompok, hanya peralatan genggam, dan karya seni tidak boleh masuk bingkai.
+
+![Atrium beratap kaca di National Gallery Singapore dengan dinding putih bergaya kolonial](https://media.7magicwedding.com/articles/2026-10/93377ff66b3f46d7aea7a086b3c476f3-prewedding-kabut-asap-singapura-national-gallery_lg_1200w.jpg "Atrium beratap kaca di National Gallery Singapore. Foto: [sephylmism / Pexels](https://www.pexels.com/photo/interior-of-national-gallery-singapore-with-glass-roof-31950344/)")
+
+**Jewel Changi Airport.** HSBC Rain Vortex dan Canopy Park cocok kalau Anda baru mendarat. Jewel mewajibkan aplikasi untuk semua sesi foto dan video pernikahan.
+
+![HSBC Rain Vortex di Jewel Changi Airport dilihat dari atas, dikelilingi hutan dalam ruangan](https://media.7magicwedding.com/articles/2026-10/e3a9f169febb4d1290256e5d6c6cc853-prewedding-kabut-asap-singapura-jewel_lg_1200w.jpg "HSBC Rain Vortex di tengah hutan dalam ruangan Jewel. Foto: [Tin Pham / Pexels](https://www.pexels.com/photo/futuristic-glass-fountain-in-huge-garden-7250203/)")
 
 Rincian biaya, jam terbaik dan cara mengajukan izin untuk ketiganya sudah kami tulis di [panduan 14 lokasi prewedding unik di Singapura](https://7magicwedding.com/artikel/photography/lokasi-prewedding-unik-singapura). Lobi dan ballroom hotel juga pilihan yang sering terlupakan. Banyak [hotel bintang lima di Singapura](https://7magicwedding.com/wedding-venue/singapore) punya tangga besar, lorong panjang dan jendela setinggi langit-langit yang tetap terang meski langit di luar abu-abu.
 
