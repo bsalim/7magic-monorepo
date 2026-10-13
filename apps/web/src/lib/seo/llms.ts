@@ -1,6 +1,7 @@
 import { CONTACT_EMAIL } from '$lib/contact';
+import { OFFICES } from '$lib/offices';
 import { localizeHref } from '$lib/paraglide/runtime';
-import { absoluteUrl } from '$lib/seo/schema';
+import { FOUNDING_YEAR, absoluteUrl } from '$lib/seo/schema';
 import type { CityEntry } from '$lib/venue-groups';
 import { whatsappDisplay } from '$lib/whatsapp';
 
@@ -21,23 +22,36 @@ function link(path: string, label: string, note: string): string {
  *
  * Written in English because its reader is a model, not a visitor. The claims
  * in it are the ones the site already makes in its own copy -- nothing here
- * names a price or a date, since those change without a deploy.
+ * names a price, since prices change without a deploy, and the only date is
+ * the founding year the footer already states. Offices come from the same
+ * constants as the footer and the legal pages, so the address a model quotes
+ * is the one a visitor sees.
  */
 export function buildLlmsTxt(cities: CityEntry[]): string {
   const cityLines = cities.map((city) =>
     link(
       `/wedding-venue/${city.slug}`,
       city.name,
-      `${city.count} wedding ${city.count === 1 ? 'venue' : 'venues'} with starting package prices, grouped by hotel star rating`
+      `${city.count} wedding ${city.count === 1 ? 'venue' : 'venues'}, grouped by hotel star rating`
     )
   );
+  const offices = [
+    `Jakarta: ${OFFICES.jakarta.join(', ')}`,
+    `Bali: ${OFFICES.bali.join(', ')}`,
+    `Singapore: ${OFFICES.singapore.join(', ')}`
+  ].join('; ');
 
+  // Sections follow the site's own menu (Wedding Venue, Paket & Layanan,
+  // Inspirasi, Events, then the company pages), so a model sees the site the
+  // way a visitor does. The test holds this list to the sitemap's static pages.
   return [
     '# 7Magic Wedding',
     '',
-    '> Wedding venue packages and planning support in Jakarta, Bali, Batam and Singapore, from an Indonesian wedding organizer with 18 years in the business. Venues are listed with starting package prices, and couples can book a free accompanied venue tour before deciding.',
+    `> Wedding venues and planning support in Jakarta, Tangerang, Bogor, Bekasi, Bali, Batam and Singapore, from an Indonesian wedding organizer working since ${FOUNDING_YEAR}. Venues are listed by city and hotel star rating, and couples can book a free accompanied venue tour before deciding.`,
     '',
-    'The site is in Indonesian at the root URLs, with an English edition under /en/. Both editions describe the same venues and prices; the Indonesian pages are canonical.',
+    'The site is in Indonesian at the root URLs, with an English edition under /en/. Both editions describe the same venues and services; the Indonesian pages are canonical.',
+    '',
+    `Offices — ${offices}.`,
     '',
     '## Wedding venues by city',
     '',
@@ -48,21 +62,46 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
       'searchable list of every venue, filterable by city, star rating and budget'
     ),
     '',
-    '## Services',
+    '## Wedding planning by region',
     '',
-    link('/free-venue-tour', 'Free venue tour', 'a free accompanied visit to any venue on the site'),
-    link('/tour', 'Book a venue tour', 'pick a venue and a date'),
     link(
-      '/perjanjian-pranikah',
-      'Prenuptial agreement',
-      'prenuptial agreement service for Indonesian and mixed-nationality couples in Jakarta'
+      '/jabodetabek-wedding',
+      'Jabodetabek weddings',
+      'wedding venues across Jakarta, Tangerang, Bogor and Bekasi, with a free accompanied venue visit; office on Jalan Gajah Mada, Jakarta'
     ),
+    link('/bali-wedding-planning', 'Bali wedding planning', 'full planning for destination weddings in Bali'),
+    link(
+      '/wedding-planning-singapore',
+      'Wedding planning Singapore',
+      'full planning from the Singapore office, with ALL Access running guest check-in and seating on the day'
+    ),
+    '',
+    '## Packages and services',
+    '',
     link(
       '/paket-sangjit',
       'Sangjit package',
       'the Chinese-Indonesian engagement ceremony, organised end to end'
     ),
-    link('/bali-wedding-planning', 'Bali wedding planning', 'destination weddings in Bali'),
+    link(
+      '/perjanjian-pranikah',
+      'Prenuptial agreement',
+      'prenuptial agreement service for Indonesian and mixed-nationality couples in Jakarta'
+    ),
+    link('/free-venue-tour', 'Free venue tour', 'a free accompanied visit to any venue on the site'),
+    link('/tour', 'Book a venue tour', 'pick a venue and a date'),
+    '',
+    '## Inspiration',
+    '',
+    link('/wedding-showcases', 'Wedding showcases', 'real weddings we have planned and run'),
+    link(
+      '/artikel',
+      'Wedding articles',
+      'guides on venue prices, Indonesian wedding traditions, preparation and paperwork'
+    ),
+    '',
+    '## Events',
+    '',
     link(
       '/bali-event-organizer',
       'Bali event organizer',
@@ -77,19 +116,12 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
       'Our vendors',
       'the photographers, decorators, cake makers, entertainers and bridal houses we work with'
     ),
-    link('/wedding-showcases', 'Wedding showcases', 'real weddings we have organised'),
     link('/contact', 'Contact', `WhatsApp ${whatsappDisplay}, email ${CONTACT_EMAIL}`),
-    '',
-    '## Articles',
-    '',
-    link(
-      '/artikel',
-      'Wedding articles',
-      'guides on venue prices, Indonesian wedding traditions, preparation and paperwork'
-    ),
     '',
     '## Optional',
     '',
+    link('/privacy', 'Privacy policy', 'how enquiry and tour data is handled'),
+    link('/terms', 'Terms and conditions', 'terms for using the site and our services'),
     `- [Sitemap](${absoluteUrl('/sitemap.xml')}): every page in both languages`,
     ''
   ].join('\n');

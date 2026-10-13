@@ -7,6 +7,8 @@
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
   import { m } from '$lib/paraglide/messages.js';
+  import { getLocale, localizeHref } from '$lib/paraglide/runtime';
+  import { landingPageJsonLd } from '$lib/seo/schema';
   import { cn } from '$lib/utils';
   import { whatsappDisplay, whatsappHref } from '$lib/whatsapp';
 
@@ -236,6 +238,26 @@
     }
   }
 
+  // Events, not weddings: the service is typed as corporate event organizing so
+  // it is not read as another wedding page. Per-person pricing is quoted per
+  // proposal, so there is no offer.
+  const jsonLd = $derived(
+    landingPageJsonLd({
+      path: localizeHref('/bali-event-organizer'),
+      title: m.beo_meta_title(),
+      description: m.beo_meta_description(),
+      locale: getLocale(),
+      crumbs: [{ name: m.breadcrumb_home(), path: '/' }, { name: m.service_bali_event() }],
+      service: {
+        name: m.service_bali_event(),
+        serviceType: 'Corporate event organizing',
+        description: m.beo_meta_description(),
+        areaServed: ['Bali, Indonesia']
+      },
+      faqs
+    })
+  );
+
   const inputClass =
     'rounded-md border border-input bg-background px-3 py-2.5 text-[15px] placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/30';
 </script>
@@ -243,6 +265,7 @@
 <svelte:head>
   <title>{m.beo_meta_title()}</title>
   <meta name="description" content={m.beo_meta_description()} />
+  {@html jsonLd}
 </svelte:head>
 
 <SocialMeta title={m.beo_meta_title()} description={m.beo_meta_description()} />

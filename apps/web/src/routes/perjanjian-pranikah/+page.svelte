@@ -7,7 +7,8 @@
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
   import { getLocale, localizeHref } from '$lib/paraglide/runtime';
-  import { canonicalUrl } from '$lib/seo/schema';
+  import { m } from '$lib/paraglide/messages.js';
+  import { canonicalUrl, landingPageJsonLd } from '$lib/seo/schema';
   import { cn } from '$lib/utils';
   import { whatsappDisplay, whatsappHref } from '$lib/whatsapp';
   import { NOTARY, OFFER_PRICE, SEGMENT_IMAGES, prenupCopy } from './content';
@@ -38,35 +39,27 @@
 
   const waHref = $derived(whatsappHref(copy.whatsappPrefill));
 
-  // Structured FAQ so it can surface as a rich result. Built from the same array
-  // the page renders, so the two cannot drift apart.
-  const faqJsonLd = $derived(
-    JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: copy.faqs.map((faq) => ({
-        '@type': 'Question',
-        name: faq.q,
-        acceptedAnswer: { '@type': 'Answer', text: faq.a }
-      }))
-    })
-  );
-
-  const serviceJsonLd = $derived(
-    JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      serviceType: copy.jsonLd.serviceType,
-      provider: { '@type': 'Organization', name: '7Magic' },
-      areaServed: { '@type': 'City', name: 'Jakarta' },
-      // The service is delivered in Indonesian either way; the page is what is
-      // translated, and that is declared on the canonical/hreflang pair.
-      offers: {
-        '@type': 'Offer',
-        price: OFFER_PRICE,
-        priceCurrency: 'IDR',
-        description: copy.jsonLd.offerDescription
-      }
+  // The company, the page, its breadcrumb, the service with its printed price,
+  // and the FAQ, built from the same array the page renders so the two cannot
+  // drift apart. Through the shared builder, which also escapes `<` -- the
+  // hand-built blocks this replaced did not.
+  const jsonLd = $derived(
+    landingPageJsonLd({
+      path: localizeHref('/perjanjian-pranikah'),
+      title: copy.meta.title,
+      description: copy.meta.description,
+      locale,
+      crumbs: [{ name: m.breadcrumb_home(), path: '/' }, { name: m.service_prenup() }],
+      service: {
+        name: m.service_prenup(),
+        serviceType: copy.jsonLd.serviceType,
+        description: copy.meta.description,
+        areaServed: ['Jakarta'],
+        // The service is delivered in Indonesian either way; the page is what is
+        // translated, and that is declared on the canonical/hreflang pair.
+        offer: { price: OFFER_PRICE, description: copy.jsonLd.offerDescription }
+      },
+      faqs: copy.faqs
     })
   );
 
@@ -141,8 +134,7 @@
   <meta name="description" content={copy.meta.description} />
   <meta name="keywords" content={copy.meta.keywords} />
   <link rel="canonical" href={canonical} />
-  {@html `<script type="application/ld+json">${faqJsonLd}</script>`}
-  {@html `<script type="application/ld+json">${serviceJsonLd}</script>`}
+  {@html jsonLd}
 </svelte:head>
 
 <SocialMeta title={copy.meta.title} description={copy.meta.description} url={canonical} />

@@ -19,6 +19,7 @@
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { buttonVariants } from '$lib/components/ui/button';
   import { localizeHref } from '$lib/paraglide/runtime';
+  import { landingPageJsonLd } from '$lib/seo/schema';
   import { cityImage } from '$lib/tour';
   import { cn } from '$lib/utils';
   import { whatsappDisplay, whatsappHref } from '$lib/whatsapp';
@@ -111,11 +112,29 @@
   const META_TITLE = 'Book a Free Venue Tour | 7Magic Wedding';
   const META_DESCRIPTION =
     'Visit a 7Magic wedding venue in person, free and with no obligation. Choose the venue you want to see, pick a day that suits you, and meet the team who would run your day.';
+
+  // English copy on both URLs for now, so the page is declared English. The
+  // offer is the one price the page prints: free.
+  const jsonLd = landingPageJsonLd({
+    path: localizeHref('/free-venue-tour'),
+    title: META_TITLE,
+    description: META_DESCRIPTION,
+    locale: 'en',
+    crumbs: [{ name: 'Home', path: '/' }, { name: 'Free Venue Tour' }],
+    service: {
+      name: 'Free Venue Tour',
+      serviceType: 'Wedding venue tour',
+      description: META_DESCRIPTION,
+      offer: { price: '0', description: 'Free, with no obligation' }
+    },
+    faqs
+  });
 </script>
 
 <svelte:head>
   <title>{META_TITLE}</title>
   <meta name="description" content={META_DESCRIPTION} />
+  {@html jsonLd}
 </svelte:head>
 
 <SocialMeta title={META_TITLE} description={META_DESCRIPTION} />

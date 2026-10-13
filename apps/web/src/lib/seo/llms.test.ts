@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildLlmsTxt } from '$lib/seo/llms';
 import { SITE_URL } from '$lib/seo/schema';
+import { STATIC_PATHS } from '$lib/seo/static-paths';
 
 const cities = [
   { slug: 'jakarta', name: 'Jakarta', count: 61 },
@@ -23,7 +24,7 @@ describe('buildLlmsTxt', () => {
   it('does not pluralise a single venue', () => {
     const text = buildLlmsTxt([{ slug: 'bekasi', name: 'Bekasi', count: 1 }]);
 
-    expect(text).toContain('1 wedding venue with');
+    expect(text).toContain('1 wedding venue,');
   });
 
   it('still points at the venue search when the catalogue is unavailable', () => {
@@ -39,5 +40,22 @@ describe('buildLlmsTxt', () => {
 
   it('emits only absolute URLs', () => {
     expect(buildLlmsTxt(cities)).not.toMatch(/\]\(\//);
+  });
+
+  // It fell behind once already -- three landing pages, showcases and the
+  // legal pages were missing -- so it is held to the sitemap the way the footer
+  // is. The home page is the one exception: this file is its own summary.
+  it('links every static page in the sitemap', () => {
+    const text = buildLlmsTxt([]);
+    const missing = STATIC_PATHS.filter((path) => path !== '/').filter(
+      (path) => !text.includes(`](${SITE_URL}${path})`)
+    );
+    expect(missing).toEqual([]);
+  });
+
+  // The city pages no longer carry a price table, and the cards ask for a
+  // quote, so the file must not promise prices a model would then misquote.
+  it('does not promise listed prices', () => {
+    expect(buildLlmsTxt(cities)).not.toMatch(/starting package prices|same venues and prices/);
   });
 });

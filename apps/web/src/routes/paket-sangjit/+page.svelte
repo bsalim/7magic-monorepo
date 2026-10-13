@@ -5,6 +5,7 @@
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
+  import { landingPageJsonLd } from '$lib/seo/schema';
   import { cn } from '$lib/utils';
   import { whatsappDisplay, whatsappHref } from '$lib/whatsapp';
 
@@ -300,15 +301,6 @@
 
   const waHref = whatsappHref('Halo 7Magic, saya mau tanya soal paket sangjit. Rencana kami:');
 
-  const faqJsonLd = JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: { '@type': 'Answer', text: faq.a }
-    }))
-  });
 
   let sending = $state(false);
   let submitted = $state(false);
@@ -368,6 +360,24 @@
   const META_TITLE = 'Paket Sangjit Jakarta — Dekorasi, Baki Seserahan, MC & Dokumentasi | 7Magic';
   const META_DESCRIPTION =
     'Paket sangjit Jakarta: dekorasi, baki seserahan lengkap dengan isinya, pembawa baki, MC dwibahasa, dan dokumentasi. Susunan acara dan isi 12 baki kami jelaskan lengkap. Penawaran dalam dua hari kerja.';
+
+  // Built after the meta constants it quotes. Indonesian only: this page has
+  // no English edition, and its canonical is the Indonesian URL.
+  const jsonLd = landingPageJsonLd({
+    path: '/paket-sangjit',
+    title: META_TITLE,
+    description: META_DESCRIPTION,
+    locale: 'id',
+    crumbs: [{ name: 'Beranda', path: '/' }, { name: 'Paket Sangjit' }],
+    service: {
+      name: 'Paket Sangjit',
+      serviceType: 'Sangjit (Chinese-Indonesian engagement ceremony) organizing',
+      description: META_DESCRIPTION,
+      areaServed: ['Jakarta']
+      // No offer: the page quotes per enquiry and prints no price, by choice.
+    },
+    faqs
+  });
 </script>
 
 <svelte:head>
@@ -378,7 +388,7 @@
     content="paket sangjit, sangjit Jakarta, dekorasi sangjit, isi baki sangjit, isi nampan sangjit, susunan acara sangjit, seserahan sangjit, MC sangjit, harga sangjit Jakarta"
   />
   <link rel="canonical" href="https://7magicwedding.com/paket-sangjit" />
-  {@html `<script type="application/ld+json">${faqJsonLd}</script>`}
+  {@html jsonLd}
 </svelte:head>
 
 <SocialMeta title={META_TITLE} description={META_DESCRIPTION} url="/paket-sangjit" />

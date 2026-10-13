@@ -7,6 +7,7 @@
   import { OFFICES } from '$lib/offices';
   import { m } from '$lib/paraglide/messages.js';
   import { localizeHref } from '$lib/paraglide/runtime';
+  import { FOUNDING_YEAR } from '$lib/seo/schema';
   import {
     ALL_VENUES_HREF,
     companyLinks,
@@ -64,9 +65,9 @@
     { city: m.footer_office_singapore(), lines: OFFICES.singapore, placeholder: false }
   ];
 
-  // The range starts the year 7Magic began; the end year follows the clock so
-  // the footer never needs a January edit.
-  const FOUNDED = 2007;
+  // The range starts the year 7Magic began -- the same constant the
+  // Organization JSON-LD and llms.txt state -- and the end year follows the
+  // clock so the footer never needs a January edit.
   const year = new Date().getFullYear();
 </script>
 
@@ -164,6 +165,6 @@
   <Separator class="mx-auto mt-10 max-w-7xl" />
 
   <div class="mx-auto mt-5 max-w-7xl text-xs text-muted-foreground">
-    © {FOUNDED}–{year} 7Magic Wedding. {m.footer_rights()}
+    © {FOUNDING_YEAR}–{year} 7Magic Wedding. {m.footer_rights()}
   </div>
 </footer>

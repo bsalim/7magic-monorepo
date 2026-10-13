@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import type { ArticleDetail, VenueCard, VenueDetail } from '$lib/api';
+import { OFFICES, OFFICE_ADDRESSES } from '$lib/offices';
 import { localizeHref } from '$lib/paraglide/runtime';
 import {
+  FOUNDING_YEAR,
+  ORGANIZATION_ID,
   SITE_URL,
   absoluteUrl,
   articleNode,
@@ -11,7 +14,10 @@ import {
   faqPage,
   graph,
   jsonLdScript,
+  landingPageJsonLd,
   optionalUrl,
+  organization,
+  serviceNode,
   venueItemList,
   venueNode,
   venuePackageNode,
@@ -291,5 +297,86 @@ describe('articleNode', () => {
   it('trims an over-long headline', () => {
     const node = articleNode({ ...article, title: 'x'.repeat(200) }, '/artikel/a/b', 'id');
     expect(node.headline.length).toBeLessThanOrEqual(110);
+  });
+});
+
+describe('organization', () => {
+  it('states the founding year, every served region and a contact point', () => {
+    const org = organization();
+    expect(org.foundingDate).toBe(String(FOUNDING_YEAR));
+    expect(org.areaServed).toEqual(
+      expect.arrayContaining(['Jakarta', 'Bali', 'Batam', 'Singapore'])
+    );
+    expect(org.contactPoint.availableLanguage).toEqual(['Indonesian', 'English']);
+  });
+
+  it('places each office at the address the footer prints', () => {
+    const org = organization();
+    expect(org.location).toHaveLength(3);
+    for (const key of Object.keys(OFFICE_ADDRESSES) as (keyof typeof OFFICES)[]) {
+      expect(OFFICES[key].join(' ')).toContain(OFFICE_ADDRESSES[key].postalCode);
+    }
+    expect(org.address.postalCode).toBe(OFFICE_ADDRESSES.jakarta.postalCode);
+  });
+});
+
+describe('serviceNode', () => {
+  it('points at the organization rather than restating it', () => {
+    const node = serviceNode({ url: '/paket-sangjit', name: 'Paket Sangjit', serviceType: 'x' });
+    expect(node.provider).toEqual({ '@id': ORGANIZATION_ID });
+    expect(node['@id']).toBe(`${SITE_URL}/paket-sangjit#service`);
+  });
+
+  // Structured data has to match the page; a price only in markup is the
+  // kind Google penalises.
+  it('carries no offer unless the page prints a price', () => {
+    expect(serviceNode({ url: '/x', name: 'X', serviceType: 'x' }).offers).toBeUndefined();
+    const priced = serviceNode({
+      url: '/x',
+      name: 'X',
+      serviceType: 'x',
+      offer: { price: '4000000' }
+    });
+    expect(priced.offers).toMatchObject({ price: '4000000', priceCurrency: 'IDR' });
+  });
+});
+
+describe('landingPageJsonLd', () => {
+  it('emits the full set a landing page needs, with the service as the page subject', () => {
+    const html = landingPageJsonLd({
+      path: '/bali-event-organizer',
+      title: 'T',
+      description: 'D',
+      locale: 'id',
+      crumbs: [{ name: 'Beranda', path: '/' }, { name: 'Bali Event Organizer' }],
+      service: { name: 'Bali Event Organizer', serviceType: 'Corporate event organizing' },
+      faqs: [{ q: 'Question?', a: 'Answer.' }]
+    });
+    const data = JSON.parse(html.replace(/^<script[^>]*>|<\/script>$/g, ''));
+    const types = data['@graph'].map((node: { '@type': string }) => node['@type']);
+
+    expect(types).toEqual([
+      'Organization',
+      'WebSite',
+      'WebPage',
+      'BreadcrumbList',
+      'Service',
+      'FAQPage'
+    ]);
+    expect(data['@graph'][2].mainEntity).toEqual({
+      '@id': `${SITE_URL}/bali-event-organizer#service`
+    });
+  });
+
+  it('leaves the FAQ out when the page has none', () => {
+    const html = landingPageJsonLd({
+      path: '/x',
+      title: 'T',
+      description: 'D',
+      locale: 'id',
+      crumbs: [{ name: 'X' }],
+      service: { name: 'X', serviceType: 'x' }
+    });
+    expect(html).not.toContain('FAQPage');
   });
 });

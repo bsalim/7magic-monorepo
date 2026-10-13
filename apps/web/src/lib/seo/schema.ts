@@ -16,6 +16,7 @@
 
 import type { ArticleDetail, VenueCard, VenueDetail } from '$lib/api';
 import { CONTACT_EMAIL, INSTAGRAM_URL } from '$lib/contact';
+import { OFFICE_ADDRESSES, type OfficeAddress } from '$lib/offices';
 import { localizeHref } from '$lib/paraglide/runtime';
 import { titleCase } from '$lib/utils';
 import { whatsappDisplay, whatsappNumber } from '$lib/whatsapp';
@@ -33,6 +34,9 @@ export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
 const CURRENCY = 'IDR';
+
+/** The year the footer's copyright range starts from. */
+export const FOUNDING_YEAR = 2007;
 
 /** Absolute URL for a site path. Already-absolute URLs (CDN photos) pass through. */
 export function absoluteUrl(path: string): string {
@@ -78,11 +82,32 @@ export function graph(...nodes: unknown[]) {
   return { '@context': 'https://schema.org', '@graph': nodes.filter(Boolean) };
 }
 
+function postalAddress(office: OfficeAddress) {
+  return {
+    '@type': 'PostalAddress',
+    streetAddress: office.street,
+    addressLocality: office.locality,
+    addressRegion: office.region,
+    postalCode: office.postalCode,
+    addressCountry: office.country
+  };
+}
+
+/**
+ * The company, once per page and referenced everywhere else by `@id`.
+ *
+ * Carries the facts an answer engine is asked about a business -- where it is,
+ * where it works, since when, how to reach it -- so a model can state them from
+ * the markup rather than guess from prose. Every value here is one the site
+ * already prints: the founding year is the footer's, the addresses are the
+ * footer's offices, the contact details are the contact page's.
+ */
 export function organization() {
   return {
     '@type': 'Organization',
     '@id': ORGANIZATION_ID,
     name: '7Magic Wedding',
+    alternateName: '7Magic',
     url: SITE_URL,
     logo: {
       '@type': 'ImageObject',
@@ -90,11 +115,37 @@ export function organization() {
       width: 129,
       height: 48
     },
+    foundingDate: String(FOUNDING_YEAR),
     email: CONTACT_EMAIL,
     telephone: whatsappDisplay,
+    // Jakarta is the operator's address in the legal pages; the other two are
+    // listed as locations rather than as second and third addresses.
+    address: postalAddress(OFFICE_ADDRESSES.jakarta),
+    location: (Object.keys(OFFICE_ADDRESSES) as (keyof typeof OFFICE_ADDRESSES)[]).map((key) => ({
+      '@type': 'Place',
+      name: `7Magic Wedding ${titleCase(key)}`,
+      address: postalAddress(OFFICE_ADDRESSES[key])
+    })),
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      telephone: whatsappDisplay,
+      email: CONTACT_EMAIL,
+      availableLanguage: ['Indonesian', 'English']
+    },
     // Text is a valid areaServed value, and avoids asserting that Bali is a
-    // city or that Singapore is one of ours to administer.
-    areaServed: ['Jakarta', 'Bali', 'Singapore'],
+    // city or that Singapore is one of ours to administer. The same places the
+    // header's Wedding Venue menu lists.
+    areaServed: ['Jakarta', 'Tangerang', 'Bogor', 'Bekasi', 'Bali', 'Batam', 'Singapore'],
+    knowsAbout: [
+      'Wedding venues',
+      'Wedding planning',
+      'Destination weddings in Bali',
+      'Weddings in Singapore',
+      'Sangjit',
+      'Prenuptial agreements in Indonesia',
+      'Corporate events in Bali'
+    ],
     sameAs: [INSTAGRAM_URL, `https://wa.me/${whatsappNumber}`]
   };
 }
@@ -343,4 +394,80 @@ export function faqPage(faqs: Faq[]) {
       acceptedAnswer: { '@type': 'Answer', text: faq.a }
     }))
   };
+}
+
+/**
+ * What a landing page sells. `@id` hangs off the page URL, so the English and
+ * Indonesian pages describe the service in their own language as two nodes,
+ * the way their WebPage nodes are two.
+ *
+ * `offer` only where the page itself prints the price. Structured data has to
+ * match what a reader sees, and a figure that exists only in markup is the kind
+ * Google penalises -- so a page priced on request simply has no offer.
+ */
+export function serviceNode(options: {
+  url: string;
+  name: string;
+  serviceType: string;
+  description?: string;
+  areaServed?: string[];
+  offer?: { price: string; description?: string };
+}) {
+  const url = absoluteUrl(options.url);
+  return {
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name: options.name,
+    serviceType: options.serviceType,
+    description: options.description || undefined,
+    url,
+    provider: { '@id': ORGANIZATION_ID },
+    areaServed: options.areaServed?.map((name) => ({ '@type': 'Place', name })),
+    offers: options.offer
+      ? {
+          '@type': 'Offer',
+          price: options.offer.price,
+          priceCurrency: CURRENCY,
+          url,
+          description: options.offer.description
+        }
+      : undefined
+  };
+}
+
+/**
+ * The whole JSON-LD block for a service landing page: the company and site,
+ * the page, its breadcrumb, the service it is about, and its FAQ. One call per
+ * page, so each landing page carries the same set instead of whichever nodes
+ * its author remembered.
+ */
+export function landingPageJsonLd(options: {
+  /** The localized path of this page, as served. */
+  path: string;
+  title: string;
+  description: string;
+  locale: string;
+  crumbs: Crumb[];
+  service: Omit<Parameters<typeof serviceNode>[0], 'url'>;
+  faqs?: Faq[];
+  image?: string | null;
+}): string {
+  const service = serviceNode({ ...options.service, url: options.path });
+  return jsonLdScript(
+    graph(
+      organization(),
+      website(),
+      webPageNode({
+        url: options.path,
+        name: options.title,
+        description: options.description,
+        locale: options.locale,
+        image: options.image,
+        mainEntity: { '@id': service['@id'] }
+      }),
+      breadcrumbList(options.crumbs),
+      service,
+      options.faqs?.length ? faqPage(options.faqs) : undefined
+    )
+  );
 }
