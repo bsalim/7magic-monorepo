@@ -145,7 +145,16 @@
   >
     {m.nav_free_venue_tour()}
   </Button>
-  <Button variant="outline" size="sm" class="font-semibold" onclick={() => (consultOpen = true)}>
+  <!-- Dropped from the scrolled row below lg: with the compact logo and five
+       nav items, a tablet-width row has room for one button, and the tour is
+       the one to keep. Kontak stays reachable from the brand row and the
+       floating WhatsApp button. -->
+  <Button
+    variant="outline"
+    size="sm"
+    class={cn('font-semibold', !withLanguage && 'hidden lg:inline-flex')}
+    onclick={() => (consultOpen = true)}
+  >
     {m.nav_contact()}
   </Button>
 {/snippet}
@@ -194,7 +203,7 @@
       onclick={() => (openMenu = key)}
       class={cn(
         'flex items-center gap-1.5 whitespace-nowrap border-b-2 transition',
-        scrolled ? 'text-[14px]' : 'text-[15px]',
+        scrolled ? 'text-[15px]' : 'text-[16px]',
         active
           ? 'border-brand-gold font-semibold text-foreground'
           : 'border-transparent text-muted-foreground hover:text-foreground'
@@ -229,7 +238,7 @@
               isActive(item.href) && 'bg-muted'
             )}
           >
-            <span class="block text-sm font-medium text-foreground">{item.label}</span>
+            <span class="block text-[15px] font-medium text-foreground">{item.label}</span>
             {#if item.desc}
               <span class="mt-0.5 block text-xs leading-5 text-muted-foreground">{item.desc}</span>
             {/if}
@@ -255,7 +264,7 @@
                 onclick={closeMenus}
                 aria-current={isActive(link.href) ? 'page' : undefined}
                 class={cn(
-                  'block rounded-md px-3 py-1.5 text-sm transition hover:bg-muted hover:text-foreground',
+                  'block rounded-md px-3 py-1.5 text-[15px] transition hover:bg-muted hover:text-foreground',
                   region.packages.includes(link)
                     ? 'font-medium text-foreground'
                     : 'text-muted-foreground',
@@ -275,7 +284,7 @@
       href={localizeHref(allVenues.href)}
       onclick={closeMenus}
       aria-current={isActive(allVenues.href) ? 'page' : undefined}
-      class="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold text-foreground transition hover:bg-muted"
+      class="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[15px] font-semibold text-foreground transition hover:bg-muted"
     >
       {allVenues.label}
       <ArrowRightIcon size={15} />
@@ -296,7 +305,7 @@
     href={localizeHref(link.href)}
     aria-current={isActive(link.href) ? 'page' : undefined}
     class={cn(
-      'rounded-md px-3 py-2 text-sm font-medium hover:bg-muted',
+      'rounded-md px-3 py-2 text-[15px] font-medium hover:bg-muted',
       isActive(link.href) && 'bg-muted text-foreground',
       extraClass
     )}
@@ -400,7 +409,7 @@
     aria-label={m.nav_main()}
     class={cn(
       'relative mx-auto hidden h-12 max-w-7xl items-stretch px-5 md:flex lg:px-8',
-      scrolled ? 'gap-4' : 'gap-8'
+      scrolled ? 'gap-3 lg:gap-4' : 'gap-8'
     )}
   >
     {#if scrolled}
@@ -422,7 +431,7 @@
       aria-current={isActive(VENDORS_HREF) ? 'page' : undefined}
       class={cn(
         'flex items-center whitespace-nowrap border-b-2 transition',
-        scrolled ? 'text-[14px]' : 'text-[15px]',
+        scrolled ? 'text-[15px]' : 'text-[16px]',
         isActive(VENDORS_HREF)
           ? 'border-brand-gold font-semibold text-foreground'
           : 'border-transparent text-muted-foreground hover:text-foreground'
