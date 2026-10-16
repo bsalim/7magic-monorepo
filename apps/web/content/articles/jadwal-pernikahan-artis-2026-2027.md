@@ -37,7 +37,7 @@ Keduanya mengumumkan pernikahan pada Selasa, 6 Oktober 2026, lewat agensi Song, 
 
 ### Jang Dong Yoon dan Kim Seung Yoon
 
-Jang Dong Yoon adalah aktor yang dikenal lewat drama *The Tale of Nokdu*. Pada 25 Agustus 2026, ia mengunggah surat tulisan tangan yang menyebut akan menikah bulan Oktober dengan aktris Kim Seung Yoon, orang yang sudah lama bersamanya. Upacaranya berupa ibadah Kristen sederhana yang dihadiri keluarga kedua belah pihak. Sejumlah media Korea melaporkan upacaranya digelar pada Sabtu, 10 Oktober 2026, tetapi belum ada konfirmasi resmi dari pasangan maupun agensinya.
+Jang Dong Yoon adalah aktor yang dikenal lewat drama *The Tale of Nokdu*. Pada 25 Agustus 2026, ia mengunggah surat tulisan tangan yang menyebut akan menikah bulan Oktober dengan aktris Kim Seung Yoon, orang yang sudah lama bersamanya. Upacaranya berupa ibadah Kristen sederhana yang dihadiri keluarga kedua belah pihak. Upacaranya digelar pada Sabtu, 10 Oktober 2026, seperti dilaporkan sejumlah media Korea. Pagi itu keduanya mengunggah foto pernikahan di Instagram masing-masing, walau agensinya tidak mengumumkan tanggalnya secara resmi.
 
 Ada satu hal menarik di sini. Kim Seung Yoon dan Cha Gyeong Eun, calon pengantin di jadwal 14 November di bawah, adalah kakak beradik. Jadi Jang Dong Yoon dan Lee You Jin akan menjadi biras, sama-sama menantu di keluarga yang sama.
 

@@ -124,6 +124,12 @@ CLUSTERS: dict[str, list[str]] = {
         "pernikahan-song-ji-ho-kim-so-ri",
         "pernikahan-asnawi-mangkualam-yuriska-patricia",
         "jadwal-pernikahan-artis-2026-2027",
+        # Weddings of 20 September to 11 October 2026, published 16-18 October.
+        "pernikahan-andre-taulany-amanda-rigby",
+        "pernikahan-mario-caesar-givina-lukita",
+        "pernikahan-jerry-andrean-stefani-horison",
+        "pernikahan-jang-dong-yoon-kim-seung-yoon",
+        "pernikahan-kim-yong-ji",
     ],
     "pernikahan-artis-indonesia": [
         "pernikahan-angga-yunanda-shenina-cinnamon-bvlgari-bali",
@@ -135,6 +141,9 @@ CLUSTERS: dict[str, list[str]] = {
         "pernikahan-jennifer-coppen-justin-hubner-bali",
         "pernikahan-artis-indonesia-2025-2026-tren-yang-bisa-ditiru",
         "pernikahan-asnawi-mangkualam-yuriska-patricia",
+        "pernikahan-andre-taulany-amanda-rigby",
+        "pernikahan-mario-caesar-givina-lukita",
+        "pernikahan-jerry-andrean-stefani-horison",
     ],
     "pernikahan-selebriti-dunia": [
         "pernikahan-selena-gomez-benny-blanco-santa-barbara",
@@ -142,6 +151,8 @@ CLUSTERS: dict[str, list[str]] = {
         "pernikahan-taylor-swift-travis-kelce-madison-square-garden",
         "pernikahan-selebriti-dunia-2025-2026-ide-yang-bisa-ditiru",
         "pernikahan-song-ji-ho-kim-so-ri",
+        "pernikahan-jang-dong-yoon-kim-seung-yoon",
+        "pernikahan-kim-yong-ji",
     ],
     # Older slugs say "singapore", newer ones "singapura"; both are the same cluster.
     "menikah-di-singapura": [

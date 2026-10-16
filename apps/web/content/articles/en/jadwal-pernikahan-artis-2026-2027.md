@@ -33,7 +33,7 @@ The couple announced their wedding on Tuesday 6 October 2026 through Song's agen
 
 ### Jang Dong Yoon and Kim Seung Yoon
 
-Jang Dong Yoon is an actor best known for the drama *The Tale of Nokdu*. On 25 August 2026 he posted a handwritten letter saying he would marry actress Kim Seung Yoon, someone he had been with for a long time, in October. The ceremony will be a simple Christian service attended by both families. Several Korean outlets report that it takes place on Saturday, 10 October 2026, but neither the couple nor their agency has confirmed it.
+Jang Dong Yoon is an actor best known for the drama *The Tale of Nokdu*. On 25 August 2026 he posted a handwritten letter saying he would marry actress Kim Seung Yoon, someone he had been with for a long time, in October. The ceremony will be a simple Christian service attended by both families. The ceremony took place on Saturday, 10 October 2026, as several Korean outlets reported. That morning both of them posted wedding photos on their own Instagram accounts, although the agency never announced the date officially.
 
 There is an interesting link here. Kim Seung Yoon and Cha Gyeong Eun, the bride on the 14 November date below, are sisters. That makes Jang Dong Yoon and Lee You Jin future co-brothers-in-law, both married into the same family.
 
