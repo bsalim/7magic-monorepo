@@ -16,11 +16,14 @@
   import { getLocale, localizeHref } from '$lib/paraglide/runtime';
   import { canonicalUrl, toolPageJsonLd } from '$lib/seo/schema';
   import {
-    BaziInputError,
     MAX_DATES,
     baziLeadInputs,
+    displayNames,
+    failureKind,
+    hasUncertainPillar,
     fetchBazi,
     isCompleteBirth,
+    uniqueDates,
     type BaziRequest,
     type BaziResponse,
     type ChartOut,
@@ -124,14 +127,12 @@
     dates: [],
     locale: locale === 'en' ? 'en' : 'id'
   });
-  const filledDates = $derived(dates.filter(Boolean));
+  const filledDates = $derived(uniqueDates(dates));
   const inputKey = $derived(JSON.stringify(request));
   const stale = $derived(bazi !== null && resultKey !== inputKey);
 
-  const names = $derived<[string, string]>([
-    partners[0].name.trim() || copy.form.namePlaceholders[0],
-    partners[1].name.trim() || copy.form.namePlaceholders[1]
-  ]);
+  const names = $derived(displayNames([partners[0].name, partners[1].name], copy.form.partnerFallback));
+  const uncertain = $derived(bazi !== null && hasUncertainPillar(bazi.charts));
 
   async function calculate(withDates = unlocked && filledDates.length > 0) {
     error = '';
@@ -146,8 +147,11 @@
       bazi = await fetchBazi({ ...request, dates: withDates ? filledDates : [] });
       resultKey = key;
     } catch (failure) {
-      // Whatever was typed stays in the form; only the message changes.
-      error = failure instanceof BaziInputError ? copy.form.invalid : copy.form.unavailable;
+      // Whatever was typed stays in the form; only the message changes, and it
+      // shows beside the button that was pressed, worded for that action.
+      const kind = failureKind(failure);
+      if (withDates) dateError = copy.dates[kind];
+      else error = copy.form[kind];
     } finally {
       loading = false;
     }
@@ -429,6 +433,13 @@
             <p class="text-xs font-semibold tracking-wide text-white/60">{copy.result.toneTitle}</p>
             <p class="mt-1 font-display text-2xl font-bold {TONE_STYLE[bazi.tone]}">{bazi.tone_label}</p>
 
+            {#if uncertain}
+              <p class="mt-4 flex gap-2 rounded-lg border border-brand-dark-accent/40 p-3 text-[13px] leading-6 text-white/80">
+                <InfoIcon size={15} class="mt-1 shrink-0 text-brand-dark-accent" aria-hidden="true" />
+                {copy.result.uncertainNote}
+              </p>
+            {/if}
+
             <p class="mt-5 text-xs font-semibold tracking-wide text-white/60">{copy.result.findingsTitle}</p>
             {#if bazi.findings.length}
               <ul class="mt-2 grid gap-3">
@@ -499,7 +510,7 @@
             {/if}
             {#if bazi?.date_checks.length}
               <ul class="mt-4 grid gap-3">
-                {#each bazi.date_checks as check (check.date)}
+                {#each bazi.date_checks as check, index (index)}
                   {@const day = { char: `${check.pillar.stem.char}${check.pillar.branch.char}`, animal: check.pillar.branch.animal_label }}
                   <li class="rounded-xl border border-border p-4">
                     <div class="flex flex-wrap items-center justify-between gap-2">

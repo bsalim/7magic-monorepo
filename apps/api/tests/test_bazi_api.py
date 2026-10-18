@@ -98,6 +98,7 @@ def test_no_dates_means_no_date_checks(api) -> None:
         _body(dates=["2101-01-01"]),
         _body(partners=[RAKA, {**NADIA, "zone": "UTC"}]),
         _body(locale="fr"),
+        _body(dates=["2026-09-26", "2026-09-26"]),
     ],
     ids=[
         "one-partner",
@@ -109,6 +110,7 @@ def test_no_dates_means_no_date_checks(api) -> None:
         "date-2101",
         "bad-zone",
         "bad-locale",
+        "repeated-date",
     ],
 )
 def test_bad_input_is_a_422(api, body) -> None:

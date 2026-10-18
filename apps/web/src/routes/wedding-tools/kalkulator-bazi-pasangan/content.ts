@@ -26,6 +26,7 @@ export type BaziCopy = {
   hero: { eyebrow: string; title: string; lead: string };
   form: {
     partnerLegend: [string, string];
+    partnerFallback: [string, string];
     nameLabel: string;
     namePlaceholders: [string, string];
     birthDateLabel: string;
@@ -58,6 +59,7 @@ export type BaziCopy = {
     noFindings: string;
     dayMasters: string[];
     elderNote: string;
+    uncertainNote: string;
     conventionsTitle: string;
     conventions: string[];
   };
@@ -74,6 +76,8 @@ export type BaziCopy = {
     unlock: string;
     needResult: string;
     needDate: string;
+    unavailable: string;
+    invalid: string;
   };
   card: BaziCardCopy & {
     title: string;
@@ -227,6 +231,7 @@ const id: BaziCopy = {
   },
   form: {
     partnerLegend: ['Calon pengantin pertama', 'Calon pengantin kedua'],
+    partnerFallback: ['Pengantin 1', 'Pengantin 2'],
     nameLabel: 'Nama panggilan',
     namePlaceholders: ['Raka', 'Nadia'],
     birthDateLabel: 'Tanggal lahir',
@@ -278,6 +283,8 @@ const id: BaziCopy = {
     ],
     elderNote:
       'Ba Zi adalah tradisi, bukan kepastian. Banyak keluarga tetap mengonfirmasi dengan orang tua atau ahli feng shui sebelum memutuskan, dan keputusan akhirnya tetap di tangan kalian berdua.',
+    uncertainNote:
+      'Salah satu pilar tahun atau bulan di atas bergantung pada jam lahir, jadi bacaan dan cek tanggal di bawah ini dihitung dari perkiraan. Isi jam lahir yang tepat agar hasilnya sesuai.',
     conventionsTitle: 'Cara kalkulator ini menghitung',
     conventions: [
       'Jam lahir dibaca sesuai jam di akta dan zona waktunya (WIB, WITA, atau WIT), tanpa koreksi waktu matahari lokal.',
@@ -298,7 +305,9 @@ const id: BaziCopy = {
     lockedCopy: 'Gratis. Isi email dan WhatsApp sekali untuk membuka semua alat kami.',
     unlock: 'Buka gratis',
     needResult: 'Hitung Ba Zi kalian dulu, lalu cek tanggalnya.',
-    needDate: 'Isi minimal satu tanggal.'
+    needDate: 'Isi minimal satu tanggal.',
+    unavailable: 'Cek tanggal sedang tidak bisa dijalankan. Coba lagi sebentar lagi; tanggal kalian tetap tersimpan di sini.',
+    invalid: 'Ada tanggal yang tidak bisa dicek. Pilih tanggal antara tahun 1900 dan 2100.'
   },
   card: {
     title: 'Kartu Ba Zi pasangan',
@@ -387,7 +396,7 @@ const id: BaziCopy = {
     },
     {
       q: 'Apakah tanggal lahir kami disimpan?',
-      a: 'Tidak. Perhitungan dilakukan lalu dilupakan. Kalau kalian membuka cek tanggal, tim kami hanya menerima shio, day master, kesimpulan, dan tanggal yang dicek, tanpa tanggal maupun jam lahir.'
+      a: 'Tidak. Perhitungan dilakukan lalu dilupakan. Kalau kalian membuka cek tanggal, tim kami menerima email, nomor WhatsApp, dan nama panggilan yang kalian isi, ditambah shio, day master, kesimpulan, dan tanggal yang dicek, tanpa tanggal maupun jam lahir.'
     }
   ],
   related: [
@@ -422,6 +431,7 @@ const en: BaziCopy = {
   },
   form: {
     partnerLegend: ['First partner', 'Second partner'],
+    partnerFallback: ['Partner 1', 'Partner 2'],
     nameLabel: 'Nickname',
     namePlaceholders: ['Raka', 'Nadia'],
     birthDateLabel: 'Date of birth',
@@ -471,6 +481,8 @@ const en: BaziCopy = {
     ],
     elderNote:
       'Ba Zi is a tradition, not a certainty. Many families still check with their elders or a feng shui master before deciding, and the final decision is yours to make together.',
+    uncertainNote:
+      'One of the year or month pillars above depends on the time of birth, so the reading and the date check below are based on an estimate. Add the exact time of birth for a result that matches.',
     conventionsTitle: 'How this calculator works',
     conventions: [
       'The birth time is read as the clock time on the certificate in its zone (WIB, WITA or WIT), with no local solar-time correction.',
@@ -491,7 +503,9 @@ const en: BaziCopy = {
     lockedCopy: 'Free. Enter your email and WhatsApp once to unlock all our tools.',
     unlock: 'Unlock for free',
     needResult: 'Work out your Ba Zi first, then check the dates.',
-    needDate: 'Enter at least one date.'
+    needDate: 'Enter at least one date.',
+    unavailable: "The date check can't run right now. Try again in a moment; your dates stay on this page.",
+    invalid: "One of the dates can't be checked. Pick dates between 1900 and 2100."
   },
   card: {
     title: 'Couple Ba Zi card',
@@ -579,7 +593,7 @@ const en: BaziCopy = {
     },
     {
       q: 'Do you store our birth dates?',
-      a: "No. The calculation is done and forgotten. If you unlock the date check, our team only receives your signs, day masters, the overall reading and the dates you checked, not your dates or times of birth."
+      a: "No. The calculation is done and forgotten. If you unlock the date check, our team receives the email, WhatsApp number and names you enter, plus your signs, day masters, the overall reading and the dates you checked, but not your dates or times of birth."
     }
   ],
   related: [

@@ -44,6 +44,10 @@ class BaziRequest(BaseModel):
     @field_validator("dates")
     @classmethod
     def _dates_in_range(cls, value: list[date]) -> list[date]:
+        # A repeated date would come back as two identical checks, which the
+        # page keys by date; refuse it rather than answer twice.
+        if len(set(value)) != len(value):
+            raise ValueError("Each date can be checked once.")
         return [_in_range(day) for day in value]
 
 

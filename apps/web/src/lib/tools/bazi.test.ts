@@ -3,8 +3,12 @@ import {
   BaziInputError,
   BaziUnavailableError,
   baziLeadInputs,
+  displayNames,
+  failureKind,
   fetchBazi,
+  hasUncertainPillar,
   isCompleteBirth,
+  uniqueDates,
   type BaziRequest,
   type BaziResponse
 } from './bazi';
@@ -114,5 +118,35 @@ describe('isCompleteBirth', () => {
     expect(isCompleteBirth({ birth_date: '2101-01-01', birth_time: null, zone: 'WIB' })).toBe(false);
     expect(isCompleteBirth({ birth_date: '2026-02-30', birth_time: null, zone: 'WIB' })).toBe(false);
     expect(isCompleteBirth({ birth_date: '', birth_time: null, zone: 'WIB' })).toBe(false);
+  });
+});
+
+describe('uniqueDates', () => {
+  it('drops empty fields and repeats, keeping the first order', () => {
+    expect(uniqueDates(['2026-09-26', '', '2026-09-26', '2026-10-10'])).toEqual(['2026-09-26', '2026-10-10']);
+  });
+});
+
+describe('failureKind', () => {
+  it('tells a rejected input from an unreachable calculator', () => {
+    expect(failureKind(new BaziInputError('422'))).toBe('invalid');
+    expect(failureKind(new BaziUnavailableError('502'))).toBe('unavailable');
+    expect(failureKind(new Error('anything else'))).toBe('unavailable');
+  });
+});
+
+describe('displayNames', () => {
+  it('falls back to neutral labels, never to the example couple', () => {
+    expect(displayNames(['', ' Nadia '], ['Pengantin 1', 'Pengantin 2'])).toEqual(['Pengantin 1', 'Nadia']);
+  });
+});
+
+describe('hasUncertainPillar', () => {
+  it('is true when a year or month pillar depends on the time or sits near a term', () => {
+    expect(hasUncertainPillar(SAMPLE_RESPONSE.charts)).toBe(false);
+    const flagged = { ...SAMPLE_RESPONSE.charts[1], year: { ...pillar, depends_on_time: true } };
+    expect(hasUncertainPillar([SAMPLE_RESPONSE.charts[0], flagged])).toBe(true);
+    const near = { ...SAMPLE_RESPONSE.charts[0], month: { ...pillar, near_term: true } };
+    expect(hasUncertainPillar([near, SAMPLE_RESPONSE.charts[1]])).toBe(true);
   });
 });

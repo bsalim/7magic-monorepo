@@ -148,6 +148,32 @@ export function baziLeadInputs(result: BaziResponse): Record<string, string> {
   };
 }
 
+/** The candidate dates to send: filled fields only, each once, in the order typed. */
+export function uniqueDates(dates: string[]): string[] {
+  return [...new Set(dates.filter(Boolean))];
+}
+
+/** Which message a failed call deserves: the visitor's input, or a retry. */
+export function failureKind(failure: unknown): 'invalid' | 'unavailable' {
+  return failure instanceof BaziInputError ? 'invalid' : 'unavailable';
+}
+
+/**
+ * The names the reading and card use. Blank names fall back to neutral labels,
+ * not to the placeholders: those are the example couple, and a stranger's
+ * reading should not be written about Raka and Nadia.
+ */
+export function displayNames(raw: [string, string], fallback: [string, string]): [string, string] {
+  return [raw[0].trim() || fallback[0], raw[1].trim() || fallback[1]];
+}
+
+/** Whether any year or month pillar the reading leans on is uncertain. */
+export function hasUncertainPillar(charts: ChartOut[]): boolean {
+  return charts.some((chart) =>
+    [chart.year, chart.month].some((pillar) => pillar.depends_on_time || pillar.near_term)
+  );
+}
+
 export function isCompleteBirth(partner: PartnerIn): boolean {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(partner.birth_date);
   if (!match) return false;
