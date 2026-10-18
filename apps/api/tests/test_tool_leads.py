@@ -109,6 +109,25 @@ def test_a_hashtag_lead_is_stored_and_labelled_as_the_hashtag_tool(api, recorder
     assert recorder.alerts[0]["page"] == "Wedding tool: Hashtag"
 
 
+def test_a_bazi_lead_is_stored_and_labelled_as_the_bazi_tool(api, recorder) -> None:
+    response = api.client.post(
+        ENDPOINT,
+        json=_payload(
+            tool="bazi",
+            names="Raka & Nadia",
+            inputs={"shio": "Tikus / Kuda", "tone": "balanced", "dates": "2026-09-20:safe"},
+            source_path="/wedding-tools/kalkulator-bazi-pasangan",
+        ),
+    )
+
+    assert response.status_code == 201
+    [lead] = _leads(api)
+    assert lead.source == "tool_bazi"
+    assert (lead.metadata_json or {})["inputs"]["dates"] == "2026-09-20:safe"
+    assert "Wedding tool: Ba Zi" in recorder.emails[0]["subject"]
+    assert recorder.alerts[0]["page"] == "Wedding tool: Ba Zi"
+
+
 def test_an_indonesian_local_number_is_stored_as_plus_62(api, recorder) -> None:
     response = api.client.post(ENDPOINT, json=_payload(phone="0812-3456-7890"))
 

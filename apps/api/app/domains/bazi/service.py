@@ -20,6 +20,8 @@ __all__ = [
     "DateCheck",
     "DateReason",
     "Finding",
+    "Tone",
+    "Verdict",
     "chart_for",
     "check_date",
     "compatibility",
