@@ -11,7 +11,7 @@
 export const UNLOCK_KEY = '7m_tools_unlocked';
 
 /** The tools with a gate; mirrors `WeddingTool` in the API's schemas. */
-export type WeddingTool = 'mahar' | 'hashtag';
+export type WeddingTool = 'mahar' | 'hashtag' | 'bazi';
 
 /**
  * A WhatsApp number in E.164-ish form, or null when it cannot be one.
