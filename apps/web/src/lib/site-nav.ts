@@ -102,7 +102,10 @@ export function inspirationLinks(): NavLink[] {
  * sitemap.
  */
 export function toolLinks(): NavLink[] {
-  return [{ href: `${TOOLS_HREF}/mahar-tanggal-pernikahan`, label: m.tools_mahar_name() }];
+  return [
+    { href: `${TOOLS_HREF}/mahar-tanggal-pernikahan`, label: m.tools_mahar_name() },
+    { href: `${TOOLS_HREF}/generator-hashtag-pernikahan`, label: m.tools_hashtag_name() }
+  ];
 }
 
 /** Event organizer pages, one per city, kept apart from weddings. */

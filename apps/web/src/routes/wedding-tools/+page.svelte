@@ -2,6 +2,7 @@
   import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
   import CalendarHeartIcon from '@lucide/svelte/icons/calendar-heart';
   import CalculatorIcon from '@lucide/svelte/icons/calculator';
+  import HashIcon from '@lucide/svelte/icons/hash';
   import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
   import MoonStarIcon from '@lucide/svelte/icons/moon-star';
   import SparklesIcon from '@lucide/svelte/icons/sparkles';
@@ -23,7 +24,7 @@
   import { hubCopy, type ToolCard } from './content';
 
   /**
-   * The Wedding Tools hub. One live tool today, three announced; the announced
+   * The Wedding Tools hub. Two live tools today, three announced; the announced
    * ones are cards without links so the page can grow without a redesign and
    * without linking anywhere that does not exist yet.
    */
@@ -34,6 +35,7 @@
 
   const ICONS: Record<ToolCard['key'], typeof SparklesIcon> = {
     mahar: CalendarHeartIcon,
+    hashtag: HashIcon,
     weton: SparklesIcon,
     tionghoa: MoonStarIcon,
     budget: CalculatorIcon
@@ -113,7 +115,7 @@
   </section>
 
   <section class="px-5 pb-20 lg:px-8">
-    <ul class="relative mx-auto -mt-8 grid max-w-7xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <ul class="relative mx-auto -mt-8 grid max-w-7xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {#each copy.tools as tool (tool.key)}
         {@const Icon = ICONS[tool.key]}
         <li class="h-full">

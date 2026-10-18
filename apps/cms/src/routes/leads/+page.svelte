@@ -23,7 +23,8 @@
   const SOURCES = [
     { value: 'contact_form', label: 'Contact form' },
     { value: 'venue_pricing', label: 'Venue pricing' },
-    { value: 'tool_mahar', label: 'Mahar tool' }
+    { value: 'tool_mahar', label: 'Mahar tool' },
+    { value: 'tool_hashtag', label: 'Hashtag tool' }
   ];
   const sourceLabel = (source: string) =>
     SOURCES.find((item) => item.value === source)?.label ?? source;

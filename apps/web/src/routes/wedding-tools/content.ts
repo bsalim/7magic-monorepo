@@ -10,7 +10,7 @@
 import type { Locale } from '$lib/paraglide/runtime';
 
 export type ToolCard = {
-  key: 'mahar' | 'weton' | 'tionghoa' | 'budget';
+  key: 'mahar' | 'hashtag' | 'weton' | 'tionghoa' | 'budget';
   title: string;
   copy: string;
   /** Unlocalized route; absent while the tool is still to come. */
@@ -25,12 +25,13 @@ export type HubCopy = {
 };
 
 const MAHAR_PATH = '/wedding-tools/mahar-tanggal-pernikahan';
+const HASHTAG_PATH = '/wedding-tools/generator-hashtag-pernikahan';
 
 const id: HubCopy = {
   meta: {
     title: 'Wedding Tools: Alat Gratis untuk Persiapan Pernikahan | 7Magic',
     description:
-      'Kumpulan alat gratis dari 7Magic untuk calon pengantin: hitung angka mahar dari tanggal pernikahan, dan alat lain untuk merencanakan hari besar kalian.'
+      'Kumpulan alat gratis dari 7Magic untuk calon pengantin: hitung angka mahar dari tanggal pernikahan, buat hashtag pernikahan dari nama kalian, dan alat lain untuk merencanakan hari besar kalian.'
   },
   hero: {
     eyebrow: 'Wedding Tools',
@@ -44,6 +45,12 @@ const id: HubCopy = {
       title: 'Mahar dari Tanggal Pernikahan',
       copy: 'Ubah tanggal akad, hari jadian, atau tanggal Hijriah menjadi angka mahar, lengkap dengan terbilang untuk lafaz ijab kabul.',
       path: MAHAR_PATH
+    },
+    {
+      key: 'hashtag',
+      title: 'Generator Hashtag Pernikahan',
+      copy: 'Ide hashtag dari nama kalian berdua: gabungan nama, plesetan, versi tanggal, dan hashtag per acara, siap disalin.',
+      path: HASHTAG_PATH
     },
     {
       key: 'weton',
@@ -67,7 +74,7 @@ const en: HubCopy = {
   meta: {
     title: 'Wedding Tools: Free Tools for Planning Your Wedding | 7Magic',
     description:
-      'Free tools from 7Magic for couples getting married: turn your wedding date into a mahar amount, with more tools for planning your big day to come.'
+      'Free tools from 7Magic for couples getting married: turn your wedding date into a mahar amount, make a wedding hashtag from your names, with more tools for planning your big day to come.'
   },
   hero: {
     eyebrow: 'Wedding Tools',
@@ -81,6 +88,12 @@ const en: HubCopy = {
       title: 'Mahar from Your Wedding Date',
       copy: 'Turn your akad date, the day you got together, or the Hijri date into a mahar amount, with the amount in words for the ijab kabul.',
       path: MAHAR_PATH
+    },
+    {
+      key: 'hashtag',
+      title: 'Wedding Hashtag Generator',
+      copy: 'Hashtag ideas from both your names: name pairs, blends, wordplay, date versions and a tag per event, ready to copy.',
+      path: HASHTAG_PATH
     },
     {
       key: 'weton',

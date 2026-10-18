@@ -5,7 +5,7 @@
   import { trackEvent } from '$lib/analytics';
   import { m } from '$lib/paraglide/messages.js';
   import { localizeHref } from '$lib/paraglide/runtime';
-  import { markUnlocked, normalizeWhatsapp } from '$lib/tools/lead';
+  import { markUnlocked, normalizeWhatsapp, type WeddingTool } from '$lib/tools/lead';
 
   /**
    * The soft gate in front of a tool's extras: email, WhatsApp and consent, once.
@@ -24,7 +24,7 @@
 
   interface Props {
     open?: boolean;
-    tool: 'mahar';
+    tool: WeddingTool;
     title: string;
     description: string;
     names?: string;

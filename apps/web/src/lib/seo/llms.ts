@@ -105,6 +105,11 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
       'Mahar from a date',
       'turns the akad date, another meaningful date, or its Hijri equivalent into a mahar amount, with the amount in words for the ijab kabul; no prices'
     ),
+    link(
+      '/wedding-tools/generator-hashtag-pernikahan',
+      'Wedding hashtag generator',
+      "makes wedding hashtags from the couple's names: name pairs, blends, Indonesian and English wordplay, date and per-event versions"
+    ),
     '',
     '## Events',
     '',

@@ -333,7 +333,7 @@ class ContactLeadResponse(BaseModel):
 
 # Every tool that gates its result. A new tool adds its key here and a label in
 # app.services.leads.TOOL_LABELS; the stored source becomes `tool_<key>`.
-WeddingTool = Literal["mahar"]
+WeddingTool = Literal["mahar", "hashtag"]
 
 # Separators people type inside a phone number. Stripped before the length check
 # so "0812-3456-7890" and "+62 812 3456 7890" count the same digits.

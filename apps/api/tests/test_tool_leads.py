@@ -90,6 +90,25 @@ def test_a_tool_lead_is_stored_with_its_source_and_metadata(api, recorder) -> No
     assert metadata["consent_at"]
 
 
+def test_a_hashtag_lead_is_stored_and_labelled_as_the_hashtag_tool(api, recorder) -> None:
+    response = api.client.post(
+        ENDPOINT,
+        json=_payload(
+            tool="hashtag",
+            names="Raka & Nadia",
+            inputs={"tag": "#RakaNadia", "date": "2026-09-20", "events": "akad,resepsi"},
+            source_path="/wedding-tools/generator-hashtag-pernikahan",
+        ),
+    )
+
+    assert response.status_code == 201
+    [lead] = _leads(api)
+    assert lead.source == "tool_hashtag"
+    assert (lead.metadata_json or {})["inputs"]["tag"] == "#RakaNadia"
+    assert "Wedding tool: Hashtag" in recorder.emails[0]["subject"]
+    assert recorder.alerts[0]["page"] == "Wedding tool: Hashtag"
+
+
 def test_an_indonesian_local_number_is_stored_as_plus_62(api, recorder) -> None:
     response = api.client.post(ENDPOINT, json=_payload(phone="0812-3456-7890"))
 

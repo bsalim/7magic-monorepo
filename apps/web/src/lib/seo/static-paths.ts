@@ -24,6 +24,7 @@ export const STATIC_PATHS = [
   '/bali-event-organizer',
   '/wedding-tools',
   '/wedding-tools/mahar-tanggal-pernikahan',
+  '/wedding-tools/generator-hashtag-pernikahan',
   '/privacy',
   '/terms'
 ];

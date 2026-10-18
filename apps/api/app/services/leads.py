@@ -40,7 +40,7 @@ from app.services.whatsapp import WhatsAppNotifier, join_contact
 logger = logging.getLogger(__name__)
 
 # How the inbox and the WhatsApp alert name each tool's leads.
-TOOL_LABELS = {"mahar": "Mahar"}
+TOOL_LABELS = {"mahar": "Mahar", "hashtag": "Hashtag"}
 
 LEADS_PAGE_SIZE = 50
 
