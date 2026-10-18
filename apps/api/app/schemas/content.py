@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import re
 from datetime import date, datetime, timezone
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class ImageRef(BaseModel):
@@ -328,6 +329,99 @@ class ContactLeadResponse(BaseModel):
     status: Literal["received"]
     message: str
     created_at: str
+
+
+# Every tool that gates its result. A new tool adds its key here and a label in
+# app.services.leads.TOOL_LABELS; the stored source becomes `tool_<key>`.
+WeddingTool = Literal["mahar"]
+
+# Separators people type inside a phone number. Stripped before the length check
+# so "0812-3456-7890" and "+62 812 3456 7890" count the same digits.
+_PHONE_SEPARATORS = re.compile(r"[\s().\-]")
+_EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+ToolInputValue = str | int | float | bool | None
+
+
+class ToolLeadCreate(BaseModel):
+    """The lead gate in front of a wedding tool's downloadable result."""
+
+    tool: WeddingTool
+    email: str = Field(max_length=255)
+    phone: str = Field(max_length=50)
+    names: str | None = Field(default=None, max_length=120)
+    # What the visitor typed into the tool, so the team can open the conversation
+    # with it. Flat and small on purpose: this is a public, unauthenticated write.
+    inputs: dict[str, ToolInputValue] = Field(default_factory=dict)
+    consent: bool
+    source_path: str | None = Field(default=None, max_length=255)
+    # The honeypot. Hidden from people, so anything in it came from a bot.
+    website: str | None = None
+
+    @field_validator("email")
+    @classmethod
+    def _email_shape(cls, value: str) -> str:
+        # A shape check rather than email-validator: the team replies by hand, so a
+        # typo is caught there, and the API carries no email dependency today.
+        value = value.strip()
+        if not _EMAIL.fullmatch(value):
+            raise ValueError("Enter a valid email address.")
+        return value
+
+    @field_validator("phone")
+    @classmethod
+    def _normalise_phone(cls, value: str) -> str:
+        number = _PHONE_SEPARATORS.sub("", value)
+        # Indonesian visitors type 08..., 628... or +628...; the team's WhatsApp
+        # links need the +62 form.
+        if number.startswith("0"):
+            number = f"+62{number[1:]}"
+        elif number.startswith("62"):
+            number = f"+{number}"
+        if not re.fullmatch(r"\+?\d+", number) or not 8 <= len(number) <= 20:
+            raise ValueError("Enter a valid WhatsApp number.")
+        return number
+
+    @field_validator("inputs")
+    @classmethod
+    def _bounded_inputs(cls, value: dict[str, ToolInputValue]) -> dict[str, ToolInputValue]:
+        if len(value) > 20:
+            raise ValueError("At most 20 inputs.")
+        for key, item in value.items():
+            if len(key) > 40 or (isinstance(item, str) and len(item) > 200):
+                raise ValueError("Input keys stay under 40 characters, values under 200.")
+        return value
+
+    @field_validator("consent")
+    @classmethod
+    def _consent_given(cls, value: bool) -> bool:
+        if not value:
+            raise ValueError("Consent is required.")
+        return value
+
+
+class ToolLeadResponse(BaseModel):
+    ok: Literal[True] = True
+
+
+class AdminLead(BaseModel):
+    """A lead as the CMS lists it. `source_path` is lifted out of the metadata
+    because it is the page column; the rest stays as stored."""
+
+    id: int
+    created_at: str | None
+    source: str
+    full_name: str | None
+    email: str | None
+    mobile: str | None
+    message: str | None
+    source_path: str | None
+    venue_id: int | None
+    metadata: dict[str, Any]
+
+
+class AdminLeadListResponse(BaseModel):
+    items: list[AdminLead]
+    pagination: Pagination
 
 
 class HomeHero(BaseModel):

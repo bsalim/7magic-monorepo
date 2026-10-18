@@ -16,6 +16,8 @@ from app.schemas.content import (
     ArticleListResponse,
     ContactLeadCreate,
     ContactLeadResponse,
+    ToolLeadCreate,
+    ToolLeadResponse,
     VenuePricingRequest,
     HomeResponse,
     VenueListResponse,
@@ -186,6 +188,20 @@ async def create_venue_pricing_request(
     payload: VenuePricingRequest,
 ) -> ContactLeadResponse:
     return await lead_service.create_venue_pricing_request(session, payload)
+
+
+@router.post(
+    "/tool-leads",
+    response_model=ToolLeadResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_tool_lead(
+    session: Annotated[AsyncSession, Depends(get_db_session)],
+    payload: ToolLeadCreate,
+) -> ToolLeadResponse:
+    # The same answer whether or not the honeypot tripped, so a bot cannot tell.
+    await lead_service.create_tool_lead(session, payload)
+    return ToolLeadResponse()
 
 
 @router.get("/promotion-popup", response_model=PromotionPopupPublic | None)

@@ -15,6 +15,7 @@
     inspirationLinks,
     legalLinks,
     packageLinks,
+    toolLinks,
     tourLinks,
     venueRegions,
     type NavLink
@@ -48,7 +49,11 @@
       }
     ],
     [
-      { id: 'inspiration', heading: m.nav_inspiration(), links: inspirationLinks() },
+      {
+        id: 'inspiration',
+        heading: m.nav_inspiration(),
+        links: [...inspirationLinks(), ...toolLinks()]
+      },
       { id: 'events', heading: m.nav_events(), links: eventLinks() }
     ],
     [

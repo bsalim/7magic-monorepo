@@ -300,3 +300,23 @@ export type AdminEmailTemplate = {
   body: string;
   enabled: boolean;
 };
+
+export type AdminLead = {
+  id: number;
+  /** Jakarta time, with its offset. */
+  created_at: string | null;
+  /** contact_form, venue_pricing, or tool_<tool> for the wedding tools. */
+  source: string;
+  full_name: string | null;
+  email: string | null;
+  mobile: string | null;
+  message: string | null;
+  source_path: string | null;
+  venue_id: number | null;
+  metadata: Record<string, unknown>;
+};
+
+export type AdminLeadList = {
+  items: AdminLead[];
+  pagination: { page: number; page_size: number; total: number; total_pages: number };
+};

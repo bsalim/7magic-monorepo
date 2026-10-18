@@ -98,7 +98,11 @@ describe('PublicHeader', () => {
       [...el.querySelectorAll('a')].map((a) => a.getAttribute('href'));
 
     expect(hrefsIn(panelOf('Paket & Layanan'))).toEqual(['/paket-sangjit', '/perjanjian-pranikah']);
-    expect(hrefsIn(panelOf('Inspirasi'))).toEqual(['/wedding-showcases', '/artikel']);
+    expect(hrefsIn(panelOf('Inspirasi'))).toEqual([
+      '/wedding-showcases',
+      '/artikel',
+      '/wedding-tools'
+    ]);
     expect(hrefsIn(panelOf('Events'))).toEqual(['/bali-event-organizer']);
   });
 

@@ -471,3 +471,73 @@ export function landingPageJsonLd(options: {
     )
   );
 }
+
+/**
+ * A free tool that runs in the browser. `@id` hangs off the page URL like
+ * `serviceNode`'s, so the two language editions are two nodes.
+ *
+ * The zero-price Offer is what marks it free for the rich results that read
+ * WebApplication; it matches the page, which never charges for the result.
+ */
+export function webApplicationNode(options: {
+  url: string;
+  name: string;
+  description?: string;
+  locale: string;
+}) {
+  const url = absoluteUrl(options.url);
+  return {
+    '@type': 'WebApplication',
+    '@id': `${url}#app`,
+    name: options.name,
+    description: options.description || undefined,
+    url,
+    applicationCategory: 'LifestyleApplication',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript',
+    isAccessibleForFree: true,
+    inLanguage: options.locale,
+    publisher: { '@id': ORGANIZATION_ID },
+    offers: { '@type': 'Offer', price: '0', priceCurrency: CURRENCY }
+  };
+}
+
+/**
+ * The whole JSON-LD block for a wedding tool page: the landing-page set, with
+ * the tool in place of a service. Kept beside `landingPageJsonLd` rather than
+ * folded into it, because a tool sells nothing and a Service node with no
+ * provider offer would say otherwise.
+ */
+export function toolPageJsonLd(options: {
+  path: string;
+  title: string;
+  /** The tool's own name, without the "| 7Magic" a page title carries. */
+  name?: string;
+  description: string;
+  locale: string;
+  crumbs: Crumb[];
+  faqs?: Faq[];
+}): string {
+  const app = webApplicationNode({
+    url: options.path,
+    name: options.name ?? options.title,
+    description: options.description,
+    locale: options.locale
+  });
+  return jsonLdScript(
+    graph(
+      organization(),
+      website(),
+      webPageNode({
+        url: options.path,
+        name: options.title,
+        description: options.description,
+        locale: options.locale,
+        mainEntity: { '@id': app['@id'] }
+      }),
+      breadcrumbList(options.crumbs),
+      app,
+      options.faqs?.length ? faqPage(options.faqs) : undefined
+    )
+  );
+}

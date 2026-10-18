@@ -18,6 +18,7 @@
     min = '',
     placeholder = 'Pick a date',
     disabled = false,
+    locale,
     class: className = 'w-full'
   }: {
     name?: string;
@@ -27,8 +28,19 @@
     min?: string;
     placeholder?: string;
     disabled?: boolean;
+    /**
+     * Shows the calendar's month and weekday names in this language and the
+     * picked day as "Minggu, 20 September 2026". Left unset, the field keeps its
+     * original English "18 Aug 2026" label, which the tour forms were built
+     * around.
+     */
+    locale?: 'id' | 'en';
     class?: string;
   } = $props();
+
+  // en-GB rather than en-US so the English label keeps the day-month order the
+  // Indonesian one has: the two editions should only differ in their words.
+  const intlLocale = $derived(locale === 'id' ? 'id-ID' : locale === 'en' ? 'en-GB' : undefined);
 
   const pad = (part: number) => String(part).padStart(2, '0');
 
@@ -47,6 +59,18 @@
   function label(iso: string): string {
     const parts = toDateValue(iso);
     if (!parts) return '';
+    if (intlLocale) {
+      // Formatted at UTC noon in UTC, for the same day-early reason as above.
+      return new Intl.DateTimeFormat(intlLocale, {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC'
+      })
+        .format(new Date(Date.UTC(parts.year, parts.month - 1, parts.day, 12)))
+        .replace(/^(\p{L}+) /u, '$1, ');
+    }
     const months = [
       'Jan',
       'Feb',
@@ -101,6 +125,7 @@
       value={selected}
       {minValue}
       captionLayout="dropdown"
+      locale={intlLocale}
       onValueChange={(next) => {
         value = toIso(next);
         open = false;

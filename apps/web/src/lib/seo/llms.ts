@@ -99,6 +99,12 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
       'Wedding articles',
       'guides on venue prices, Indonesian wedding traditions, preparation and paperwork'
     ),
+    link('/wedding-tools', 'Wedding tools', 'free calculators for couples planning a wedding'),
+    link(
+      '/wedding-tools/mahar-tanggal-pernikahan',
+      'Mahar from a date',
+      'turns the akad date, another meaningful date, or its Hijri equivalent into a mahar amount, with the amount in words for the ijab kabul; no prices'
+    ),
     '',
     '## Events',
     '',

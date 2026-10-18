@@ -6,6 +6,7 @@
   import MapPinIcon from '@lucide/svelte/icons/map-pin';
   import MegaphoneIcon from '@lucide/svelte/icons/megaphone';
   import ImagesIcon from '@lucide/svelte/icons/images';
+  import InboxIcon from '@lucide/svelte/icons/inbox';
   import NewspaperIcon from '@lucide/svelte/icons/newspaper';
   import LogOutIcon from '@lucide/svelte/icons/log-out';
   import MenuIcon from '@lucide/svelte/icons/menu';
@@ -28,6 +29,7 @@
     { label: 'Dashboard', href: '/', icon: LayoutDashboardIcon },
     { label: 'Branches', href: '/branches', icon: BuildingIcon },
     { label: 'Events', href: '/events', icon: CalendarIcon },
+    { label: 'Leads', href: '/leads', icon: InboxIcon },
     { label: 'Venues', href: '/venues', icon: MapPinIcon },
     { label: 'Articles', href: '/articles', icon: NewspaperIcon },
     { label: 'Wedding Showcases', href: '/showcases', icon: ImagesIcon },

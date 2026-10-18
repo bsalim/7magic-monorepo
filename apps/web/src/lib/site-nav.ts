@@ -25,6 +25,7 @@ export type VenueRegion = {
 
 export const ALL_VENUES_HREF = '/wedding-venue/search';
 export const VENDORS_HREF = '/our-vendors';
+export const TOOLS_HREF = '/wedding-tools';
 
 function cityVenues(slug: string, city: string): NavLink {
   return { href: `/wedding-venue/${slug}`, label: m.nav_city_venues({ city }) };
@@ -89,8 +90,19 @@ export function packageLinks(): NavLink[] {
 export function inspirationLinks(): NavLink[] {
   return [
     { href: '/wedding-showcases', label: m.nav_showcases(), desc: m.nav_showcases_desc() },
-    { href: '/artikel', label: m.nav_articles(), desc: m.nav_articles_desc() }
+    { href: '/artikel', label: m.nav_articles(), desc: m.nav_articles_desc() },
+    { href: TOOLS_HREF, label: m.nav_wedding_tools(), desc: m.nav_wedding_tools_desc() }
   ];
+}
+
+/**
+ * The live wedding tools, each a page of its own under the hub. The header
+ * stops at the hub, which is enough of a menu for a handful of calculators; the
+ * footer lists these too, since it is the site map and every tool is in the
+ * sitemap.
+ */
+export function toolLinks(): NavLink[] {
+  return [{ href: `${TOOLS_HREF}/mahar-tanggal-pernikahan`, label: m.tools_mahar_name() }];
 }
 
 /** Event organizer pages, one per city, kept apart from weddings. */

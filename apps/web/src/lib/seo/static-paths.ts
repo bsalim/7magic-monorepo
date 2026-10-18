@@ -22,6 +22,8 @@ export const STATIC_PATHS = [
   '/wedding-planning-singapore',
   '/jabodetabek-wedding',
   '/bali-event-organizer',
+  '/wedding-tools',
+  '/wedding-tools/mahar-tanggal-pernikahan',
   '/privacy',
   '/terms'
 ];

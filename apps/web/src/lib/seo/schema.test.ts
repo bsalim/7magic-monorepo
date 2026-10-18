@@ -18,9 +18,11 @@ import {
   optionalUrl,
   organization,
   serviceNode,
+  toolPageJsonLd,
   venueItemList,
   venueNode,
   venuePackageNode,
+  webApplicationNode,
   webPageNode
 } from './schema';
 
@@ -378,5 +380,69 @@ describe('landingPageJsonLd', () => {
       service: { name: 'X', serviceType: 'x' }
     });
     expect(html).not.toContain('FAQPage');
+  });
+});
+
+describe('webApplicationNode', () => {
+  it('describes a free browser tool published by the company', () => {
+    const node = webApplicationNode({
+      url: '/wedding-tools/mahar-tanggal-pernikahan',
+      name: 'Mahar dari Tanggal Pernikahan',
+      description: 'D',
+      locale: 'id'
+    });
+
+    expect(node).toMatchObject({
+      '@type': 'WebApplication',
+      '@id': `${SITE_URL}/wedding-tools/mahar-tanggal-pernikahan#app`,
+      url: `${SITE_URL}/wedding-tools/mahar-tanggal-pernikahan`,
+      applicationCategory: 'LifestyleApplication',
+      operatingSystem: 'Any',
+      isAccessibleForFree: true,
+      inLanguage: 'id',
+      publisher: { '@id': ORGANIZATION_ID },
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'IDR' }
+    });
+  });
+});
+
+describe('toolPageJsonLd', () => {
+  const parse = (html: string) => JSON.parse(html.replace(/^<script[^>]*>|<\/script>$/g, ''));
+
+  it('carries the app, its page, the breadcrumb and the FAQ', () => {
+    const data = parse(
+      toolPageJsonLd({
+        path: '/en/wedding-tools/mahar-tanggal-pernikahan',
+        title: 'T',
+        description: 'D',
+        locale: 'en',
+        crumbs: [{ name: 'Home', path: '/' }, { name: 'Mahar' }],
+        faqs: [{ q: 'Question?', a: 'Answer.' }]
+      })
+    );
+    const types = data['@graph'].map((node: { '@type': string }) => node['@type']);
+
+    expect(types).toEqual([
+      'Organization',
+      'WebSite',
+      'WebPage',
+      'BreadcrumbList',
+      'WebApplication',
+      'FAQPage'
+    ]);
+    const page = data['@graph'][2];
+    expect(page.mainEntity).toEqual({
+      '@id': `${SITE_URL}/en/wedding-tools/mahar-tanggal-pernikahan#app`
+    });
+    expect(page.inLanguage).toBe('en');
+  });
+
+  it('leaves the FAQ out when there is none', () => {
+    const data = parse(
+      toolPageJsonLd({ path: '/x', title: 'T', description: 'D', locale: 'id', crumbs: [] })
+    );
+    expect(data['@graph'].some((node: { '@type': string }) => node['@type'] === 'FAQPage')).toBe(
+      false
+    );
   });
 });

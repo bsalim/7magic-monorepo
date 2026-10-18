@@ -16,9 +16,20 @@ EVENT_READ = "event:read"
 EVENT_WRITE = "event:write"
 REGISTRATION_READ = "registration:read"
 REGISTRATION_WRITE = "registration:write"
+# Leads are not branch data and they carry personal details, so the leads routes
+# accept this only as an org-wide grant -- a branch-scoped one is not enough.
+LEAD_READ = "lead:read"
 
 ALL_PERMISSIONS = frozenset(
-    {BRANCH_READ, BRANCH_WRITE, EVENT_READ, EVENT_WRITE, REGISTRATION_READ, REGISTRATION_WRITE}
+    {
+        BRANCH_READ,
+        BRANCH_WRITE,
+        EVENT_READ,
+        EVENT_WRITE,
+        REGISTRATION_READ,
+        REGISTRATION_WRITE,
+        LEAD_READ,
+    }
 )
 
 # A branch manager runs their branch outright. Branch staff work the front desk:

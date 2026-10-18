@@ -32,6 +32,14 @@
 		day?: Snippet<[{ day: DateValue; outsideMonth: boolean }]>;
 	} = $props();
 
+	// Two letters only while they still tell the days apart. English "Su Mo Tu"
+	// does; Indonesian "Sen" and "Sel" (Monday, Tuesday) would both become "Se",
+	// so a locale like that keeps its full short names.
+	function weekdayLabel(weekday: string, weekdays: string[]) {
+		const short = weekdays.map((day) => day.slice(0, 2));
+		return new Set(short).size === short.length ? weekday.slice(0, 2) : weekday;
+	}
+
 	const monthFormat = $derived.by(() => {
 		if (monthFormatProp) return monthFormatProp;
 		if (captionLayout.startsWith("dropdown")) return "short";
@@ -84,7 +92,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 							<Calendar.GridRow class="select-none">
 								{#each weekdays as weekday, i (i)}
 									<Calendar.HeadCell>
-										{weekday.slice(0, 2)}
+										{weekdayLabel(weekday, weekdays)}
 									</Calendar.HeadCell>
 								{/each}
 							</Calendar.GridRow>
