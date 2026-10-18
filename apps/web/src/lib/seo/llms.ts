@@ -110,6 +110,11 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
       'Wedding hashtag generator',
       "makes wedding hashtags from the couple's names: name pairs, blends, Indonesian and English wordplay, date and per-event versions"
     ),
+    link(
+      '/wedding-tools/kalkulator-bazi-pasangan',
+      'Ba Zi compatibility calculator',
+      "works out both partners' Four Pillars from birth date and time (solar terms computed astronomically), reads compatibility by classical clashes and combinations without a score, and checks candidate wedding dates for clashes"
+    ),
     '',
     '## Events',
     '',

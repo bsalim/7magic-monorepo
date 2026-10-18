@@ -2,6 +2,7 @@
   import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
   import CalendarHeartIcon from '@lucide/svelte/icons/calendar-heart';
   import CalculatorIcon from '@lucide/svelte/icons/calculator';
+  import CompassIcon from '@lucide/svelte/icons/compass';
   import HashIcon from '@lucide/svelte/icons/hash';
   import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
   import MoonStarIcon from '@lucide/svelte/icons/moon-star';
@@ -24,7 +25,7 @@
   import { hubCopy, type ToolCard } from './content';
 
   /**
-   * The Wedding Tools hub. Two live tools today, three announced; the announced
+   * The Wedding Tools hub. Three live tools today, three announced; the announced
    * ones are cards without links so the page can grow without a redesign and
    * without linking anywhere that does not exist yet.
    */
@@ -36,6 +37,7 @@
   const ICONS: Record<ToolCard['key'], typeof SparklesIcon> = {
     mahar: CalendarHeartIcon,
     hashtag: HashIcon,
+    bazi: CompassIcon,
     weton: SparklesIcon,
     tionghoa: MoonStarIcon,
     budget: CalculatorIcon
