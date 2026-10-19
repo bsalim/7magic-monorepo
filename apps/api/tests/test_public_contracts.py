@@ -187,6 +187,27 @@ def test_public_home_contract(public_article_client: TestClient) -> None:
     assert payload["featured_articles"]
 
 
+def test_public_home_lists_every_couple_review_with_responsive_photos(
+    public_article_client: TestClient,
+) -> None:
+    # The 17 reviews from the "Review Pengantin" sheet, in its order. Each photo
+    # is a face-centred square on R2 with webp and jpeg widths, so the homepage
+    # can serve a <picture> rather than one oversized jpeg.
+    testimonials = public_article_client.get("/api/v1/public/home").json()["testimonials"]
+
+    assert len(testimonials) == 17
+    assert testimonials[0]["couple"] == "Marcell & Jenny"
+    assert testimonials[0]["wedding_date"] == "2022-01-15"
+    assert testimonials[-1]["couple"] == "Reynaldo & Michelle"
+    for item in testimonials:
+        photo = item["photo"]
+        assert photo["small_url"].startswith("https://media.7magicwedding.com/testimonials/")
+        assert ".webp 320w" in photo["webp_srcset"]
+        assert ".jpg 320w" in photo["jpeg_srcset"]
+        assert photo["width"] == photo["height"]
+        assert photo["alt"] == item["couple"]
+
+
 def test_public_home_articles_follow_locale(public_article_client: TestClient) -> None:
     response = public_article_client.get("/api/v1/public/home", params={"locale": "en"})
 

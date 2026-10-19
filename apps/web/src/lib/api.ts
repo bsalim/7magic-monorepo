@@ -162,11 +162,15 @@ export type HomePayload = {
   };
   featured_venues: VenueCard[];
   featured_articles: ArticleCard[];
-  testimonials: Array<{
-    couple: string;
-    message: string;
-    image: string;
-  }>;
+  testimonials: Testimonial[];
+};
+
+/** A couple's review from the "Review Pengantin" sheet, with their wedding date. */
+export type Testimonial = {
+  couple: string;
+  message: string;
+  wedding_date: string;
+  photo: ImageRef;
 };
 
 export type ContactLeadPayload = {

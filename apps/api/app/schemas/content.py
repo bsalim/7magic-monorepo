@@ -433,7 +433,8 @@ class HomeHero(BaseModel):
 class Testimonial(BaseModel):
     couple: str
     message: str
-    image: str
+    wedding_date: date
+    photo: ImageRef
 
 
 class HomeResponse(BaseModel):

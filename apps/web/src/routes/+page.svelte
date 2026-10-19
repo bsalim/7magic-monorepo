@@ -2,7 +2,6 @@
   import ArrowRight from '@lucide/svelte/icons/arrow-right';
   import CalendarDays from '@lucide/svelte/icons/calendar-days';
   import Check from '@lucide/svelte/icons/check';
-  import Heart from '@lucide/svelte/icons/heart';
   import Sparkles from '@lucide/svelte/icons/sparkles';
   import Users from '@lucide/svelte/icons/users';
   import ArticleCard from '$lib/components/ArticleCard.svelte';
@@ -10,6 +9,7 @@
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import SocialMeta from '$lib/components/SocialMeta.svelte';
+  import TestimonialCarousel from '$lib/components/TestimonialCarousel.svelte';
   import VenueCard from '$lib/components/VenueCard.svelte';
   import { page } from '$app/state';
   import { getLocale } from '$lib/paraglide/runtime';
@@ -276,18 +276,11 @@
         <ArrowRight size={18} />
       </a>
     </div>
-    <div class="grid gap-5 md:grid-cols-3">
-      {#each home.testimonials as testimonial}
-        <figure class="rounded-md border border-border bg-white p-5 shadow-sm">
-          <img src={testimonial.image} alt={testimonial.couple} class="h-52 w-full rounded object-cover" />
-          <blockquote class="mt-4 leading-7 text-slate-700">"{testimonial.message}"</blockquote>
-          <figcaption class="mt-4 flex items-center gap-2 font-semibold">
-            <Heart size={16} class="text-rose-500" />
-            {testimonial.couple}
-          </figcaption>
-        </figure>
-      {/each}
-    </div>
+    <TestimonialCarousel
+      items={home.testimonials}
+      locale={getLocale()}
+      labels={{ previous: m.home_testimonials_previous(), next: m.home_testimonials_next() }}
+    />
   </section>
 
   <PublicFooter />
