@@ -17,6 +17,7 @@ import type { ChartOut, DateReasonOut, Element, FindingOut, PartnerIn, Verdict, 
 
 export type Faq = { q: string; a: string };
 export type ExplainerSection = { title: string; paragraphs: string[] };
+export type Term = { term: string; han: string; text: string };
 export type RelatedLink = { href: string; title: string };
 export type PillarKey = 'year' | 'month' | 'day' | 'hour';
 
@@ -90,6 +91,8 @@ export type BaziCopy = {
     gateTitle: string;
     gateDescription: string;
   };
+  /** The "what is Ba Zi" block: searchers land here before they trust the tool. */
+  intro: { title: string; paragraphs: string[]; termsTitle: string; terms: Term[] };
   explainer: { title: string; lead: string; sections: ExplainerSection[] };
   example: {
     title: string;
@@ -326,17 +329,41 @@ const id: BaziCopy = {
     gateDescription:
       'Isi email dan WhatsApp sekali, lalu semua alat kami terbuka. Kami tidak menyimpan tanggal lahir kalian.'
   },
-  explainer: {
-    title: 'Membaca Ba Zi untuk pasangan',
-    lead: 'Ringkasnya: apa yang dihitung, kenapa tahunnya tidak ikut Imlek, dan sejauh mana hasilnya bisa dipegang.',
-    sections: [
+  intro: {
+    title: 'Apa itu Ba Zi?',
+    paragraphs: [
+      'Ba Zi (八字) berarti "delapan karakter". Ini cara astrologi Tionghoa membaca saat kelahiran seseorang sebagai empat pilar: tahun, bulan, hari, dan jam. Karena itu Ba Zi juga dikenal sebagai Empat Pilar (四柱, Si Zhu). Tiap pilar berisi satu batang langit dan satu cabang bumi, dan kedelapan karakter itulah yang menjadi peta kelahiran seseorang.',
+      'Ba Zi berkembang sejak zaman Dinasti Tang dan Song di Tiongkok, dan sampai sekarang masih dipegang banyak keluarga Tionghoa, termasuk di Indonesia. Dua kegunaannya paling dekat dengan pernikahan: mencocokkan calon pasangan (合婚, he hun) dan memilih tanggal pernikahan yang tidak berbenturan dengan kelahiran kedua mempelai.',
+      'Shio yang sudah akrab di telinga hanyalah satu dari delapan karakter itu. Ba Zi melihat lebih jauh: unsur apa yang dominan, siapa day master masing-masing, dan bagaimana cabang hari, yang disebut istana pasangan, saling bertemu. Kalkulator di atas menghitung semuanya untuk kalian berdua, gratis.'
+    ],
+    termsTitle: 'Istilah yang akan kalian temui',
+    terms: [
       {
-        title: 'Apa itu Ba Zi',
-        paragraphs: [
-          'Ba Zi (八字, "delapan karakter") membaca saat kelahiran sebagai empat pilar: tahun, bulan, hari, dan jam. Tiap pilar terdiri dari satu batang langit dan satu cabang bumi, jadi totalnya delapan karakter.',
-          'Shio yang dikenal sehari-hari hanyalah cabang pada pilar tahun. Batang pada pilar hari disebut day master, dan dalam Ba Zi dianggap paling mewakili diri seseorang.'
-        ]
+        term: 'Batang langit',
+        han: '天干',
+        text: 'Sepuluh tanda, yaitu lima unsur dalam versi Yang dan Yin, misalnya 甲 Kayu Yang. Ada satu di setiap pilar.'
       },
+      {
+        term: 'Cabang bumi',
+        han: '地支',
+        text: 'Dua belas tanda yang dikenal lewat dua belas shio, dari Tikus sampai Babi. Cabang pilar tahun adalah shio kalian.'
+      },
+      {
+        term: 'Lima unsur',
+        han: '五行',
+        text: 'Kayu, Api, Tanah, Logam, dan Air. Unsur saling menumbuhkan dan saling mengendalikan, dan keseimbangannya dibaca di tiap chart.'
+      },
+      {
+        term: 'Day master',
+        han: '日主',
+        text: 'Batang langit pada pilar hari. Dalam Ba Zi, inilah yang paling mewakili diri seseorang dan sifatnya.'
+      }
+    ]
+  },
+  explainer: {
+    title: 'Cara kalkulator ini membaca Ba Zi',
+    lead: 'Kenapa tahunnya tidak ikut Imlek, apa saja yang dibandingkan, dan sejauh mana hasilnya bisa dipegang.',
+    sections: [
       {
         title: 'Kenapa tahunnya mulai sekitar 4 Februari',
         paragraphs: [
@@ -523,17 +550,41 @@ const en: BaziCopy = {
     gateTitle: 'Unlock the date check & Ba Zi card',
     gateDescription: "Enter your email and WhatsApp once and all our tools unlock. We don't store your birth dates."
   },
-  explainer: {
-    title: 'Reading Ba Zi for a couple',
-    lead: "In short: what is worked out, why the year doesn't follow Chinese New Year, and how far the result can be taken.",
-    sections: [
+  intro: {
+    title: 'What is Ba Zi?',
+    paragraphs: [
+      'Ba Zi (八字) means "eight characters". It is the Chinese astrological way of reading a moment of birth as four pillars: year, month, day and hour, which is why it is also called the Four Pillars (四柱, Si Zhu). Each pillar holds one heavenly stem and one earthly branch, and those eight characters are the map of a person\'s birth.',
+      'Ba Zi took shape during the Tang and Song dynasties in China and is still followed by many Chinese families today, Chinese Indonesian families among them. Two of its uses sit closest to a wedding: matching a couple (合婚, he hun) and choosing a wedding date that does not clash with either partner\'s birth.',
+      'The zodiac sign everyone knows is only one of those eight characters. Ba Zi looks further: which element dominates, what each person\'s day master is, and how the day branches, known as the spouse palaces, meet. The calculator above works all of it out for the two of you, free.'
+    ],
+    termsTitle: "Terms you'll come across",
+    terms: [
       {
-        title: 'What Ba Zi is',
-        paragraphs: [
-          'Ba Zi (八字, "eight characters") reads a moment of birth as four pillars: year, month, day and hour. Each pillar is one heavenly stem and one earthly branch, eight characters in all.',
-          "The zodiac sign people know is just the branch of the year pillar. The stem of the day pillar is called the day master, and Ba Zi treats it as the closest picture of the person."
-        ]
+        term: 'Heavenly stems',
+        han: '天干',
+        text: 'Ten signs: the five elements in a Yang and a Yin form, such as 甲 Yang Wood. Each pillar has one.'
       },
+      {
+        term: 'Earthly branches',
+        han: '地支',
+        text: 'Twelve signs, known through the twelve zodiac animals from Rat to Pig. The branch of the year pillar is your sign.'
+      },
+      {
+        term: 'Five elements',
+        han: '五行',
+        text: 'Wood, Fire, Earth, Metal and Water. They feed and restrain each other, and each chart is read for its balance of them.'
+      },
+      {
+        term: 'Day master',
+        han: '日主',
+        text: 'The heavenly stem of the day pillar. Ba Zi treats it as the closest picture of the person and their nature.'
+      }
+    ]
+  },
+  explainer: {
+    title: 'How this calculator reads Ba Zi',
+    lead: "Why the year doesn't follow Chinese New Year, what gets compared, and how far the result can be taken.",
+    sections: [
       {
         title: 'Why the year starts around 4 February',
         paragraphs: [

@@ -621,6 +621,30 @@
   {/snippet}
 
   {#snippet explainer()}
+    <section class="border-y border-border bg-brand-warm/60 px-5 py-16 lg:px-8">
+      <div class="mx-auto max-w-4xl">
+        <h2 class="font-display text-2xl font-bold md:text-3xl">{copy.intro.title}</h2>
+        {#each copy.intro.paragraphs as paragraph, index (index)}
+          <p class="mt-4 text-base leading-8 text-foreground/80">{paragraph}</p>
+        {/each}
+
+        <h3 class="mt-10 text-xs font-semibold tracking-[0.2em] text-brand-gold-hover uppercase">
+          {copy.intro.termsTitle}
+        </h3>
+        <dl class="mt-4 grid gap-4 sm:grid-cols-2">
+          {#each copy.intro.terms as item (item.term)}
+            <div class="rounded-xl border border-brand-gold/25 bg-background p-5">
+              <dt class="flex items-baseline gap-2 font-display text-base font-semibold">
+                <span lang="zh-Hans" class="text-xl text-brand-gold-hover">{item.han}</span>
+                {item.term}
+              </dt>
+              <dd class="mt-2 text-sm leading-6 text-foreground/75">{item.text}</dd>
+            </div>
+          {/each}
+        </dl>
+      </div>
+    </section>
+
     <section class="px-5 py-16 lg:px-8">
       <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.4fr)]">
         <div class="lg:sticky lg:top-24 lg:self-start">
