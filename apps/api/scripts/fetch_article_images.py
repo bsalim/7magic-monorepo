@@ -119,6 +119,11 @@ QUERIES: dict[str, str] = {
     "apa-itu-elopement-menikah-berdua-di-bali": "bali wedding couple cliff ocean",
     "mengenal-ba-zi-empat-pilar-kelahiran": "chinese calligraphy brush ink characters",
     "kecocokan-pasangan-menurut-ba-zi": "chinese wedding couple red traditional",
+    "weton-jodoh-menghitung-kecocokan-pasangan-primbon-jawa": "javanese wedding couple traditional",
+    "larangan-menikah-adat-jawa": "javanese traditional wedding ceremony",
+    "dewasa-ayu-pawiwahan-hari-baik-menikah-bali": "bali temple offerings ceremony",
+    "bulan-baik-menikah-2027-kalender-jawa": "wedding planning calendar notebook",
+    "hari-baik-menikah-tradisi-sunda-paririmbon": "sundanese traditional wedding",
     "prewedding-indoor-saat-kabut-asap-batam-bintan-singapura": "asian couple prewedding photoshoot indoor",
 }
 

@@ -65,6 +65,17 @@ CLUSTERS: dict[str, list[str]] = {
         "menentukan-tanggal-pernikahan-weton-shio",
         "angka-baik-dan-pantangan-pernikahan-tionghoa",
     ],
+    # Primbon and good-day reckoning across Java, Sunda and Bali; the weton-shio
+    # piece bridges this cluster and the Chinese one.
+    "primbon-nusantara": [
+        "weton-jodoh-menghitung-kecocokan-pasangan-primbon-jawa",
+        "larangan-menikah-adat-jawa",
+        "hari-baik-menikah-tradisi-sunda-paririmbon",
+        "dewasa-ayu-pawiwahan-hari-baik-menikah-bali",
+        "bulan-baik-menikah-2027-kalender-jawa",
+        "menentukan-tanggal-pernikahan-weton-shio",
+        "istilah-tahapan-pernikahan-adat-jawa",
+    ],
     "tea-pai": [
         "tea-pai-tradisi-teh-pernikahan-tionghoa-yang-penuh-makna-filosofi",
         "sungkeman-dan-tea-pai-lagu-pengiring",
