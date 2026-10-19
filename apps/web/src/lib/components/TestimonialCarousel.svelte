@@ -14,24 +14,13 @@
    */
   let {
     items,
-    locale,
     labels
   }: {
     items: Testimonial[];
-    locale: string;
     labels: { previous: string; next: string };
   } = $props();
 
   let track = $state<HTMLUListElement>();
-
-  // Month and year only: the day adds nothing a reader would use, and the
-  // sheet's dates are the wedding days, which the couples may not want pinned.
-  const monthYear = (iso: string) =>
-    new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : 'id-ID', {
-      month: 'long',
-      year: 'numeric',
-      timeZone: 'UTC'
-    }).format(new Date(`${iso}T00:00:00Z`));
 
   function scrollByCard(direction: 1 | -1) {
     if (!track) return;
@@ -55,12 +44,9 @@
             sizes="(max-width: 640px) 78vw, (max-width: 1024px) 46vw, 300px"
           />
           <blockquote class="mt-4 flex-1 text-[15px] leading-7 text-slate-700">"{item.message}"</blockquote>
-          <figcaption class="mt-4">
-            <span class="flex items-center gap-2 font-semibold">
-              <Heart size={16} class="text-rose-500" aria-hidden="true" />
-              {item.couple}
-            </span>
-            <span class="mt-0.5 block pl-6 text-sm text-muted-foreground">{monthYear(item.wedding_date)}</span>
+          <figcaption class="mt-4 flex items-center gap-2 font-semibold">
+            <Heart size={16} class="text-rose-500" aria-hidden="true" />
+            {item.couple}
           </figcaption>
         </figure>
       </li>

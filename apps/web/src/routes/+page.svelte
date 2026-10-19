@@ -278,7 +278,6 @@
     </div>
     <TestimonialCarousel
       items={home.testimonials}
-      locale={getLocale()}
       labels={{ previous: m.home_testimonials_previous(), next: m.home_testimonials_next() }}
     />
   </section>
