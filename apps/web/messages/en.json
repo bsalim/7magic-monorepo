@@ -189,11 +189,81 @@
   "city_batam": "Batam",
   "city_hub_all_venues": "See all venues",
   "city_hub_eyebrow": "Wedding packages",
-  "city_hub_group_count": "{count} venues",
-  "city_hub_intro": "{count} wedding venues in {city}, grouped by hotel star rating. Packages start from {price}.",
-  "city_hub_intro_no_price": "{count} wedding venues in {city}, grouped by hotel star rating.",
-  "city_hub_meta_description": "{count} wedding venues in {city} with package prices, guest capacity, and location. Grouped by hotel star rating.",
-  "city_hub_meta_title": "Wedding Packages in {city}: {count} Venues & Prices | 7Magic Wedding",
+  "city_hub_group_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} venue",
+        "countPlural=*": "{count} venues"
+      }
+    }
+  ],
+  "city_hub_intro": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} wedding venue in {city}. Packages start from {price}.",
+        "countPlural=*": "{count} wedding venues in {city}, grouped by hotel star rating. Packages start from {price}."
+      }
+    }
+  ],
+  "city_hub_intro_no_price": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} wedding venue in {city}.",
+        "countPlural=*": "{count} wedding venues in {city}, grouped by hotel star rating."
+      }
+    }
+  ],
+  "city_hub_meta_description": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} wedding venue in {city} with package prices, guest capacity, and location.",
+        "countPlural=*": "{count} wedding venues in {city} with package prices, guest capacity, and location. Grouped by hotel star rating."
+      }
+    }
+  ],
+  "city_hub_meta_title": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Wedding Packages in {city}: {count} Venue & Price | 7Magic Wedding",
+        "countPlural=*": "Wedding Packages in {city}: {count} Venues & Prices | 7Magic Wedding"
+      }
+    }
+  ],
   "city_hub_stars_heading": "{stars}-star hotels",
   "city_hub_title": "Wedding Packages in {city}",
   "city_hub_unrated_heading": "Other venues",

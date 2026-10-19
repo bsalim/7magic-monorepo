@@ -41,6 +41,13 @@ export default defineConfig({
           ]
         },
         {
+          pattern: '/paket-sangjit',
+          localized: [
+            ['en', '/en/sangjit-package'],
+            ['id', '/paket-sangjit']
+          ]
+        },
+        {
           pattern: '/artikel',
           localized: [
             ['en', '/en/articles'],

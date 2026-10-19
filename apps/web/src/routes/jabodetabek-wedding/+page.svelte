@@ -7,9 +7,10 @@
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { buttonVariants } from '$lib/components/ui/button';
   import { m } from '$lib/paraglide/messages.js';
-  import { localizeHref } from '$lib/paraglide/runtime';
+  import { getLocale, localizeHref } from '$lib/paraglide/runtime';
   import {
     breadcrumbList,
+    canonicalUrl,
     graph,
     jsonLdScript,
     organization,
@@ -18,13 +19,14 @@
   } from '$lib/seo/schema';
   import { cn, formatMillions } from '$lib/utils';
   import { whatsappHref } from '$lib/whatsapp';
+  import { jabodetabekCopy } from './content';
 
   /**
    * Halaman Wedding Jabodetabek, pasangan dari Bali Wedding dan Singapore
    * Wedding di menu utama.
    *
-   * Bahasa Indonesia saja, copy di-hardcode, seperti /paket-sangjit dan
-   * /perjanjian-pranikah: pasarnya Jabodetabek.
+   * Dua bahasa, copy di `content.ts`; bahasa Indonesia sumbernya. Rute yang
+   * sama di kedua bahasa: "jabodetabek-wedding" sudah terbaca dalam bahasa Inggris.
    *
    * Sengaja hanya memuat fakta yang sudah terbit di situs ini atau yang
    * diberikan 7Magic. "Lebih dari 100 venue" di hero adalah angka dari 7Magic
@@ -37,31 +39,14 @@
 
   let { data } = $props();
 
-  const CANONICAL_PATH = '/jabodetabek-wedding';
-  const META_TITLE = 'Wedding Jabodetabek: Venue di Jakarta, Tangerang, Bogor & Bekasi | 7Magic';
-  const META_DESCRIPTION =
-    'Pilih venue pernikahan di Jakarta, Tangerang, Bogor, dan Bekasi dengan harga yang terbuka, lalu kunjungi venuenya gratis bersama tim 7Magic. Kantor kami di Jalan Gajah Mada, Jakarta.';
-
-  const waHref = whatsappHref('Halo 7Magic, saya ingin konsultasi pernikahan di Jabodetabek.');
+  const locale = $derived(getLocale());
+  const copy = $derived(jabodetabekCopy(locale));
+  const path = $derived(localizeHref('/jabodetabek-wedding'));
+  const waHref = $derived(whatsappHref(copy.whatsappPrefill));
 
   const services = [
     { href: '/paket-sangjit', label: m.service_sangjit(), desc: m.service_sangjit_desc() },
     { href: '/perjanjian-pranikah', label: m.service_prenup(), desc: m.service_prenup_desc() }
-  ];
-
-  const reading = [
-    {
-      href: '/artikel/wedding-venue/masjid-gedung-favorit-jabodetabek-akad-nikah',
-      title: 'Masjid dan Gedung Favorit di Jabodetabek untuk Akad Nikah'
-    },
-    {
-      href: '/artikel/wedding-venue/intimate-wedding-100-tamu-jakarta-rincian-biaya',
-      title: 'Intimate Wedding 100 Tamu di Jakarta: Rincian Biaya dan Cara Menekannya'
-    },
-    {
-      href: '/artikel/wedding-preparation/syarat-dokumen-nikah-2026-kua-catatan-sipil',
-      title: 'Syarat dan Dokumen Nikah 2026: Alur Lengkap di KUA dan Catatan Sipil'
-    }
   ];
 
   const jsonLd = $derived(
@@ -70,29 +55,29 @@
         organization(),
         website(),
         webPageNode({
-          url: CANONICAL_PATH,
-          name: META_TITLE,
-          description: META_DESCRIPTION,
-          locale: 'id',
+          url: path,
+          name: copy.meta.title,
+          description: copy.meta.description,
+          locale,
           type: 'CollectionPage'
         }),
-        breadcrumbList([{ name: m.breadcrumb_home(), path: '/' }, { name: 'Wedding Jabodetabek' }])
+        breadcrumbList([{ name: m.breadcrumb_home(), path: '/' }, { name: copy.breadcrumb }])
       )
     )
   );
 </script>
 
 <svelte:head>
-  <title>{META_TITLE}</title>
-  <meta name="description" content={META_DESCRIPTION} />
-  <link rel="canonical" href="https://7magicwedding.com{CANONICAL_PATH}" />
+  <title>{copy.meta.title}</title>
+  <meta name="description" content={copy.meta.description} />
+  <link rel="canonical" href={canonicalUrl(path)} />
   {@html jsonLd}
 </svelte:head>
 
 <SocialMeta
-  title={META_TITLE}
-  description={META_DESCRIPTION}
-  url={CANONICAL_PATH}
+  title={copy.meta.title}
+  description={copy.meta.description}
+  url={path}
   image="/img/jabodetabek/bundaran-hi-1280.jpg"
 />
 
@@ -107,7 +92,7 @@
       src="/img/jabodetabek/bundaran-hi-1280.jpg"
       srcset="/img/jabodetabek/bundaran-hi-1280.jpg 1280w, /img/jabodetabek/bundaran-hi-2560.jpg 2560w"
       sizes="100vw"
-      alt="Bundaran HI, Jakarta, dilihat dari udara saat senja"
+      alt={copy.hero.alt}
       class="absolute inset-0 h-full w-full object-cover"
       fetchpriority="high"
     />
@@ -116,14 +101,13 @@
     <div class="relative z-10 mx-auto w-full max-w-7xl px-5 py-20 lg:px-8">
       <div class="max-w-3xl text-white [text-shadow:0_1px_18px_rgba(0,0,0,0.55)]">
         <p class="text-sm font-semibold uppercase tracking-widest text-brand-dark-accent">
-          Wedding · Jabodetabek
+          {copy.hero.eyebrow}
         </p>
         <h1 class="mt-4 font-display text-4xl font-bold leading-tight md:text-5xl lg:text-[3.4rem]">
-          Menikah di Jakarta dan sekitarnya
+          {copy.hero.title}
         </h1>
         <p class="mt-5 max-w-2xl text-lg leading-8 text-white/90">
-          Lebih dari 100 venue di Jabodetabek. Bandingkan harga paketnya, pilih yang cocok, lalu
-          datangi langsung bersama tim kami sebelum Anda memutuskan.
+          {copy.hero.lead}
         </p>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -141,7 +125,7 @@
             )}
           >
             <MessageCircleIcon size={18} />
-            Tanya lewat WhatsApp
+            {copy.hero.whatsapp}
           </a>
         </div>
       </div>
@@ -151,14 +135,13 @@
   {#if data.cities.length}
     <section class="mx-auto max-w-7xl px-5 py-16 lg:px-8">
       <p class="text-sm font-semibold uppercase tracking-widest text-accent-foreground">
-        Venue per kota
+        {copy.cities.eyebrow}
       </p>
       <h2 class="mt-3 max-w-2xl font-display text-3xl font-bold md:text-4xl">
-        Mulai dari kota tempat tamu Anda tinggal
+        {copy.cities.title}
       </h2>
       <p class="mt-4 max-w-2xl text-[15px] leading-7 text-muted-foreground">
-        Setiap kota punya halaman sendiri berisi semua venuenya, diurutkan menurut harga dan bintang
-        hotel. Harga yang tertera adalah harga paket mulai dari, sesuai katalog kami hari ini.
+        {copy.cities.lead}
       </p>
 
       <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -168,18 +151,20 @@
             class="group rounded-card border border-border bg-card transition hover:border-accent-foreground/40 hover:shadow-lg"
           >
             <div class="p-5">
-              <p class="font-display text-xl font-bold">Wedding di {city.name}</p>
+              <p class="font-display text-xl font-bold">{copy.cities.cardTitle(city.name)}</p>
               <p class="mt-1 text-sm text-muted-foreground">
-                {city.count} venue{#if city.guestsMax}, hingga {city.guestsMax.toLocaleString('id-ID')}
-                  tamu{/if}
+                {copy.cities.venues(city.count)}{#if city.guestsMax}{copy.cities.upTo(
+                    city.guestsMax.toLocaleString(copy.cities.numberLocale)
+                  )}{/if}
               </p>
               {#if city.floor}
                 <p class="mt-3 text-[15px]">
-                  Mulai <span class="font-semibold">{formatMillions(city.floor, 'juta')}</span>
+                  {copy.cities.from}
+                  <span class="font-semibold">{formatMillions(city.floor, copy.cities.millions)}</span>
                 </p>
               {/if}
               <p class="mt-4 flex items-center gap-1.5 text-sm font-semibold text-accent-foreground">
-                Lihat venue di {city.name}
+                {copy.cities.cta(city.name)}
                 <ArrowRightIcon size={15} class="transition group-hover:translate-x-0.5" />
               </p>
             </div>
@@ -192,30 +177,15 @@
   <section class="border-y border-border bg-muted/40 px-5 py-16 lg:px-8">
     <div class="mx-auto max-w-7xl">
       <h2 class="max-w-2xl font-display text-3xl font-bold md:text-4xl">
-        Dari daftar venue sampai berdiri di ballroom-nya
+        {copy.how.title}
       </h2>
       <div class="mt-10 grid gap-8 md:grid-cols-3">
-        <div>
-          <p class="font-display text-lg font-bold">Bandingkan dengan harga terbuka</p>
-          <p class="mt-2 text-[15px] leading-7 text-muted-foreground">
-            Harga paket setiap venue tampil di katalog, jadi Anda bisa menyaring sesuai anggaran
-            sebelum menghubungi siapa pun.
-          </p>
-        </div>
-        <div>
-          <p class="font-display text-lg font-bold">Kunjungi venuenya, gratis</p>
-          <p class="mt-2 text-[15px] leading-7 text-muted-foreground">
-            Pilih venue yang ingin Anda lihat dan hari yang cocok. Kunjungannya gratis dan tidak
-            mengikat apa pun.
-          </p>
-        </div>
-        <div>
-          <p class="font-display text-lg font-bold">Bicara dengan tim di Jakarta</p>
-          <p class="mt-2 text-[15px] leading-7 text-muted-foreground">
-            Minta penawaran untuk venue pilihan Anda lewat WhatsApp, atau datang ke kantor kami di
-            Jalan Gajah Mada.
-          </p>
-        </div>
+        {#each copy.how.points as point (point.title)}
+          <div>
+            <p class="font-display text-lg font-bold">{point.title}</p>
+            <p class="mt-2 text-[15px] leading-7 text-muted-foreground">{point.copy}</p>
+          </div>
+        {/each}
       </div>
     </div>
   </section>
@@ -223,7 +193,7 @@
   <section class="mx-auto max-w-7xl px-5 py-16 lg:px-8">
     <div class="grid gap-12 lg:grid-cols-2">
       <div>
-        <h2 class="font-display text-2xl font-bold md:text-3xl">Layanan kami di Jabodetabek</h2>
+        <h2 class="font-display text-2xl font-bold md:text-3xl">{copy.servicesTitle}</h2>
         <div class="mt-6 grid gap-4">
           {#each services as service (service.href)}
             <a
@@ -237,12 +207,12 @@
         </div>
       </div>
       <div>
-        <h2 class="font-display text-2xl font-bold md:text-3xl">Bacaan sebelum memilih</h2>
+        <h2 class="font-display text-2xl font-bold md:text-3xl">{copy.readingTitle}</h2>
         <ul class="mt-6 grid gap-4">
-          {#each reading as article (article.href)}
+          {#each copy.reading as article (article.href)}
             <li>
               <a
-                href={localizeHref(article.href)}
+                href={article.href}
                 class="flex items-start gap-2 text-[15px] leading-7 hover:text-accent-foreground"
               >
                 <ArrowRightIcon size={16} class="mt-1.5 shrink-0" />
@@ -258,10 +228,10 @@
   <section class="bg-brand-ink px-5 py-16 text-white lg:px-8">
     <div class="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-center md:justify-between">
       <div>
-        <h2 class="font-display text-3xl font-bold">Mulai dengan satu kunjungan</h2>
+        <h2 class="font-display text-3xl font-bold">{copy.closing.title}</h2>
         <p class="mt-3 flex items-start gap-2 text-white/80">
           <MapPinIcon size={18} class="mt-0.5 shrink-0" />
-          Kantor 7Magic: Jalan Gajah Mada No. 10, Jakarta 10130
+          {copy.closing.office}
         </p>
       </div>
       <div class="flex flex-col gap-3 sm:flex-row">

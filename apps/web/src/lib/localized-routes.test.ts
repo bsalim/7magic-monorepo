@@ -48,7 +48,20 @@ describe('prenuptial agreement URLs', () => {
   });
 
   it('leaves a path with no pattern of its own on the catch-all', () => {
-    // /paket-sangjit is Indonesian-only by choice, so it keeps its route name.
-    expect(localizeHref('/paket-sangjit', { locale: 'en' })).toBe('/en/paket-sangjit');
+    expect(localizeHref('/jabodetabek-wedding', { locale: 'en' })).toBe('/en/jabodetabek-wedding');
+  });
+});
+
+describe('sangjit package URLs', () => {
+  it('serves an English slug under /en', () => {
+    expect(localizeHref('/paket-sangjit', { locale: 'id' })).toBe('/paket-sangjit');
+    expect(localizeHref('/paket-sangjit', { locale: 'en' })).toBe('/en/sangjit-package');
+  });
+
+  it('round-trips in both directions', () => {
+    for (const locale of ['id', 'en'] as const) {
+      const localized = localizeHref('/paket-sangjit', { locale });
+      expect(deLocalizeUrl(`${origin}${localized}`).pathname).toBe('/paket-sangjit');
+    }
   });
 });
