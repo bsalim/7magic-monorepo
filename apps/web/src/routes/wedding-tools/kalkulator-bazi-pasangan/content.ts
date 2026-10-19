@@ -428,16 +428,16 @@ const id: BaziCopy = {
   ],
   related: [
     {
+      href: '/artikel/tradisi-wedding/mengenal-ba-zi-empat-pilar-kelahiran',
+      title: 'Mengenal Ba Zi: Cara Astrologi Tionghoa Membaca Empat Pilar Kelahiran'
+    },
+    {
+      href: '/artikel/tradisi-wedding/kecocokan-pasangan-menurut-ba-zi',
+      title: 'Kecocokan Pasangan Menurut Ba Zi: Shio, Istana Pasangan, dan Day Master'
+    },
+    {
       href: '/artikel/tradisi-wedding/menentukan-tanggal-pernikahan-weton-shio',
       title: 'Menentukan Tanggal Pernikahan: Weton Jawa, Shio, dan Pertimbangan Praktis'
-    },
-    {
-      href: '/artikel/tradisi-wedding/serba-serbi-pernikahan-adat-tionghoa-tradisi-mitos-dan-makna-simbolisnya',
-      title: 'Serba-Serbi Pernikahan Adat Tionghoa: Tradisi, Mitos, dan Makna Simbolisnya'
-    },
-    {
-      href: '/artikel/tradisi-wedding/acara-sangjit-makna-tahapan-dan-checklist-lengkap-biar-nggak-panik-pas-hari-h',
-      title: 'Acara Sangjit: Makna, Tahapan, dan Checklist Lengkap Biar Nggak Panik Pas Hari H!'
     }
   ]
 };
@@ -649,16 +649,16 @@ const en: BaziCopy = {
   ],
   related: [
     {
+      href: '/en/articles/wedding-traditions/introduction-to-ba-zi-four-pillars',
+      title: 'An Introduction to Ba Zi: How Chinese Astrology Reads the Four Pillars of Birth'
+    },
+    {
+      href: '/en/articles/wedding-traditions/couple-compatibility-in-ba-zi',
+      title: 'Couple Compatibility in Ba Zi: Zodiac Signs, the Spouse Palace and the Day Master'
+    },
+    {
       href: '/en/articles/wedding-traditions/choosing-a-wedding-date',
       title: 'Choosing a Wedding Date: Javanese Weton, Chinese Zodiac, and Practical Factors'
-    },
-    {
-      href: '/en/articles/wedding-traditions/everything-about-chinese-wedding-traditions-the-rituals-the-myths-and-what-the-symbols-mean',
-      title: 'Everything About Chinese Wedding Traditions: The Rituals, the Myths and What the Symbols Mean'
-    },
-    {
-      href: '/en/articles/wedding-traditions/the-sangjit-meaning-stages-and-a-complete-checklist-so-you-don-t-panic-on-the-day',
-      title: "The Sangjit: Meaning, Stages and a Complete Checklist So You Don't Panic on the Day!"
     }
   ]
 };

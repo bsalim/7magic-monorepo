@@ -55,6 +55,15 @@ CLUSTERS: dict[str, list[str]] = {
         "sungkeman-dan-tea-pai-lagu-pengiring",
         "angka-baik-dan-pantangan-pernikahan-tionghoa",
         "sangjit-hokkien-khek-tiociu-kanton-beda-aturan",
+        "mengenal-ba-zi-empat-pilar-kelahiran",
+        "kecocokan-pasangan-menurut-ba-zi",
+    ],
+    # The Ba Zi pair first, then the two pieces that count shio and lucky dates.
+    "astrologi-tionghoa": [
+        "mengenal-ba-zi-empat-pilar-kelahiran",
+        "kecocokan-pasangan-menurut-ba-zi",
+        "menentukan-tanggal-pernikahan-weton-shio",
+        "angka-baik-dan-pantangan-pernikahan-tionghoa",
     ],
     "tea-pai": [
         "tea-pai-tradisi-teh-pernikahan-tionghoa-yang-penuh-makna-filosofi",
