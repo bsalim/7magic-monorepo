@@ -4,13 +4,13 @@ Every other test in the suite monkeypatches `send_email` away, so without this
 file the whole transport layer ships unexercised: which provider is chosen, what
 each puts on the wire, and the best-effort contracts the callers depend on.
 
-Bird and Resend are near-identical -- both take a Bearer header and a flat
-from/to/subject/html/text body -- so the tests that earn their place are the
-ones pinning where they differ: Bird's region-derived host, its list-valued
-reply_to, and its category, which is "marketing" unless we say otherwise.
+Resend is a flat JSON POST; SES is a boto3 call with a nested request, its own
+credentials, and an endpoint that has to be pinned because the process
+environment's AWS_ENDPOINT_URL points at R2. The SES tests that earn their place
+pin exactly those differences.
 
-No test here reaches the network: every mailer is built with a recording
-transport.
+No test here reaches the network: Resend is built with a recording transport,
+SES with a botocore Stubber.
 """
 
 from __future__ import annotations
@@ -18,14 +18,17 @@ from __future__ import annotations
 import json
 from typing import Any
 
+import boto3
 import httpx
 import pytest
+from botocore.exceptions import ClientError, EndpointConnectionError
+from botocore.stub import Stubber
 from pydantic import ValidationError
 
 from app.core.config import Settings
 from app.services.email.base import EmailMessage
-from app.services.email.bird import BIRD_EMAIL_PATH, BirdMailer
 from app.services.email.resend import RESEND_ENDPOINT, ResendMailer
+from app.services.email.ses import SesMailer, ses_endpoint
 from app.services.email.service import EmailNotifier, get_mailer
 
 
@@ -38,9 +41,10 @@ def make_settings(**overrides: Any) -> Settings:
     base: dict[str, Any] = {
         "mail_provider": "resend",
         "resend_api_key": "re_testkey",
-        "bird_mail_api_key": "bk_us1_testtoken",
-        "bird_mail_category": "transactional",
-        "bird_base_url": None,
+        "ses_access_key_id": "AKIATESTKEY",
+        "ses_secret_access_key": "test-secret",
+        "ses_region": "ap-southeast-1",
+        "ses_configuration_set": None,
         "lead_notification_from": "7Magic <hello@7magicwedding.com>",
         "lead_notification_email": "info@7magicwedding.com",
         "admin_emails": "",
@@ -70,8 +74,46 @@ def sent(transport: RecordingTransport) -> dict[str, Any]:
     return json.loads(transport.request.content)
 
 
-def bird(transport: RecordingTransport, **overrides: Any) -> BirdMailer:
-    return BirdMailer(make_settings(mail_provider="bird", **overrides), transport=transport)
+class StubbedSes:
+    """A real sesv2 client with botocore's Stubber in front of it, so the request
+    is validated against the actual SES model -- a misspelt key fails here, not
+    in production -- and never leaves the process."""
+
+    def __init__(self, error_code: str | None = None) -> None:
+        self.client = boto3.client(
+            "sesv2",
+            region_name="ap-southeast-1",
+            aws_access_key_id="x",
+            aws_secret_access_key="x",
+        )
+        self.stubber = Stubber(self.client)
+        self.error_code = error_code
+        self.request: dict[str, Any] | None = None
+
+    def expect(self, request: dict[str, Any] | None = None) -> None:
+        """Queue one send. With no request given, any parameters are accepted and
+        captured for the test to assert on."""
+        if self.error_code:
+            self.stubber.add_client_error(
+                "send_email", service_error_code=self.error_code, http_status_code=400
+            )
+        else:
+            self.stubber.add_response("send_email", {"MessageId": "m_1"}, request)
+        self.stubber.activate()
+        self.client.meta.events.register("provide-client-params.sesv2.SendEmail", self._capture)
+
+    def _capture(self, params: dict[str, Any], **_: Any) -> None:
+        self.request = params
+
+
+class UnreachableSes:
+    def send_email(self, **_: Any) -> None:
+        raise EndpointConnectionError(endpoint_url="https://email.example.test")
+
+
+def ses(stub: StubbedSes, **overrides: Any) -> SesMailer:
+    stub.expect()
+    return SesMailer(make_settings(mail_provider="ses", **overrides), client=stub.client)
 
 
 MESSAGE = EmailMessage(to=["dina@example.test"], subject="Hi", text="Hello")
@@ -84,8 +126,15 @@ def test_resend_is_the_default_provider() -> None:
     assert isinstance(get_mailer(make_settings()), ResendMailer)
 
 
-def test_bird_is_selected_by_config() -> None:
-    assert isinstance(get_mailer(make_settings(mail_provider="bird")), BirdMailer)
+def test_ses_is_selected_by_config() -> None:
+    assert isinstance(get_mailer(make_settings(mail_provider="ses")), SesMailer)
+
+
+def test_bird_is_no_longer_a_mail_provider() -> None:
+    """Replaced by SES. An env file still saying bird must fail at boot rather
+    than fall through to a provider nobody configured."""
+    with pytest.raises(ValidationError):
+        make_settings(mail_provider="bird")
 
 
 def test_an_unknown_provider_fails_at_settings_construction() -> None:
@@ -94,126 +143,89 @@ def test_an_unknown_provider_fails_at_settings_construction() -> None:
         make_settings(mail_provider="sendgrid")
 
 
-def test_bird_mail_category_defaults_to_transactional() -> None:
-    """Bird files an unset send as "marketing", which is the wrong bucket for a
-    booking confirmation."""
-    assert Settings(resend_api_key="re_x").bird_mail_category == "transactional"
+# --- SES on the wire ----------------------------------------------------------
 
 
-# --- Bird on the wire ---------------------------------------------------------
+def test_ses_pins_its_endpoint_and_credentials(monkeypatch) -> None:
+    """systemd loads the env file into the environment, where AWS_ENDPOINT_URL,
+    AWS_ACCESS_KEY_ID and AWS_REGION are all R2's. boto3 honours every one of
+    them, so the client must be built from the SES settings alone."""
+    monkeypatch.setenv("AWS_ENDPOINT_URL", "https://r2.example.test")
+    monkeypatch.setenv("AWS_ACCESS_KEY_ID", "r2-key")
+    monkeypatch.setenv("AWS_SECRET_ACCESS_KEY", "r2-secret")
+    monkeypatch.setenv("AWS_REGION", "auto")
 
+    client = SesMailer(make_settings(mail_provider="ses"))._get_client()
 
-@pytest.mark.asyncio
-async def test_bird_posts_to_the_host_its_key_names() -> None:
-    """Bird derives the region from the key itself (bk_{region}_{token}), so a
-    key from another region needs no config change."""
-    transport = RecordingTransport()
-
-    await bird(transport).send(MESSAGE)
-
-    assert transport.request is not None
-    assert str(transport.request.url) == f"https://us1.platform.bird.com{BIRD_EMAIL_PATH}"
-
-
-@pytest.mark.asyncio
-async def test_bird_authenticates_with_bearer() -> None:
-    """Bird's own SDK sends Bearer and the live API accepts it. The AccessKey
-    scheme in the Channels API docs is a different surface and does not apply."""
-    transport = RecordingTransport()
-
-    await bird(transport).send(MESSAGE)
-
-    assert transport.request is not None
-    assert transport.request.headers["Authorization"] == "Bearer bk_us1_testtoken"
+    assert client.meta.endpoint_url == ses_endpoint("ap-southeast-1")
+    assert client.meta.region_name == "ap-southeast-1"
+    assert client._request_signer._credentials.access_key == "AKIATESTKEY"
 
 
 @pytest.mark.asyncio
-async def test_bird_sends_the_configured_from_address_verbatim() -> None:
-    """Bird accepts an RFC 5322 mailbox string, so one setting serves both
-    providers."""
-    transport = RecordingTransport()
+async def test_ses_sends_a_well_formed_request() -> None:
+    """The exact shape, validated by the Stubber against the real SES model."""
+    stub = StubbedSes()
+    stub.expect(
+        {
+            "FromEmailAddress": "7Magic <hello@7magicwedding.com>",
+            "Destination": {"ToAddresses": ["one@example.test", "two@example.test"]},
+            "ReplyToAddresses": ["team@7magic.test"],
+            "Content": {
+                "Simple": {
+                    "Subject": {"Data": "Hi", "Charset": "UTF-8"},
+                    "Body": {
+                        "Text": {"Data": "Plain", "Charset": "UTF-8"},
+                        "Html": {"Data": "<p>Rich</p>", "Charset": "UTF-8"},
+                    },
+                }
+            },
+        }
+    )
+    mailer = SesMailer(make_settings(mail_provider="ses"), client=stub.client)
 
-    await bird(transport).send(MESSAGE)
-
-    assert sent(transport)["from"] == "7Magic <hello@7magicwedding.com>"
-
-
-@pytest.mark.asyncio
-async def test_bird_carries_every_recipient() -> None:
-    """A branch alert goes to every address the branch lists."""
-    transport = RecordingTransport()
-
-    await bird(transport).send(
-        EmailMessage(to=["one@example.test", "two@example.test"], subject="Hi", text="Hello")
+    await mailer.send(
+        EmailMessage(
+            to=["one@example.test", "two@example.test"],
+            subject="Hi",
+            text="Plain",
+            html="<p>Rich</p>",
+            reply_to="team@7magic.test",
+        )
     )
 
-    assert sent(transport)["to"] == ["one@example.test", "two@example.test"]
+    stub.stubber.assert_no_pending_responses()
 
 
 @pytest.mark.asyncio
-async def test_bird_sends_html_beside_its_text_alternative() -> None:
-    transport = RecordingTransport()
+async def test_ses_omits_html_and_reply_to_when_there_are_none() -> None:
+    stub = StubbedSes()
 
-    await bird(transport).send(
-        EmailMessage(to=["a@b.test"], subject="Hi", text="Plain", html="<p>Rich</p>")
-    )
+    await ses(stub).send(MESSAGE)
 
-    payload = sent(transport)
-    assert payload["html"] == "<p>Rich</p>"
-    assert payload["text"] == "Plain"
-
-
-@pytest.mark.asyncio
-async def test_bird_omits_html_when_there_is_none() -> None:
-    transport = RecordingTransport()
-
-    await bird(transport).send(MESSAGE)
-
-    assert "html" not in sent(transport)
+    assert stub.request is not None
+    assert "Html" not in stub.request["Content"]["Simple"]["Body"]
+    assert "ReplyToAddresses" not in stub.request
+    assert "ConfigurationSetName" not in stub.request
 
 
 @pytest.mark.asyncio
-async def test_bird_wraps_reply_to_in_a_list() -> None:
-    """Bird takes a list here where Resend takes a scalar."""
-    transport = RecordingTransport()
+async def test_ses_names_the_configuration_set_when_one_is_set() -> None:
+    stub = StubbedSes()
 
-    await bird(transport).send(
-        EmailMessage(to=["a@b.test"], subject="Hi", text="Hello", reply_to="team@7magic.test")
-    )
+    await ses(stub, ses_configuration_set="7magic-transactional").send(MESSAGE)
 
-    assert sent(transport)["reply_to"] == ["team@7magic.test"]
+    assert stub.request is not None
+    assert stub.request["ConfigurationSetName"] == "7magic-transactional"
 
 
 @pytest.mark.asyncio
-async def test_bird_omits_reply_to_entirely_when_unset() -> None:
-    transport = RecordingTransport()
-
-    await bird(transport).send(MESSAGE)
-
-    assert "reply_to" not in sent(transport)
-
-
-@pytest.mark.asyncio
-async def test_bird_always_states_the_category() -> None:
-    """Left unset, Bird files the send as marketing."""
-    transport = RecordingTransport()
-
-    await bird(transport).send(MESSAGE)
-
-    assert sent(transport)["category"] == "transactional"
-
-
-@pytest.mark.asyncio
-async def test_bird_treats_202_as_success() -> None:
-    """Bird returns 202 accepted, not 200."""
-    await bird(RecordingTransport(status_code=202)).send(MESSAGE)
-
-
-@pytest.mark.asyncio
-async def test_bird_raises_on_a_rejected_send() -> None:
+async def test_ses_raises_on_a_rejected_send() -> None:
     """Raising is the contract; each caller decides what to do about it."""
-    with pytest.raises(httpx.HTTPStatusError):
-        await bird(RecordingTransport(status_code=422)).send(MESSAGE)
+    stub = StubbedSes(error_code="MessageRejected")
+
+    with pytest.raises(ClientError):
+        await ses(stub).send(MESSAGE)
 
 
 # --- Resend on the wire -------------------------------------------------------
@@ -232,7 +244,7 @@ async def test_resend_posts_to_its_own_endpoint() -> None:
 
 @pytest.mark.asyncio
 async def test_resend_takes_a_scalar_reply_to() -> None:
-    """Where Bird takes a list. This is the one shape difference between them."""
+    """Where SES takes a list."""
     transport = RecordingTransport(status_code=200)
 
     await ResendMailer(make_settings(), transport=transport).send(
@@ -242,68 +254,37 @@ async def test_resend_takes_a_scalar_reply_to() -> None:
     assert sent(transport)["reply_to"] == "team@7magic.test"
 
 
-@pytest.mark.asyncio
-async def test_resend_does_not_send_a_category() -> None:
-    """That field is Bird's; Resend would reject an unknown key."""
-    transport = RecordingTransport(status_code=200)
-
-    await ResendMailer(make_settings(), transport=transport).send(MESSAGE)
-
-    assert "category" not in sent(transport)
-
-
 # --- Configured, or degrading quietly -----------------------------------------
 
 
-def test_bird_is_unconfigured_without_a_key() -> None:
-    assert not BirdMailer(make_settings(bird_mail_api_key=None)).configured
+@pytest.mark.parametrize("missing", ["ses_access_key_id", "ses_secret_access_key", "ses_region"])
+def test_ses_is_unconfigured_without_any_one_of_its_settings(missing: str) -> None:
+    """No region default either: identities are verified per region, so a guess
+    would only move the failure from boot to every send."""
+    assert not SesMailer(make_settings(**{missing: None})).configured
 
 
-def test_bird_is_unconfigured_when_its_key_names_no_region() -> None:
-    """A malformed key yields no host, which is as unsendable as no key at all."""
-    assert not BirdMailer(make_settings(bird_mail_api_key="not-a-bird-key")).configured
-
-
-def test_bird_is_configured_with_a_well_formed_key() -> None:
-    assert BirdMailer(make_settings()).configured
+def test_ses_is_configured_with_all_three() -> None:
+    assert SesMailer(make_settings()).configured
 
 
 def test_resend_is_unconfigured_without_a_key() -> None:
     assert not ResendMailer(make_settings(resend_api_key=None)).configured
 
 
-def test_the_bird_mail_key_falls_back_to_the_shared_access_key(monkeypatch) -> None:
-    """A single-key setup needs no extra config; a separate mail key lets it be
-    rotated without touching WhatsApp.
+def test_ses_never_borrows_the_r2_credentials(monkeypatch) -> None:
+    """AWS_ACCESS_KEY_ID is R2's in this app. Reading it as an SES fallback
+    would sign mail requests with the bucket's key."""
+    monkeypatch.setenv("AWS_ACCESS_KEY_ID", "r2-key")
+    monkeypatch.setenv("AWS_SECRET_ACCESS_KEY", "r2-secret")
+    monkeypatch.setenv("AWS_REGION", "auto")
 
-    The variable must be *absent* for the fallback, not empty: an alias that is
-    set wins even when its value is blank, so `BIRD_MAIL_API_KEY=` in a dotenv
-    file means "no mail key" rather than "use the shared one".
+    settings = Settings(_env_file=None)
 
-    `_env_file=None` because apps/api/.env supplies a real BIRD_MAIL_API_KEY on a
-    developer machine, and reading it would answer a different question.
-    """
-    monkeypatch.delenv("BIRD_MAIL_API_KEY", raising=False)
-    monkeypatch.setenv("BIRD_ACCESS_KEY", "bk_us1_shared")
-
-    assert Settings(_env_file=None).bird_mail_api_key == "bk_us1_shared"
-
-
-def test_an_empty_mail_key_does_not_fall_back(monkeypatch) -> None:
-    """Set-but-blank is not the same as unset, and the difference decides whether
-    mail sends at all. Pinned because it is the opposite of what the word
-    "fallback" suggests."""
-    monkeypatch.setenv("BIRD_MAIL_API_KEY", "")
-    monkeypatch.setenv("BIRD_ACCESS_KEY", "bk_us1_shared")
-
-    assert Settings(_env_file=None).bird_mail_api_key == ""
-
-
-def test_a_dedicated_mail_key_wins_over_the_shared_one(monkeypatch) -> None:
-    monkeypatch.setenv("BIRD_MAIL_API_KEY", "bk_us1_mailonly")
-    monkeypatch.setenv("BIRD_ACCESS_KEY", "bk_us1_shared")
-
-    assert Settings(_env_file=None).bird_mail_api_key == "bk_us1_mailonly"
+    # Falsy rather than None: conftest blanks the SES names to "".
+    assert not settings.ses_access_key_id
+    assert not settings.ses_secret_access_key
+    assert not settings.ses_region
 
 
 def test_the_suite_cannot_reach_a_live_mail_provider() -> None:
@@ -316,14 +297,15 @@ def test_the_suite_cannot_reach_a_live_mail_provider() -> None:
     for name in (
         "BIRD_API_KEY",
         "BIRD_ACCESS_KEY",
-        "BIRD_MAIL_API_KEY",
+        "SES_ACCESS_KEY_ID",
+        "SES_SECRET_ACCESS_KEY",
         "RESEND_API_KEY",
         "WHATSAPP_TEAM_NUMBER",
     ):
         assert os.environ.get(name) == "", f"{name} is not blanked for tests"
 
     live = Settings()
-    assert not live.bird_mail_api_key
+    assert not live.ses_access_key_id
     assert not live.resend_api_key
     # And so nothing is configured to send in the first place.
     assert not get_mailer(live).configured
@@ -336,9 +318,9 @@ def test_the_suite_cannot_reach_a_live_mail_provider() -> None:
 async def test_a_lead_notification_returns_false_rather_than_raising() -> None:
     """leads.py treats False as "saved, not notified". It must never see an
     exception -- the lead row is already committed by the time this runs."""
-    settings = make_settings(mail_provider="bird")
+    settings = make_settings()
     notifier = EmailNotifier(settings)
-    notifier._mailer = BirdMailer(
+    notifier._mailer = ResendMailer(
         settings, transport=RecordingTransport(error=httpx.ConnectError("boom"))
     )
 
@@ -351,9 +333,38 @@ async def test_a_lead_notification_returns_false_rather_than_raising() -> None:
 
 @pytest.mark.asyncio
 async def test_a_rejected_lead_notification_returns_false() -> None:
-    settings = make_settings(mail_provider="bird")
+    settings = make_settings()
     notifier = EmailNotifier(settings)
-    notifier._mailer = BirdMailer(settings, transport=RecordingTransport(status_code=422))
+    notifier._mailer = ResendMailer(settings, transport=RecordingTransport(status_code=422))
+
+    result = await notifier.send_lead_notification(
+        subject="New enquiry", heading="New contact enquiry", fields={"Name": "Dina"}
+    )
+
+    assert result is False
+
+
+@pytest.mark.asyncio
+async def test_an_ses_rejection_returns_false_rather_than_raising() -> None:
+    """SES fails with botocore's exceptions, not httpx's -- the notifier has to
+    catch both families or an unverified sender becomes a 500 on the form."""
+    settings = make_settings(mail_provider="ses")
+    stub = StubbedSes(error_code="MessageRejected")
+    notifier = EmailNotifier(settings)
+    notifier._mailer = ses(stub)
+
+    result = await notifier.send_lead_notification(
+        subject="New enquiry", heading="New contact enquiry", fields={"Name": "Dina"}
+    )
+
+    assert result is False
+
+
+@pytest.mark.asyncio
+async def test_an_unreachable_ses_returns_false_rather_than_raising() -> None:
+    settings = make_settings(mail_provider="ses")
+    notifier = EmailNotifier(settings)
+    notifier._mailer = SesMailer(settings, client=UnreachableSes())
 
     result = await notifier.send_lead_notification(
         subject="New enquiry", heading="New contact enquiry", fields={"Name": "Dina"}
@@ -365,9 +376,9 @@ async def test_a_rejected_lead_notification_returns_false() -> None:
 @pytest.mark.asyncio
 async def test_a_lead_notification_carries_html_and_a_text_alternative() -> None:
     transport = RecordingTransport()
-    settings = make_settings(mail_provider="bird")
+    settings = make_settings()
     notifier = EmailNotifier(settings)
-    notifier._mailer = BirdMailer(settings, transport=transport)
+    notifier._mailer = ResendMailer(settings, transport=transport)
 
     assert await notifier.send_lead_notification(
         subject="New enquiry", heading="New contact enquiry", fields={"Name": "Dina"}
@@ -385,11 +396,10 @@ async def test_a_lead_notification_goes_to_every_admin_email() -> None:
     comma and the same address in another case all have to be survivable."""
     transport = RecordingTransport()
     settings = make_settings(
-        mail_provider="bird",
         admin_emails=" owner@example.com, team@example.com ,Owner@Example.com,",
     )
     notifier = EmailNotifier(settings)
-    notifier._mailer = BirdMailer(settings, transport=transport)
+    notifier._mailer = ResendMailer(settings, transport=transport)
 
     assert await notifier.send_lead_notification(
         subject="New enquiry", heading="New contact enquiry", fields={"Name": "Dina"}
@@ -405,9 +415,9 @@ def test_blank_admin_emails_fall_back_to_the_notification_inbox() -> None:
 @pytest.mark.asyncio
 async def test_a_multi_line_lead_message_keeps_its_line_breaks_in_html() -> None:
     transport = RecordingTransport()
-    settings = make_settings(mail_provider="bird")
+    settings = make_settings()
     notifier = EmailNotifier(settings)
-    notifier._mailer = BirdMailer(settings, transport=transport)
+    notifier._mailer = ResendMailer(settings, transport=transport)
 
     await notifier.send_lead_notification(
         subject="s",

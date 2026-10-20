@@ -32,13 +32,14 @@ for _name in (
     "BIRD_ACCESS_KEY",
     "BIRD_BASE_URL",
     "BIRD_WEBHOOK_SIGNING_KEY",
-    "BIRD_MAIL_API_KEY",
+    "SES_ACCESS_KEY_ID",
+    "SES_SECRET_ACCESS_KEY",
     "WHATSAPP_TEAM_NUMBER",
     "RESEND_API_KEY",
 ):
     os.environ[_name] = ""
 
-# Back to the default. A developer with MAIL_PROVIDER=bird exported would
+# Back to the default. A developer with MAIL_PROVIDER=ses exported would
 # otherwise have the suite exercise a different provider than CI does.
 os.environ["MAIL_PROVIDER"] = "resend"
 

@@ -13,13 +13,14 @@ import logging
 from typing import Any
 
 import httpx
+from botocore.exceptions import BotoCoreError, ClientError
 
 from app.core.config import Settings, get_settings
 
 from .base import EmailMessage, Mailer
-from .bird import BirdMailer
 from .layout import paragraphs, render_email, render_lead_email
 from .resend import ResendMailer
+from .ses import SesMailer
 
 logger = logging.getLogger("app.email")
 
@@ -27,8 +28,8 @@ logger = logging.getLogger("app.email")
 def get_mailer(settings: Settings) -> Mailer:
     """One provider, chosen from config. Both stay configured, so switching back
     is the same one variable."""
-    if settings.mail_provider == "bird":
-        return BirdMailer(settings)
+    if settings.mail_provider == "ses":
+        return SesMailer(settings)
     return ResendMailer(settings)
 
 
@@ -130,4 +131,17 @@ class EmailNotifier:
             return False
         except httpx.HTTPError as exc:
             logger.warning("Could not reach %s: %s", self._settings.mail_provider, exc)
+            return False
+        except ClientError as exc:
+            # SES's counterpart to the 4xx above: an unverified sender, a
+            # sandboxed account mailing an unverified recipient, a throttle.
+            error = exc.response.get("Error", {})
+            logger.warning(
+                "ses rejected the notification (%s): %s",
+                error.get("Code"),
+                str(error.get("Message", ""))[:300],
+            )
+            return False
+        except BotoCoreError as exc:
+            logger.warning("Could not reach ses: %s", exc)
             return False

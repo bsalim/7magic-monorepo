@@ -46,7 +46,7 @@ class Settings(BaseSettings):
         ),
     )
 
-    # Transactional email (Resend). Leads are always persisted; email is a
+    # Transactional email. Leads are always persisted; email is a
     # notification on top, so an unset key degrades to a logged warning
     # rather than a failed submission.
     resend_api_key: str | None = Field(
@@ -74,24 +74,30 @@ class Settings(BaseSettings):
     # switch is this one variable and a restart -- and so is switching back. A
     # Literal rather than a str: a typo must fail at boot, not degrade to
     # silently sending nothing.
-    mail_provider: Literal["resend", "bird"] = Field(
+    mail_provider: Literal["resend", "ses"] = Field(
         default="resend",
         validation_alias=AliasChoices("mail_provider", "MAIL_PROVIDER"),
     )
-    # Separate from BIRD_ACCESS_KEY so the mail key can be rotated or scoped
-    # without touching WhatsApp; the fallbacks mean a single-key setup needs no
-    # extra config.
-    bird_mail_api_key: str | None = Field(
+    # Amazon SES. Deliberately no AWS_* aliases: those names are R2's above, and
+    # accepting them here would send mail with the bucket's credentials.
+    ses_access_key_id: str | None = Field(
         default=None,
-        validation_alias=AliasChoices(
-            "bird_mail_api_key", "BIRD_MAIL_API_KEY", "BIRD_ACCESS_KEY", "BIRD_API_KEY"
-        ),
+        validation_alias=AliasChoices("ses_access_key_id", "SES_ACCESS_KEY_ID"),
     )
-    # Bird files an unset send as "marketing", which is the wrong bucket for a
-    # booking confirmation and changes how it is filtered and unsubscribed from.
-    bird_mail_category: str = Field(
-        default="transactional",
-        validation_alias=AliasChoices("bird_mail_category", "BIRD_MAIL_CATEGORY"),
+    ses_secret_access_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("ses_secret_access_key", "SES_SECRET_ACCESS_KEY"),
+    )
+    # The region the sending domain is verified in, e.g. ap-southeast-1. Not
+    # AWS_REGION, which is R2's "auto".
+    ses_region: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("ses_region", "SES_REGION"),
+    )
+    # Optional. Attach one to get bounce and complaint events out of SES.
+    ses_configuration_set: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("ses_configuration_set", "SES_CONFIGURATION_SET"),
     )
     # Absolute https URL. Blank renders the wordmark instead -- which is also
     # what the many readers who block remote images end up seeing.
@@ -101,7 +107,7 @@ class Settings(BaseSettings):
     )
 
     # WhatsApp via Bird (formerly MessageBird). Bird carries WhatsApp only --
-    # transactional email stays on Resend above. Every field is optional so the
+    # transactional email goes through MAIL_PROVIDER above. Every field is optional so the
     # API boots unconfigured: sends degrade to a logged warning, exactly like
     # Resend, and the inbound webhook refuses everything while the signing key
     # is unset rather than trusting unverified payloads.

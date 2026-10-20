@@ -13,7 +13,7 @@ class EmailMessage:
     `text` is required rather than optional: a send with no plain-text
     alternative is a deliverability problem, and making it non-optional means no
     future caller can forget it. `reply_to` stays scalar because that is what
-    every caller has -- Bird wanting a list is Bird's concern, handled there.
+    every caller has -- SES wanting a list is SES's concern, handled there.
     """
 
     to: list[str]
