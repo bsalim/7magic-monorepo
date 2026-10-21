@@ -7,6 +7,7 @@
   import { OFFICES } from '$lib/offices';
   import { m } from '$lib/paraglide/messages.js';
   import { localizeHref } from '$lib/paraglide/runtime';
+  import { siteHref } from '$lib/seo/english-only';
   import { FOUNDING_YEAR } from '$lib/seo/schema';
   import {
     ALL_VENUES_HREF,
@@ -128,7 +129,7 @@
               {#each group.links as link (link.href)}
                 <li>
                   <a
-                    href={localizeHref(link.href)}
+                    href={siteHref(link.href)}
                     class="text-muted-foreground transition hover:text-foreground"
                   >
                     {link.label}

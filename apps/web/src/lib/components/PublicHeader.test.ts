@@ -72,9 +72,9 @@ describe('PublicHeader', () => {
           '/wedding-venue/bekasi'
         ]
       },
-      { region: 'Bali', hrefs: ['/bali-wedding-planning', '/wedding-venue/bali'] },
+      { region: 'Bali', hrefs: ['/en/bali-wedding-planning', '/wedding-venue/bali'] },
       { region: 'Batam', hrefs: ['/wedding-venue/batam'] },
-      { region: 'Singapura', hrefs: ['/wedding-planning-singapore', '/wedding-venue/singapore'] }
+      { region: 'Singapura', hrefs: ['/en/wedding-planning-singapore', '/wedding-venue/singapore'] }
     ]);
     expect(within(panel).getByText('Venue Bali')).toBeInTheDocument();
     expect(within(panel).getByRole('link', { name: /Lihat Semua Venue/ })).toHaveAttribute(

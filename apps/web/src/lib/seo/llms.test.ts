@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildLlmsTxt } from '$lib/seo/llms';
 import { SITE_URL } from '$lib/seo/schema';
+import { siteHref } from '$lib/seo/english-only';
 import { STATIC_PATHS } from '$lib/seo/static-paths';
 
 const cities = [
@@ -38,6 +39,14 @@ describe('buildLlmsTxt', () => {
     expect(buildLlmsTxt([])).toContain(`${SITE_URL}/en/prenuptial-agreement`);
   });
 
+  // An English-only page has no Indonesian URL to cite, and the root form is a
+  // redirect a model would otherwise quote.
+  it('lists an English-only page at its /en URL alone', () => {
+    const text = buildLlmsTxt([]);
+    expect(text).toContain(`](${SITE_URL}/en/bali-wedding-planning): `);
+    expect(text).not.toContain(`](${SITE_URL}/bali-wedding-planning)`);
+  });
+
   it('emits only absolute URLs', () => {
     expect(buildLlmsTxt(cities)).not.toMatch(/\]\(\//);
   });
@@ -48,7 +57,7 @@ describe('buildLlmsTxt', () => {
   it('links every static page in the sitemap', () => {
     const text = buildLlmsTxt([]);
     const missing = STATIC_PATHS.filter((path) => path !== '/').filter(
-      (path) => !text.includes(`](${SITE_URL}${path})`)
+      (path) => !text.includes(`](${SITE_URL}${siteHref(path)})`)
     );
     expect(missing).toEqual([]);
   });

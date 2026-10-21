@@ -5,6 +5,7 @@ import PublicFooter from './PublicFooter.svelte';
 // The partner strip above the footer reads the media host from SvelteKit's
 // runtime env, which only exists inside a running server.
 vi.mock('$env/dynamic/public', () => ({ env: {} }));
+import { siteHref } from '$lib/seo/english-only';
 import { STATIC_PATHS } from '$lib/seo/static-paths';
 
 const footerHrefs = () =>
@@ -19,7 +20,7 @@ describe('PublicFooter', () => {
   it('links every static page in the sitemap', () => {
     render(PublicFooter);
     const hrefs = footerHrefs();
-    expect(STATIC_PATHS.filter((path) => !hrefs.includes(path))).toEqual([]);
+    expect(STATIC_PATHS.filter((path) => !hrefs.includes(siteHref(path)))).toEqual([]);
   });
 
   // The canonical hub URLs, not the search page filtered by city: those are

@@ -1,6 +1,7 @@
 import { CONTACT_EMAIL } from '$lib/contact';
 import { OFFICES } from '$lib/offices';
 import { localizeHref } from '$lib/paraglide/runtime';
+import { englishPath, isEnglishOnly } from '$lib/seo/english-only';
 import { FOUNDING_YEAR, absoluteUrl } from '$lib/seo/schema';
 import type { CityEntry } from '$lib/venue-groups';
 import { whatsappDisplay } from '$lib/whatsapp';
@@ -8,9 +9,11 @@ import { whatsappDisplay } from '$lib/whatsapp';
 /**
  * One line of the llms.txt link list. Points at the Indonesian URL, which is
  * the canonical one Google indexes, with the English copy alongside so a model
- * answering in either language cites a page that exists in it.
+ * answering in either language cites a page that exists in it. An English-only
+ * page has no Indonesian URL, so it is listed at its English one alone.
  */
 function link(path: string, label: string, note: string): string {
+  if (isEnglishOnly(path)) return `- [${label}](${absoluteUrl(englishPath(path))}): ${note}`;
   const id = absoluteUrl(localizeHref(path, { locale: 'id' }));
   const en = absoluteUrl(localizeHref(path, { locale: 'en' }));
   return `- [${label}](${id}): ${note} ([English](${en}))`;

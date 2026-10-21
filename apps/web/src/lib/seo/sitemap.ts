@@ -17,7 +17,7 @@ import { canonicalUrl } from '$lib/seo/schema';
 
 /** One page, in every language it exists in, keyed by locale. */
 export type SitemapEntry = {
-  /** Locale code to path (or absolute URL). Must contain at least `id`. */
+  /** Locale code to path (or absolute URL). An English-only page has `en` alone. */
   alternates: Record<string, string>;
   /** ISO date or datetime. Anything unparseable is dropped rather than guessed. */
   lastmod?: string | null;

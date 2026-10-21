@@ -13,6 +13,7 @@
   import BaliTempleIcon from './BaliTempleIcon.svelte';
   import { m } from '$lib/paraglide/messages.js';
   import { deLocalizeHref, localizeHref } from '$lib/paraglide/runtime';
+  import { siteHref } from '$lib/seo/english-only';
   import { page } from '$app/state';
   import {
     ALL_VENUES_HREF,
@@ -230,7 +231,7 @@
       {:else}
         {#each items as item (item.href)}
           <a
-            href={localizeHref(item.href)}
+            href={siteHref(item.href)}
             onclick={closeMenus}
             aria-current={isActive(item.href) ? 'page' : undefined}
             class={cn(
@@ -260,7 +261,7 @@
           {#each [...region.packages, ...region.venues] as link (link.href)}
             <li>
               <a
-                href={localizeHref(link.href)}
+                href={siteHref(link.href)}
                 onclick={closeMenus}
                 aria-current={isActive(link.href) ? 'page' : undefined}
                 class={cn(
@@ -302,7 +303,7 @@
 
 {#snippet sheetLink(link: NavLink, extraClass = '')}
   <a
-    href={localizeHref(link.href)}
+    href={siteHref(link.href)}
     aria-current={isActive(link.href) ? 'page' : undefined}
     class={cn(
       'rounded-md px-3 py-2 text-[15px] font-medium hover:bg-muted',
