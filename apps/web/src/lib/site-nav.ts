@@ -105,7 +105,8 @@ export function toolLinks(): NavLink[] {
   return [
     { href: `${TOOLS_HREF}/mahar-tanggal-pernikahan`, label: m.tools_mahar_name() },
     { href: `${TOOLS_HREF}/generator-hashtag-pernikahan`, label: m.tools_hashtag_name() },
-    { href: `${TOOLS_HREF}/kalkulator-bazi-pasangan`, label: m.tools_bazi_name() }
+    { href: `${TOOLS_HREF}/kalkulator-bazi-pasangan`, label: m.tools_bazi_name() },
+    { href: `${TOOLS_HREF}/bali-wedding-cost-calculator`, label: m.tools_bali_cost_name() }
   ];
 }
 

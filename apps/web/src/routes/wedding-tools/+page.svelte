@@ -3,6 +3,7 @@
   import CalendarHeartIcon from '@lucide/svelte/icons/calendar-heart';
   import CalculatorIcon from '@lucide/svelte/icons/calculator';
   import CompassIcon from '@lucide/svelte/icons/compass';
+  import PalmtreeIcon from '@lucide/svelte/icons/palmtree';
   import HashIcon from '@lucide/svelte/icons/hash';
   import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
   import MoonStarIcon from '@lucide/svelte/icons/moon-star';
@@ -12,6 +13,7 @@
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { m } from '$lib/paraglide/messages.js';
   import { getLocale, localizeHref } from '$lib/paraglide/runtime';
+  import { siteHref } from '$lib/seo/english-only';
   import {
     absoluteUrl,
     breadcrumbList,
@@ -38,6 +40,7 @@
     mahar: CalendarHeartIcon,
     hashtag: HashIcon,
     bazi: CompassIcon,
+    'bali-cost': PalmtreeIcon,
     weton: SparklesIcon,
     tionghoa: MoonStarIcon,
     budget: CalculatorIcon
@@ -63,7 +66,7 @@
               '@type': 'ListItem',
               position: index + 1,
               name: tool.title,
-              url: absoluteUrl(localizeHref(tool.path!))
+              url: absoluteUrl(siteHref(tool.path!))
             }))
           }
         }),
@@ -123,7 +126,7 @@
         <li class="h-full">
           {#if tool.path}
             <a
-              href={localizeHref(tool.path)}
+              href={siteHref(tool.path)}
               class="group flex h-full flex-col rounded-2xl border border-brand-gold/50 bg-background p-6 shadow-[0_18px_50px_-30px_rgba(138,101,36,0.5)] transition hover:-translate-y-0.5 hover:border-brand-gold hover:shadow-[0_24px_60px_-28px_rgba(138,101,36,0.55)] focus-visible:ring-3 focus-visible:ring-ring/40 focus-visible:outline-none"
             >
               <div class="flex items-center justify-between">

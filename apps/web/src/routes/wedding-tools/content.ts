@@ -10,7 +10,7 @@
 import type { Locale } from '$lib/paraglide/runtime';
 
 export type ToolCard = {
-  key: 'mahar' | 'hashtag' | 'bazi' | 'weton' | 'tionghoa' | 'budget';
+  key: 'mahar' | 'hashtag' | 'bazi' | 'bali-cost' | 'weton' | 'tionghoa' | 'budget';
   title: string;
   copy: string;
   /** Unlocalized route; absent while the tool is still to come. */
@@ -27,6 +27,8 @@ export type HubCopy = {
 const MAHAR_PATH = '/wedding-tools/mahar-tanggal-pernikahan';
 const HASHTAG_PATH = '/wedding-tools/generator-hashtag-pernikahan';
 const BAZI_PATH = '/wedding-tools/kalkulator-bazi-pasangan';
+// English-only: the hub links it at its /en URL from either edition.
+const BALI_COST_PATH = '/wedding-tools/bali-wedding-cost-calculator';
 
 const id: HubCopy = {
   meta: {
@@ -58,6 +60,12 @@ const id: HubCopy = {
       title: 'Kalkulator Ba Zi Pasangan',
       copy: 'Empat pilar kalian berdua dari tanggal dan jam lahir, kecocokan menurut tradisi, dan cek apakah tanggal pilihan kalian berbenturan.',
       path: BAZI_PATH
+    },
+    {
+      key: 'bali-cost',
+      title: 'Kalkulator Biaya Nikah di Bali (English)',
+      copy: 'Perkiraan biaya pernikahan di Bali dalam dolar Australia, untuk pasangan dan tamu dari Australia. Halaman berbahasa Inggris.',
+      path: BALI_COST_PATH
     },
     {
       key: 'weton',
@@ -107,6 +115,12 @@ const en: HubCopy = {
       title: 'Ba Zi Couple Calculator',
       copy: 'Both your four pillars from your birth dates and times, a traditional compatibility reading, and a check on whether your dates clash.',
       path: BAZI_PATH
+    },
+    {
+      key: 'bali-cost',
+      title: 'Bali Wedding Cost Calculator',
+      copy: 'What a Bali wedding costs in Australian dollars, by guests, setting, style and extras, built from published prices.',
+      path: BALI_COST_PATH
     },
     {
       key: 'weton',

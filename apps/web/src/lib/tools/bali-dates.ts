@@ -152,7 +152,7 @@ const school = (state: AuState, name: string, start: string, end: string): BaliE
 
 export const BALI_EVENTS: BaliEvent[] = [
   {
-    kind: 'nyepi',
+    kind: 'nyepi' as const,
     name: 'Nyepi (Balinese Day of Silence)',
     start: '2027-03-08',
     end: '2027-03-08',
