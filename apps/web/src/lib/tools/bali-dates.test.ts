@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BALI_EVENTS, galunganDates, monthFlags, seasonOf } from './bali-dates';
+import { BALI_EVENTS, eventsOn, galunganDates, monthFlags, seasonOf } from './bali-dates';
 
 const DAY = 86_400_000;
 const days = (from: string, to: string) => (Date.parse(to) - Date.parse(from)) / DAY;
@@ -90,5 +90,18 @@ describe('seasonOf', () => {
     expect(seasonOf(4)).toBe('shoulder');
     expect(seasonOf(10)).toBe('shoulder');
     expect(seasonOf(12)).toBe('wet');
+  });
+});
+
+describe('eventsOn', () => {
+  it('finds Nyepi on its day and the Lebaran break inside its range', () => {
+    expect(eventsOn('2027-03-08').map((event) => event.kind)).toContain('nyepi');
+    expect(eventsOn('2027-03-12').map((event) => event.name)).toContain(
+      'Idul Fitri (Lebaran) and collective leave'
+    );
+  });
+
+  it('returns nothing on a clear day', () => {
+    expect(eventsOn('2027-06-15')).toEqual([]);
   });
 });

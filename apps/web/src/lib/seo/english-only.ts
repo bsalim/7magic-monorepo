@@ -17,7 +17,8 @@ import { localizeHref } from '$lib/paraglide/runtime';
 export const ENGLISH_ONLY_PATHS: readonly string[] = [
   '/bali-wedding-planning',
   '/wedding-planning-singapore',
-  '/wedding-tools/bali-wedding-cost-calculator'
+  '/wedding-tools/bali-wedding-cost-calculator',
+  '/wedding-tools/bali-wedding-date-planner'
 ];
 
 export function isEnglishOnly(path: string): boolean {

@@ -2,6 +2,7 @@
   import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
   import CalendarHeartIcon from '@lucide/svelte/icons/calendar-heart';
   import CalculatorIcon from '@lucide/svelte/icons/calculator';
+  import CalendarRangeIcon from '@lucide/svelte/icons/calendar-range';
   import CompassIcon from '@lucide/svelte/icons/compass';
   import PalmtreeIcon from '@lucide/svelte/icons/palmtree';
   import HashIcon from '@lucide/svelte/icons/hash';
@@ -41,6 +42,7 @@
     hashtag: HashIcon,
     bazi: CompassIcon,
     'bali-cost': PalmtreeIcon,
+    'bali-dates': CalendarRangeIcon,
     weton: SparklesIcon,
     tionghoa: MoonStarIcon,
     budget: CalculatorIcon

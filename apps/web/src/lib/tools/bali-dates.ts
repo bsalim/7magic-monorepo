@@ -252,3 +252,8 @@ export function monthFlags(year: number, month: number): MonthFlags {
 
   return { season: seasonOf(month), events, notices };
 }
+
+/** Every event that covers `isoDate` (yyyy-mm-dd). */
+export function eventsOn(isoDate: string): BaliEvent[] {
+  return BALI_EVENTS.filter((event) => event.start <= isoDate && event.end >= isoDate);
+}

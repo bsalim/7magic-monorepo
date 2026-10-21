@@ -10,7 +10,7 @@
 import type { Locale } from '$lib/paraglide/runtime';
 
 export type ToolCard = {
-  key: 'mahar' | 'hashtag' | 'bazi' | 'bali-cost' | 'weton' | 'tionghoa' | 'budget';
+  key: 'mahar' | 'hashtag' | 'bazi' | 'bali-cost' | 'bali-dates' | 'weton' | 'tionghoa' | 'budget';
   title: string;
   copy: string;
   /** Unlocalized route; absent while the tool is still to come. */
@@ -29,6 +29,7 @@ const HASHTAG_PATH = '/wedding-tools/generator-hashtag-pernikahan';
 const BAZI_PATH = '/wedding-tools/kalkulator-bazi-pasangan';
 // English-only: the hub links it at its /en URL from either edition.
 const BALI_COST_PATH = '/wedding-tools/bali-wedding-cost-calculator';
+const BALI_DATES_PATH = '/wedding-tools/bali-wedding-date-planner';
 
 const id: HubCopy = {
   meta: {
@@ -66,6 +67,12 @@ const id: HubCopy = {
       title: 'Kalkulator Biaya Nikah di Bali (English)',
       copy: 'Perkiraan biaya pernikahan di Bali dalam dolar Australia, untuk pasangan dan tamu dari Australia. Halaman berbahasa Inggris.',
       path: BALI_COST_PATH
+    },
+    {
+      key: 'bali-dates',
+      title: 'Kalender Nikah di Bali 2027–2028 (English)',
+      copy: 'Cek tanggal pernikahan di Bali terhadap Nyepi, Galungan, libur nasional, libur sekolah Australia dan musim hujan. Halaman berbahasa Inggris.',
+      path: BALI_DATES_PATH
     },
     {
       key: 'weton',
@@ -121,6 +128,12 @@ const en: HubCopy = {
       title: 'Bali Wedding Cost Calculator',
       copy: 'What a Bali wedding costs in Australian dollars, by guests, setting, style and extras, built from published prices.',
       path: BALI_COST_PATH
+    },
+    {
+      key: 'bali-dates',
+      title: 'Bali Wedding Date Planner',
+      copy: 'Check a 2027 or 2028 date against Nyepi, Galungan, Indonesian holidays, Australian school holidays and the wet season.',
+      path: BALI_DATES_PATH
     },
     {
       key: 'weton',

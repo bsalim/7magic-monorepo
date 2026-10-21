@@ -123,6 +123,11 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
       'Bali wedding cost calculator',
       'typical market ranges in Australian dollars for a Bali wedding by guests, setting, style and extras, built from published prices with every source listed; not a 7Magic quote'
     ),
+    link(
+      '/wedding-tools/bali-wedding-date-planner',
+      'Bali wedding date planner',
+      'checks a 2027 or 2028 date against Nyepi (8 March 2027, airport closed), Galungan and Kuningan, Indonesian public holidays, NSW/VIC/QLD/WA school holidays and the wet season, each date with its source'
+    ),
     '',
     '## Events',
     '',
