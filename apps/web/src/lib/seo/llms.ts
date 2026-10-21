@@ -79,6 +79,11 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
       'typical 2027 ranges in Australian dollars by setting, guest count and style, hidden costs and guest flights, built from published prices with sources; not a 7Magic quote'
     ),
     link(
+      '/legally-married-in-bali',
+      'Is a Bali wedding legal in Australia?',
+      'how Australians marry legally in Bali (shared religion, religious ceremony, civil registration, Certificate of No Impediment A$181 in 2026) or marry at home and celebrate in Bali, and how Australia recognises it; every fact linked to a primary source'
+    ),
+    link(
       '/wedding-planning-singapore',
       'Wedding planning Singapore',
       'full planning from the Singapore office, with ALL Access running guest check-in and seating on the day'
