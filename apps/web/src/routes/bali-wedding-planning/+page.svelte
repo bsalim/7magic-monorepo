@@ -17,6 +17,7 @@
   import { cn } from '$lib/utils';
   import { whatsappDisplay, whatsappHref } from '$lib/whatsapp';
   import { localizeHref } from '$lib/paraglide/runtime';
+  import { siteHref } from '$lib/seo/english-only';
 
   /**
    * Acquisition landing page for Bali destination wedding planning.
@@ -70,6 +71,34 @@
   const testimonials: { quote: string; names: string; detail: string }[] = [];
 
   // Figures match the ones published on 7magicwedding.com and /about.
+  const australiaGuides = [
+    {
+      href: siteHref('/legally-married-in-bali'),
+      title: 'Is a Bali wedding legal in Australia?',
+      copy: 'The religion rule, the Certificate of No Impediment and recognition at home.'
+    },
+    {
+      href: siteHref('/bali-wedding-cost'),
+      title: 'What a Bali wedding costs (AUD)',
+      copy: 'Typical ranges by setting and guest count, from published prices.'
+    },
+    {
+      href: siteHref('/wedding-tools/bali-wedding-cost-calculator'),
+      title: 'Cost calculator',
+      copy: 'Your guests, setting and style, estimated line by line.'
+    },
+    {
+      href: siteHref('/wedding-tools/bali-wedding-date-planner'),
+      title: '2027–2028 date planner',
+      copy: 'Nyepi, Galungan, school holidays and the wet season.'
+    },
+    {
+      href: siteHref('/bali-wedding-concierge'),
+      title: 'Concierge for you and your guests',
+      copy: 'Pickups, villas, a car and driver, massage, babysitting and more.'
+    }
+  ];
+
   const stats = [
     { value: '18+', label: 'Years planning weddings' },
     { value: '1000+', label: 'Weddings organised' },
@@ -505,6 +534,25 @@
           Browse Bali wedding venues
         </a>
       </div>
+    </div>
+  </section>
+
+  <!-- Planning from Australia: the guides and tools written for couples abroad -->
+  <section class="mx-auto max-w-7xl px-5 pb-16 lg:px-8">
+    <p class="text-sm font-semibold uppercase tracking-widest text-brand-gold-hover">Planning from Australia</p>
+    <h2 class="mt-3 max-w-2xl font-display text-3xl font-bold md:text-4xl">
+      The answers Australian couples ask for first
+    </h2>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      {#each australiaGuides as guide (guide.href)}
+        <a
+          href={guide.href}
+          class="group flex flex-col gap-2 rounded-xl border border-border p-5 transition hover:border-brand-gold/60 hover:bg-brand-gold-soft"
+        >
+          <span class="font-display font-semibold">{guide.title}</span>
+          <span class="text-sm leading-6 text-muted-foreground">{guide.copy}</span>
+        </a>
+      {/each}
     </div>
   </section>
 

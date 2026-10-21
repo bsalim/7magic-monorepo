@@ -175,7 +175,7 @@
       </div>
     </header>
 
-    <div class="mx-auto grid max-w-3xl gap-14 px-5 py-14 lg:px-0">
+    <div class="mx-auto grid max-w-3xl grid-cols-1 gap-14 px-5 py-14 lg:px-0">
       <section>
         <h2 class={H2}>Bali wedding cost by setting and guest count</h2>
         <p class={P}>

@@ -177,7 +177,7 @@
       </div>
     </header>
 
-    <div class="mx-auto grid max-w-3xl gap-14 px-5 py-14 lg:px-0">
+    <div class="mx-auto grid max-w-3xl grid-cols-1 gap-14 px-5 py-14 lg:px-0">
       <section>
         <h2 class={H2}>Two ways to marry in Bali</h2>
         <p class="mt-3 text-[15px] leading-7 text-foreground/80">{@render fact(FACTS.celebrant)}</p>
