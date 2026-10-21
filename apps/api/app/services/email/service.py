@@ -18,6 +18,7 @@ from botocore.exceptions import BotoCoreError, ClientError
 from app.core.config import Settings, get_settings
 
 from .base import EmailMessage, Mailer
+from .bird import BirdMailer
 from .layout import paragraphs, render_email, render_lead_email
 from .resend import ResendMailer
 from .ses import SesMailer
@@ -26,10 +27,12 @@ logger = logging.getLogger("app.email")
 
 
 def get_mailer(settings: Settings) -> Mailer:
-    """One provider, chosen from config. Both stay configured, so switching back
-    is the same one variable."""
+    """One provider, chosen from config. All stay configured, so switching is
+    the same one variable in either direction."""
     if settings.mail_provider == "ses":
         return SesMailer(settings)
+    if settings.mail_provider == "bird":
+        return BirdMailer(settings)
     return ResendMailer(settings)
 
 

@@ -27,6 +27,7 @@ from pydantic import ValidationError
 
 from app.core.config import Settings
 from app.services.email.base import EmailMessage
+from app.services.email.bird import BirdMailer
 from app.services.email.resend import RESEND_ENDPOINT, ResendMailer
 from app.services.email.ses import SesMailer, ses_endpoint
 from app.services.email.service import EmailNotifier, get_mailer
@@ -45,6 +46,9 @@ def make_settings(**overrides: Any) -> Settings:
         "ses_secret_access_key": "test-secret",
         "ses_region": "ap-southeast-1",
         "ses_configuration_set": None,
+        "bird_mail_api_key": "bk_us1_testtoken",
+        "bird_mail_category": "transactional",
+        "bird_base_url": None,
         "lead_notification_from": "7Magic <hello@7magicwedding.com>",
         "lead_notification_email": "info@7magicwedding.com",
         "admin_emails": "",
@@ -130,11 +134,10 @@ def test_ses_is_selected_by_config() -> None:
     assert isinstance(get_mailer(make_settings(mail_provider="ses")), SesMailer)
 
 
-def test_bird_is_no_longer_a_mail_provider() -> None:
-    """Replaced by SES. An env file still saying bird must fail at boot rather
-    than fall through to a provider nobody configured."""
-    with pytest.raises(ValidationError):
-        make_settings(mail_provider="bird")
+def test_bird_is_selected_by_config() -> None:
+    """Bird stays selectable beside SES, so switching is one variable and a
+    restart in either direction."""
+    assert isinstance(get_mailer(make_settings(mail_provider="bird")), BirdMailer)
 
 
 def test_an_unknown_provider_fails_at_settings_construction() -> None:
@@ -297,6 +300,7 @@ def test_the_suite_cannot_reach_a_live_mail_provider() -> None:
     for name in (
         "BIRD_API_KEY",
         "BIRD_ACCESS_KEY",
+        "BIRD_MAIL_API_KEY",
         "SES_ACCESS_KEY_ID",
         "SES_SECRET_ACCESS_KEY",
         "RESEND_API_KEY",
@@ -306,6 +310,7 @@ def test_the_suite_cannot_reach_a_live_mail_provider() -> None:
 
     live = Settings()
     assert not live.ses_access_key_id
+    assert not live.bird_mail_api_key
     assert not live.resend_api_key
     # And so nothing is configured to send in the first place.
     assert not get_mailer(live).configured

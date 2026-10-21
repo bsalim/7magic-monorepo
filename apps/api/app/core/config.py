@@ -70,13 +70,28 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("lead_notification_from", "LEAD_NOTIFICATION_FROM"),
     )
 
-    # Which provider actually sends. Both stay configured independently, so the
+    # Which provider actually sends. Each stays configured independently, so the
     # switch is this one variable and a restart -- and so is switching back. A
     # Literal rather than a str: a typo must fail at boot, not degrade to
     # silently sending nothing.
-    mail_provider: Literal["resend", "ses"] = Field(
+    mail_provider: Literal["resend", "bird", "ses"] = Field(
         default="resend",
         validation_alias=AliasChoices("mail_provider", "MAIL_PROVIDER"),
+    )
+    # Bird. Separate from BIRD_ACCESS_KEY so the mail key can be rotated or
+    # scoped without touching WhatsApp; the fallbacks mean a single-key setup
+    # needs no extra config.
+    bird_mail_api_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices(
+            "bird_mail_api_key", "BIRD_MAIL_API_KEY", "BIRD_ACCESS_KEY", "BIRD_API_KEY"
+        ),
+    )
+    # Bird files an unset send as "marketing", which is the wrong bucket for a
+    # booking confirmation and changes how it is filtered and unsubscribed from.
+    bird_mail_category: str = Field(
+        default="transactional",
+        validation_alias=AliasChoices("bird_mail_category", "BIRD_MAIL_CATEGORY"),
     )
     # Amazon SES. Deliberately no AWS_* aliases: those names are R2's above, and
     # accepting them here would send mail with the bucket's credentials.

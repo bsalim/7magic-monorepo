@@ -1,7 +1,7 @@
 """Transactional email.
 
 The public surface is exactly what it was when this was a single module, so
-every caller is unchanged. Providers live in `resend.py` and `ses.py` behind
+every caller is unchanged. Providers live in `resend.py`, `bird.py` and `ses.py` behind
 the `Mailer` protocol; `MAIL_PROVIDER` picks one. Presentation lives in
 `layout.py` and never performs I/O.
 """
