@@ -78,6 +78,7 @@ describe('PublicHeader', () => {
           '/en/bali-wedding-planning',
           '/en/bali-wedding-cost',
           '/en/legally-married-in-bali',
+          '/en/bali-wedding-concierge',
           '/wedding-venue/bali'
         ]
       },

@@ -63,7 +63,8 @@ export function venueRegions(): VenueRegion[] {
       packages: [
         { href: '/bali-wedding-planning', label: m.service_bali_wedding() },
         { href: '/bali-wedding-cost', label: m.service_bali_cost() },
-        { href: '/legally-married-in-bali', label: m.service_bali_legal() }
+        { href: '/legally-married-in-bali', label: m.service_bali_legal() },
+        { href: '/bali-wedding-concierge', label: m.service_bali_concierge() }
       ],
       venues: [cityVenues('bali', 'Bali')]
     },

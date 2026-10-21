@@ -84,6 +84,11 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
       'how Australians marry legally in Bali (shared religion, religious ceremony, civil registration, Certificate of No Impediment A$181 in 2026) or marry at home and celebrate in Bali, and how Australia recognises it; every fact linked to a primary source'
     ),
     link(
+      '/bali-wedding-concierge',
+      'Bali wedding concierge',
+      'legal paperwork, airport pickups and guest shuttles, accommodation blocks, car and driver, Balinese massage, private chef, babysitting and more around a Bali wedding; quoted on request'
+    ),
+    link(
       '/wedding-planning-singapore',
       'Wedding planning Singapore',
       'full planning from the Singapore office, with ALL Access running guest check-in and seating on the day'

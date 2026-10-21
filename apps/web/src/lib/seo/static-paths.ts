@@ -21,6 +21,7 @@ export const STATIC_PATHS = [
   '/bali-wedding-planning',
   '/bali-wedding-cost',
   '/legally-married-in-bali',
+  '/bali-wedding-concierge',
   '/wedding-planning-singapore',
   '/jabodetabek-wedding',
   '/bali-event-organizer',
