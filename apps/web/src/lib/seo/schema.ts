@@ -184,6 +184,8 @@ export function webPageNode(options: {
   about?: string;
   image?: string | null;
   mainEntity?: unknown;
+  /** ISO date the page's facts were last checked. */
+  dateModified?: string;
 }) {
   const url = absoluteUrl(options.url);
   return {
@@ -198,6 +200,7 @@ export function webPageNode(options: {
       ? { '@type': 'ImageObject', url: absoluteUrl(options.image) }
       : undefined,
     mainEntity: options.mainEntity ?? undefined,
+    dateModified: options.dateModified || undefined,
     inLanguage: options.locale
   };
 }

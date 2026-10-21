@@ -72,7 +72,10 @@ describe('PublicHeader', () => {
           '/wedding-venue/bekasi'
         ]
       },
-      { region: 'Bali', hrefs: ['/en/bali-wedding-planning', '/wedding-venue/bali'] },
+      {
+        region: 'Bali',
+        hrefs: ['/en/bali-wedding-planning', '/en/bali-wedding-cost', '/wedding-venue/bali']
+      },
       { region: 'Batam', hrefs: ['/wedding-venue/batam'] },
       { region: 'Singapura', hrefs: ['/en/wedding-planning-singapore', '/wedding-venue/singapore'] }
     ]);

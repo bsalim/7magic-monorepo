@@ -74,6 +74,11 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
     ),
     link('/bali-wedding-planning', 'Bali wedding planning', 'full planning for destination weddings in Bali'),
     link(
+      '/bali-wedding-cost',
+      'How much does a Bali wedding cost?',
+      'typical 2027 ranges in Australian dollars by setting, guest count and style, hidden costs and guest flights, built from published prices with sources; not a 7Magic quote'
+    ),
+    link(
       '/wedding-planning-singapore',
       'Wedding planning Singapore',
       'full planning from the Singapore office, with ALL Access running guest check-in and seating on the day'

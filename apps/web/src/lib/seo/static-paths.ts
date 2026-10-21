@@ -19,6 +19,7 @@ export const STATIC_PATHS = [
   '/paket-sangjit',
   '/perjanjian-pranikah',
   '/bali-wedding-planning',
+  '/bali-wedding-cost',
   '/wedding-planning-singapore',
   '/jabodetabek-wedding',
   '/bali-event-organizer',

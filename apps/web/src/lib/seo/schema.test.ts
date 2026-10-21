@@ -176,6 +176,15 @@ describe('venueNode images', () => {
 });
 
 describe('webPageNode', () => {
+  // A dated page is the freshness signal AI answer engines weigh; an undated
+  // page simply carries no dateModified.
+  it('carries dateModified only when given', () => {
+    expect(webPageNode({ url: '/en/x', name: 'X', locale: 'en', dateModified: '2026-10-21' })).toMatchObject({
+      dateModified: '2026-10-21'
+    });
+    expect(webPageNode({ url: '/en/x', name: 'X', locale: 'en' }).dateModified).toBeUndefined();
+  });
+
   it('gives each locale of a page its own identity', () => {
     const id = webPageNode({ url: '/', name: 'Home', locale: 'id' });
     const en = webPageNode({ url: '/en', name: 'Home', locale: 'en' });

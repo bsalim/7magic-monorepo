@@ -18,7 +18,8 @@ export const ENGLISH_ONLY_PATHS: readonly string[] = [
   '/bali-wedding-planning',
   '/wedding-planning-singapore',
   '/wedding-tools/bali-wedding-cost-calculator',
-  '/wedding-tools/bali-wedding-date-planner'
+  '/wedding-tools/bali-wedding-date-planner',
+  '/bali-wedding-cost'
 ];
 
 export function isEnglishOnly(path: string): boolean {
