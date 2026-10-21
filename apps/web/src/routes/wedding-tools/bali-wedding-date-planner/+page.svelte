@@ -184,6 +184,11 @@
                 <li>{verdict(event)}</li>
               {/each}
             </ul>
+          {:else if dayYear > ANNOUNCED.idHolidays}
+            <p class="mt-3 text-[15px] leading-6">
+              {dayYear} Indonesian holidays are not announced yet, so we can't call this date clear.
+              Nothing in our data falls on it so far.
+            </p>
           {:else}
             <p class="mt-3 text-[15px] leading-6">
               No Balinese holy day, Indonesian public holiday or Australian school holiday in our data

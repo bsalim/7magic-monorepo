@@ -9,6 +9,7 @@
   import { buttonVariants } from '$lib/components/ui/button';
   import { englishPath, siteHref } from '$lib/seo/english-only';
   import { canonicalUrl, landingPageJsonLd } from '$lib/seo/schema';
+  import { CALCULATOR_ADD_ONS } from '$lib/tools/bali-cost';
   import { cn } from '$lib/utils';
 
   /**
@@ -38,6 +39,14 @@
     chosenNames.length ? `I'd like help with: ${chosenNames.join(', ')}` : 'I’d like help with our Bali wedding'
   );
   const whatsappText = $derived(`Hi 7Magic, ${helpLine}.`);
+
+  // The ticked services ride along as the calculator's add-ons; a vow renewal
+  // is an event of its own there, not an extra.
+  const calculatorHref = $derived.by(() => {
+    const addOns = chosen.filter((key) => CALCULATOR_ADD_ONS.some((s) => s.key === key));
+    const base = siteHref('/wedding-tools/bali-wedding-cost-calculator');
+    return addOns.length ? `${base}?addons=${addOns.join(',')}` : base;
+  });
 
   const faqs = [
     {
@@ -158,7 +167,7 @@
         {chosenNames.length ? `${chosenNames.length} selected` : 'Nothing selected yet'}
       </p>
       <a
-        href={siteHref('/wedding-tools/bali-wedding-cost-calculator')}
+        href={calculatorHref}
         class={cn(buttonVariants({ variant: 'outline' }))}
       >
         Add these to a cost estimate <ArrowRightIcon size={16} />

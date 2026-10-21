@@ -29,4 +29,16 @@ describe('Bali wedding concierge page', () => {
     const list = screen.getByRole('group', { name: /Choose what you'd like help with/ });
     expect(within(list).queryByText(/A\$\d|US\$\d|Rp\s?\d/)).toBeNull();
   });
+
+  // A vow renewal is not a calculator add-on, so it is left off the link.
+  it('carries the ticked services into the cost calculator link', async () => {
+    render(Page);
+    await fireEvent.click(screen.getByRole('checkbox', { name: /Private car & driver/ }));
+    await fireEvent.click(screen.getByRole('checkbox', { name: /Vow renewal/ }));
+    const href = screen
+      .getByRole('link', { name: /Add these to a cost estimate/ })
+      .getAttribute('href');
+    expect(href).toContain('addons=car');
+    expect(href).not.toContain('renewal');
+  });
 });

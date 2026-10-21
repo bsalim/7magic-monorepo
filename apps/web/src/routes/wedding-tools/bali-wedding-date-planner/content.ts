@@ -43,7 +43,7 @@ export const EXTRA_SOURCES: Source[] = [
 export const bestMonths = [
   {
     title: 'May to September: the dry season',
-    body: 'The most reliable weather for an outdoor ceremony, and the busiest months. July also lines up with school holidays in every state, so families can come, but flights from Australia cost the most in July and December.'
+    body: 'The most reliable weather for an outdoor ceremony, and the busiest months. July also lines up with school holidays in NSW, Victoria, Queensland and WA, so families can come, but flights from Australia cost the most in July and December.'
   },
   {
     title: 'April and October: between seasons',

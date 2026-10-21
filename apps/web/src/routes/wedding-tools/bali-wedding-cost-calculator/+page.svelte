@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import CalendarIcon from '@lucide/svelte/icons/calendar';
   import InfoIcon from '@lucide/svelte/icons/info';
+  import MessageCircleIcon from '@lucide/svelte/icons/message-circle';
   import PlaneIcon from '@lucide/svelte/icons/plane';
   import { replaceState } from '$app/navigation';
   import { page } from '$app/state';
@@ -10,6 +11,7 @@
   import BaliEnquiry from '$lib/components/bali/BaliEnquiry.svelte';
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import ToolShell from '$lib/components/tools/ToolShell.svelte';
+  import { buttonVariants } from '$lib/components/ui/button';
   import { m } from '$lib/paraglide/messages.js';
   import { englishPath, siteHref } from '$lib/seo/english-only';
   import { canonicalUrl, toolPageJsonLd } from '$lib/seo/schema';
@@ -28,6 +30,8 @@
     type CostInput
   } from '$lib/tools/bali-cost';
   import { formatAud, formatAudRange, formatDateRange, monthLabel } from '$lib/tools/bali-format';
+  import { cn } from '$lib/utils';
+  import { whatsappHref } from '$lib/whatsapp';
   import { TOOL_PATH, appName, faqs, hero, meta } from './content';
 
   /**
@@ -69,7 +73,8 @@
   const maxGuests = $derived(SETTINGS.find((s) => s.key === setting)!.maxGuests);
   const input = $derived.by((): CostInput => {
     const [year, month] = monthKey.split('-').map(Number);
-    return { guests: Math.min(Math.max(guests || 2, 2), maxGuests), setting, style, year, month, addOns };
+    const whole = Math.round(guests) || 2;
+    return { guests: Math.min(Math.max(whole, 2), maxGuests), setting, style, year, month, addOns };
   });
   const estimate = $derived(estimateCost(input));
   const settingLabel = $derived(SETTINGS.find((s) => s.key === setting)!.label);
@@ -108,23 +113,40 @@
     { key: 'perth', label: 'Perth' }
   ];
 
-  // The URL follows the inputs so the result can be shared, without adding a
-  // history entry per slider step. Only after mount: the router is not ready
-  // during hydration.
+  // The guest field itself follows a setting's cap, so switching to an
+  // elopement never leaves it showing 80 while the result prices 10.
+  function capGuests(next: string) {
+    const max = SETTINGS.find((s) => s.key === next)?.maxGuests ?? maxGuests;
+    if (guests > max) guests = max;
+  }
+
+  // The URL follows the inputs so the result can be shared. Written once the
+  // inputs settle rather than per slider step: WebKit throws after about 100
+  // history writes in 10 seconds, and a dragged 2-150 slider gets there. Only
+  // after mount, because the router is not ready during hydration.
+  const URL_DELAY = 400;
   let mounted = $state(false);
   let used = false;
+  let written = toQuery(initial);
   onMount(() => {
     mounted = true;
   });
   $effect(() => {
     const query = toQuery(input);
-    if (!mounted) return;
-    if (query === toQuery(initial)) return;
-    replaceState(`?${query}`, {});
-    if (!used) {
-      used = true;
-      trackEvent('Bali Calculator Used');
-    }
+    if (!mounted || query === written) return;
+    const timer = setTimeout(() => {
+      try {
+        replaceState(`?${query}`, {});
+        written = query;
+      } catch {
+        // The link just stops following the inputs; the calculator still works.
+      }
+      if (!used) {
+        used = true;
+        trackEvent('Bali Calculator Used');
+      }
+    }, URL_DELAY);
+    return () => clearTimeout(timer);
   });
 
   const related = [
@@ -183,7 +205,14 @@
         <div class="mt-3 grid gap-2 sm:grid-cols-2">
           {#each SETTINGS as option (option.key)}
             <label class={CHOICE}>
-              <input type="radio" name="bc-setting" value={option.key} bind:group={setting} class="sr-only" />
+              <input
+                type="radio"
+                name="bc-setting"
+                value={option.key}
+                bind:group={setting}
+                onchange={() => capGuests(option.key)}
+                class="sr-only"
+              />
               {option.label}
             </label>
           {/each}
@@ -280,6 +309,14 @@
         <p class="relative mt-4 border-t border-white/15 pt-3 text-xs text-white/60">
           Typical market range, not a 7Magic quote. Estimates checked {ESTIMATES_AS_OF}.
         </p>
+        <a
+          href={whatsappHref(whatsappText)}
+          onclick={() => trackEvent('Bali Cost Quote Requested', { channel: 'whatsapp' })}
+          class={cn(buttonVariants({ variant: 'whatsapp' }), 'relative mt-4 w-full')}
+        >
+          <MessageCircleIcon size={17} />
+          Get my real quote on WhatsApp
+        </a>
       </div>
 
       <details class="group rounded-2xl border border-border bg-background p-5" open>

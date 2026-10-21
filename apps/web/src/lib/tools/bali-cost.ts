@@ -78,6 +78,55 @@ export const STYLES: { key: Style; label: string }[] = [
 
 const MIN_GUESTS = 2;
 
+/** Where each priced add-on's range was published, checked 2026-10-21. */
+const SRC = {
+  transfers: {
+    title: 'Kura-Kura Bus: Bali airport transfer prices 2026',
+    url: 'https://kura2bus.com/blog/bali-airport-transfer-price-guide-2026/'
+  },
+  nusaPenida: {
+    title: 'NusaPenida.org: west Nusa Penida day tour prices',
+    url: 'https://nusapenida.org/nusa-penida-west-tour/'
+  },
+  jimbaran: {
+    title: 'GoBaliGo: Jimbaran seafood restaurants and prices',
+    url: 'https://gobaligo.id/en/blog/jimbaran-seafood-restaurants-list/'
+  },
+  villaGrill: {
+    title: 'Maya Ubud: in-villa grill dinner',
+    url: 'https://mayaresorts.com/ubud/experience/in-villa-grill'
+  },
+  boat: {
+    title: 'Boat Charter Bali: party boat packages',
+    url: 'https://boatcharterbali.com/packages.html'
+  },
+  driver: {
+    title: 'Bali Untold: private driver rates',
+    url: 'https://baliuntold.com/getting-around/private-drivers/'
+  },
+  massage: { title: 'Asih Spa: in-villa massage prices', url: 'https://asihspa.com' },
+  chef: {
+    title: 'Inivie: private chef prices in Bali',
+    url: 'https://inivie.com/discover-bali/private-chef-bali'
+  },
+  nanny: {
+    title: 'My Bali Nanny: nanny prices and rates 2026',
+    url: 'https://mybalinanny.com/post/bali-nanny-prices-rates-2026'
+  },
+  surf: {
+    title: 'Cabo Bali: Canggu surf school prices',
+    url: 'https://cabobali.com/blog/best-surf-schools-canggu'
+  },
+  doctor: {
+    title: 'Finns Beach Club guide: villa doctor visits',
+    url: 'https://finnsbeachclub.com/guides/best-medical-home-care-services-bali/'
+  },
+  holidayPhotographer: {
+    title: 'Localgrapher: what a Bali photographer costs',
+    url: 'https://localgrapher.com/bali-photographer-cost/'
+  }
+} satisfies Record<string, Source>;
+
 export const COST_SOURCES: Source[] = [
   {
     title: 'Easy Weddings Annual Survey 2026 (destination weddings average A$32,060, ~55 guests)',
@@ -131,11 +180,12 @@ export const COST_SOURCES: Source[] = [
   {
     title: 'Exchange rates on 21 October 2026 (A$1 = US$0.70 = Rp12,603)',
     url: 'https://open.er-api.com/v6/latest/AUD'
-  }
+  },
+  ...Object.values(SRC)
 ];
 
 export const METHOD_NOTES: string[] = [
-  'Venue hire uses published day rates for each setting (villa, clifftop, beach, Ubud) and published resort package prices. A villa adds the banjar (village) fee.',
+  'Venue hire uses published day rates for each setting (villa, clifftop, beach, Ubud) and published resort package prices. A villa adds the banjar (village) fee. No beach club publishes wedding prices, so the beach club setting uses beach venue day rates.',
   'Each style takes a slice of every published range: Simple the bottom quarter, Classic the second quarter, Luxe the top half, because the top of each range is the "lavish" end.',
   'Food and drink is per guest: a buffet with soft drinks for Simple, a plated dinner with a basic open bar for Classic, fine dining with a premium bar for Luxe. Resorts and clifftop hotels add 21% tax and service on top.',
   'An elopement is priced as a published elopement package (venue, celebrant, styling and photographer), plus food for any guests.',
@@ -217,8 +267,9 @@ const ADD_ON_PRICES: Partial<Record<ConciergeKey, (guests: number) => Range | nu
   blessing: () => ({ low: usd(200), high: usd(400) }),
   // One party boat for up to 12, US$670-850.
   hens: () => ({ low: usd(670), high: usd(850) }),
-  // Pre-wedding shoot packages Rp5m-22.8m.
-  prewedding: () => ({ low: idr(5_000_000), high: idr(22_800_000) }),
+  // Published packages run Rp5m-22.8m, but the top of that range could not
+  // be tied to one source, so the shoot is quoted on request.
+  prewedding: () => null,
   // Rp600k-1m a day; one car for three days.
   car: () => scale({ low: idr(600_000), high: idr(1_000_000) }, 3),
   // Rp300k-450k for 60 minutes in the villa; four massages.
@@ -228,12 +279,34 @@ const ADD_ON_PRICES: Partial<Record<ConciergeKey, (guests: number) => Range | nu
   reservations: () => null,
   // Rp97.5k-130k an hour; one wedding night of six hours.
   nanny: () => scale({ low: idr(97_500), high: idr(130_000) }, 6),
-  // A private surf lesson Rp400k to private yoga Rp650k, for two.
-  wellness: () => scale({ low: idr(400_000), high: idr(650_000) }, 2),
+  // A private surf lesson in Canggu, Rp400k-700k each, for two.
+  wellness: () => scale({ low: idr(400_000), high: idr(700_000) }, 2),
   // One villa visit, Rp550k, medicines extra.
   doctor: () => ({ low: idr(550_000), high: idr(550_000) }),
   // A holiday photo session, US$280-630.
   'holiday-photographer': () => ({ low: usd(280), high: usd(630) })
+};
+
+const byUrl = (url: string) => COST_SOURCES.find((source) => source.url === url)!;
+
+/** The published sources behind each priced add-on, all listed in COST_SOURCES. */
+export const ADD_ON_SOURCES: Partial<Record<ConciergeKey, Source[]>> = {
+  legal: [
+    byUrl('https://bali.consulate.gov.au/blli/Fees.html'),
+    byUrl('https://happybaliwedding.com/how-much-does-a-bali-wedding-cost/')
+  ],
+  transfers: [SRC.transfers],
+  activities: [SRC.nusaPenida],
+  welcome: [SRC.jimbaran, SRC.villaGrill],
+  blessing: [byUrl('https://ohana-agency.com/blog/bali-wedding')],
+  hens: [SRC.boat],
+  car: [SRC.driver],
+  massage: [SRC.massage],
+  chef: [SRC.chef],
+  nanny: [SRC.nanny],
+  wellness: [SRC.surf],
+  doctor: [SRC.doctor],
+  'holiday-photographer': [SRC.holidayPhotographer]
 };
 
 /** The add-ons the calculator offers: a vow renewal is an event of its own, not a wedding extra. */

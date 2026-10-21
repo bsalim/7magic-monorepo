@@ -91,7 +91,7 @@
     },
     {
       q: 'Is it cheaper to get married in Bali than in Australia?',
-      a: 'Per guest, usually. Easy Weddings put the average Bali resort wedding at A$16,980 for 50 guests against A$35,315 for 88 guests in Australia in its 2025 survey. Most of the saving comes from the smaller guest list a destination wedding brings.'
+      a: "Usually less in total, mostly because the guest list is smaller. Easy Weddings' 2026 survey puts the average Australian destination wedding at A$32,060 for about 55 guests, against a national average of A$38,252 for about 85. Per guest, a Bali wedding can cost as much as one at home, or more."
     },
     {
       q: 'What hidden costs should we budget for?',

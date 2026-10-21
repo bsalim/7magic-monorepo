@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { monthFlags } from './bali-dates';
 import {
+  ADD_ON_SOURCES,
+  CALCULATOR_ADD_ONS,
+  COST_SOURCES,
+  METHOD_NOTES,
   SETTINGS,
   defaultInput,
   estimateCost,
@@ -132,5 +136,26 @@ describe('query state', () => {
       month: 7,
       addOns: []
     });
+  });
+});
+
+describe('sources', () => {
+  // Every price the calculator prints must trace to a published source the
+  // page lists; an add-on without one is quoted on request instead.
+  it('lists a source for every priced add-on', () => {
+    const listed = new Set(COST_SOURCES.map((source) => source.url));
+    for (const service of CALCULATOR_ADD_ONS) {
+      const line = estimateCost({ ...base, addOns: [service.key] }).lines.find(
+        (l) => l.key === `addon:${service.key}`
+      )!;
+      if (!line.range) continue;
+      const sources = ADD_ON_SOURCES[service.key] ?? [];
+      expect(sources.length, service.key).toBeGreaterThan(0);
+      for (const source of sources) expect(listed.has(source.url), source.url).toBe(true);
+    }
+  });
+
+  it('says beach clubs are priced from beach venue rates', () => {
+    expect(METHOD_NOTES.join(' ')).toMatch(/beach club/i);
   });
 });

@@ -51,4 +51,10 @@ describe('CONCIERGE_SERVICES', () => {
     const groups = CONCIERGE_GROUPS.map((group) => group.key);
     expect(CONCIERGE_SERVICES.filter((service) => !groups.includes(service.group))).toEqual([]);
   });
+
+  // Only what the Bali team confirmed: no extras dressed up inside a blurb.
+  it('promises nothing beyond the confirmed services in the blurbs', () => {
+    const text = CONCIERGE_SERVICES.map((service) => service.blurb).join(' ');
+    expect(text).not.toMatch(/traditional dress|flower bath|fridge|retreat/i);
+  });
 });

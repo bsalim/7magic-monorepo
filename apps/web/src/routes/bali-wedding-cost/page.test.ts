@@ -30,4 +30,11 @@ describe('Bali wedding cost guide', () => {
       0
     );
   });
+
+  // The 2025 Bali-resort average contradicted the model's own ranges on the
+  // same page; totals are compared on the 2026 survey's figures instead.
+  it('does not claim Bali is cheaper per guest', () => {
+    const { container } = render(Page);
+    expect(container.textContent).not.toMatch(/16,980|cheaper per guest|Per guest, usually/);
+  });
 });

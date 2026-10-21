@@ -92,8 +92,7 @@ export const CONCIERGE_SERVICES: ConciergeService[] = [
     key: 'blessing',
     group: 'wedding-week',
     name: 'Balinese blessing (melukat)',
-    blurb:
-      'A water purification blessing led by a Balinese priest, with a photo session in traditional dress.'
+    blurb: 'A water purification blessing led by a Balinese priest.'
   },
   {
     key: 'hens',
@@ -123,13 +122,13 @@ export const CONCIERGE_SERVICES: ConciergeService[] = [
     key: 'massage',
     group: 'stay',
     name: 'Balinese massage & spa',
-    blurb: 'In-villa massage, a spa day for the bridal party, flower baths for two.'
+    blurb: 'In-villa massage, or a spa day for the bridal party.'
   },
   {
     key: 'chef',
     group: 'stay',
     name: 'Private chef',
-    blurb: 'A chef for family dinners at the villa, and the fridge stocked before you arrive.'
+    blurb: 'A chef for family dinners at the villa.'
   },
   {
     key: 'reservations',
@@ -147,7 +146,7 @@ export const CONCIERGE_SERVICES: ConciergeService[] = [
     key: 'wellness',
     group: 'stay',
     name: 'Yoga, surf & wellness',
-    blurb: 'A private sunrise yoga session, a surf lesson, a retreat day in Ubud.'
+    blurb: 'A private sunrise yoga session or a surf lesson.'
   },
   {
     key: 'doctor',
