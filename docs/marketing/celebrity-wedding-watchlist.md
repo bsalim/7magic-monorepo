@@ -165,3 +165,21 @@ Ordered by how soon the wedding looks likely, from the signals we have (pre-wedd
 - Madison Beer & Justin Herbert: engaged Jul 2026, no date.
 - Post Malone & Christy Lee: engaged Aug 2026, no date.
 - Jang Dong-yoon & Kim Seung-yoon ("this year"), Won Hyun-joon & Lee Su-jin, Bae Na-ra & Han Jae-ah, Alisha Lehmann & Montel McKenzie: not checked against two sources.
+
+---
+
+## Scope 3: Ministers' children, tycoon and political families (added 2026-10-25)
+
+Searched 25 Oct 2026 for lamaran or wedding plans among children of sitting ministers and of the big
+conglomerates (Hary Tanoe, Bakrie, Salim, Djarum, Prajogo Pangestu, Tahir). **Nothing confirmed and dated was
+found**; all matching hits were weddings already held (the Kapal Api heir in Surabaya, Dec 2025; Hary Tanoe's four
+daughters, the last in Aug 2024). Search engines surface old weddings first, so re-check every few days on
+Kompas, detik, Tribun and Antara with a family name plus "lamaran" or "menikah".
+
+| Couple | Link to the scope | Status | Brief |
+|---|---|---|---|
+| **Puteri Modiyanti** (Tommy Soeharto and Sandy Harun) & partner (businessman, private) | Cendana family | Lamaran in Japan, posted 28 Sep 2026. No date. | `apps/web/content/drafts/briefs/puteri-modiyanti.md` |
+| **Hana Malasan** & **Sean Gelael** (Gelael family) | Business family | Lamaran Sat 15 Aug 2026, Bandung. Sundanese-dress prewedding posted 21 Oct. No date. | `apps/web/content/drafts/briefs/hana-malasan-sean-gelael.md` |
+| **Abe Hoed** & partner (daughter of Bambang Soesatyo, MPR chair, not a minister) | Political family | Article published 26-31 Oct batch; wedding Dec 2026, date TBA. | `drafts` batch, see `pernikahan-abe-hoed.md` |
+
+Both briefs are pass 1 only (from search summaries): open each listed source before drafting.
