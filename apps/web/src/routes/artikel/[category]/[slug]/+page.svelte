@@ -8,7 +8,9 @@
   import { page } from '$app/state';
   import { localizeArticleBody } from '$lib/article-body';
   import { formatLongDate } from '$lib/dates';
-  import { getLocale, localizeHref } from '$lib/paraglide/runtime';
+  import GlobeIcon from '@lucide/svelte/icons/globe';
+  import { switcherHref } from '$lib/locale-href';
+  import { getLocale, localizeHref, type Locale } from '$lib/paraglide/runtime';
   import { m } from '$lib/paraglide/messages.js';
   import {
     articleNode,
@@ -32,6 +34,14 @@
   // including the one that published, so an article edited only on its
   // publication day counts as never edited.
   const updated = $derived(formatLongDate(article.updated_at, getLocale()));
+
+  // Offered only when the API lists the other language's edition: an article
+  // with no English copy has nothing to switch to, and the generic header
+  // switcher would only land on a redirect back here.
+  const otherLocale = $derived<Locale>(getLocale() === 'id' ? 'en' : 'id');
+  const translationHref = $derived(
+    data.alternates?.[otherLocale] ? switcherHref(page.url.pathname, otherLocale, data.alternates) : null
+  );
 
   // page.url keeps the /en prefix that reroute strips before matching, so the
   // English copy of an article identifies itself by its own URL, not the
@@ -92,6 +102,20 @@
         <span>{article.word_count} words</span>
       </div>
       <img src={article.image_url || '/img/wedding-venue-deal-768.jpg'} alt="" class="mt-8 h-[360px] w-full rounded-md object-cover" />
+
+      {#if translationHref}
+        <!-- Full reload for the same reason as the header switcher: messages are
+             resolved per request. -->
+        <a
+          href={translationHref}
+          hreflang={otherLocale}
+          data-sveltekit-reload
+          class="mt-6 flex items-center gap-3 rounded-md border border-border bg-secondary px-4 py-3 text-sm font-semibold text-accent-foreground transition hover:bg-accent"
+        >
+          <GlobeIcon size={18} />
+          {m.article_translate_cta()}
+        </a>
+      {/if}
 
       <!-- The body is editor HTML, so its cross-references are the one set of
            links no sweep of the source can reach. -->

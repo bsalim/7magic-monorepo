@@ -63,15 +63,9 @@ Tanggal 12 Desember 2026 jatuh pada hari Sabtu, dan hari itu Vata berulang tahun
 
 Pasangan Indonesia biasa memilih tanggal lewat hitungan weton, shio, atau sekadar tanggal yang mudah diingat. Tanggal ulang tahun salah satu pengantin adalah pilihan yang personal. Kalau Anda memilihnya, sepakati sejak awal bagaimana merayakan dua momen itu setiap tahun, supaya ulang tahun tidak tenggelam oleh ulang tahun pernikahan, atau sebaliknya.
 
-## Upacara pernikahan
-
 <!-- HARI H: pastikan tanggal Sabtu, 12 Desember 2026 benar terjadi, jam, nama venue di Seoul, tertutup atau tidak, siapa yang hadir (anggota Running Man, anggota We Dem Boyz), pemimpin upacara (주례) atau pendeta kalau disebut (jangan namai orang yang bukan figur publik), pembawa acara (사회), penyanyi (축가; Kim Jong-kook pernah diminta bercanda di Running Man, jangan tulis kecuali dikonfirmasi). Setiap fakta harus dari dua sumber. Akhiri dengan satu ide yang bisa ditiru pasangan Indonesia. -->
 
-## Busana di hari pernikahan
-
 <!-- HARI H: gaun dan setelan pengantin, nama desainer kalau disebut dua sumber, hanbok untuk 폐백 kalau ada fotonya. Foto pernikahan milik pasangan tidak boleh dipakai sebagai gambar utama. Akhiri dengan satu ide yang bisa ditiru. -->
-
-## Resepsi
 
 <!-- HARI H: resepsi atau jamuan setelah upacara, tarian dari We Dem Boyz kalau diberitakan dua sumber, tamu selebriti yang disebut dua sumber, pernyataan CP Entertainment atau ARA di hari itu, unggahan baru dari keduanya, rencana bulan madu kalau diumumkan. Jangan menulis apa pun tentang rencana punya anak. Akhiri dengan satu ide yang bisa ditiru. -->
 

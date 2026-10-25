@@ -59,15 +59,9 @@ Pernikahan akan digelar pada Sabtu, 28 November 2026, di Seoul. Menurut 9Ato Ent
 
 Agensi menyebut detail acara dirahasiakan demi menghormati keinginan kedua keluarga. Pola ini berguna kalau acara Anda juga terbatas. Sepakati dengan kedua keluarga sejak awal apa yang boleh dibagikan ke publik, misalnya satu foto resmi setelah acara, dan siapa yang mengunggahnya. Dengan begitu, tidak ada kerabat yang mengunggah lebih dulu dari Anda berdua.
 
-## Upacara pernikahan
-
 <!-- HARI H: pastikan tanggal 28 November 2026 dan harinya (Sabtu), jam, venue di Seoul (laporan hotel di Yongsan-gu baru dari Sports Kyunghyang dan Money Today, agensi belum konfirmasi; nama hotel hanya kalau dua sumber), apakah tetap tertutup, siapa yang hadir, pemimpin upacara (주례), pembawa acara (사회), penyanyi (축가). Nama personel Lovelyz yang hadir atau menyanyi hanya kalau dua sumber. Setiap fakta harus dari dua sumber. Akhiri dengan satu ide yang bisa ditiru pasangan Indonesia. -->
 
-## Busana di hari pernikahan
-
 <!-- HARI H: gaun dan tuksedo di hari pernikahan, nama desainer kalau disebut, hanbok untuk 폐백 kalau ada fotonya, foto prewedding kalau dirilis menjelang hari H (catat kreditnya). Akhiri dengan satu ide yang bisa ditiru. -->
-
-## Resepsi
 
 <!-- HARI H: resepsi kalau ada, tamu selebriti yang disebut dua sumber, pernyataan 9Ato Entertainment atau KPLUS di hari itu, unggahan baru di @siyang87k dan @9.3.0521, rencana bulan madu kalau diumumkan. Ucapan lama Kwak tentang ingin berjalan di jalur ziarah Camino de Santiago setelah menikah bukan rencana resmi; jangan dipakai kecuali pasangan sendiri mengonfirmasi. Akhiri dengan satu ide yang bisa ditiru. -->
 

@@ -1,5 +1,6 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
+  "article_translate_cta": "Read this article in Indonesian (Baca dalam bahasa Indonesia)",
   "article_also_read": "Also read",
   "article_published_on": "Published {date}",
   "article_updated_on": "Updated {date}",

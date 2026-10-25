@@ -57,15 +57,9 @@ In a video the media received on Sunday, 27 September 2026, Melly thanked people
 
 If the two of you also plan to go back to school or move city after the wedding, count back from the departure date. Leave a few weeks after the reception for paperwork and packing, so your first days as a married couple aren't swallowed by admin.
 
-## The akad
-
 <!-- HARI H: date and weekday (check with datetime), time if stated, city and venue spelled as the venue spells it, the adat used (don't guess; one outlet called the lamaran Sundanese in feel, but that is single-source), and whether the akad and reception fall on the same day. The fiancée STILL goes unnamed unless Abe himself writes her name in his post; if he does, use the spelling from that post and record it in the brief. Mahar only as officially stated, no figures unless quoted directly by the couple or the officiant. Every fact from two media groups or the couple's own post. Once the venue is confirmed, add it to the title. End with one idea an Indonesian couple can borrow. -->
 
-## The wedding-day look
-
 <!-- HARI H: akad and reception outfits, the designer of each look, MUA, hair, jewellery. Vendors only if tagged by the couple or named by two media groups. Check whether the lamaran colour scheme (pastel yellow for the couple, blue for the fiancée's family) carries over. End with one idea to borrow. -->
-
-## The reception
 
 <!-- HARI H: the reception's atmosphere, WO, decor, photographer and videographer if tagged, public-figure guests confirmed by their own posts or two media groups (officials only if two groups name them), captions by the couple or Melly Goeslaw verbatim with their post dates. End with one idea to borrow. -->
 

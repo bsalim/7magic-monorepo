@@ -1,5 +1,6 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
+  "article_translate_cta": "Baca artikel ini dalam bahasa Inggris (Read in English)",
   "article_also_read": "Baca juga",
   "article_published_on": "Diterbitkan {date}",
   "article_updated_on": "Diperbarui {date}",

@@ -52,15 +52,9 @@ On Tuesday, 8 September 2026, Han posted a photo of the two of them on her socia
 
 Yoon and Han each shared the news on their own channel, in their own voice, a day apart. Indonesian couples can use the same pattern with the extended family. Agree first on who tells which side of the family and when, so that no relative on either side hears it from someone else first.
 
-## The ceremony
-
 <!-- HARI H: confirm the date, 1 November 2026, and its weekday (Sunday), the time, the venue name in Gangnam, private or not (Popbela's "private" claim is unconfirmed, do not use it without two sources), who attended, officiant (주례), MC (사회), singers (축가). Co-stars from The Penthouse or Return only if two sources name them. Every fact needs two sources. End with one idea an Indonesian couple can borrow. -->
 
-## The wedding-day look
-
 <!-- HARI H: the gown and tuxedo on the day, the designer if named, hanbok for the 폐백 if photos show it, a pre-wedding pictorial if one is released before the day. Give photo credits exactly as the outlets print them. End with one idea to borrow. -->
-
-## The reception
 
 <!-- HARI H: the reception, celebrity guests named by two sources, any statement from YK Media Plus that day, a statement from Han's agency if any, new posts from Yoon (@yoonjongactor_official, fan cafe) or Han, honeymoon or living plans if announced. Do not speculate about Han's studies in London. End with one idea to borrow. -->
 

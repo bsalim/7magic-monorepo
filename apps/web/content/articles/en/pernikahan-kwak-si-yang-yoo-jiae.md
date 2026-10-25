@@ -55,15 +55,9 @@ The wedding will take place on Saturday, 28 November 2026, in Seoul. According t
 
 The agency said the details are being kept private out of respect for the wishes of both families. This pattern is useful if your own wedding is small. Agree with both families early on what may be shared publicly, for example one official photo after the event, and who will post it. That way no relative posts before the two of you do.
 
-## The ceremony
-
 <!-- HARI H: confirm the date of 28 November 2026 and its weekday (Saturday), the time, the venue in Seoul (the Yongsan-gu hotel report so far comes only from Sports Kyunghyang and Money Today and is not confirmed by the agencies; name the hotel only with two sources), whether it stayed private, who attended, officiant (주례), MC (사회), singers (축가). Name Lovelyz members who attended or sang only with two sources. Every fact needs two sources. End with one idea an Indonesian couple can borrow. -->
 
-## The wedding-day look
-
 <!-- HARI H: the gown and tuxedo on the day, the designer if named, hanbok for the 폐백 if photos show it, pre-wedding photos if released before the day (note the credit). End with one idea to borrow. -->
-
-## The reception
 
 <!-- HARI H: the reception if there is one, celebrity guests named by two sources, any statement from 9Ato Entertainment or KPLUS that day, new posts on @siyang87k and @9.3.0521, honeymoon plans if announced. Kwak's old remark about wanting to walk the Camino de Santiago after marrying is not an official plan; do not use it unless the couple confirm it themselves. End with one idea to borrow. -->
 

@@ -61,15 +61,9 @@ Dalam video yang diterima media pada Minggu, 27 September 2026, Melly berterima 
 
 Kalau Anda berdua juga berencana sekolah lagi atau pindah kota setelah menikah, hitung mundur dari tanggal keberangkatan. Sisakan beberapa minggu setelah resepsi untuk mengurus dokumen dan berkemas, supaya hari-hari pertama sebagai suami istri tidak habis untuk urusan administrasi.
 
-## Akad nikah
-
 <!-- HARI H: tanggal dan nama hari (cek dengan datetime), jam kalau disebut, kota dan venue dengan ejaan venue sendiri, adat yang dipakai (jangan menebak; satu media menyebut lamaran bernuansa Sunda, tapi itu single-source), dan apakah akad dan resepsi di hari yang sama. Calon istri TETAP tidak disebut namanya kecuali Abe sendiri menulis namanya di unggahannya; kalau ya, pakai ejaan dari unggahan itu dan catat di brief. Mahar hanya seperti diumumkan resmi, tanpa angka kecuali dikutip langsung dari pasangan atau penghulu. Setiap fakta dari dua grup media atau unggahan pasangan sendiri. Kalau venue sudah pasti, tambahkan ke judul. Akhiri dengan satu ide yang bisa ditiru pasangan Indonesia. -->
 
-## Busana pengantin
-
 <!-- HARI H: busana akad dan resepsi, desainer tiap tampilan, MUA, rambut, perhiasan. Vendor hanya kalau ditandai pasangan atau disebut dua grup media. Cek apakah tema warna lamaran (kuning pastel untuk pasangan, biru untuk keluarga calon istri) berlanjut. Akhiri dengan satu ide yang bisa ditiru. -->
-
-## Resepsi
 
 <!-- HARI H: suasana resepsi, WO, dekorasi, fotografer dan videografer kalau ditandai, tamu publik figur yang dikonfirmasi lewat unggahan sendiri atau dua grup media (pejabat hanya kalau dua grup menyebut), keterangan unggahan pasangan atau Melly Goeslaw secara verbatim beserta tanggal unggahnya. Akhiri dengan satu ide yang bisa ditiru. -->
 

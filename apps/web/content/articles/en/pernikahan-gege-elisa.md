@@ -41,17 +41,11 @@ In the main session Gege wears a white wedding gown, so the photos already feel 
 
 A sunset shot like the one by the river takes some timing. If your pre-wedding shoot uses more than one location, plan the route around the direction of the light, and keep the time just before sunset for the spot that suits a dusk mood best. Ask your photographer to check the sunset time for the day, then put the location you love most last.
 
-## The wedding ceremony
-
 <!-- EDITOR, BEFORE PUBLISHING: the English pre-wedding caption in the opening paragraph ("A little glimpse of forever, before the 'I do.'") is quoted verbatim by the KLY group only. Check the words and punctuation against the original post on @gegeelisa94; if it can't be checked, replace it with a paraphrase. -->
 
 <!-- HARI H: date and weekday (check with datetime), time if stated, city and venue spelled as the venue spells it, the form of the ceremony (akad, church blessing or other; don't guess religion or adat, use the exact terms the couple or the WO use), and whether the ceremony and reception fall on the same day. The fiancé STILL goes unnamed unless Gege herself writes his name in her post; if she does, use the spelling from that post and record it in the brief. Mahar or rings only as officially stated, no figures or prices. Every fact from two media groups or the couple's own post. Once the venue is confirmed, add it to the title. End with one idea an Indonesian couple can borrow. -->
 
-## The wedding-day look
-
 <!-- HARI H: ceremony and reception outfits, the designer of each look, MUA, hair, jewellery. Check whether @adeline.ester or @soecah_ (tagged by Gege for the pre-wedding gowns, per the KLY group) are involved again, and whether Harry Winston appears again. Vendors only if tagged by the couple or named by two media groups. End with one idea to borrow. -->
-
-## The reception
 
 <!-- HARI H: the reception's atmosphere, WO, decor, photographer and videographer if tagged, public-figure guests confirmed by their own posts or two media groups, Gege's captions verbatim with their post dates. End with one idea to borrow. -->
 

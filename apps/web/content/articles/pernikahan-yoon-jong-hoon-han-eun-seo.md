@@ -56,15 +56,9 @@ Pada Selasa, 8 September 2026, Han mengunggah foto mereka berdua di akun media s
 
 Yoon dan Han masing-masing menyampaikan kabarnya lewat saluran sendiri, dengan suara sendiri, dalam selang satu hari. Pasangan Indonesia bisa memakai pola yang sama untuk keluarga besar. Sepakati dulu siapa yang mengabari pihak keluarga masing-masing dan kapan, supaya tidak ada kerabat dari kedua pihak yang mendengar kabar itu dari orang lain lebih dulu.
 
-## Upacara pernikahan
-
 <!-- HARI H: pastikan tanggal 1 November 2026 dan harinya (Minggu), jam, nama gedung di Gangnam, tertutup atau tidak (klaim "privat" dari Popbela belum terkonfirmasi, jangan dipakai tanpa dua sumber), siapa yang hadir, pemimpin upacara (주례), pembawa acara (사회), penyanyi (축가). Rekan main dari The Penthouse atau Return hanya disebut kalau dua sumber menyebutnya. Setiap fakta harus dari dua sumber. Akhiri dengan satu ide yang bisa ditiru pasangan Indonesia. -->
 
-## Busana di hari pernikahan
-
 <!-- HARI H: gaun dan tuksedo di hari pernikahan, nama desainer kalau disebut, hanbok untuk 폐백 kalau ada fotonya, foto prewedding kalau dirilis menjelang hari H. Sebutkan kredit foto persis seperti yang dicetak media. Akhiri dengan satu ide yang bisa ditiru. -->
-
-## Resepsi
 
 <!-- HARI H: resepsi, tamu selebriti yang disebut dua sumber, pernyataan YK Media Plus di hari itu, pernyataan agensi Han kalau ada, unggahan baru dari Yoon (@yoonjongactor_official, fan cafe) atau Han, rencana bulan madu atau rencana tinggal kalau diumumkan. Jangan berspekulasi soal studi Han di London. Akhiri dengan satu ide yang bisa ditiru. -->
 

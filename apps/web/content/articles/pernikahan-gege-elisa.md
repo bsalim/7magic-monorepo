@@ -45,17 +45,11 @@ Di sesi utama Gege memakai gaun pengantin putih, sehingga foto-foto ini sudah te
 
 Foto saat senja seperti di tepi sungai itu butuh perhitungan waktu. Kalau prewedding Anda memakai lebih dari satu lokasi, susun rutenya berdasarkan arah cahaya, dan sisakan waktu menjelang matahari terbenam untuk lokasi yang paling cocok dengan suasana senja. Mintalah fotografer mengecek jam matahari terbenam di hari itu, lalu tempatkan lokasi yang paling Anda sukai di urutan terakhir.
 
-## Upacara pernikahan
-
 <!-- EDITOR, SEBELUM TERBIT: keterangan prewedding berbahasa Inggris di paragraf pembuka ("A little glimpse of forever, before the 'I do.'") baru dikutip verbatim oleh grup KLY saja. Cocokkan kata dan tanda bacanya dengan unggahan asli di @gegeelisa94; kalau tidak bisa dicek, ganti dengan parafrase. -->
 
 <!-- HARI H: tanggal dan nama hari (cek dengan datetime), jam kalau disebut, kota dan venue dengan ejaan venue sendiri, bentuk upacara (akad, pemberkatan atau lainnya; jangan menebak agama atau adat, pakai istilah persis seperti yang dipakai pasangan atau WO), dan apakah upacara dan resepsi di hari yang sama. Calon suami TETAP tidak disebut namanya kecuali Gege sendiri menulis namanya di unggahannya; kalau ya, pakai ejaan dari unggahan itu dan catat di brief. Mahar atau cincin hanya seperti diumumkan resmi, tanpa angka atau harga. Setiap fakta dari dua grup media atau unggahan pasangan sendiri. Kalau venue sudah pasti, tambahkan ke judul. Akhiri dengan satu ide yang bisa ditiru pasangan Indonesia. -->
 
-## Busana pengantin
-
 <!-- HARI H: busana upacara dan resepsi, desainer tiap tampilan, MUA, rambut, perhiasan. Cek apakah @adeline.ester atau @soecah_ (ditandai Gege untuk gaun prewedding menurut grup KLY) kembali terlibat, dan apakah Harry Winston muncul lagi. Vendor hanya kalau ditandai pasangan atau disebut dua grup media. Akhiri dengan satu ide yang bisa ditiru. -->
-
-## Resepsi
 
 <!-- HARI H: suasana resepsi, WO, dekorasi, fotografer dan videografer kalau ditandai, tamu publik figur yang dikonfirmasi lewat unggahan sendiri atau dua grup media, keterangan unggahan Gege secara verbatim beserta tanggal unggahnya. Akhiri dengan satu ide yang bisa ditiru. -->
 

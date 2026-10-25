@@ -59,15 +59,9 @@ Two things in this story are easy to borrow. A proposal doesn't have to happen i
 
 Indonesian couples often choose a date by weton or shio reckoning, or simply pick one that is easy to remember. One partner's birthday is a personal choice. If you go for it, agree early on how you will celebrate both occasions every year, so that the birthday doesn't get lost behind the anniversary, or the other way round.
 
-## The ceremony
-
 <!-- HARI H: confirm the wedding did take place on Saturday, 12 December 2026, plus the time, the venue name in Seoul, private or not, who attended (Running Man members, We Dem Boyz members), the officiant (주례) or pastor if named (do not name anyone who is not a public figure), the MC (사회), the singers (축가; Kim Jong-kook was jokingly asked on Running Man, do not write it unless confirmed). Every fact needs two sources. End with one idea an Indonesian couple can borrow. -->
 
-## The wedding-day look
-
 <!-- HARI H: the gown and the groom's suit, the designer if two sources name one, hanbok for the 폐백 if photos show it. The couple's own wedding photos must not be used as the header image. End with one idea to borrow. -->
-
-## The reception
 
 <!-- HARI H: the reception or meal after the ceremony, a dance by We Dem Boyz if two sources report it, celebrity guests named by two sources, any statement from CP Entertainment or ARA that day, new posts from either of them, honeymoon plans if announced. Do not write anything about plans for children. End with one idea to borrow. -->
 

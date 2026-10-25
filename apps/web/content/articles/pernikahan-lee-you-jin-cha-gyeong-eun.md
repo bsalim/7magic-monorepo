@@ -57,15 +57,9 @@ Pihak Lee menyebutkan bahwa pernikahan akan digelar pada 14 November di sebuah t
 
 Acara yang tertutup tetap butuh kerja sama tamu. Kalau Anda ingin pernikahan yang tenang, tulis permintaan singkat di undangan, misalnya agar tamu tidak mengunggah lokasi atau menandai tempat acara sebelum acara selesai. Tamu biasanya senang membantu selama permintaannya disampaikan dengan jelas sejak awal.
 
-## Upacara pernikahan
-
 <!-- HARI H: pastikan tanggal Sabtu, 14 November 2026 tetap berlaku, lalu jam, kota dan venue (kalau diungkap), siapa yang hadir, pemimpin upacara (주례), pembawa acara (사회), penyanyi (축가). Setiap fakta harus dari dua sumber. Kehamilan: hanya kutip apa yang disampaikan pasangan atau pihaknya, tanpa spekulasi. Akhiri dengan satu ide yang bisa ditiru pasangan Indonesia. -->
 
-## Busana di hari pernikahan
-
 <!-- HARI H: gaun dan setelan di hari pernikahan, nama desainer kalau disebut dua sumber, hanbok untuk 폐백 kalau ada fotonya. Jangan menebak alasan pilihan gaun. Akhiri dengan satu ide yang bisa ditiru. -->
-
-## Resepsi
 
 <!-- HARI H: resepsi, tamu selebriti yang disebut dua sumber (cek apakah Kim Seung-yoon dan Jang Dong-yoon hadir, dan perbarui kalimat tentang pernikahan mereka di Oktober), pernyataan pihak Lee atau Cha di hari itu, unggahan baru dari @youjin0406 dan @ruddms____, rencana bulan madu kalau diumumkan. Akhiri dengan satu ide yang bisa ditiru. -->
 

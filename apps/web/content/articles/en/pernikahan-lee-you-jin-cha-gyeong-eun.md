@@ -53,15 +53,9 @@ Lee's side said the wedding will be held on 14 November at a venue in Seoul, wit
 
 A private wedding still needs the guests' cooperation. If you want a quiet wedding, put a short request on the invitation, for example asking guests not to post the location or tag the venue until the event is over. Guests are usually glad to help as long as the request is made clearly from the start.
 
-## The ceremony
-
 <!-- HARI H: confirm that Saturday, 14 November 2026 still stands, then the time, city and venue (if revealed), who attended, officiant (주례), MC (사회), singers (축가). Every fact needs two sources. Pregnancy: quote only what the couple or their representatives said, no speculation. End with one idea an Indonesian couple can borrow. -->
 
-## The wedding-day look
-
 <!-- HARI H: the gown and suit on the day, the designer if two sources name one, hanbok for the 폐백 if photos show it. Do not guess at the reasons behind the gown choice. End with one idea to borrow. -->
-
-## The reception
 
 <!-- HARI H: the reception, celebrity guests named by two sources (check whether Kim Seung-yoon and Jang Dong-yoon attended, and update the line about their October wedding), any statement from Lee's or Cha's side that day, new posts from @youjin0406 and @ruddms____, honeymoon plans if announced. End with one idea to borrow. -->
 
