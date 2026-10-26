@@ -182,4 +182,4 @@ Kompas, detik, Tribun and Antara with a family name plus "lamaran" or "menikah".
 | **Hana Malasan** & **Sean Gelael** (Gelael family) | Business family | Lamaran Sat 15 Aug 2026, Bandung. Sundanese-dress prewedding posted 21 Oct. No date. | `apps/web/content/drafts/briefs/hana-malasan-sean-gelael.md` |
 | **Abe Hoed** & partner (daughter of Bambang Soesatyo, MPR chair, not a minister) | Political family | Article published 26-31 Oct batch; wedding Dec 2026, date TBA. | `drafts` batch, see `pernikahan-abe-hoed.md` |
 
-Both briefs are pass 1 only (from search summaries): open each listed source before drafting.
+Both briefs had pass 1 on 2026-10-26 (outlet pages opened; one Kompas and one detik page returned 403). Single-source facts are marked in each brief.

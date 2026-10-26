@@ -1,23 +1,31 @@
 # Brief: Hana Malasan and Sean Gelael
 
-Compiled 2026-10-25 from search-result summaries. **Pass 1, not yet verified:** no outlet page below was
-opened in full. No wedding date is announced; trigger the article when one is.
+Compiled 2026-10-25; pass 1 run 2026-10-26 by opening Kompas, Liputan6, Popbela and Viva in full (detik
+returned 403). No wedding date is announced; trigger the article when one is.
 
-## Reported by several outlets (re-check on opening)
+## Verified in pass 1
 - Who: Hana Malasan, actress; Sean Gelael, racing driver from the Gelael family (Gelael Supermarket).
 - Proposal: Sean proposed privately in Sumba (NTT) in **October 2025**; the watch list has it posted 31 Oct 2025
   at Nihi, Sumba. Poskota writes Nusa Tenggara Barat, which looks wrong.
-- Family lamaran: **Saturday 15 Aug 2026**, NuArt Sculpture Park, Bandung, private, family and close friends.
-  Sean gave a necklace and a ring; Hana placed a framed photo of her late mother on a chair. Sources: Kompas,
-  Okezone/RCTI+, detik, Liputan6, IDN Times, Popbela, KapanLagi, iNews.
-- Pre-wedding photos: Hana posted **Wed 21 Oct 2026** on @hanamalasan, in Sundanese adat dress, shot at a
-  Gelael Supermarket and a KFC (reported as a playful nod to the family business). Viva / Sultramedia carry it.
+- OK (Liputan6, Popbela): family lamaran **Saturday 15 Aug 2026** ("Sabtu (15-8-2026)"), NuArt Sculpture
+  Park, Bandung; family and close friends only. Kompas (Hana's own caption) says "A beautiful morning" and does
+  not name the venue.
+- OK (Kompas, Liputan6): an empty chair held a photo of Hana's late mother. Their Instagram post: "Officially
+  engaged. Our little Wave of Love."
+- **Single-source (Popbela):** Sean gave a necklace and a ring. Do not print as fact until a second outlet says so.
+- OK (Liputan6, Popbela): about two years together; Sean's stepbrother Fachri Albar attended. Leave Fachri's
+  ex-wife and children out: it is his private life, not the couple's.
+- Viva (single opened source): Hana posted **Wed 21 Oct 2026** on @hanamalasan, photos by Eternal Pictures:
+  white brocade kebaya with sequins, melati garland, Sundanese siger; Sean in a white beskap; shot in a
+  supermarket. Viva says the supermarket is only "diduga kuat" (strongly suspected) tied to the Gelael business:
+  say "a supermarket", not "Gelael Supermarket". **The KFC claim is unsupported** in the opened page: drop it.
 
 ## Conflicts to resolve
-- Lamaran date: IDN Times has 16 Aug in one piece; Kompas, Okezone and others say Saturday 15 Aug. RCTI+/iNews
-  called 15 Aug a Friday. 15 Aug 2026 is a Saturday, so use that.
-- Sumba province: NTT (most outlets) vs NTB (Poskota).
-- Whether the supermarket shoot was a "prewedding" or a promo: outlets call it prewedding, check Hana's caption.
+- Lamaran date: IDN Times has 16 Aug in one piece; Liputan6 and Popbela say Sabtu 15 Aug (Liputan6's own
+  article is dated 16 Aug). 15 Aug 2026 is a Saturday: use that.
+- Sumba: Liputan6 says Nihi Sumba, October 2025. Popbela's page shows a link dated 3 Nov 2025 ("Setahun
+  Pacaran... di Pantai Sumba"). Say "Sumba, October 2025" and leave out the province.
+- Viva calls the shoot a prewedding; whether the couple does is unchecked (their own caption not seen).
 
 ## Not announced
 - Wedding date, city, venue, adat for the day, designer. A Sundanese adat theme for the shoot is not proof of

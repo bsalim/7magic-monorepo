@@ -1,17 +1,21 @@
 # Brief: Puteri Modiyanti (daughter of Tommy Soeharto and Sandy Harun)
 
-Compiled 2026-10-25 from search-result summaries. **Pass 1, not yet verified:** no outlet page below was
-opened in full, so every fact needs the two-source check before drafting. No wedding date is announced; this
-is a background brief, to be turned into an article within 48 hours of a date being announced.
+Compiled 2026-10-25; pass 1 run 2026-10-26 by opening detik, Liputan6 and IDN Times in full (Kompas returned
+403). Facts below marked OK have two opened sources. No wedding date is announced; this is a background brief,
+to be turned into an article within 48 hours of a date being announced.
 
-## Confirmed by several outlets (re-check on opening)
-- Lamaran: she was proposed to at Lake Kawaguchiko, Yamanashi, Japan, and posted it on her own Instagram on
-  **Monday 28 Sep 2026**. She showed the engagement ring. Detik, Liputan6, Media Indonesia, RCTI+, IDN Times,
-  Mad.tv and Pikiran Rakyat all carry it.
+## Verified in pass 1
+- OK (detik, Liputan6): lamaran at Lake Kawaguchiko, Yamanashi, Japan, posted on her own Instagram
+  (@putmod) on **Monday 28 Sep 2026** ("Senin (28/9/2026)"). IDN Times gives only "September 2026".
+- OK (detik): her caption, "One single thread of gold tied me to you. I said yes to forever!"; Donna Harun
+  congratulated her in the comments. Photo credit printed: Instagram @putmod and the partner's account.
+- OK (Liputan6, IDN Times): headline spelling is "Puteri Modiyanti". IDN Times also calls her 4th Runner-Up
+  Puteri Indonesia 2023 (one source, not yet cross-checked).
 - Family: daughter of Tommy Soeharto (Hutomo Mandala Putra) and Sandy Harun; grandfather is the late President
   Soeharto, so the Cendana family.
-- Her partner is described as a businessman (a brand founder and a cafe owner in Bandung per Media Indonesia /
-  Sinata summaries).
+- **Single-source:** her partner being a "businessman" rests on Kompas's headline ("dilamar pengusaha", page
+  not readable) and search summaries; detik, Liputan6 and IDN Times opened and **do not state his job**. Do
+  not print an occupation until a second outlet states it.
 
 ## Not announced
 - Wedding date, city, venue, adat, vendors. Nothing found after 28 Sep.
