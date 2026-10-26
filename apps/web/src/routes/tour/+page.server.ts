@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 
 import { fetchJson, getApiBaseUrl } from '$lib/api';
 import { getLocale } from '$lib/paraglide/runtime';
+import { tourFailureStatus } from '$lib/tour-errors';
 import type { TourVenue } from '$lib/tour';
 
 import type { Actions, PageServerLoad } from './$types';
@@ -79,9 +80,7 @@ export const actions: Actions = {
     // outside -- exactly the position this endpoint was in.
     console.error(`[tour] register failed ${response.status}: ${body.slice(0, 500)}`);
 
-    return fail(response.status === 422 ? 422 : 409, {
-      ok: false,
-      code: payload.error?.code ?? 'generic'
-    });
+    const code = payload.error?.code ?? 'generic';
+    return fail(tourFailureStatus(response.status, code), { ok: false, code });
   }
 };

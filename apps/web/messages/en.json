@@ -454,7 +454,7 @@
   "tour_branch_pick": "Choose a branch",
   "tour_closed": "We are not taking tour bookings right now.",
   "tour_empty": "No branch is taking visits right now.",
-  "tour_error_already": "This email is already registered for that visit.",
+  "tour_error_already": "This email is already booked for a free venue tour, and our team will contact you. To change the date, message us on WhatsApp or use a different email.",
   "tour_error_full": "This visit is fully booked.",
   "tour_error_generic": "We could not send your booking. Please try again.",
   "tour_field_city": "City",

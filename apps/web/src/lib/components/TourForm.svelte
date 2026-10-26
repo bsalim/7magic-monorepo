@@ -14,7 +14,9 @@
     venues,
     cities,
     lockedVenue = null,
-    changeVenueHref = null
+    changeVenueHref = null,
+    emailError = '',
+    guestsError = ''
   }: {
     venues: TourVenue[];
     cities: string[];
@@ -22,6 +24,9 @@
     lockedVenue?: TourVenue | null;
     /** Clears ?venue= and reveals the fields. Null when there is nothing to clear. */
     changeVenueHref?: string | null;
+    /** Set by the page after a rejected booking; shown under the field it belongs to. */
+    emailError?: string;
+    guestsError?: string;
   } = $props();
 
   let venueName = $state('');
@@ -44,6 +49,16 @@
   const canSubmit = $derived(
     Boolean(visitDate) && (lockedVenue ? true : Boolean(venueName.trim()) && Boolean(effectiveCity))
   );
+
+  // A rejection lands after a full round trip, with the cursor on the submit
+  // button; moving focus to the field the message is about saves the guest from
+  // hunting for it, and screen readers announce it through aria-describedby.
+  let emailInput = $state<HTMLInputElement | null>(null);
+  let guestsInput = $state<HTMLInputElement | null>(null);
+  $effect(() => {
+    if (emailError) emailInput?.focus();
+    else if (guestsError) guestsInput?.focus();
+  });
 
   const cityLabel = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 
@@ -112,7 +127,19 @@
   </div>
   <div class="grid gap-2">
     <Label for="email">{m.tour_field_email()}</Label>
-    <Input id="email" name="email" type="email" required class={CONTROL_TEXT} />
+    <Input
+      id="email"
+      name="email"
+      type="email"
+      required
+      bind:ref={emailInput}
+      aria-invalid={emailError ? 'true' : undefined}
+      aria-describedby={emailError ? 'email-error' : undefined}
+      class={CONTROL_TEXT}
+    />
+    {#if emailError}
+      <p id="email-error" role="alert" class="text-sm text-destructive">{emailError}</p>
+    {/if}
   </div>
   <div class="grid gap-2">
     <Label for="mobile">{m.tour_field_mobile()}</Label>
@@ -133,9 +160,16 @@
       min="1"
       max="20"
       bind:value={guests}
+      bind:ref={guestsInput}
+      aria-invalid={guestsError ? 'true' : undefined}
+      aria-describedby={guestsError ? 'party-size-error' : undefined}
       class={CONTROL_TEXT}
     />
-    <p class="text-xs text-muted-foreground">{m.tour_guests_hint()}</p>
+    {#if guestsError}
+      <p id="party-size-error" role="alert" class="text-sm text-destructive">{guestsError}</p>
+    {:else}
+      <p class="text-xs text-muted-foreground">{m.tour_guests_hint()}</p>
+    {/if}
   </div>
 
   <div class="sm:col-span-2">

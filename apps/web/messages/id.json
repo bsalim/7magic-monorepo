@@ -384,7 +384,7 @@
   "tour_branch_pick": "Pilih cabang",
   "tour_closed": "Saat ini kami sedang tidak menerima pendaftaran kunjungan.",
   "tour_empty": "Belum ada cabang yang menerima kunjungan saat ini.",
-  "tour_error_already": "Email ini sudah terdaftar untuk kunjungan tersebut.",
+  "tour_error_already": "Email ini sudah terdaftar untuk kunjungan gratis dan tim kami akan menghubungi Anda. Untuk mengubah jadwal, hubungi kami lewat WhatsApp atau gunakan email lain.",
   "tour_error_full": "Kuota kunjungan sudah penuh.",
   "tour_error_generic": "Pendaftaran gagal dikirim. Silakan coba lagi.",
   "tour_field_city": "Kota",

@@ -4,6 +4,7 @@
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import TourForm from '$lib/components/TourForm.svelte';
   import TourPitch from '$lib/components/TourPitch.svelte';
+  import { tourFormErrors } from '$lib/tour-errors';
   import * as m from '$lib/paraglide/messages';
   import { localizeHref } from '$lib/paraglide/runtime';
 
@@ -11,14 +12,7 @@
 
   let { data, form }: { data: PageData; form: ActionData } = $props();
 
-  const ERROR_MESSAGES: Record<string, () => string> = {
-    already_registered: m.tour_error_already,
-    event_full: m.tour_error_full
-  };
-
-  const errorMessage = $derived(
-    form && form.ok === false ? (ERROR_MESSAGES[form.code] ?? m.tour_error_generic)() : ''
-  );
+  const errors = $derived(tourFormErrors(form));
 </script>
 
 <svelte:head>
@@ -53,11 +47,13 @@
   {:else if !data.event || !data.event.registration_open}
     <p class="mt-8 rounded-xl border border-border/60 p-4">{m.tour_closed()}</p>
   {:else}
-    {#if errorMessage}
-      <p class="mt-6 text-sm text-destructive">{errorMessage}</p>
+    {#if errors.general}
+      <p class="mt-6 text-sm text-destructive" role="alert">{errors.general}</p>
     {/if}
 
     <TourForm
+      emailError={errors.email}
+      guestsError={errors.guests}
       venues={data.venues}
       cities={data.cities}
       lockedVenue={data.lockedVenue}
