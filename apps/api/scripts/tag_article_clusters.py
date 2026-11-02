@@ -39,6 +39,9 @@ CLUSTERS: dict[str, list[str]] = {
         "playlist-sangjit-mandarin-hokkien-instrumental",
         "angka-baik-dan-pantangan-pernikahan-tionghoa",
         "sangjit-hokkien-khek-tiociu-kanton-beda-aturan",
+        # November 2026 batch.
+        "angpao-pernikahan-tionghoa",
+        "sangjit-dan-guo-da-li-keluarga-jakarta-singapura",
     ],
     "adat-tionghoa": [
         "apa-bedanya-acara-sangjit-acara-lamaran-dan-acara-saserahan-dalam-tradisi-tionghoa-yuk-kenali-bedanya-biar-nggak-bingung-lagi",
@@ -57,6 +60,10 @@ CLUSTERS: dict[str, list[str]] = {
         "sangjit-hokkien-khek-tiociu-kanton-beda-aturan",
         "mengenal-ba-zi-empat-pilar-kelahiran",
         "kecocokan-pasangan-menurut-ba-zi",
+        # November 2026 batch.
+        "angpao-pernikahan-tionghoa",
+        "sangjit-dan-guo-da-li-keluarga-jakarta-singapura",
+        "menikah-tahun-kambing-2027-tahun-janda",
     ],
     # The Ba Zi pair first, then the two pieces that count shio and lucky dates.
     "astrologi-tionghoa": [
@@ -64,6 +71,8 @@ CLUSTERS: dict[str, list[str]] = {
         "kecocokan-pasangan-menurut-ba-zi",
         "menentukan-tanggal-pernikahan-weton-shio",
         "angka-baik-dan-pantangan-pernikahan-tionghoa",
+        # November 2026 batch.
+        "menikah-tahun-kambing-2027-tahun-janda",
     ],
     # Primbon and good-day reckoning across Java, Sunda and Bali; the weton-shio
     # piece bridges this cluster and the Chinese one.
@@ -124,6 +133,8 @@ CLUSTERS: dict[str, list[str]] = {
         "percakapan-keuangan-sebelum-menikah",
         # Written in the CMS, already carried the topic before this cluster.
         "perjanjian-pranikah-pro-kontra-tren-dan-realita-untuk-pasangan-millennial",
+        # November 2026 batch.
+        "syarat-nikah-dengan-wna-di-indonesia",
     ],
     # Celebrity weddings: the shared topic links the batch, the sub-topics keep
     # "Baca juga" on the same side of the Indonesian/international split.
@@ -188,6 +199,10 @@ CLUSTERS: dict[str, list[str]] = {
         "mau-nikah-di-singapura-ini-10-hotel-bintang-5-paling-hits-buat-wedding-mewah-elegan",
         "nikah-intimate-gak-harus-mahal-8-venue-micro-wedding-super-aesthetic-di-tengah-kota-singapura",
         "tradisi-pernikahan-multietnis-di-singapura",
+        # November 2026 batch.
+        "wni-menikah-di-singapura",
+        "menikah-di-bali-warga-singapura",
+        "sangjit-dan-guo-da-li-keluarga-jakarta-singapura",
     ],
     "menikah-di-bali": [
         "apa-itu-elopement-menikah-berdua-di-bali",
@@ -209,6 +224,35 @@ CLUSTERS: dict[str, list[str]] = {
         "mau-nikah-di-bali-tapi-gak-mau-ribet-ini-5-venue-wedding-dekat-bandara-yang-super-praktis",
         "venue-wedding-bali-dengan-vendor-lokal-berkualitas-bikin-nikahan-kamu-gak-cuma-estetik-tapi-juga-anti-drama",
         "wedding-di-bali-gak-harus-ribet-ini-3-venue-kids-friendly-biar-tamu-bawa-anak-tetap-happy",
+        # November 2026 batch.
+        "baju-kondangan-ke-bali-musim-hujan",
+        "lokasi-nikah-di-bali-uluwatu-nusa-dua-canggu-seminyak-ubud",
+        "vow-renewal-di-bali-pembaruan-janji-nikah",
+        "menikah-di-bali-warga-singapura",
+    ],
+    # Picking a 2027 date: by number, by lunar year, around Ramadan, by the
+    # Javanese and Balinese calendars.
+    "tanggal-pernikahan-2027": [
+        "tanggal-cantik-menikah-2027",
+        "menikah-tahun-kambing-2027-tahun-janda",
+        "menikah-sebelum-ramadan-2027-rajab-syakban",
+        "bulan-baik-menikah-2027-kalender-jawa",
+        "dewasa-ayu-pawiwahan-hari-baik-menikah-bali",
+        "menentukan-tanggal-pernikahan-weton-shio",
+    ],
+    # Paperwork: KUA and Dukcapil at home, and marriages that cross a border.
+    "syarat-nikah": [
+        "syarat-dokumen-nikah-2026-kua-catatan-sipil",
+        "syarat-nikah-dengan-wna-di-indonesia",
+        "wni-menikah-di-singapura",
+        "menikah-di-bali-warga-singapura",
+        "menikah-sebelum-ramadan-2027-rajab-syakban",
+    ],
+    "biaya-pernikahan": [
+        "biaya-nikah-di-jakarta",
+        "cara-menghitung-porsi-katering-pernikahan",
+        "12-pertanyaan-sebelum-tanda-tangan-venue-pernikahan",
+        "menikah-di-bali-budget-masuk-akal",
     ],
     "foto-prewedding": [
         "lokasi-prewedding-unik-bali",
