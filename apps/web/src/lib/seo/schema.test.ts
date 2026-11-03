@@ -8,6 +8,7 @@ import {
   SITE_URL,
   absoluteUrl,
   articleNode,
+  authorProfileJsonLd,
   breadcrumbList,
   canonicalUrl,
   countryCodeFor,
@@ -264,6 +265,27 @@ describe('venueItemList', () => {
   });
 });
 
+describe('authorProfileJsonLd', () => {
+  it('ties the profile to one person who works for the organization', () => {
+    const nodes = authorProfileJsonLd({
+      name: 'Fiona',
+      url: '/author/fiona',
+      title: 'Fiona',
+      description: 'Bio',
+      jobTitle: 'Co-founder',
+      locale: 'id'
+    })['@graph'] as Record<string, unknown>[];
+    const person = nodes.find((node) => node['@type'] === 'Person');
+    const profile = nodes.find((node) => node['@type'] === 'ProfilePage');
+
+    expect(person).toMatchObject({
+      jobTitle: 'Co-founder',
+      worksFor: { '@id': `${SITE_URL}/#organization` }
+    });
+    expect(profile?.mainEntity).toEqual({ '@id': person?.['@id'] });
+  });
+});
+
 describe('articleNode', () => {
   const article: ArticleDetail = {
     id: 1,
@@ -288,13 +310,31 @@ describe('articleNode', () => {
     related: []
   };
 
+  it('keeps a plain Person for an author with no profile page', () => {
+    const node = articleNode({ ...article, author: 'Guest' }, '/artikel/a/b', 'id');
+    expect(node.author).toEqual({ '@type': 'Person', name: 'Guest' });
+  });
+
+  it('names one person across locales, linking the profile in the reader\'s language', () => {
+    const node = articleNode(article, '/en/articles/a/b', 'en');
+    expect(node.author).toMatchObject({
+      '@id': `${SITE_URL}/author/fiona#person`,
+      url: `${SITE_URL}/en/author/fiona`
+    });
+  });
+
   it('carries the dates, author and publisher a BlogPosting needs', () => {
     const node = articleNode(article, '/artikel/planning/wedding-planning', 'id');
 
     expect(node['@type']).toBe('BlogPosting');
     expect(node.datePublished).toBe('2026-01-01T00:00:00');
     expect(node.dateModified).toBe('2026-02-01T00:00:00');
-    expect(node.author).toEqual({ '@type': 'Person', name: 'Fiona' });
+    expect(node.author).toEqual({
+      '@type': 'Person',
+      '@id': `${SITE_URL}/author/fiona#person`,
+      name: 'Fiona',
+      url: `${SITE_URL}/author/fiona`
+    });
     expect(node.image).toBe(`${SITE_URL}/img/a.jpg`);
     expect(node.mainEntityOfPage['@id']).toBe(`${SITE_URL}/artikel/planning/wedding-planning`);
   });

@@ -156,6 +156,11 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
     '',
     link('/about', 'About 7Magic', 'who we are'),
     link(
+      '/author/fiona',
+      'Fiona',
+      'co-founder of 7Magic in 2007, wedding organizer since then, and author of the guides on this site'
+    ),
+    link(
       '/our-vendors',
       'Our vendors',
       'the photographers, decorators, cake makers, entertainers and bridal houses we work with'

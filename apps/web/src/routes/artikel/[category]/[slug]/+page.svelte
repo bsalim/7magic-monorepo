@@ -10,6 +10,7 @@
   import { formatLongDate } from '$lib/dates';
   import GlobeIcon from '@lucide/svelte/icons/globe';
   import { switcherHref } from '$lib/locale-href';
+  import { authorPath } from '$lib/authors';
   import { getLocale, localizeHref, type Locale } from '$lib/paraglide/runtime';
   import { m } from '$lib/paraglide/messages.js';
   import {
@@ -42,6 +43,11 @@
   const translationHref = $derived(
     data.alternates?.[otherLocale] ? switcherHref(page.url.pathname, otherLocale, data.alternates) : null
   );
+
+  const authorHref = $derived.by(() => {
+    const path = authorPath(article.author);
+    return path ? localizeHref(path) : null;
+  });
 
   // page.url keeps the /en prefix that reroute strips before matching, so the
   // English copy of an article identifies itself by its own URL, not the
@@ -92,7 +98,11 @@
       <h1 class="mt-3 text-4xl font-semibold leading-tight md:text-5xl">{article.title}</h1>
       <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">{article.summary}</p>
       <div class="mt-5 flex flex-wrap gap-3 text-sm text-slate-500">
-        <span>{article.author}</span>
+        {#if authorHref}
+          <a href={authorHref} rel="author" class="font-medium underline-offset-4 hover:underline">{article.author}</a>
+        {:else}
+          <span>{article.author}</span>
+        {/if}
         {#if published}
           <time datetime={article.published_at}>{m.article_published_on({ date: published })}</time>
         {/if}

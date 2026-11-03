@@ -15,9 +15,10 @@
  */
 
 import type { ArticleDetail, VenueCard, VenueDetail } from '$lib/api';
+import { authorPath } from '$lib/authors';
 import { CONTACT_EMAIL, INSTAGRAM_URL } from '$lib/contact';
 import { OFFICE_ADDRESSES, type OfficeAddress } from '$lib/offices';
-import { localizeHref } from '$lib/paraglide/runtime';
+import { localizeHref, type Locale } from '$lib/paraglide/runtime';
 import { titleCase } from '$lib/utils';
 import { whatsappDisplay, whatsappNumber } from '$lib/whatsapp';
 
@@ -179,7 +180,7 @@ export function webPageNode(options: {
   url: string;
   name: string;
   locale: string;
-  type?: 'WebPage' | 'CollectionPage';
+  type?: 'WebPage' | 'CollectionPage' | 'ProfilePage';
   description?: string;
   about?: string;
   image?: string | null;
@@ -359,6 +360,49 @@ function headline(title: string): string {
   return title.length <= 110 ? title : `${title.slice(0, 109).trimEnd()}…`;
 }
 
+/**
+ * The @id stays on the Indonesian URL so both editions of an article, and both
+ * editions of the profile, name one person rather than two.
+ */
+export function authorNode(name: string, locale: string) {
+  const path = authorPath(name);
+  if (!path) return { '@type': 'Person', name };
+  return {
+    '@type': 'Person',
+    '@id': `${SITE_URL}${path}#person`,
+    name,
+    url: canonicalUrl(localizeHref(path, { locale: locale as Locale }))
+  };
+}
+
+export function authorProfileJsonLd(options: {
+  name: string;
+  url: string;
+  title: string;
+  description: string;
+  jobTitle: string;
+  locale: string;
+}) {
+  const person = {
+    ...authorNode(options.name, options.locale),
+    jobTitle: options.jobTitle,
+    worksFor: { '@id': ORGANIZATION_ID }
+  };
+  return graph(
+    organization(),
+    website(),
+    webPageNode({
+      url: options.url,
+      name: options.title,
+      description: options.description,
+      locale: options.locale,
+      type: 'ProfilePage',
+      mainEntity: '@id' in person ? { '@id': person['@id'] } : undefined
+    }),
+    person
+  );
+}
+
 export function articleNode(article: ArticleDetail, path: string, locale: string) {
   const url = absoluteUrl(path);
   return {
@@ -371,7 +415,7 @@ export function articleNode(article: ArticleDetail, path: string, locale: string
     // Falls back to the publish date: an article that has never been edited is
     // still modified as of the day it went out, and Google wants both.
     dateModified: article.updated_at || article.published_at || undefined,
-    author: { '@type': 'Person', name: article.author },
+    author: authorNode(article.author, locale),
     publisher: { '@id': ORGANIZATION_ID },
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     articleSection: article.category || undefined,

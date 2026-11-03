@@ -1,4 +1,5 @@
 import { fetchJson, type ArticleListPayload, type ShowcaseListPayload } from '$lib/api';
+import { AUTHOR_PATHS } from '$lib/authors';
 import { localizeHref } from '$lib/paraglide/runtime';
 import { fetchAllPages, fetchVenueCatalogue } from '$lib/server/catalogue';
 import { buildSitemap, type SitemapEntry } from '$lib/seo/sitemap';
@@ -89,6 +90,7 @@ export async function GET({ fetch, setHeaders }) {
 
   const xml = buildSitemap([
     ...STATIC_PATHS.map((path) => ({ alternates: staticPathAlternates(path) })),
+    ...AUTHOR_PATHS.map((path) => ({ alternates: bothLocales(path) })),
     ...articles,
     ...venues,
     ...showcases
