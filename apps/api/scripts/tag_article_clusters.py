@@ -231,7 +231,7 @@ CLUSTERS: dict[str, list[str]] = {
         "menikah-di-bali-warga-singapura",
     ],
     # Picking a 2027 date: by number, by lunar year, around Ramadan, by the
-    # Javanese and Balinese calendars.
+    # Javanese and Balinese calendars, and by Western astrology's retrogrades.
     "tanggal-pernikahan-2027": [
         "tanggal-cantik-menikah-2027",
         "menikah-tahun-kambing-2027-tahun-janda",
@@ -239,6 +239,7 @@ CLUSTERS: dict[str, list[str]] = {
         "bulan-baik-menikah-2027-kalender-jawa",
         "dewasa-ayu-pawiwahan-hari-baik-menikah-bali",
         "menentukan-tanggal-pernikahan-weton-shio",
+        "kecocokan-zodiak-pasangan-dan-tanggal-menikah-2027",
     ],
     # Paperwork: KUA and Dukcapil at home, and marriages that cross a border.
     "syarat-nikah": [
