@@ -1,5 +1,8 @@
 import { render, screen, within } from '@testing-library/svelte';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
+// The forms render the Turnstile widget, which reads its site key from here.
+vi.mock('$env/dynamic/public', () => ({ env: {} }));
 import { tick } from 'svelte';
 import PublicHeader from './PublicHeader.svelte';
 

@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('$lib/paraglide/messages', () => ({
   tour_error_already: () => 'already',
-  tour_error_captcha: () => 'captcha',
+  captcha_error: () => 'captcha',
   tour_error_full: () => 'full',
   tour_error_generic: () => 'generic'
 }));

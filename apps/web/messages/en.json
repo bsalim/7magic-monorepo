@@ -460,7 +460,7 @@
   "tour_closed": "We are not taking tour bookings right now.",
   "tour_empty": "No branch is taking visits right now.",
   "tour_error_already": "This email is already booked for a free venue tour, and our team will contact you. To change the date, message us on WhatsApp or use a different email.",
-  "tour_error_captcha": "We couldn't verify you're not a bot. Please complete the check and send again.",
+  "captcha_error": "We couldn't verify you're not a bot. Please complete the check and send again.",
   "tour_error_full": "This visit is fully booked.",
   "tour_error_generic": "We could not send your booking. Please try again.",
   "tour_field_city": "City",

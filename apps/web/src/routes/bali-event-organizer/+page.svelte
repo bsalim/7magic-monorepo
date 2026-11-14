@@ -6,6 +6,8 @@
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
+  import Turnstile from '$lib/components/Turnstile.svelte';
+  import { captchaPending, TURNSTILE_HEADER } from '$lib/turnstile';
   import { m } from '$lib/paraglide/messages.js';
   import { getLocale, localizeHref } from '$lib/paraglide/runtime';
   import { landingPageJsonLd } from '$lib/seo/schema';
@@ -180,6 +182,8 @@
   const waHref = $derived(whatsappHref(m.beo_wa_prefill()));
 
   let sending = $state(false);
+  let captcha = $state<ReturnType<typeof Turnstile> | null>(null);
+  let captchaToken = $state('');
   let submitted = $state(false);
   let errorMessage = $state('');
 
@@ -214,7 +218,7 @@
     try {
       const response = await fetch('/api/contact-lead', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', [TURNSTILE_HEADER]: captchaToken },
         body: JSON.stringify({
           name: field('name'),
           phone: field('phone'),
@@ -235,6 +239,8 @@
       errorMessage = m.beo_form_error();
     } finally {
       sending = false;
+      // Tokens are single-use, so every attempt needs a fresh one.
+      captcha?.reset();
     }
   }
 
@@ -701,7 +707,8 @@
               <p class="text-sm text-destructive" role="alert">{errorMessage}</p>
             {/if}
 
-            <Button type="submit" variant="gold" size="lg" class="w-full" disabled={sending}>
+            <Turnstile bind:this={captcha} bind:token={captchaToken} />
+            <Button type="submit" variant="gold" size="lg" class="w-full" disabled={sending || captchaPending(captchaToken)}>
               {sending ? m.beo_form_sending() : m.beo_form_submit()}
             </Button>
             <p class="text-center text-xs text-muted-foreground">

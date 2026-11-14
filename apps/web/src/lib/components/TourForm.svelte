@@ -1,10 +1,9 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
 
-  import { env } from '$env/dynamic/public';
-
   import DateField from '$lib/components/DateField.svelte';
   import Turnstile from '$lib/components/Turnstile.svelte';
+  import { captchaPending } from '$lib/turnstile';
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
@@ -51,12 +50,10 @@
 
   let captcha = $state<ReturnType<typeof Turnstile> | null>(null);
   let captchaToken = $state('');
-  // Only waited on when the widget is configured; see Turnstile.svelte.
-  const captchaReady = $derived(!env.PUBLIC_TURNSTILE_SITE_KEY || Boolean(captchaToken));
 
   const canSubmit = $derived(
     Boolean(visitDate) &&
-      captchaReady &&
+      !captchaPending(captchaToken) &&
       (lockedVenue ? true : Boolean(venueName.trim()) && Boolean(effectiveCity))
   );
 

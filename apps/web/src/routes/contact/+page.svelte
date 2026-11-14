@@ -5,6 +5,7 @@
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import SocialMeta from '$lib/components/SocialMeta.svelte';
+  import Turnstile from '$lib/components/Turnstile.svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Input } from '$lib/components/ui/input';
@@ -12,10 +13,15 @@
   import { Textarea } from '$lib/components/ui/textarea';
   import * as m from '$lib/paraglide/messages';
   import { CONTACT_EMAIL } from '$lib/contact';
+  import { captchaPending } from '$lib/turnstile';
   import { cn } from '$lib/utils';
   import { whatsappDisplay, whatsappHref } from '$lib/whatsapp';
 
   let { form } = $props();
+
+  // A plain POST with no enhance: the widget's own hidden input carries the token,
+  // and the page reloads with a fresh widget, so there is nothing to reset.
+  let captchaToken = $state('');
 
   // The same deep link the venue pages use, so this page reaches the team through
   // the channel they actually answer on rather than printing a number to copy.
@@ -104,7 +110,13 @@
             />
           </div>
 
-          <Button type="submit" class="mt-5 font-semibold hover:bg-brand-gold-hover">
+          <div class="mt-5"><Turnstile bind:token={captchaToken} /></div>
+
+          <Button
+            type="submit"
+            disabled={captchaPending(captchaToken)}
+            class="mt-5 font-semibold hover:bg-brand-gold-hover"
+          >
             {m.contact_submit()}
           </Button>
         </form>

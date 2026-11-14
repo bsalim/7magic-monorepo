@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 
 import { getApiBaseUrl } from '$lib/api';
+import { rejectUnlessHuman } from '$lib/server/turnstile';
 
 import type { RequestHandler } from './$types';
 
@@ -10,9 +11,13 @@ import type { RequestHandler } from './$types';
  * The /contact page posts through a form action, but the modal opens on every
  * route, so it needs an endpoint of its own. Posting through the app server
  * keeps the API base URL server-side and avoids a CORS round trip, matching
- * the venue-pricing-request proxy.
+ * the venue-inquiry endpoint.
  */
-export const POST: RequestHandler = async ({ request, fetch }) => {
+export const POST: RequestHandler = async (event) => {
+	const { request, fetch } = event;
+	const rejected = await rejectUnlessHuman(event);
+	if (rejected) return rejected;
+
 	const payload = await request.json();
 
 	const response = await fetch(`${getApiBaseUrl()}/api/v1/public/contact-leads`, {

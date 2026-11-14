@@ -3,12 +3,14 @@
   import MapPinIcon from '@lucide/svelte/icons/map-pin';
 
   import DateField from '$lib/components/DateField.svelte';
+  import Turnstile from '$lib/components/Turnstile.svelte';
   import { Button } from '$lib/components/ui/button';
   import * as Dialog from '$lib/components/ui/dialog';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
   import { m } from '$lib/paraglide/messages.js';
   import { getLocale, localizeHref } from '$lib/paraglide/runtime';
+  import { captchaPending } from '$lib/turnstile';
   import { titleCase } from '$lib/utils';
   import { submitVenueInquiry, type InquiryVenue } from '$lib/venue-inquiry';
 
@@ -25,6 +27,8 @@
   } = $props();
 
   let sending = $state(false);
+  let captcha = $state<ReturnType<typeof Turnstile> | null>(null);
+  let captchaToken = $state('');
   let errorMessage = $state('');
   // Null until a pricing request lands; then 'skipped', 'ok' or the API's code.
   let tourOutcome = $state<string | null>(null);
@@ -43,7 +47,9 @@
   );
 
   // The calendar submits through a hidden input, which `required` cannot guard.
-  const canSubmit = $derived(!sending && (!wantsTour || Boolean(visitDate)));
+  const canSubmit = $derived(
+    !sending && !captchaPending(captchaToken) && (!wantsTour || Boolean(visitDate))
+  );
 
   const TOUR_ERRORS: Record<string, () => string> = {
     already_registered: m.tour_error_already,
@@ -79,9 +85,12 @@
         tour: wantsTour ? { visitDate, partySize } : null,
         locale: getLocale()
       },
-      fetch
+      fetch,
+      captchaToken
     );
     sending = false;
+    // Tokens are single-use, so a retry needs a fresh one.
+    captcha?.reset();
 
     if (result.pricing === 'failed') {
       // Keep the couple's input on screen so they can retry rather than showing
@@ -280,6 +289,7 @@
           <p class="text-sm text-destructive" role="alert">{errorMessage}</p>
         {/if}
 
+        <Turnstile bind:this={captcha} bind:token={captchaToken} />
         <Button type="submit" variant="gold" size="lg" class="w-full" disabled={!canSubmit}>
           {sending ? m.vd_modal_sending() : m.vd_modal_submit()}
         </Button>

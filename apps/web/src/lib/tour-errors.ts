@@ -34,7 +34,7 @@ export function tourFormErrors(form: { ok?: boolean; code?: string } | null | un
     case 'event_full':
       return { ...none, guests: m.tour_error_full() };
     case 'captcha_failed':
-      return { ...none, general: m.tour_error_captcha() };
+      return { ...none, general: m.captcha_error() };
     default:
       return { ...none, general: m.tour_error_generic() };
   }

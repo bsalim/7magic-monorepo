@@ -1,18 +1,23 @@
 import { json } from '@sveltejs/kit';
 
 import { getApiBaseUrl } from '$lib/api';
+import { rejectUnlessHuman } from '$lib/server/turnstile';
 
 import type { RequestHandler } from './$types';
 
 /**
  * Proxies the wedding tools' lead gate to the API.
  *
- * Same reason as the contact-lead and venue-pricing proxies: the gate runs in
+ * Same reason as the contact-lead proxy and the venue-inquiry endpoint: the gate runs in
  * the browser on any tool page, and posting through the app server keeps the
  * API base URL server-side and avoids a CORS round trip. The body passes
  * through untouched; validation, the honeypot and notifications are the API's.
  */
-export const POST: RequestHandler = async ({ request, fetch }) => {
+export const POST: RequestHandler = async (event) => {
+	const { request, fetch } = event;
+	const rejected = await rejectUnlessHuman(event);
+	if (rejected) return rejected;
+
 	const payload = await request.json().catch(() => null);
 	if (!payload || typeof payload !== 'object') {
 		return json({ ok: false }, { status: 400 });

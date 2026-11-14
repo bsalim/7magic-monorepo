@@ -3,6 +3,8 @@
   import MessageCircleIcon from '@lucide/svelte/icons/message-circle';
   import { trackEvent } from '$lib/analytics';
   import { Button, buttonVariants } from '$lib/components/ui/button';
+  import Turnstile from '$lib/components/Turnstile.svelte';
+  import { captchaPending, TURNSTILE_HEADER } from '$lib/turnstile';
   import { cn } from '$lib/utils';
   import { whatsappDisplay, whatsappHref } from '$lib/whatsapp';
   import { enquiryMessage } from './enquiry';
@@ -34,6 +36,8 @@
   const waHref = $derived(whatsappHref(whatsappText));
 
   let sending = $state(false);
+  let captcha = $state<ReturnType<typeof Turnstile> | null>(null);
+  let captchaToken = $state('');
   let submitted = $state(false);
   let errorMessage = $state('');
 
@@ -51,7 +55,7 @@
     try {
       const response = await fetch('/api/contact-lead', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', [TURNSTILE_HEADER]: captchaToken },
         body: JSON.stringify({
           name: field('name'),
           phone: field('phone'),
@@ -73,6 +77,8 @@
       errorMessage = 'That did not send. Try again, or message us on WhatsApp instead.';
     } finally {
       sending = false;
+      // Tokens are single-use, so every attempt needs a fresh one.
+      captcha?.reset();
     }
   }
 
@@ -142,7 +148,8 @@
       {#if errorMessage}
         <p role="alert" class="text-sm text-destructive">{errorMessage}</p>
       {/if}
-      <Button type="submit" variant="gold" disabled={sending}>
+      <Turnstile bind:this={captcha} bind:token={captchaToken} />
+      <Button type="submit" variant="gold" disabled={sending || captchaPending(captchaToken)}>
         {sending ? 'Sending…' : 'Send enquiry'}
       </Button>
     </form>

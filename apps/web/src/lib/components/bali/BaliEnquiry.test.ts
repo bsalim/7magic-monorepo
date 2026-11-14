@@ -1,5 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/svelte';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+
+// The forms render the Turnstile widget, which reads its site key from here.
+vi.mock('$env/dynamic/public', () => ({ env: {} }));
 import { CONCIERGE_SERVICES } from '$lib/bali-concierge';
 import BaliEnquiry from './BaliEnquiry.svelte';
 import { enquiryMessage } from './enquiry';

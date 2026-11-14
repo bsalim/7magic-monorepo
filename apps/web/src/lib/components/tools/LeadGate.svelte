@@ -2,6 +2,8 @@
   import LockOpenIcon from '@lucide/svelte/icons/lock-open';
   import * as Dialog from '$lib/components/ui/dialog';
   import { Button } from '$lib/components/ui/button';
+  import Turnstile from '$lib/components/Turnstile.svelte';
+  import { captchaPending, TURNSTILE_HEADER } from '$lib/turnstile';
   import { trackEvent } from '$lib/analytics';
   import { m } from '$lib/paraglide/messages.js';
   import { localizeHref } from '$lib/paraglide/runtime';
@@ -54,6 +56,8 @@
   let phoneError = $state('');
   let errorMessage = $state('');
   let sending = $state(false);
+  let captcha = $state<ReturnType<typeof Turnstile> | null>(null);
+  let captchaToken = $state('');
 
   async function submit(event: SubmitEvent) {
     event.preventDefault();
@@ -72,7 +76,7 @@
     try {
       const response = await fetch('/api/tool-lead', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', [TURNSTILE_HEADER]: captchaToken },
         body: JSON.stringify({
           tool,
           email: email.trim(),
@@ -99,6 +103,8 @@
       errorMessage = m.tools_gate_error();
     } finally {
       sending = false;
+      // Tokens are single-use, so every attempt needs a fresh one.
+      captcha?.reset();
     }
   }
 
@@ -187,7 +193,8 @@
         <p class="text-sm text-destructive" role="alert">{errorMessage}</p>
       {/if}
 
-      <Button type="submit" variant="gold" size="lg" class="w-full" disabled={sending}>
+      <Turnstile bind:this={captcha} bind:token={captchaToken} />
+      <Button type="submit" variant="gold" size="lg" class="w-full" disabled={sending || captchaPending(captchaToken)}>
         {sending ? m.tools_gate_sending() : m.tools_gate_submit()}
       </Button>
       <p class="text-center text-xs leading-5 text-muted-foreground">{m.tools_gate_note()}</p>

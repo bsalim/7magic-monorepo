@@ -1,4 +1,7 @@
+import { json } from '@sveltejs/kit';
+
 import { env } from '$env/dynamic/private';
+import { TURNSTILE_HEADER } from '$lib/turnstile';
 
 const SITEVERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
@@ -39,6 +42,20 @@ export async function verifyTurnstile(
     console.error('[turnstile] siteverify unreachable', err);
     return false;
   }
+}
+
+/**
+ * The guard for the JSON proxies under /api: null when the request may go on,
+ * otherwise the 403 to answer with. The token arrives in TURNSTILE_HEADER.
+ */
+export async function rejectUnlessHuman(event: {
+  request: Request;
+  getClientAddress: () => string;
+  fetch: typeof fetch;
+}): Promise<Response | null> {
+  const token = event.request.headers.get(TURNSTILE_HEADER);
+  if (await verifyTurnstile(token, clientIp(event.getClientAddress), event.fetch)) return null;
+  return json({ ok: false, error: { code: 'captcha_failed' } }, { status: 403 });
 }
 
 /** The client address, or null where adapter-node cannot tell (dev, tests). */

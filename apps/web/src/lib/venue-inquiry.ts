@@ -5,9 +5,20 @@
  * Two records rather than one combined lead, so each lands in the inbox that
  * already handles it -- the pricing lead with the planners, the tour with the
  * branch -- and neither backend had to change to accept the other's fields.
+ *
+ * The browser sends both in one request to /api/venue-inquiry, which files them
+ * in turn. One request because a Turnstile token can be verified only once, and
+ * the two records would otherwise need two tokens.
  */
 
-export type InquiryVenue = { id: number; slug: string; name: string; city: string };
+import { TURNSTILE_HEADER } from '$lib/turnstile';
+
+export type InquiryVenue = {
+  id: number;
+  slug: string;
+  name: string;
+  city: string;
+};
 
 export type VenueInquiry = {
   venue: InquiryVenue;
@@ -27,13 +38,39 @@ export type VenueInquiry = {
  */
 export type InquiryResult = { pricing: 'ok' | 'failed'; tour: string };
 
+const FAILED: InquiryResult = { pricing: 'failed', tour: 'skipped' };
+
+/** The browser half: one POST, and any failure to reach the server is a failed pricing request. */
 export async function submitVenueInquiry(
   inquiry: VenueInquiry,
-  fetcher: typeof fetch
+  fetcher: typeof fetch,
+  captchaToken = ''
+): Promise<InquiryResult> {
+  try {
+    const response = await fetcher('/api/venue-inquiry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        [TURNSTILE_HEADER]: captchaToken
+      },
+      body: JSON.stringify(inquiry)
+    });
+    if (!response.ok) return FAILED;
+    return (await response.json()) as InquiryResult;
+  } catch {
+    return FAILED;
+  }
+}
+
+/** The server half: files the pricing request, then the tour, straight with the API. */
+export async function forwardVenueInquiry(
+  inquiry: VenueInquiry,
+  fetcher: typeof fetch,
+  apiBase: string
 ): Promise<InquiryResult> {
   const { venue } = inquiry;
 
-  const pricingLanded = await post(fetcher, '/api/venue-pricing-request', {
+  const pricingLanded = await post(fetcher, `${apiBase}/api/v1/public/venue-pricing-requests`, {
     name: inquiry.name,
     whatsapp: inquiry.whatsapp,
     email: inquiry.email || null,
@@ -49,11 +86,11 @@ export async function submitVenueInquiry(
 
   // The tour waits on pricing: a retry after a failed pricing request would
   // otherwise book the same tour twice, and the API refuses the second one.
-  if (!pricingLanded) return { pricing: 'failed', tour: 'skipped' };
+  if (!pricingLanded) return FAILED;
   if (!inquiry.tour) return { pricing: 'ok', tour: 'skipped' };
 
   try {
-    const response = await post(fetcher, '/api/tour-register', {
+    const response = await post(fetcher, `${apiBase}/api/v1/public/tour/register`, {
       name: inquiry.name,
       email: inquiry.email,
       mobile: inquiry.whatsapp || null,
