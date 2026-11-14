@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 
 import { getApiBaseUrl } from '$lib/api';
+import { leadHeaders } from '$lib/server/api';
 import { rejectUnlessHuman } from '$lib/server/turnstile';
 import { forwardVenueInquiry, type VenueInquiry } from '$lib/venue-inquiry';
 
@@ -27,7 +28,7 @@ export const POST: RequestHandler = async (event) => {
 		return json({ ok: false }, { status: 400 });
 	}
 
-	const result = await forwardVenueInquiry(inquiry, event.fetch, getApiBaseUrl());
+	const result = await forwardVenueInquiry(inquiry, event.fetch, getApiBaseUrl(), leadHeaders());
 	if (result.tour !== 'ok' && result.tour !== 'skipped') {
 		// The couple's pricing request already landed and they see a soft notice,
 		// so this line is the only record that a tour booking was lost.

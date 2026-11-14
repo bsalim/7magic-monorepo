@@ -66,20 +66,26 @@ export async function submitVenueInquiry(
 export async function forwardVenueInquiry(
   inquiry: VenueInquiry,
   fetcher: typeof fetch,
-  apiBase: string
+  apiBase: string,
+  headers: Record<string, string> = { 'Content-Type': 'application/json' }
 ): Promise<InquiryResult> {
   const { venue } = inquiry;
 
-  const pricingLanded = await post(fetcher, `${apiBase}/api/v1/public/venue-pricing-requests`, {
-    name: inquiry.name,
-    whatsapp: inquiry.whatsapp,
-    email: inquiry.email || null,
-    wedding_date: inquiry.weddingDate || null,
-    best_time_to_reach: inquiry.bestTimeToReach,
-    venue_id: venue.id,
-    venue_slug: venue.slug,
-    venue_name: venue.name
-  }).then(
+  const pricingLanded = await post(
+    fetcher,
+    headers,
+    `${apiBase}/api/v1/public/venue-pricing-requests`,
+    {
+      name: inquiry.name,
+      whatsapp: inquiry.whatsapp,
+      email: inquiry.email || null,
+      wedding_date: inquiry.weddingDate || null,
+      best_time_to_reach: inquiry.bestTimeToReach,
+      venue_id: venue.id,
+      venue_slug: venue.slug,
+      venue_name: venue.name
+    }
+  ).then(
     (response) => response.ok,
     () => false
   );
@@ -90,7 +96,7 @@ export async function forwardVenueInquiry(
   if (!inquiry.tour) return { pricing: 'ok', tour: 'skipped' };
 
   try {
-    const response = await post(fetcher, `${apiBase}/api/v1/public/tour/register`, {
+    const response = await post(fetcher, headers, `${apiBase}/api/v1/public/tour/register`, {
       name: inquiry.name,
       email: inquiry.email,
       mobile: inquiry.whatsapp || null,
@@ -111,10 +117,15 @@ export async function forwardVenueInquiry(
   }
 }
 
-function post(fetcher: typeof fetch, url: string, body: unknown): Promise<Response> {
+function post(
+  fetcher: typeof fetch,
+  headers: Record<string, string>,
+  url: string,
+  body: unknown
+): Promise<Response> {
   return fetcher(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify(body)
   });
 }

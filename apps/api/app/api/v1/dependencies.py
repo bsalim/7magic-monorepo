@@ -103,6 +103,23 @@ def require_website_read_access(
         )
 
 
+def require_website_lead_submission(
+    request: Request,
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> None:
+    """Only the website's server may create leads: it has already checked the
+    captcha, and a Turnstile token is single-use, so the API cannot re-check it."""
+    lead_key = request.headers.get("x-7magic-lead-key")
+    if settings.lead_submit_key and not secrets.compare_digest(
+        lead_key or "", settings.lead_submit_key
+    ):
+        raise AuthError(
+            status_code=status.HTTP_403_FORBIDDEN,
+            code="website_access_denied",
+            message="Lead submissions are only accepted from the website.",
+        )
+
+
 def _origin_from_url(url: str | None) -> str | None:
     if not url:
         return None

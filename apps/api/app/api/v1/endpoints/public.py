@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, Query, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.v1.dependencies import require_website_lead_submission
 from app.core.database import get_db_session
 from app.core.errors import error_response
 from app.schemas.content import (
@@ -168,6 +169,7 @@ async def article_detail(
 
 @router.post(
     "/contact-leads",
+    dependencies=[Depends(require_website_lead_submission)],
     response_model=ContactLeadResponse,
     status_code=status.HTTP_201_CREATED,
 )
@@ -180,6 +182,7 @@ async def create_contact_lead(
 
 @router.post(
     "/venue-pricing-requests",
+    dependencies=[Depends(require_website_lead_submission)],
     response_model=ContactLeadResponse,
     status_code=status.HTTP_201_CREATED,
 )
@@ -192,6 +195,7 @@ async def create_venue_pricing_request(
 
 @router.post(
     "/tool-leads",
+    dependencies=[Depends(require_website_lead_submission)],
     response_model=ToolLeadResponse,
     status_code=status.HTTP_201_CREATED,
 )

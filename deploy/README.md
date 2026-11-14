@@ -144,6 +144,10 @@ including `www.` or its absence.
 venue endpoints are key-guarded; a mismatch produces 404s on every venue detail
 page rather than an auth error, which is a confusing way to find out.
 
+**`LEAD_SUBMIT_KEY` must be identical** in `api.env` and `web.env` too. Set
+it in `web.env` first and restart web, then `api.env` and restart the API: the
+other order rejects every enquiry in between.
+
 **`ProtectSystem=strict` makes the filesystem read-only.** The API unit lists
 `ReadWritePaths=/var/www/7magic-monorepo/apps/api` for that reason. If you add a feature
 that writes anywhere else — an upload cache, a log file — add the path there or

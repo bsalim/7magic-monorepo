@@ -10,6 +10,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.v1.dependencies import require_website_lead_submission
 from app.core.config import get_settings
 from app.core.database import get_db_session
 from app.core.errors import error_response
@@ -121,7 +122,11 @@ async def tour_form_payload(session: DbSession):
     }
 
 
-@router.post("/tour/register", status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/tour/register",
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(require_website_lead_submission)],
+)
 async def register_without_a_branch(payload: PublicRegistration, session: DbSession):
     """The nav entry point: the guest named a venue and a city, and the city is what
     decides whose event and whose inbox this lead belongs to."""
@@ -217,7 +222,11 @@ async def get_tour_branch(slug: str, session: DbSession):
     }
 
 
-@router.post("/tour/branches/{slug}/register", status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/tour/branches/{slug}/register",
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(require_website_lead_submission)],
+)
 async def register_for_tour(slug: str, payload: PublicRegistration, session: DbSession):
     try:
         branch = await branch_service.get_by_slug(session, slug)

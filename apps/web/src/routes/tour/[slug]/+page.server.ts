@@ -2,6 +2,7 @@ import { error, fail } from '@sveltejs/kit';
 
 import { fetchJson, getApiBaseUrl } from '$lib/api';
 import { getLocale } from '$lib/paraglide/runtime';
+import { leadHeaders } from '$lib/server/api';
 import { clientIp, TURNSTILE_FIELD, verifyTurnstile } from '$lib/server/turnstile';
 import { tourFailureStatus } from '$lib/tour-errors';
 
@@ -79,7 +80,7 @@ export const actions: Actions = {
       `${getApiBaseUrl()}/api/v1/public/tour/branches/${params.slug}/register`,
       {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: leadHeaders(),
         body: JSON.stringify({
           name: String(form.get('name') ?? '').trim(),
           email: String(form.get('email') ?? '').trim(),

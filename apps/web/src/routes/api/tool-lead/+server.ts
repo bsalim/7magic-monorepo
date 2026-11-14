@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 
 import { getApiBaseUrl } from '$lib/api';
+import { leadHeaders } from '$lib/server/api';
 import { rejectUnlessHuman } from '$lib/server/turnstile';
 
 import type { RequestHandler } from './$types';
@@ -27,7 +28,7 @@ export const POST: RequestHandler = async (event) => {
 	try {
 		response = await fetch(`${getApiBaseUrl()}/api/v1/public/tool-leads`, {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			headers: leadHeaders(),
 			body: JSON.stringify(payload)
 		});
 	} catch {

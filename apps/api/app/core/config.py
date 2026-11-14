@@ -202,6 +202,11 @@ class Settings(BaseSettings):
 
     venue_read_allowed_origins: list[str] = []
     venue_read_api_key: str | None = None
+    # Shared secret the website's server sends with every lead it forwards. The
+    # captcha is checked on the website, so without this the API's public lead
+    # endpoints are an open side door for bots that skip the site entirely.
+    # Unset means unguarded, so local dev and tests need nothing.
+    lead_submit_key: str | None = None
     venue_upload_max_bytes: int = 10 * 1024 * 1024
     # The https names are what Caddy serves in dev; the raw ports stay for
     # running an app directly with `vite dev`, bypassing the proxy.

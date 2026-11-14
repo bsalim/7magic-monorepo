@@ -47,6 +47,22 @@ describe('forwardVenueInquiry', () => {
     });
   });
 
+  it('sends the given headers with both requests, so the lead key reaches the API', async () => {
+    const fetcher = vi.fn().mockResolvedValue(reply(201));
+    const headers = { 'Content-Type': 'application/json', 'x-7magic-lead-key': 'k' };
+
+    await forwardVenueInquiry(
+      { ...base, tour: { visitDate: '2027-01-09', partySize: 2 } },
+      fetcher,
+      API,
+      headers
+    );
+
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(fetcher.mock.calls[0][1].headers).toEqual(headers);
+    expect(fetcher.mock.calls[1][1].headers).toEqual(headers);
+  });
+
   it('books the tour for the same venue after the pricing request lands', async () => {
     const fetcher = vi.fn().mockResolvedValue(reply(201));
 

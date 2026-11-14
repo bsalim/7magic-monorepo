@@ -15,3 +15,15 @@ export async function fetchVenueJson<T>(
 
   return fetchJson<T>(path, fetcher, init);
 }
+
+/**
+ * Headers for forwarding a lead to the API. The API refuses leads without
+ * LEAD_SUBMIT_KEY when it has one set, because the captcha is only checked
+ * here: a bot posting straight to the API would otherwise skip it.
+ */
+export function leadHeaders(): Record<string, string> {
+  return {
+    'Content-Type': 'application/json',
+    ...(env.LEAD_SUBMIT_KEY ? { 'x-7magic-lead-key': env.LEAD_SUBMIT_KEY } : {})
+  };
+}

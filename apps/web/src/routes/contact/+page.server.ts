@@ -1,6 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { fetchJson, type ContactLeadResponse } from '$lib/api';
 import * as m from '$lib/paraglide/messages';
+import { leadHeaders } from '$lib/server/api';
 import { clientIp, TURNSTILE_FIELD, verifyTurnstile } from '$lib/server/turnstile';
 
 export const actions = {
@@ -20,7 +21,7 @@ export const actions = {
     try {
       const lead = await fetchJson<ContactLeadResponse>('/api/v1/public/contact-leads', fetch, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: leadHeaders(),
         body: JSON.stringify(payload)
       });
       return { lead };
