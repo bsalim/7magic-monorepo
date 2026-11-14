@@ -3,7 +3,14 @@ import * as m from '$lib/paraglide/messages';
 // Codes the API rejects a booking with because of what the guest typed or chose.
 // They are form validation, so the action answers 422 and the page puts the text
 // beside the field instead of in a banner above the whole form.
-const FIELD_CODES = new Set(['already_registered', 'event_full', 'validation_error']);
+// A failed captcha is also the guest's to fix, so it answers 422 too, though it
+// shows above the form since no single field is at fault.
+const FIELD_CODES = new Set([
+  'already_registered',
+  'event_full',
+  'validation_error',
+  'captcha_failed'
+]);
 
 /**
  * The status the form action answers with. The old rule sent everything that was
@@ -26,6 +33,8 @@ export function tourFormErrors(form: { ok?: boolean; code?: string } | null | un
       return { ...none, email: m.tour_error_already() };
     case 'event_full':
       return { ...none, guests: m.tour_error_full() };
+    case 'captcha_failed':
+      return { ...none, general: m.tour_error_captcha() };
     default:
       return { ...none, general: m.tour_error_generic() };
   }

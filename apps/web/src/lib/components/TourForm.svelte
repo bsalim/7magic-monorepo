@@ -1,7 +1,10 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
 
+  import { env } from '$env/dynamic/public';
+
   import DateField from '$lib/components/DateField.svelte';
+  import Turnstile from '$lib/components/Turnstile.svelte';
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
@@ -46,8 +49,15 @@
 
   const today = new Date().toISOString().slice(0, 10);
 
+  let captcha = $state<ReturnType<typeof Turnstile> | null>(null);
+  let captchaToken = $state('');
+  // Only waited on when the widget is configured; see Turnstile.svelte.
+  const captchaReady = $derived(!env.PUBLIC_TURNSTILE_SITE_KEY || Boolean(captchaToken));
+
   const canSubmit = $derived(
-    Boolean(visitDate) && (lockedVenue ? true : Boolean(venueName.trim()) && Boolean(effectiveCity))
+    Boolean(visitDate) &&
+      captchaReady &&
+      (lockedVenue ? true : Boolean(venueName.trim()) && Boolean(effectiveCity))
   );
 
   // A rejection lands after a full round trip, with the cursor on the submit
@@ -68,7 +78,16 @@
   const CONTROL_TEXT = 'text-base md:text-[15px]';
 </script>
 
-<form method="POST" use:enhance class="mt-8 grid gap-4 sm:grid-cols-2">
+<!-- The token is spent by the server whatever the outcome, so a rejected booking
+     needs a fresh one before the guest can resubmit. -->
+<form
+  method="POST"
+  use:enhance={() =>
+    async ({ update }) => {
+      await update();
+      captcha?.reset();
+    }}
+  class="mt-8 grid gap-4 sm:grid-cols-2">
   {#if lockedVenue}
     <input type="hidden" name="venue_id" value={lockedVenue.id} />
     <input type="hidden" name="venue_name" value={lockedVenue.name} />
@@ -170,6 +189,10 @@
     {:else}
       <p class="text-xs text-muted-foreground">{m.tour_guests_hint()}</p>
     {/if}
+  </div>
+
+  <div class="sm:col-span-2">
+    <Turnstile bind:this={captcha} bind:token={captchaToken} />
   </div>
 
   <div class="sm:col-span-2">

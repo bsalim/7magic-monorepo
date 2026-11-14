@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 
 import { fetchJson, getApiBaseUrl } from '$lib/api';
 import { getLocale } from '$lib/paraglide/runtime';
+import { clientIp, TURNSTILE_FIELD, verifyTurnstile } from '$lib/server/turnstile';
 import { tourFailureStatus } from '$lib/tour-errors';
 import type { TourVenue } from '$lib/tour';
 
@@ -30,8 +31,14 @@ export const load: PageServerLoad = async ({ fetch, url }) => {
 };
 
 export const actions: Actions = {
-  default: async ({ fetch, request }) => {
+  default: async ({ fetch, request, getClientAddress }) => {
     const form = await request.formData();
+
+    // Checked here rather than in the API: the venue pricing modal books tours
+    // through the same API endpoint and has no widget of its own.
+    if (!(await verifyTurnstile(form.get(TURNSTILE_FIELD), clientIp(getClientAddress), fetch))) {
+      return fail(tourFailureStatus(400, 'captcha_failed'), { ok: false, code: 'captcha_failed' });
+    }
 
     const partySize = Number(form.get('party_size') ?? 1);
     const venueId = String(form.get('venue_id') ?? '').trim();

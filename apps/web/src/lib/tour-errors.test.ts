@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('$lib/paraglide/messages', () => ({
   tour_error_already: () => 'already',
+  tour_error_captcha: () => 'captcha',
   tour_error_full: () => 'full',
   tour_error_generic: () => 'generic'
 }));
@@ -32,6 +33,11 @@ describe('tourFormErrors', () => {
 
   it('puts a full event beside the guest count', () => {
     expect(tourFormErrors({ ok: false, code: 'event_full' }).guests).toBe('full');
+  });
+
+  it('shows a failed captcha above the form and answers 422', () => {
+    expect(tourFormErrors({ ok: false, code: 'captcha_failed' }).general).toBe('captcha');
+    expect(tourFailureStatus(400, 'captcha_failed')).toBe(422);
   });
 
   it('falls back to a general message and stays empty on success', () => {
