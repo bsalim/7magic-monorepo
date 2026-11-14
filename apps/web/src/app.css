@@ -97,6 +97,9 @@
 
   --font-display: 'Poppins', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Jost Variable', 'Jost', ui-sans-serif, system-ui, sans-serif;
+  /* Editorial serif for long-form guide pages. Georgia stands in wherever
+     Cormorant Garamond is not loaded; nothing site-wide uses `font-serif`. */
+  --font-serif: 'Cormorant Garamond', Georgia, ui-serif, serif;
 
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);

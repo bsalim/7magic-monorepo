@@ -1,6 +1,7 @@
 <script lang="ts">
   import CheckIcon from '@lucide/svelte/icons/check';
   import MessageCircleIcon from '@lucide/svelte/icons/message-circle';
+  import type { Snippet } from 'svelte';
   import { trackEvent } from '$lib/analytics';
   import { Button, buttonVariants } from '$lib/components/ui/button';
   import Turnstile from '$lib/components/Turnstile.svelte';
@@ -28,9 +29,34 @@
     whatsappText: string;
     /** Analytics event name, sent with `{ channel }`. */
     event: string;
+    /**
+     * `card` is the bordered panel every Bali page has used. `dark` drops the
+     * panel for a page that sets the section on a dark band itself, and moves the
+     * form into a white card of its own so the fields stay readable.
+     */
+    tone?: 'card' | 'dark';
+    /** Small uppercase line above the heading. */
+    eyebrow?: string;
+    /** Replaces the heading's text when the page needs markup in it, e.g. an italic word. */
+    title?: Snippet;
+    /** Replaces the heading's classes, for a page with its own display type. */
+    headingClass?: string;
   }
 
-  let { sourcePath, heading, lead, context, whatsappText, event }: Props = $props();
+  let {
+    sourcePath,
+    heading,
+    lead,
+    context,
+    whatsappText,
+    event,
+    tone = 'card',
+    eyebrow,
+    title,
+    headingClass = 'font-display text-2xl font-bold md:text-3xl'
+  }: Props = $props();
+
+  const dark = $derived(tone === 'dark');
 
   const uid = $props.id();
   const waHref = $derived(whatsappHref(whatsappText));
@@ -86,26 +112,50 @@
     'rounded-md border border-input bg-background px-3 py-2.5 text-[15px] placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/30';
 </script>
 
-<div class="grid gap-6 rounded-2xl border border-border bg-background p-6 md:grid-cols-2 md:p-8">
+<div
+  class={dark
+    ? 'grid gap-10 text-white md:grid-cols-2 md:gap-16'
+    : 'grid gap-6 rounded-2xl border border-border bg-background p-6 md:grid-cols-2 md:p-8'}
+>
   <div>
-    <h2 class="font-display text-2xl font-bold md:text-3xl">{heading}</h2>
+    {#if eyebrow}
+      <p
+        class={cn(
+          'mb-4 text-[13px] font-semibold tracking-[0.2em] uppercase',
+          dark ? 'text-brand-dark-accent' : 'text-brand-gold-hover'
+        )}
+      >
+        {eyebrow}
+      </p>
+    {/if}
+    <h2 class={headingClass}>
+      {#if title}{@render title()}{:else}{heading}{/if}
+    </h2>
     {#if lead}
-      <p class="mt-3 text-[15px] leading-7 text-muted-foreground">{lead}</p>
+      <p class={cn('mt-3 leading-7', dark ? 'text-[17px] text-white/80' : 'text-[15px] text-muted-foreground')}>
+        {lead}
+      </p>
     {/if}
     <a
       href={waHref}
       onclick={() => trackEvent(event, { channel: 'whatsapp' })}
-      class={cn(buttonVariants({ variant: 'whatsapp', size: 'lg' }), 'mt-5 w-full sm:w-auto')}
+      class={cn(
+        dark
+          ? 'inline-flex h-12 items-center justify-center gap-2 rounded-full bg-brand-dark-accent px-7 font-semibold text-brand-ink hover:bg-brand-dark-accent/90'
+          : buttonVariants({ variant: 'whatsapp', size: 'lg' }),
+        'mt-6 w-full sm:w-auto'
+      )}
     >
       <MessageCircleIcon size={18} />
       WhatsApp {whatsappDisplay}
     </a>
-    <p class="mt-3 text-sm text-muted-foreground">
+    <p class={cn('mt-3 text-sm', dark ? 'text-white/70' : 'text-muted-foreground')}>
       Our Bali team replies in English, usually within the day (Bali is 2–3 hours behind the east
       coast).
     </p>
   </div>
 
+  <div class={dark ? 'rounded-3xl bg-background p-6 text-foreground md:p-9' : 'contents'}>
   {#if submitted}
     <div class="flex flex-col items-center gap-3 py-8 text-center">
       <span
@@ -154,4 +204,5 @@
       </Button>
     </form>
   {/if}
+  </div>
 </div>
