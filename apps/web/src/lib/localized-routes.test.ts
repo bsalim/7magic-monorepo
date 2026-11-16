@@ -52,6 +52,29 @@ describe('prenuptial agreement URLs', () => {
   });
 });
 
+describe('Bali prenuptial agreement URLs', () => {
+  // Listed before the catch-all, and an exact pattern, so the Jakarta page's
+  // pattern cannot swallow it or the other way round.
+  it('serves its own English slug, distinct from the Jakarta page', () => {
+    expect(localizeHref('/perjanjian-pranikah-bali', { locale: 'id' })).toBe(
+      '/perjanjian-pranikah-bali'
+    );
+    expect(localizeHref('/perjanjian-pranikah-bali', { locale: 'en' })).toBe(
+      '/en/prenuptial-agreement-bali'
+    );
+    expect(localizeHref('/perjanjian-pranikah', { locale: 'en' })).toBe(
+      '/en/prenuptial-agreement'
+    );
+  });
+
+  it('round-trips in both directions', () => {
+    for (const locale of ['id', 'en'] as const) {
+      const localized = localizeHref('/perjanjian-pranikah-bali', { locale });
+      expect(deLocalizeUrl(`${origin}${localized}`).pathname).toBe('/perjanjian-pranikah-bali');
+    }
+  });
+});
+
 describe('sangjit package URLs', () => {
   it('serves an English slug under /en', () => {
     expect(localizeHref('/paket-sangjit', { locale: 'id' })).toBe('/paket-sangjit');

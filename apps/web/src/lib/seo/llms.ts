@@ -106,6 +106,11 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
       'Prenuptial agreement',
       'prenuptial agreement service for Indonesian and mixed-nationality couples in Jakarta'
     ),
+    link(
+      '/perjanjian-pranikah-bali',
+      'Prenuptial agreement in Bali',
+      'the same service signed before a partner notary based in Bali, for couples marrying there and foreign spouses buying property'
+    ),
     link('/free-venue-tour', 'Free venue tour', 'a free accompanied visit to any venue on the site'),
     link('/tour', 'Book a venue tour', 'pick a venue and a date'),
     '',

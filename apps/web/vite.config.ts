@@ -41,6 +41,13 @@ export default defineConfig({
           ]
         },
         {
+          pattern: '/perjanjian-pranikah-bali',
+          localized: [
+            ['en', '/en/prenuptial-agreement-bali'],
+            ['id', '/perjanjian-pranikah-bali']
+          ]
+        },
+        {
           pattern: '/paket-sangjit',
           localized: [
             ['en', '/en/sangjit-package'],

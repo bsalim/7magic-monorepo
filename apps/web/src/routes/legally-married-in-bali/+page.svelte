@@ -523,6 +523,26 @@
           </p>
         </div>
       </div>
+      <!-- Most readers here are two Australians, for whom an Indonesian prenup
+           is beside the point. The one who is marrying an Indonesian citizen is
+           the reader for whom it decides whether the couple can own land, so
+           the pointer is addressed to them rather than to everyone. -->
+      <div class="flex max-w-[760px] flex-col gap-3 border-l-4 border-brand-gold bg-secondary p-6">
+        <h3 class={cn(SERIF, 'text-[26px] leading-[1.15] font-semibold')}>
+          Marrying an Indonesian citizen?
+        </h3>
+        <p class="text-muted-foreground">
+          Without a registered separation-of-property agreement, land bought during the marriage becomes
+          jointly owned, and a foreign spouse cannot keep a share of freehold title. The agreement is signed
+          before a notary in Bali, ideally before the wedding day.
+        </p>
+        <a
+          href={siteHref('/perjanjian-pranikah-bali')}
+          class="inline-flex w-fit items-center gap-1.5 font-semibold text-brand-gold-hover underline underline-offset-2"
+        >
+          Prenuptial agreements in Bali <ArrowRightIcon size={16} />
+        </a>
+      </div>
     </section>
 
     <!-- Temples and same-sex couples -->
