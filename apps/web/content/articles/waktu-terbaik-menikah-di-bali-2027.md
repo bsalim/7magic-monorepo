@@ -5,7 +5,7 @@ slug: "waktu-terbaik-menikah-di-bali-2027"
 category: "persiapan-pernikahan"
 excerpt_id: "Musim kemarau Mei sampai September paling aman untuk upacara outdoor, tapi itu bukan satu-satunya pertimbangan. Ini curah hujan Bali bulan per bulan, hari raya Bali dan nasional 2027, libur sekolah Australia, dan tanggal yang sebaiknya dihindari."
 author: "Fiona"
-date: 2026-12-10
+date: 2026-11-18
 status: draft
 ---
 
@@ -25,14 +25,14 @@ Musim hujan di Bali biasanya berarti hujan deras di sore hari, bukan hujan sehar
 
 | Bulan | Hujan rata-rata | Yang terjadi di 2027 |
 |---|---|---|
-| Januari | 351 mm | Galungan 13 Januari, Kuningan 23 Januari. Libur musim panas sekolah Australia sampai akhir Januari. |
+| Januari | 351 mm | Isra Mikraj 5 Januari. Galungan 13 Januari, Kuningan 23 Januari. Libur musim panas sekolah Australia sampai akhir Januari. |
 | Februari | 290 mm | Imlek 5 sampai 6 Februari. Ramadan diperkirakan mulai 8 Februari. Masa Prapaskah mulai 10 Februari. |
 | Maret | 231 mm | Nyepi Senin 8 Maret, bandara tutup. Idulfitri dan cuti bersama 9 sampai 15 Maret. Jumat Agung dan Paskah 25 sampai 28 Maret. |
 | April | 107 mm | Musim hujan berakhir. Libur sekolah Australia: Victoria dan Queensland sampai 11 April, NSW dan WA pertengahan April. |
 | Mei | 95 mm | Awal musim kemarau. Hari Buruh 1 Mei, Kenaikan 6 Mei, Iduladha dan Waisak 17 sampai 20 Mei. |
-| Juni | 68 mm | Kering. Libur musim dingin sekolah Victoria dan Queensland mulai 26 Juni. |
+| Juni | 68 mm | Kering. Hari Lahir Pancasila 1 Juni, Tahun Baru Islam 6 Juni. Libur musim dingin sekolah Victoria dan Queensland mulai 26 Juni. |
 | Juli | 28 mm | Bulan terkering dan paling ramai. Libur sekolah di empat negara bagian Australia. |
-| Agustus | 36 mm | Kering. Galungan 11 Agustus dan Kuningan 21 Agustus (perhitungan). 17 Agustus. |
+| Agustus | 36 mm | Kering. Galungan 11 Agustus dan Kuningan 21 Agustus (perhitungan). Maulid Nabi 15 Agustus, HUT RI 17 Agustus. |
 | September | 59 mm | Kering, lebih sepi. Libur musim semi sekolah Australia mulai 18 September. |
 | Oktober | 64 mm | Masih kering dan lebih sepi. Libur sekolah Australia sampai awal Oktober. |
 | November | 131 mm | Peralihan ke musim hujan. Masa Adven mulai 28 November. |
@@ -42,7 +42,7 @@ Angka curah hujan adalah rata-rata iklim stasiun Denpasar/Ngurah Rai dari Japan 
 
 ## Tanggal yang sebaiknya dihindari
 
-**Nyepi, Senin 8 Maret 2027.** Selama 24 jam sejak pukul 06.00, seluruh Bali berhenti dan Bandara Ngurah Rai tutup. Tidak ada pernikahan yang bisa digelar, dan tamu tidak bisa datang atau pergi pada hari itu. Nyepi 2027 juga langsung disusul libur Idulfitri, sehingga 6 sampai 15 Maret menjadi pekan perjalanan paling padat tahun itu di Indonesia. Beberapa sumber wisata menulis Nyepi 2027 pada 9 Maret. Tanggal yang benar menurut SKB pemerintah adalah 8 Maret.
+**Nyepi, Senin 8 Maret 2027.** Selama 24 jam sejak pukul 06.00, seluruh Bali berhenti dan Bandara Ngurah Rai tutup. Tidak ada pernikahan yang bisa digelar, dan tamu tidak bisa datang atau pergi pada hari itu. Nyepi 2027 juga langsung disusul libur Idulfitri, sehingga 6 sampai 15 Maret menjadi salah satu pekan perjalanan terpadat tahun itu di Indonesia. Beberapa sumber wisata menulis Nyepi 2027 pada 9 Maret. Tanggal yang benar menurut SKB pemerintah adalah 8 Maret.
 
 **Galungan dan Kuningan.** Ini hari raya terbesar umat Hindu Bali. Sekolah dan kantor biasanya libur sehari sebelum sampai sehari sesudahnya, dan banyak staf serta vendor lokal pulang ke keluarga. Anda tetap bisa menikah di sekitar tanggal ini, tapi tanyakan ketersediaan tim sejak awal. Galungan 13 Januari 2027 sudah tercantum di kalender terbitan lembaga di Bali. Galungan 11 Agustus 2027 dihitung dari siklus 210 hari, jadi cocokkan lagi dengan kalender Bali sebelum Anda mengunci tanggal.
 

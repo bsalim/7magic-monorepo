@@ -21,14 +21,14 @@ The wet season in Bali usually means heavy afternoon downpours, not rain all day
 
 | Month | Average rainfall | What is on in 2027 |
 |---|---|---|
-| January | 351 mm | Galungan 13 January, Kuningan 23 January. Australian summer school holidays until late January. |
+| January | 351 mm | Isra Mi'raj 5 January. Galungan 13 January, Kuningan 23 January. Australian summer school holidays until late January. |
 | February | 290 mm | Chinese New Year 5 to 6 February. Ramadan expected to begin 8 February. Lent begins 10 February. |
 | March | 231 mm | Nyepi on Monday 8 March, airport closed. Eid al-Fitr and collective leave 9 to 15 March. Good Friday and Easter 25 to 28 March. |
 | April | 107 mm | The wet season ends. Australian school holidays: Victoria and Queensland until 11 April, NSW and WA in mid-April. |
 | May | 95 mm | Start of the dry season. Labour Day 1 May, Ascension 6 May, Eid al-Adha and Vesak 17 to 20 May. |
-| June | 68 mm | Dry. Victorian and Queensland winter school holidays from 26 June. |
+| June | 68 mm | Dry. Pancasila Day 1 June, Islamic New Year 6 June. Victorian and Queensland winter school holidays from 26 June. |
 | July | 28 mm | The driest and busiest month. School holidays in four Australian states. |
-| August | 36 mm | Dry. Galungan 11 August and Kuningan 21 August (calculated). Independence Day 17 August. |
+| August | 36 mm | Dry. Galungan 11 August and Kuningan 21 August (calculated). Prophet's Birthday 15 August, Independence Day 17 August. |
 | September | 59 mm | Dry and quieter. Australian spring school holidays from 18 September. |
 | October | 64 mm | Still dry and quieter. Australian school holidays until early October. |
 | November | 131 mm | The turn to the wet season. Advent begins 28 November. |
@@ -38,7 +38,7 @@ Rainfall figures are climate averages for the Denpasar/Ngurah Rai station from t
 
 ## Dates to avoid
 
-**Nyepi, Monday 8 March 2027.** For 24 hours from 6am the whole of Bali stops and Ngurah Rai Airport closes. No wedding can be held, and guests cannot arrive or leave that day. Nyepi 2027 also runs straight into the Eid al-Fitr holiday, so 6 to 15 March is the busiest travel week of the year in Indonesia. Some travel sites give Nyepi 2027 as 9 March. The correct date, per the government decree, is 8 March.
+**Nyepi, Monday 8 March 2027.** For 24 hours from 6am the whole of Bali stops and Ngurah Rai Airport closes. No wedding can be held, and guests cannot arrive or leave that day. Nyepi 2027 also runs straight into the Eid al-Fitr holiday, so 6 to 15 March is one of the busiest travel weeks of the year in Indonesia. Some travel sites give Nyepi 2027 as 9 March. The correct date, per the government decree, is 8 March.
 
 **Galungan and Kuningan.** These are the biggest holy days for Balinese Hindus. Schools and offices usually close from the day before to the day after, and many local staff and vendors are with their families. You can still marry around these dates, but ask about your team's availability early. Galungan on 13 January 2027 already appears in a calendar published by an institution in Bali. Galungan on 11 August 2027 is calculated from the 210-day cycle, so check it against a Balinese calendar before you lock in a date.
 
