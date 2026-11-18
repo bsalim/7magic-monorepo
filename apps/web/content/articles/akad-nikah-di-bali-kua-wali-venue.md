@@ -5,7 +5,7 @@ slug: "akad-nikah-di-bali-kua-wali-venue"
 category: "pernikahan-islami"
 excerpt_id: "Menikah secara Islam di Bali bisa, dan alurnya jelas. Ini cara mendaftar ke KUA kecamatan venue, surat rekomendasi dari KUA asal, wali yang tidak bisa terbang ke Bali, biaya akad di luar KUA, katering halal, dan kalender Ramadan serta Nyepi 2027."
 author: "Fiona"
-date: 2026-12-08
+date: 2026-11-18
 status: draft
 ---
 

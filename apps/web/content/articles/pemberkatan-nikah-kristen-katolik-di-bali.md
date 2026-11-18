@@ -5,7 +5,7 @@ slug: "pemberkatan-nikah-kristen-katolik-di-bali"
 category: "persiapan-pernikahan"
 excerpt_id: "Pasangan Katolik tidak bisa diberkati di chapel hotel atau di pantai Bali, sementara pasangan Protestan punya lebih banyak pilihan. Ini aturan Keuskupan Denpasar, cara mengurus izin dari paroki asal, beda pemberkatan gerejawi dan blessing simbolis, serta pencatatan sipil di Bali."
 author: "Fiona"
-date: 2026-12-05
+date: 2026-11-18
 status: draft
 ---
 
