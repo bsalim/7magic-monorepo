@@ -8,6 +8,8 @@
  * Field names are the API's snake_case.
  */
 
+import { formatMasehi } from './mahar';
+
 export type Zone = 'WIB' | 'WITA' | 'WIT';
 export type Tone = 'harmony' | 'balanced' | 'clash';
 export type Verdict = 'safe' | 'consider' | 'clash';
@@ -131,8 +133,23 @@ export async function fetchBazi(body: BaziRequest, fetcher: typeof fetch = fetch
   return (await response.json()) as BaziResponse;
 }
 
+// The team reads leads in Indonesian whichever edition the couple used, so the
+// verdicts and tone are named here rather than taken from the visitor's copy.
+const TEAM_VERDICTS: Record<Verdict, string> = { safe: 'Aman', consider: 'Perlu dipertimbangkan', clash: 'Bentrok' };
+const TEAM_TONES: Record<Tone, string> = {
+  harmony: 'Banyak keselarasan',
+  balanced: 'Seimbang',
+  clash: 'Ada bentrok yang perlu dibicarakan'
+};
+
+/** Dates as the team reads them: "Minggu, 20 September 2026; Sabtu, 10 Oktober 2026". */
+export function teamDates(isoDates: string[]): string {
+  return isoDates.map((iso) => formatMasehi(iso, 'id') || iso).join('; ');
+}
+
 /**
- * What the lead gate stores, for the team to open the conversation with.
+ * What the lead gate stores, for the team to open the conversation with: in
+ * words, since the same text is what the team's email and WhatsApp alert show.
  *
  * Deliberately no birth date or time: those are personal data the team can ask
  * for in person, and the shio, day masters and checked dates are enough to
@@ -141,10 +158,12 @@ export async function fetchBazi(body: BaziRequest, fetcher: typeof fetch = fetch
 export function baziLeadInputs(result: BaziResponse): Record<string, string> {
   const [first, second] = result.charts;
   return {
-    shio: `${first.shio.animal_label} / ${second.shio.animal_label}`,
-    day_masters: [first, second].map((c) => `${c.day_master.char} ${c.day_master.element_label}`).join(' / '),
-    tone: result.tone,
-    dates: result.date_checks.map((check) => `${check.date}:${check.verdict}`).join(',')
+    shio: `${first.shio.animal_label} & ${second.shio.animal_label}`,
+    day_masters: [first, second].map((c) => `${c.day_master.char} ${c.day_master.element_label}`).join(' & '),
+    tone: TEAM_TONES[result.tone],
+    dates: result.date_checks
+      .map((check) => `${formatMasehi(check.date, 'id') || check.date} (${TEAM_VERDICTS[check.verdict]})`)
+      .join('; ')
   };
 }
 

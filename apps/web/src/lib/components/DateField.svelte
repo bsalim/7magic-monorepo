@@ -16,6 +16,8 @@
     value = $bindable(''),
     id = name,
     min = '',
+    max = '',
+    openTo = '',
     placeholder = 'Pick a date',
     disabled = false,
     locale,
@@ -26,6 +28,15 @@
     id?: string;
     /** Earliest selectable day, as "YYYY-MM-DD". */
     min?: string;
+    /** Latest selectable day, as "YYYY-MM-DD". With `min`, it also bounds the
+     * year dropdown, so a birth date offers 1900 to this year and nothing after. */
+    max?: string;
+    /**
+     * The month the calendar shows while the field is empty, as "YYYY-MM-DD".
+     * Without it an empty field opens on today, which suits a wedding date but
+     * leaves anyone entering a birth date three or four decades of paging away.
+     */
+    openTo?: string;
     placeholder?: string;
     disabled?: boolean;
     /**
@@ -94,13 +105,21 @@
   // truth, so a server-rendered value and one picked in the calendar cannot drift.
   const selected = $derived(toDateValue(value));
   const minValue = $derived(toDateValue(min));
+  const maxValue = $derived(toDateValue(max));
+  // The month on screen. Set as the popover opens, before the calendar renders,
+  // so it starts on the picked day (or `openTo`) instead of flashing today first,
+  // and does not resume wherever the last browse left it.
+  let shownMonth = $state<DateValue | undefined>();
+  function onOpenChange(next: boolean) {
+    if (next) shownMonth = selected ?? toDateValue(openTo);
+  }
 </script>
 
 {#if name}
   <input type="hidden" {name} {value} />
 {/if}
 
-<Popover.Root bind:open>
+<Popover.Root bind:open {onOpenChange}>
   <Popover.Trigger {id} {disabled}>
     {#snippet child({ props })}
       <!-- rounded-md overrides the button base's rounded-full: this trigger stands
@@ -123,7 +142,9 @@
     <Calendar
       type="single"
       value={selected}
+      bind:placeholder={shownMonth}
       {minValue}
+      {maxValue}
       captionLayout="dropdown"
       locale={intlLocale}
       onValueChange={(next) => {

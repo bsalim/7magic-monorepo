@@ -17,6 +17,7 @@ leads page reads every source back through `list_leads` / `export_leads`.
 from __future__ import annotations
 
 import logging
+import re
 from datetime import UTC, date, datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
@@ -35,12 +36,40 @@ from app.schemas.content import (
     VenuePricingRequest,
 )
 from app.services.email import EmailNotifier
-from app.services.whatsapp import WhatsAppNotifier, join_contact
+from app.services.whatsapp import EMPTY_SLOT, WhatsAppNotifier, join_contact
 
 logger = logging.getLogger(__name__)
 
 # How the inbox and the WhatsApp alert name each tool's leads.
 TOOL_LABELS = {"mahar": "Mahar", "hashtag": "Hashtag", "bazi": "Ba Zi"}
+
+# How each tool input is named in the team's email and WhatsApp alert. The keys
+# are the tools' wire names; anything not listed falls back to the key itself,
+# so a new tool input still arrives, only less politely labelled.
+INPUT_LABELS = {
+    "method": "Metode",
+    "variant": "Varian",
+    "kind": "Jenis",
+    "amount": "Nominal",
+    "gold_grams": "Emas (gram)",
+    "date": "Tanggal",
+    "date2": "Tanggal kedua",
+    "tag": "Hashtag",
+    "events": "Acara",
+    "shio": "Shio",
+    "day_masters": "Day master",
+    "tone": "Kecocokan",
+    "dates": "Tanggal nikah yang dicek",
+}
+
+# The team reads "Minggu, 20 September 2026", not "2026-09-20": spelled out here
+# rather than through the C locale, which the servers do not carry for id_ID.
+_ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
+_WEEKDAYS_ID = ("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
+_MONTHS_ID = (
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember",
+)
 
 LEADS_PAGE_SIZE = 50
 
@@ -199,7 +228,8 @@ class LeadService:
         await session.commit()
 
         who = payload.names or payload.email
-        inputs = _inputs_line(payload.inputs)
+        readable = _readable_inputs(payload.inputs)
+        inputs = "; ".join(f"{label}: {value}" for label, value in readable.items()) or EMPTY_SLOT
         # Wrapped, unlike the contact paths: the row is already saved, and an error
         # here would withhold the card the visitor just paid for with their
         # details -- they would leave rather than retry.
@@ -212,7 +242,9 @@ class LeadService:
                     "Email": payload.email,
                     "WhatsApp": payload.phone,
                     "Page": payload.source_path,
-                    "Inputs": inputs,
+                    # One row per input: on a single line the tools' own " / "
+                    # separators ran into the ones between inputs.
+                    **readable,
                 },
                 reply_to=payload.email,
             )
@@ -292,10 +324,30 @@ class LeadService:
         )
 
 
-def _inputs_line(inputs: dict) -> str:
-    """`method: akad / variant: dmy / amount: 20092026` -- one line, so it fits the
-    single message slot of the WhatsApp template."""
-    return join_contact(*(f"{key}: {value}" for key, value in inputs.items() if value is not None))
+def _readable_inputs(inputs: dict) -> dict[str, str]:
+    """The tool inputs as the team should read them: labelled in Indonesian, with
+    any bare ISO date spelled out. Blank values drop out."""
+    return {
+        INPUT_LABELS.get(key, key): _readable_value(value)
+        for key, value in inputs.items()
+        if value is not None and value != ""
+    }
+
+
+def _readable_value(value: object) -> str:
+    # A strict shape check first: date.fromisoformat also takes "20260920" and
+    # week dates, and a mahar amount typed as a string must stay a number.
+    if isinstance(value, str) and _ISO_DATE.fullmatch(value):
+        try:
+            return format_date_id(date.fromisoformat(value))
+        except ValueError:
+            return value
+    return str(value)
+
+
+def format_date_id(day: date) -> str:
+    """`Minggu, 20 September 2026`."""
+    return f"{_WEEKDAYS_ID[day.weekday()]}, {day.day} {_MONTHS_ID[day.month - 1]} {day.year}"
 
 
 def _jakarta_day_start(day: date) -> datetime:

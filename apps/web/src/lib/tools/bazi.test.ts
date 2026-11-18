@@ -3,6 +3,7 @@ import {
   BaziInputError,
   BaziUnavailableError,
   baziLeadInputs,
+  teamDates,
   displayNames,
   failureKind,
   fetchBazi,
@@ -72,14 +73,20 @@ describe('baziLeadInputs', () => {
     const inputs = baziLeadInputs(SAMPLE_RESPONSE);
     expect(Object.keys(inputs).sort()).toEqual(['dates', 'day_masters', 'shio', 'tone']);
     for (const birth of SAMPLE_BIRTH_DATES) expect(JSON.stringify(inputs)).not.toContain(birth);
-    expect(inputs.dates).toBe('2026-09-20:safe,2026-10-10:clash');
-    expect(inputs.shio).toBe('Babi / Tikus');
-    expect(inputs.day_masters).toBe('乙 Kayu / 庚 Logam');
-    expect(inputs.tone).toBe('balanced');
+    expect(inputs.dates).toBe('Minggu, 20 September 2026 (Aman); Sabtu, 10 Oktober 2026 (Bentrok)');
+    expect(inputs.shio).toBe('Babi & Tikus');
+    expect(inputs.day_masters).toBe('乙 Kayu & 庚 Logam');
+    expect(inputs.tone).toBe('Seimbang');
   });
 
   it('leaves dates empty before any were checked', () => {
     expect(baziLeadInputs({ ...SAMPLE_RESPONSE, date_checks: [] }).dates).toBe('');
+  });
+});
+
+describe('teamDates', () => {
+  it('spells the dates out in Indonesian for the team', () => {
+    expect(teamDates(['2026-09-20', '2027-03-08'])).toBe('Minggu, 20 September 2026; Senin, 8 Maret 2027');
   });
 });
 
