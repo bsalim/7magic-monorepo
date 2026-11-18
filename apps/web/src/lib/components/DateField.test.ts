@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/svelte';
+import { fireEvent, render, screen } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
 import DateField from './DateField.svelte';
 
@@ -23,6 +23,19 @@ describe('DateField', () => {
   it('shows the placeholder while empty', () => {
     render(DateField, { id: 'd', locale: 'id', placeholder: 'Pilih tanggal' });
     expect(screen.getByRole('button').textContent?.trim()).toBe('Pilih tanggal');
+  });
+
+  // A birth date field would otherwise open on today, decades from the answer.
+  it('opens an empty field on the openTo month, inside the min and max years', async () => {
+    render(DateField, { id: 'd', locale: 'en', openTo: '1990-01-01', min: '1900-01-01', max: '2026-11-18' });
+    await fireEvent.click(screen.getByRole('button'));
+    const year = (await screen.findAllByRole('combobox')).find((select) =>
+      [...(select as HTMLSelectElement).options].some((option) => option.textContent === '1900')
+    ) as HTMLSelectElement;
+    expect(year.value).toBe('1990');
+    const years = [...year.options].map((option) => Number(option.value));
+    expect(Math.min(...years)).toBe(1900);
+    expect(Math.max(...years)).toBe(2026);
   });
 
   it('still submits through a hidden input when named', () => {

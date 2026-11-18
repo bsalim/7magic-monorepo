@@ -32,6 +32,7 @@ export type BaziCopy = {
     namePlaceholders: [string, string];
     birthDateLabel: string;
     datePlaceholder: string;
+    birthDatePlaceholder: string;
     birthTimeLabel: string;
     timeUnknown: string;
     timeHint: string;
@@ -239,6 +240,7 @@ const id: BaziCopy = {
     namePlaceholders: ['Raka', 'Nadia'],
     birthDateLabel: 'Tanggal lahir',
     datePlaceholder: 'Pilih tanggal',
+    birthDatePlaceholder: 'Pilih tanggal lahir',
     birthTimeLabel: 'Jam lahir',
     timeUnknown: 'Tidak tahu jam lahir',
     timeHint: 'Lahir pukul 23.00 ke atas? Isi jamnya: dalam Ba Zi jam itu sudah masuk hari berikutnya.',
@@ -463,6 +465,7 @@ const en: BaziCopy = {
     namePlaceholders: ['Raka', 'Nadia'],
     birthDateLabel: 'Date of birth',
     datePlaceholder: 'Pick a date',
+    birthDatePlaceholder: 'Pick a birth date',
     birthTimeLabel: 'Time of birth',
     timeUnknown: "I don't know the time",
     timeHint: 'Born at 23:00 or later? Enter the time: in Ba Zi that hour already belongs to the next day.',

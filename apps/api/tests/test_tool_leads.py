@@ -128,6 +128,19 @@ def test_a_bazi_lead_is_stored_and_labelled_as_the_bazi_tool(api, recorder) -> N
     assert recorder.alerts[0]["page"] == "Wedding tool: Ba Zi"
 
 
+def test_tool_inputs_reach_the_team_labelled_and_with_dates_spelled_out(api, recorder) -> None:
+    api.client.post(ENDPOINT, json=_payload())
+
+    fields = recorder.emails[0]["fields"]
+    assert fields["Tanggal"] == "Minggu, 20 September 2026"
+    assert fields["Metode"] == "akad"
+    # A number stays a number, even one that reads like a date.
+    assert fields["Nominal"] == "20092026"
+    message = recorder.alerts[0]["message"]
+    assert "Tanggal: Minggu, 20 September 2026" in message
+    assert "2026-09-20" not in message
+
+
 def test_an_indonesian_local_number_is_stored_as_plus_62(api, recorder) -> None:
     response = api.client.post(ENDPOINT, json=_payload(phone="0812-3456-7890"))
 

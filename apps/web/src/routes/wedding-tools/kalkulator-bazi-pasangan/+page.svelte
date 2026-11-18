@@ -16,6 +16,7 @@
   import { getLocale, localizeHref } from '$lib/paraglide/runtime';
   import { canonicalUrl, toolPageJsonLd } from '$lib/seo/schema';
   import {
+    FIRST_YEAR,
     MAX_DATES,
     baziLeadInputs,
     displayNames,
@@ -23,6 +24,7 @@
     hasUncertainPillar,
     fetchBazi,
     isCompleteBirth,
+    teamDates,
     uniqueDates,
     type BaziRequest,
     type BaziResponse,
@@ -199,9 +201,9 @@
   // Before unlock the API has not seen the dates, so the lead carries them as
   // typed; after a check it carries each date with its verdict.
   const leadInputs = $derived.by(() => {
-    if (!bazi) return { dates: filledDates.join(',') };
+    if (!bazi) return { dates: teamDates(filledDates) };
     const inputs = baziLeadInputs(bazi);
-    return inputs.dates ? inputs : { ...inputs, dates: filledDates.join(',') };
+    return inputs.dates ? inputs : { ...inputs, dates: teamDates(filledDates) };
   });
 
   async function downloadPng() {
@@ -231,6 +233,15 @@
     document.getElementById('bazi-result')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
     void calculate();
   }
+
+  // Birth dates: the calendar opens on 1990, where most couples' parents would
+  // start scrolling anyway, and the year dropdown runs from the API's first year
+  // to today -- a birth date in the future is a slip, not a chart.
+  const BIRTH_MIN = `${FIRST_YEAR}-01-01`;
+  const BIRTH_OPEN_TO = '1990-01-01';
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const now = new Date();
+  const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 
   const FIELD =
     'h-11 w-full rounded-md border border-input bg-background px-3 text-base placeholder:text-muted-foreground/60 focus:border-ring focus:ring-3 focus:ring-ring/30 focus:outline-none md:text-[15px] disabled:opacity-50';
@@ -361,7 +372,10 @@
                 id="bazi-date-{index}"
                 bind:value={partner.birth_date}
                 {locale}
-                placeholder={copy.form.datePlaceholder}
+                min={BIRTH_MIN}
+                max={today}
+                openTo={BIRTH_OPEN_TO}
+                placeholder={copy.form.birthDatePlaceholder}
                 class="h-11 w-full text-base md:text-[15px]"
               />
             </div>
