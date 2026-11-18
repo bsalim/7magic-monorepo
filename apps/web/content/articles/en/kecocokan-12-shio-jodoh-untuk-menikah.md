@@ -11,6 +11,8 @@ This article is a quick reference for all twelve signs of the Chinese zodiac, kn
 
 ## First, find your sign
 
+![Three armoured stone zodiac statues: the Rat, Tiger and Ox](https://media.7magicwedding.com/articles/2026-11/b17877c52cc443f1aacfd2086a3b35a6-kecocokan-12-shio-patung-shio_lg_1200w.jpg "From left: the Rat, Tiger and Ox, from a row of twelve zodiac statues in Incheon, South Korea. Photo: Nurlan Hasanov, Pexels")
+
 | Sign | Birth years, with their element |
 |---|---|
 | Rat | 1972 (Water), 1984 (Wood), 1996 (Fire) |
@@ -43,6 +45,8 @@ The signs repeat every twelve years, and the element follows the last digit of t
 A full explanation of these rules, along with the day master and the spouse palace, is in our article on [couple compatibility in Ba Zi](https://7magicwedding.com/artikel/tradisi-wedding/kecocokan-pasangan-menurut-ba-zi).
 
 ## Each sign's match
+
+![Colourful zodiac lanterns lit up at night, with the characters for dragon and tiger](https://media.7magicwedding.com/articles/2026-11/5edac635cb934cbb9015bf796f4885cc-kecocokan-12-shio-lampion-shio_lg_1200w.jpg "Zodiac lanterns at a lantern festival. Photo: Ivan Cuesta, Pexels")
 
 ### Rat (1972, 1984, 1996)
 

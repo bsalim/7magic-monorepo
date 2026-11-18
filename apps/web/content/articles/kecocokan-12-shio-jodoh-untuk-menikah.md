@@ -5,7 +5,7 @@ slug: "kecocokan-12-shio-jodoh-untuk-menikah"
 category: "adat-tradisi"
 excerpt_id: "Shio Anda cocok dengan shio apa, dan mana yang ciong? Ini tabel tahun lahir dua belas shio, pasangan Liu He, kelompok Tiga Harmoni, benturan, dan celaka untuk tiap shio, ditambah empat shio yang ciong di tahun Kambing Api 2027."
 author: "Fiona"
-date: 2026-11-20
+date: 2026-11-18
 status: draft
 ---
 
@@ -14,6 +14,8 @@ Begitu dua keluarga Tionghoa mulai membicarakan lamaran, pertanyaan "shionya apa
 Artikel ini adalah rujukan cepat untuk kedua belas shio: tahun lahirnya, shio yang dianggap paling cocok, shio yang dianggap berbenturan, dan apa artinya untuk pasangan yang menikah di tahun Kambing Api 2027. Semua pasangan di sini memakai aturan klasik yang sama dengan [Kalkulator Ba Zi Pasangan](https://7magicwedding.com/wedding-tools/kalkulator-bazi-pasangan) kami, jadi hasil artikel dan kalkulator tidak akan saling bertentangan.
 
 ## Cari dulu shio Anda
+
+![Tiga patung batu shio berbaju zirah: Tikus, Macan, dan Kerbau](https://media.7magicwedding.com/articles/2026-11/b17877c52cc443f1aacfd2086a3b35a6-kecocokan-12-shio-patung-shio_lg_1200w.jpg "Dari kiri: Tikus, Macan, dan Kerbau, dari deretan patung dua belas shio di Incheon, Korea Selatan. Foto: Nurlan Hasanov, Pexels")
 
 | Shio | Tahun lahir, dengan unsurnya |
 |---|---|
@@ -47,6 +49,8 @@ Shio berulang setiap dua belas tahun, dan unsurnya mengikuti angka terakhir tahu
 Penjelasan lengkap tentang aturan ini, ditambah day master dan istana pasangan, ada di artikel [kecocokan pasangan menurut Ba Zi](https://7magicwedding.com/artikel/tradisi-wedding/kecocokan-pasangan-menurut-ba-zi).
 
 ## Jodoh tiap shio
+
+![Lampion shio warna-warni menyala di malam hari, dengan aksara naga dan macan](https://media.7magicwedding.com/articles/2026-11/5edac635cb934cbb9015bf796f4885cc-kecocokan-12-shio-lampion-shio_lg_1200w.jpg "Lampion shio di sebuah festival lampion. Foto: Ivan Cuesta, Pexels")
 
 ### Shio Tikus (1972, 1984, 1996)
 
