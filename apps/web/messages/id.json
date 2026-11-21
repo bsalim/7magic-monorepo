@@ -375,6 +375,7 @@
   "tools_gate_error": "Maaf, belum berhasil terkirim. Periksa koneksi lalu coba lagi.",
   "tools_gate_honeypot": "Jangan isi kolom ini",
   "tools_gate_note": "Cukup sekali. Setelah ini semua Wedding Tools terbuka di perangkat ini.",
+  "tools_gate_optional": "(opsional)",
   "tools_gate_sending": "Membuka...",
   "tools_gate_submit": "Buka gratis",
   "tools_gate_whatsapp": "Nomor WhatsApp",

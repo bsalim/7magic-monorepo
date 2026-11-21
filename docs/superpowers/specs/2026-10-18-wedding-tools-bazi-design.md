@@ -59,6 +59,25 @@ copy of the result sent to it. So:
   by email, they get a "send the result & card to my email" button beside the
   preview, which opens the same gate as a dialog and creates a `tool_bazi` lead.
 
+### Amended 2026-11-21 (later the same day): the gate goes by the email
+
+Corrections from the owner after the redesign went live:
+
+- **What lifts the gate.** A remembered email, not the shared unlock flag. Every
+  gate now stores the email it was given in localStorage (`7m_tools_email`,
+  `rememberEmail` in `$lib/tools/lead`); Ba Zi asks before a result whenever
+  that key is empty, so a browser that only carries `7m_tools_unlocked` from
+  mahar or hashtag is asked once more. This supersedes "already-unlocked
+  browsers are not gated" above. With an email on file a result shows at once,
+  and the send button opens the gate as a dialog with the address filled in.
+- **WhatsApp is optional on this gate** (`phoneOptional` on `LeadGate`,
+  `BaziLeadCreate.phone` nullable). A number that is typed is still validated.
+  Mahar and hashtag still require it.
+- **The card is not drawn on the page.** `BaziCard.svelte` is gone; the page
+  only says the card comes by email. It exists in the emailed copy alone.
+- **The tradition note is set larger**, on the page and as a boxed callout in
+  the email (`_note_html`).
+
 ## Goals, non-goals, anti-goals
 
 **Goals.** Correct pillars (they must match a published reference chart for

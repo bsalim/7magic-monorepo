@@ -445,6 +445,7 @@
   "tools_gate_error": "Sorry, that did not go through. Check your connection and try again.",
   "tools_gate_honeypot": "Leave this field empty",
   "tools_gate_note": "Only once. After this, every Wedding Tool is unlocked on this device.",
+  "tools_gate_optional": "(optional)",
   "tools_gate_sending": "Unlocking...",
   "tools_gate_submit": "Unlock for free",
   "tools_gate_whatsapp": "WhatsApp number",

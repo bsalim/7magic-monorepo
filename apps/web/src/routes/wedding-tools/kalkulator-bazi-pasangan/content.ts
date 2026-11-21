@@ -16,7 +16,6 @@
  */
 
 import type { Locale } from '$lib/paraglide/runtime';
-import type { BaziCardCopy } from '$lib/components/tools/BaziCard.svelte';
 import type { ChartOut, DateReasonOut, Element, FindingOut, PartnerIn, Verdict, Zone } from '$lib/tools/bazi';
 
 export type Faq = { q: string; a: string };
@@ -96,22 +95,23 @@ export type BaziCopy = {
     none: string;
     another: string;
   };
-  card: BaziCardCopy & {
+  /** The card is not on the page at all: it arrives in the emailed copy. */
+  card: {
     title: string;
     lead: string;
-    /** The card is not downloaded from the page: it arrives in the emailed copy. */
     emailed: string;
     sendHint: string;
     send: string;
   };
   /**
    * The gate in front of a first result, and its second use: emailing a result
-   * to someone whose browser was already unlocked, so was never asked.
+   * to someone whose browser already had their email, so was not asked.
    */
   gate: {
     title: string;
     description: string;
     submit: string;
+    note: string;
     sendTitle: string;
     sendDescription: string;
     sendSubmit: string;
@@ -277,14 +277,14 @@ const id: BaziCopy = {
     invalid: 'Ada tanggal yang tidak valid. Periksa lagi tanggal lahir dan tanggal pernikahannya (tahun 1900 sampai 2100).',
     stale: 'Isian berubah. Tekan "Hitung Ba Zi" lagi untuk memperbarui hasil.',
     gateHint:
-      'Gratis. Sebelum hasil tampil, kami minta email dan WhatsApp kalian sekali; salinan hasil dan kartu Ba Zi kami kirim ke email itu.'
+      'Gratis. Sebelum hasil tampil, kami minta email kalian sekali (nomor WhatsApp opsional); salinan hasil dan kartu Ba Zi kami kirim ke email itu.'
   },
   result: {
     eyebrow: 'Hasil',
     title: 'Ba Zi kalian berdua',
     previewTitle: 'Hasil kalian muncul di sini',
     previewCopy:
-      'Empat pilar berdua, kecocokan menurut tradisi, cek tanggal pernikahan, dan kartu Ba Zi untuk dibagikan ke keluarga.',
+      'Empat pilar berdua, kecocokan menurut tradisi, cek tanggal pernikahan, dan kartu Ba Zi yang kami kirim ke email kalian.',
     previewCta: 'Isi data kelahiran',
     pillars: { year: 'Tahun', month: 'Bulan', day: 'Hari', hour: 'Jam' },
     hourUnknown: 'Jam tidak diketahui',
@@ -341,23 +341,19 @@ const id: BaziCopy = {
   card: {
     title: 'Kartu Ba Zi pasangan',
     lead: 'Empat pilar kalian berdua dalam satu kartu, siap dibagikan ke keluarga atau dibawa saat konsultasi.',
-    kicker: 'BA ZI PASANGAN',
-    fallbackTitle: 'Ba Zi Kalian',
-    pillarLabels: ['Tahun', 'Bulan', 'Hari', 'Jam'],
-    datesTitle: 'Tanggal yang dicek',
-    verdicts: { safe: 'Aman', consider: 'Perlu dipertimbangkan', clash: 'Bentrok' },
     emailed: 'Kartu ini kami kirim ke email kalian, bersama salinan hasilnya.',
-    sendHint: 'Kartu ini belum dikirim. Minta kami mengirimnya ke email kalian, bersama salinan hasilnya.',
+    sendHint: 'Kartu untuk hasil ini belum dikirim. Minta kami mengirimnya ke email kalian, bersama salinan hasilnya.',
     send: 'Kirim hasil & kartu ke email'
   },
   gate: {
     title: 'Hasil Ba Zi kalian sudah siap',
     description:
-      'Isi email dan WhatsApp untuk membukanya. Salinan hasil dan kartu Ba Zi kami kirim ke email kalian, dan semua alat kami ikut terbuka. Kami tidak menyimpan tanggal lahir kalian.',
+      'Isi email untuk membukanya; nomor WhatsApp boleh dikosongkan. Salinan hasil dan kartu Ba Zi kami kirim ke email kalian. Kami tidak menyimpan tanggal lahir kalian.',
     submit: 'Buka hasil & kirim ke email',
+    note: 'Cukup sekali di perangkat ini. Wedding Tools lainnya ikut terbuka.',
     sendTitle: 'Kirim hasil & kartu ke email',
     sendDescription:
-      'Isi email dan WhatsApp kalian. Kartu Ba Zi dan salinan hasil ini kami kirim ke email itu. Kami tidak menyimpan tanggal lahir kalian.',
+      'Periksa email kalian; nomor WhatsApp boleh dikosongkan. Kartu Ba Zi dan salinan hasil ini kami kirim ke email itu. Kami tidak menyimpan tanggal lahir kalian.',
     sendSubmit: 'Kirim ke email'
   },
   intro: {
@@ -446,7 +442,7 @@ const id: BaziCopy = {
     },
     {
       q: 'Apakah tanggal lahir kami disimpan?',
-      a: 'Tidak. Perhitungan dilakukan lalu dilupakan. Saat kalian membuka hasil, tim kami menerima email, nomor WhatsApp, dan nama panggilan yang kalian isi, ditambah shio, day master, kesimpulan, dan tanggal yang dicek, tanpa tanggal maupun jam lahir. Salinan dan kartu yang kami kirim ke email kalian berisi chart dan bacaannya, juga tanpa tanggal lahir.'
+      a: 'Tidak. Perhitungan dilakukan lalu dilupakan. Saat kalian membuka hasil, tim kami menerima email dan nama panggilan yang kalian isi, nomor WhatsApp bila kalian mengisinya, ditambah shio, day master, kesimpulan, dan tanggal yang dicek, tanpa tanggal maupun jam lahir. Salinan dan kartu yang kami kirim ke email kalian berisi chart dan bacaannya, juga tanpa tanggal lahir. Email itu juga diingat di browser kalian, supaya kami tidak menanyakannya lagi.'
     }
   ],
   related: [
@@ -506,14 +502,14 @@ const en: BaziCopy = {
     invalid: "One of the dates isn't valid. Check the birth dates and wedding dates again (years 1900 to 2100).",
     stale: 'Your inputs changed. Press "Work out Ba Zi" again to update the result.',
     gateHint:
-      'Free. Before the result appears we ask for your email and WhatsApp once, and send a copy of the result and your Ba Zi card to that email.'
+      'Free. Before the result appears we ask for your email once (a WhatsApp number is optional), and send a copy of the result and your Ba Zi card to that email.'
   },
   result: {
     eyebrow: 'Result',
     title: 'Your Ba Zi',
     previewTitle: 'Your result appears here',
     previewCopy:
-      'Both four-pillar charts, compatibility by tradition, the wedding date check, and a Ba Zi card to share with family.',
+      'Both four-pillar charts, compatibility by tradition, the wedding date check, and a Ba Zi card sent to your email.',
     previewCta: 'Enter birth details',
     pillars: { year: 'Year', month: 'Month', day: 'Day', hour: 'Hour' },
     hourUnknown: 'Hour unknown',
@@ -569,23 +565,19 @@ const en: BaziCopy = {
   card: {
     title: 'Couple Ba Zi card',
     lead: 'Both your four pillars on one card, ready to share with family or bring to a consultation.',
-    kicker: 'COUPLE BA ZI',
-    fallbackTitle: 'Your Ba Zi',
-    pillarLabels: ['Year', 'Month', 'Day', 'Hour'],
-    datesTitle: 'Dates checked',
-    verdicts: { safe: 'Clear', consider: 'Worth weighing', clash: 'Clash' },
     emailed: 'We email you this card, along with a copy of the result.',
-    sendHint: "This card hasn't been sent yet. Ask us to email it to you, along with a copy of the result.",
+    sendHint: "The card for this result hasn't been sent yet. Ask us to email it to you, along with a copy of the result.",
     send: 'Email me the result & card'
   },
   gate: {
     title: 'Your Ba Zi result is ready',
     description:
-      "Enter your email and WhatsApp to open it. We'll email you a copy of the result and your Ba Zi card, and all our tools unlock too. We don't store your birth dates.",
+      "Enter your email to open it; a WhatsApp number is optional. We'll email you a copy of the result and your Ba Zi card. We don't store your birth dates.",
     submit: 'Open result & email it',
+    note: 'Only once on this device. Our other Wedding Tools unlock too.',
     sendTitle: 'Email the result & card',
     sendDescription:
-      "Enter your email and WhatsApp. We'll send your Ba Zi card and a copy of this result to that email. We don't store your birth dates.",
+      "Check your email; a WhatsApp number is optional. We'll send your Ba Zi card and a copy of this result to that email. We don't store your birth dates.",
     sendSubmit: 'Send to my email'
   },
   intro: {
@@ -674,7 +666,7 @@ const en: BaziCopy = {
     },
     {
       q: 'Do you store our birth dates?',
-      a: "No. The calculation is done and forgotten. When you open your result, our team receives the email, WhatsApp number and names you enter, plus your signs, day masters, the overall reading and the dates you checked, but not your dates or times of birth. The copy and card we email you hold your charts and the reading, and no birth dates either."
+      a: "No. The calculation is done and forgotten. When you open your result, our team receives the email and names you enter, your WhatsApp number if you give one, plus your signs, day masters, the overall reading and the dates you checked, but not your dates or times of birth. The copy and card we email you hold your charts and the reading, and no birth dates either. That email is also remembered in your browser, so we don't ask for it again."
     }
   ],
   related: [
