@@ -41,7 +41,12 @@ from app.services.whatsapp import EMPTY_SLOT, WhatsAppNotifier, join_contact
 logger = logging.getLogger(__name__)
 
 # How the inbox and the WhatsApp alert name each tool's leads.
-TOOL_LABELS = {"mahar": "Mahar", "hashtag": "Hashtag", "bazi": "Ba Zi"}
+TOOL_LABELS = {
+    "mahar": "Mahar",
+    "hashtag": "Hashtag",
+    "bazi": "Ba Zi",
+    "tionghoa": "Tanggal Baik Tionghoa",
+}
 
 # How each tool input is named in the team's email and WhatsApp alert. The keys
 # are the tools' wire names; anything not listed falls back to the key itself,
@@ -60,6 +65,8 @@ INPUT_LABELS = {
     "day_masters": "Day master",
     "tone": "Kecocokan",
     "dates": "Tanggal nikah yang dicek",
+    "month": "Bulan",
+    "good_days": "Tanggal baik",
 }
 
 # The team reads "Minggu, 20 September 2026", not "2026-09-20": spelled out here

@@ -434,7 +434,7 @@ const id: BaziCopy = {
     },
     {
       q: 'Bagaimana cara memilih tanggal pernikahan dengan alat ini?',
-      a: 'Masukkan tanggal yang sedang kalian pertimbangkan. Kami cek apakah pilar hari itu berbenturan dengan shio atau istana pasangan kalian berdua. Pemilihan tanggal secara lengkap dalam almanak Tionghoa menimbang lebih banyak hal; untuk itu kami sedang menyiapkan alat Tanggal Baik Tionghoa.'
+      a: 'Masukkan tanggal yang sedang kalian pertimbangkan. Kami cek apakah pilar hari itu berbenturan dengan shio atau istana pasangan kalian berdua. Pemilihan tanggal dalam almanak Tionghoa menimbang lebih banyak hal; untuk melihat sebulan penuh menurut almanak, pakai alat Tanggal Baik Tionghoa kami.'
     },
     {
       q: 'Zona waktu mana yang harus saya pilih?',
@@ -658,7 +658,7 @@ const en: BaziCopy = {
     },
     {
       q: 'How do I choose a wedding date with this tool?',
-      a: "Enter the dates you're considering. We check whether that day's pillar clashes with either of your signs or spouse palaces. Full date selection in the Chinese almanac weighs more than this; we're preparing a separate Chinese auspicious-date tool for that."
+      a: "Enter the dates you're considering. We check whether that day's pillar clashes with either of your signs or spouse palaces. Date selection in the Chinese almanac weighs more than this; to see a whole month by the almanac, use our Auspicious Chinese Dates tool."
     },
     {
       q: 'Which time zone should I pick?',

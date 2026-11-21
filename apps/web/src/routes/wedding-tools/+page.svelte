@@ -28,7 +28,7 @@
   import { hubCopy, type ToolCard } from './content';
 
   /**
-   * The Wedding Tools hub. Three live tools today, three announced; the announced
+   * The Wedding Tools hub: the live tools, and a few announced ones; the announced
    * ones are cards without links so the page can grow without a redesign and
    * without linking anywhere that does not exist yet.
    */

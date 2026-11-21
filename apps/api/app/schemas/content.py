@@ -333,7 +333,7 @@ class ContactLeadResponse(BaseModel):
 
 # Every tool that gates its result. A new tool adds its key here and a label in
 # app.services.leads.TOOL_LABELS; the stored source becomes `tool_<key>`.
-WeddingTool = Literal["mahar", "hashtag", "bazi"]
+WeddingTool = Literal["mahar", "hashtag", "bazi", "tionghoa"]
 
 # Separators people type inside a phone number. Stripped before the length check
 # so "0812-3456-7890" and "+62 812 3456 7890" count the same digits.
@@ -347,7 +347,10 @@ class ToolLeadCreate(BaseModel):
 
     tool: WeddingTool
     email: str = Field(max_length=255)
-    phone: str = Field(max_length=50)
+    # Optional here; whether a gate asks for it is the page's choice. Mahar and
+    # hashtag still require it, the gates in front of a result take the email
+    # alone. A number that is given is held to the same shape either way.
+    phone: str | None = Field(default=None, max_length=50)
     names: str | None = Field(default=None, max_length=120)
     # What the visitor typed into the tool, so the team can open the conversation
     # with it. Flat and small on purpose: this is a public, unauthenticated write.
@@ -369,7 +372,9 @@ class ToolLeadCreate(BaseModel):
 
     @field_validator("phone")
     @classmethod
-    def _normalise_phone(cls, value: str) -> str:
+    def _normalise_phone(cls, value: str | None) -> str | None:
+        if value is None or not value.strip():
+            return None
         number = _PHONE_SEPARATORS.sub("", value)
         # Indonesian visitors type 08..., 628... or +628...; the team's WhatsApp
         # links need the +62 form.

@@ -30,6 +30,7 @@ export const STATIC_PATHS = [
   '/wedding-tools/mahar-tanggal-pernikahan',
   '/wedding-tools/generator-hashtag-pernikahan',
   '/wedding-tools/kalkulator-bazi-pasangan',
+  '/wedding-tools/tanggal-baik-tionghoa',
   '/wedding-tools/bali-wedding-cost-calculator',
   '/wedding-tools/bali-wedding-date-planner',
   '/privacy',
