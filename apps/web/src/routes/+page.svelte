@@ -10,6 +10,7 @@
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import TestimonialCarousel from '$lib/components/TestimonialCarousel.svelte';
+  import PopularTools from '$lib/components/tools/PopularTools.svelte';
   import VenueCard from '$lib/components/VenueCard.svelte';
   import { page } from '$app/state';
   import { getLocale } from '$lib/paraglide/runtime';
@@ -24,8 +25,27 @@
   } from '$lib/seo/schema';
   import { m } from '$lib/paraglide/messages.js';
   import { localizeHref } from '$lib/paraglide/runtime';
+  import { hubCopy, type ToolCard } from './wedding-tools/content';
 
   let { data } = $props();
+
+  // The four tools shown under the venues, in this order. Picked by hand as the
+  // ones written for couples planning in Indonesia; the two Bali calculators
+  // are English-only pages for visitors from Australia and stay on the hub.
+  const HOME_TOOLS: ToolCard['key'][] = ['mahar', 'hashtag', 'bazi', 'tionghoa'];
+  const tools = $derived.by(() => {
+    const hub = hubCopy(getLocale());
+    return {
+      open: hub.open,
+      cards: HOME_TOOLS.flatMap((key) => {
+        const card = hub.tools.find((tool) => tool.key === key);
+        // A tool without a path is announced, not built: nothing to link to.
+        return card?.path
+          ? [{ key, title: card.title, copy: card.copy, href: localizeHref(card.path) }]
+          : [];
+      })
+    };
+  });
   let home = $derived(data.home);
 
   // One string for the tab title and the JSON-LD WebPage name: a mismatch
@@ -184,6 +204,18 @@
     'batam',
     data.batamVenues
   )}
+
+  {#if tools.cards.length}
+    <PopularTools
+      eyebrow={m.nav_wedding_tools()}
+      title={m.home_tools_title()}
+      body={m.home_tools_body()}
+      tools={tools.cards}
+      allHref={localizeHref('/wedding-tools')}
+      allLabel={m.home_tools_view_all()}
+      openLabel={tools.open}
+    />
+  {/if}
 
   <section class="bg-white px-5 py-14 lg:px-8">
     <div class="mx-auto max-w-7xl">

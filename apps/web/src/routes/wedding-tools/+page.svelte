@@ -1,17 +1,10 @@
 <script lang="ts">
   import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
-  import CalendarHeartIcon from '@lucide/svelte/icons/calendar-heart';
-  import CalculatorIcon from '@lucide/svelte/icons/calculator';
-  import CalendarRangeIcon from '@lucide/svelte/icons/calendar-range';
-  import CompassIcon from '@lucide/svelte/icons/compass';
-  import PalmtreeIcon from '@lucide/svelte/icons/palmtree';
-  import HashIcon from '@lucide/svelte/icons/hash';
   import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
-  import MoonStarIcon from '@lucide/svelte/icons/moon-star';
-  import SparklesIcon from '@lucide/svelte/icons/sparkles';
   import PublicFooter from '$lib/components/PublicFooter.svelte';
   import PublicHeader from '$lib/components/PublicHeader.svelte';
   import SocialMeta from '$lib/components/SocialMeta.svelte';
+  import ToolIcon from '$lib/components/tools/ToolIcon.svelte';
   import { m } from '$lib/paraglide/messages.js';
   import { getLocale, localizeHref } from '$lib/paraglide/runtime';
   import { siteHref } from '$lib/seo/english-only';
@@ -25,7 +18,7 @@
     webPageNode,
     website
   } from '$lib/seo/schema';
-  import { hubCopy, type ToolCard } from './content';
+  import { hubCopy } from './content';
 
   /**
    * The Wedding Tools hub: the live tools, and a few announced ones; the announced
@@ -36,17 +29,6 @@
   const locale = $derived(getLocale());
   const copy = $derived(hubCopy(locale));
   const canonical = $derived(canonicalUrl(localizeHref('/wedding-tools')));
-
-  const ICONS: Record<ToolCard['key'], typeof SparklesIcon> = {
-    mahar: CalendarHeartIcon,
-    hashtag: HashIcon,
-    bazi: CompassIcon,
-    'bali-cost': PalmtreeIcon,
-    'bali-dates': CalendarRangeIcon,
-    weton: SparklesIcon,
-    tionghoa: MoonStarIcon,
-    budget: CalculatorIcon
-  };
 
   // Only live tools go in the ItemList: structured data has to match what a
   // reader can follow, and a "coming soon" card has nowhere to go.
@@ -124,19 +106,14 @@
   <section class="px-5 pb-20 lg:px-8">
     <ul class="relative mx-auto -mt-8 grid max-w-7xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {#each copy.tools as tool (tool.key)}
-        {@const Icon = ICONS[tool.key]}
         <li class="h-full">
           {#if tool.path}
             <a
               href={siteHref(tool.path)}
-              class="group flex h-full flex-col rounded-2xl border border-brand-gold/50 bg-background p-6 shadow-[0_18px_50px_-30px_rgba(138,101,36,0.5)] transition hover:-translate-y-0.5 hover:border-brand-gold hover:shadow-[0_24px_60px_-28px_rgba(138,101,36,0.55)] focus-visible:ring-3 focus-visible:ring-ring/40 focus-visible:outline-none"
+              class="group flex h-full flex-col rounded-2xl border border-brand-gold/50 bg-background p-6 text-brand-ink shadow-[0_18px_50px_-30px_rgba(138,101,36,0.5)] transition hover:-translate-y-0.5 hover:border-brand-gold hover:shadow-[0_24px_60px_-28px_rgba(138,101,36,0.55)] focus-visible:ring-3 focus-visible:ring-ring/40 focus-visible:outline-none"
             >
-              <div class="flex items-center justify-between">
-                <span
-                  class="flex size-11 items-center justify-center rounded-full bg-brand-gold-soft text-brand-gold-hover"
-                >
-                  <Icon size={20} aria-hidden="true" />
-                </span>
+              <div class="flex items-start justify-between">
+                <ToolIcon tool={tool.key} size={64} />
                 <span
                   class="rounded-full bg-brand-gold px-2.5 py-0.5 text-[11px] font-semibold tracking-wider text-white uppercase"
                 >
@@ -158,12 +135,9 @@
             </a>
           {:else}
             <div class="flex h-full flex-col rounded-2xl border border-dashed border-border bg-background/70 p-6">
-              <div class="flex items-center justify-between">
-                <span
-                  class="flex size-11 items-center justify-center rounded-full bg-muted text-muted-foreground"
-                >
-                  <Icon size={20} aria-hidden="true" />
-                </span>
+              <div class="flex items-start justify-between">
+                <!-- The same drawing as a live tool's, held back until it is one. -->
+                <ToolIcon tool={tool.key} size={64} class="text-brand-ink opacity-60 grayscale-[35%]" />
                 <span
                   class="rounded-full border border-border px-2.5 py-0.5 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase"
                 >

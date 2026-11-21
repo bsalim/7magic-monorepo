@@ -7,10 +7,12 @@
  * Give it a path when its page ships, and add that page to `STATIC_PATHS`.
  */
 
+import type { ToolIconName } from '$lib/components/tools/ToolIcon.svelte';
 import type { Locale } from '$lib/paraglide/runtime';
 
 export type ToolCard = {
-  key: 'mahar' | 'hashtag' | 'bazi' | 'bali-cost' | 'bali-dates' | 'weton' | 'tionghoa' | 'budget';
+  /** Also names the card's icon. */
+  key: ToolIconName;
   title: string;
   copy: string;
   /** Unlocalized route; absent while the tool is still to come. */
