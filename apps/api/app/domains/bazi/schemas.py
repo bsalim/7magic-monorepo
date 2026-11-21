@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field, field_validator
 from app.domains.bazi.pillars import Zone
 from app.domains.bazi.relations import Kind, Rule
 from app.domains.bazi.service import Tone, Verdict
-from app.schemas.content import Locale
+from app.schemas.content import Locale, ToolLeadCreate
 
 # The range the solar-term series and the Delta T polynomials are checked over.
 FIRST_YEAR = 1900
@@ -118,3 +118,17 @@ class BaziResponse(BaseModel):
     tone_label: str
     findings: list[FindingOut]
     date_checks: list[DateCheckOut]
+
+
+class BaziLeadCreate(ToolLeadCreate):
+    """The Ba Zi result gate: the shared tool lead, plus the calculation the
+    couple is unlocking, so their copy can be emailed to them.
+
+    `calculation` is recomputed and rendered here rather than accepted as text:
+    an endpoint that mails whatever body a caller supplies to whatever address
+    they name is an open relay. It is used for the email and then dropped --
+    the stored lead never carries the birth dates.
+    """
+
+    tool: Literal["bazi"] = "bazi"
+    calculation: BaziRequest

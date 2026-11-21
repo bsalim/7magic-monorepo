@@ -9,6 +9,10 @@
  * Every reading is framed as tradition ("menurut tradisi…") and none promises
  * anything: no scores, nothing called lucky, and a standing note that families
  * confirm with an elder or a feng shui master. The example couple is fictional.
+ *
+ * The readings, date reasons, day-master lines and the two notes are repeated
+ * in the API (`app/domains/bazi/emails.py`), which writes the copy of the
+ * result the couple is emailed. Edit a sentence here and there together.
  */
 
 import type { Locale } from '$lib/paraglide/runtime';
@@ -24,17 +28,22 @@ export type PillarKey = 'year' | 'month' | 'day' | 'hour';
 export type BaziCopy = {
   meta: { title: string; description: string; keywords: string };
   appName: string;
-  hero: { eyebrow: string; title: string; lead: string };
+  hero: { eyebrow: string; title: string; lead: string; steps: [string, string, string] };
   form: {
+    title: string;
     partnerLegend: [string, string];
     partnerFallback: [string, string];
     nameLabel: string;
     namePlaceholders: [string, string];
     birthDateLabel: string;
+    /** The three fields a birth date is typed into, and the day's short placeholder. */
+    birthParts: { day: string; dayPlaceholder: string; month: string; year: string };
     datePlaceholder: string;
-    birthDatePlaceholder: string;
     birthTimeLabel: string;
-    timeUnknown: string;
+    /** The two dropdowns a birth time is picked in. */
+    birthTimeParts: { hour: string; minute: string };
+    /** Under the time field: blank means unknown, a rough guess is welcome. */
+    timeBlank: string;
     timeHint: string;
     zoneLabel: string;
     zones: Record<Zone, string>;
@@ -44,10 +53,15 @@ export type BaziCopy = {
     unavailable: string;
     invalid: string;
     stale: string;
+    gateHint: string;
   };
   result: {
+    eyebrow: string;
     title: string;
-    empty: string;
+    /** The card over the blurred stand-in, before anything is calculated. */
+    previewTitle: string;
+    previewCopy: string;
+    previewCta: string;
     pillars: Record<PillarKey, string>;
     hourUnknown: string;
     dayMaster: string;
@@ -59,51 +73,53 @@ export type BaziCopy = {
     toneTitle: string;
     findingsTitle: string;
     noFindings: string;
+    kinds: Record<FindingOut['kind'], string>;
+    scopes: Record<FindingOut['pillar'], string>;
     dayMasters: string[];
     elderNote: string;
     uncertainNote: string;
+    copySent: string;
     conventionsTitle: string;
     conventions: string[];
   };
   dates: {
+    /** In the form, where the dates are typed. */
+    formTitle: string;
+    formHint: string;
+    formLead: string;
+    label: (index: number) => string;
+    /** Under the result, where each date gets its verdict. */
     title: string;
     lead: string;
-    label: (index: number) => string;
-    check: string;
-    checking: string;
     verdicts: Record<Verdict, string>;
     quiet: string;
-    lockedTitle: string;
-    lockedCopy: string;
-    unlock: string;
-    needResult: string;
-    needDate: string;
-    unavailable: string;
-    invalid: string;
+    none: string;
+    another: string;
   };
   card: BaziCardCopy & {
     title: string;
     lead: string;
-    downloadPng: string;
-    print: string;
-    exporting: string;
-    exportError: string;
-    unlockedNote: string;
-    gateTitle: string;
-    gateDescription: string;
+    /** The card is not downloaded from the page: it arrives in the emailed copy. */
+    emailed: string;
+    sendHint: string;
+    send: string;
+  };
+  /**
+   * The gate in front of a first result, and its second use: emailing a result
+   * to someone whose browser was already unlocked, so was never asked.
+   */
+  gate: {
+    title: string;
+    description: string;
+    submit: string;
+    sendTitle: string;
+    sendDescription: string;
+    sendSubmit: string;
   };
   /** The "what is Ba Zi" block: searchers land here before they trust the tool. */
   intro: { title: string; paragraphs: string[]; termsTitle: string; terms: Term[] };
   explainer: { title: string; lead: string; sections: ExplainerSection[] };
-  example: {
-    title: string;
-    lead: string;
-    badge: string;
-    partners: [PartnerIn, PartnerIn];
-    dates: string[];
-    summary: string;
-    tryIt: string;
-  };
+  example: { partners: [PartnerIn, PartnerIn]; dates: string[]; tryIt: string };
   faqs: Faq[];
   related: RelatedLink[];
 };
@@ -231,18 +247,21 @@ const id: BaziCopy = {
   hero: {
     eyebrow: 'Wedding Tools',
     title: 'Kalkulator Ba Zi untuk calon pengantin',
-    lead: 'Masukkan tanggal dan jam lahir kalian berdua. Kami hitung empat pilar masing-masing dari posisi matahari, lalu membaca kecocokannya menurut tradisi Ba Zi, termasuk apakah tanggal pernikahan pilihan kalian berbenturan.'
+    lead: 'Masukkan tanggal dan jam lahir kalian berdua. Kami hitung empat pilar masing-masing dari posisi matahari, lalu membaca kecocokannya menurut tradisi Ba Zi, termasuk apakah tanggal pernikahan pilihan kalian berbenturan.',
+    steps: ['Isi data kelahiran berdua', 'Buka hasil dengan email', 'Baca hasilnya; salinan dan kartu masuk ke email']
   },
   form: {
+    title: 'Data kelahiran kalian',
     partnerLegend: ['Calon pengantin pertama', 'Calon pengantin kedua'],
     partnerFallback: ['Pengantin 1', 'Pengantin 2'],
     nameLabel: 'Nama panggilan',
     namePlaceholders: ['Raka', 'Nadia'],
     birthDateLabel: 'Tanggal lahir',
+    birthParts: { day: 'Tanggal', dayPlaceholder: 'Tgl', month: 'Bulan', year: 'Tahun' },
     datePlaceholder: 'Pilih tanggal',
-    birthDatePlaceholder: 'Pilih tanggal lahir',
     birthTimeLabel: 'Jam lahir',
-    timeUnknown: 'Tidak tahu jam lahir',
+    birthTimeParts: { hour: 'Jam', minute: 'Menit' },
+    timeBlank: 'Kosongkan kalau tidak tahu jam lahir. Ingat kira-kira saja? Isi perkiraannya.',
     timeHint: 'Lahir pukul 23.00 ke atas? Isi jamnya: dalam Ba Zi jam itu sudah masuk hari berikutnya.',
     zoneLabel: 'Zona waktu di akta lahir',
     zones: {
@@ -255,12 +274,18 @@ const id: BaziCopy = {
     missing: 'Isi tanggal lahir kalian berdua (tahun 1900 sampai 2100).',
     unavailable:
       'Kalkulator sedang tidak bisa dihubungi. Coba lagi sebentar lagi; isian kalian tetap tersimpan di halaman ini.',
-    invalid: 'Ada tanggal yang tidak valid. Periksa lagi tanggal lahirnya.',
-    stale: 'Isian berubah. Tekan "Hitung Ba Zi" lagi untuk memperbarui hasil.'
+    invalid: 'Ada tanggal yang tidak valid. Periksa lagi tanggal lahir dan tanggal pernikahannya (tahun 1900 sampai 2100).',
+    stale: 'Isian berubah. Tekan "Hitung Ba Zi" lagi untuk memperbarui hasil.',
+    gateHint:
+      'Gratis. Sebelum hasil tampil, kami minta email dan WhatsApp kalian sekali; salinan hasil dan kartu Ba Zi kami kirim ke email itu.'
   },
   result: {
+    eyebrow: 'Hasil',
     title: 'Ba Zi kalian berdua',
-    empty: 'Isi tanggal lahir berdua lalu tekan "Hitung Ba Zi" untuk melihat empat pilar dan kecocokannya.',
+    previewTitle: 'Hasil kalian muncul di sini',
+    previewCopy:
+      'Empat pilar berdua, kecocokan menurut tradisi, cek tanggal pernikahan, dan kartu Ba Zi untuk dibagikan ke keluarga.',
+    previewCta: 'Isi data kelahiran',
     pillars: { year: 'Tahun', month: 'Bulan', day: 'Hari', hour: 'Jam' },
     hourUnknown: 'Jam tidak diketahui',
     dayMaster: 'Day master',
@@ -274,6 +299,8 @@ const id: BaziCopy = {
     toneTitle: 'Kecocokan menurut tradisi',
     findingsTitle: 'Yang terbaca dari chart kalian',
     noFindings: 'Tidak ada kombinasi atau benturan yang menonjol di antara shio, istana pasangan, dan day master kalian.',
+    kinds: { harmony: 'Selaras', caution: 'Perlu diperhatikan', clash: 'Benturan', neutral: 'Catatan' },
+    scopes: { year: 'Shio', day: 'Istana pasangan', day_master: 'Day master' },
     dayMasters: [
       'Seperti pohon besar: lurus, teguh, senang tumbuh dan melindungi.',
       'Seperti tanaman merambat: luwes, ramah, pandai menyesuaikan diri.',
@@ -290,6 +317,7 @@ const id: BaziCopy = {
       'Ba Zi adalah tradisi, bukan kepastian. Banyak keluarga tetap mengonfirmasi dengan orang tua atau ahli feng shui sebelum memutuskan, dan keputusan akhirnya tetap di tangan kalian berdua.',
     uncertainNote:
       'Salah satu pilar tahun atau bulan di atas bergantung pada jam lahir, jadi bacaan dan cek tanggal di bawah ini dihitung dari perkiraan. Isi jam lahir yang tepat agar hasilnya sesuai.',
+    copySent: 'Salinan hasil dan kartu Ba Zi kami kirim ke email kalian. Belum masuk? Cek folder spam.',
     conventionsTitle: 'Cara kalkulator ini menghitung',
     conventions: [
       'Jam lahir dibaca sesuai jam di akta dan zona waktunya (WIB, WITA, atau WIT), tanpa koreksi waktu matahari lokal.',
@@ -299,20 +327,16 @@ const id: BaziCopy = {
     ]
   },
   dates: {
-    title: 'Cek tanggal pernikahan',
-    lead: 'Masukkan sampai tiga tanggal yang sedang kalian pertimbangkan. Kami bandingkan pilar hari itu dengan shio dan istana pasangan kalian berdua.',
+    formTitle: 'Tanggal pernikahan yang dipertimbangkan',
+    formHint: 'Opsional, sampai tiga tanggal',
+    formLead: 'Kami bandingkan pilar hari itu dengan shio dan istana pasangan kalian berdua.',
     label: (index) => `Tanggal ${index + 1}`,
-    check: 'Cek tanggal',
-    checking: 'Mengecek…',
+    title: 'Cek tanggal pernikahan',
+    lead: 'Pilar hari tiap tanggal, dibandingkan dengan shio dan istana pasangan kalian berdua.',
     verdicts: { safe: 'Aman', consider: 'Perlu dipertimbangkan', clash: 'Bentrok' },
     quiet: 'Tidak berbenturan dengan shio maupun istana pasangan kalian.',
-    lockedTitle: 'Buka cek tanggal & kartu Ba Zi',
-    lockedCopy: 'Gratis. Isi email dan WhatsApp sekali untuk membuka semua alat kami.',
-    unlock: 'Buka gratis',
-    needResult: 'Hitung Ba Zi kalian dulu, lalu cek tanggalnya.',
-    needDate: 'Isi minimal satu tanggal.',
-    unavailable: 'Cek tanggal sedang tidak bisa dijalankan. Coba lagi sebentar lagi; tanggal kalian tetap tersimpan di sini.',
-    invalid: 'Ada tanggal yang tidak bisa dicek. Pilih tanggal antara tahun 1900 dan 2100.'
+    none: 'Belum ada tanggal yang dicek. Isi tanggal di formulir, lalu hitung lagi.',
+    another: 'Cek tanggal lain'
   },
   card: {
     title: 'Kartu Ba Zi pasangan',
@@ -322,14 +346,19 @@ const id: BaziCopy = {
     pillarLabels: ['Tahun', 'Bulan', 'Hari', 'Jam'],
     datesTitle: 'Tanggal yang dicek',
     verdicts: { safe: 'Aman', consider: 'Perlu dipertimbangkan', clash: 'Bentrok' },
-    downloadPng: 'Unduh PNG',
-    print: 'Cetak A5',
-    exporting: 'Menyiapkan…',
-    exportError: 'Gagal menyiapkan gambar. Coba lagi, atau gunakan Cetak.',
-    unlockedNote: 'Kartu mengikuti hasil terakhir. Cek tanggal dulu kalau ingin tanggalnya ikut tercetak.',
-    gateTitle: 'Buka cek tanggal & kartu Ba Zi',
-    gateDescription:
-      'Isi email dan WhatsApp sekali, lalu semua alat kami terbuka. Kami tidak menyimpan tanggal lahir kalian.'
+    emailed: 'Kartu ini kami kirim ke email kalian, bersama salinan hasilnya.',
+    sendHint: 'Kartu ini belum dikirim. Minta kami mengirimnya ke email kalian, bersama salinan hasilnya.',
+    send: 'Kirim hasil & kartu ke email'
+  },
+  gate: {
+    title: 'Hasil Ba Zi kalian sudah siap',
+    description:
+      'Isi email dan WhatsApp untuk membukanya. Salinan hasil dan kartu Ba Zi kami kirim ke email kalian, dan semua alat kami ikut terbuka. Kami tidak menyimpan tanggal lahir kalian.',
+    submit: 'Buka hasil & kirim ke email',
+    sendTitle: 'Kirim hasil & kartu ke email',
+    sendDescription:
+      'Isi email dan WhatsApp kalian. Kartu Ba Zi dan salinan hasil ini kami kirim ke email itu. Kami tidak menyimpan tanggal lahir kalian.',
+    sendSubmit: 'Kirim ke email'
   },
   intro: {
     title: 'Apa itu Ba Zi?',
@@ -389,15 +418,7 @@ const id: BaziCopy = {
       }
     ]
   },
-  example: {
-    title: 'Contoh: Raka dan Nadia',
-    lead: 'Pasangan fiktif untuk mencoba alatnya. Jam lahir keduanya diketahui, dan mereka sedang menimbang dua tanggal untuk resepsi.',
-    badge: 'Contoh',
-    partners: EXAMPLE_PARTNERS,
-    dates: EXAMPLE_DATES,
-    summary: 'Raka: 5 Mei 1995, 10.00 WIB · Nadia: 14 April 1996, 07.30 WITA',
-    tryIt: 'Coba contoh ini'
-  },
+  example: { partners: EXAMPLE_PARTNERS, dates: EXAMPLE_DATES, tryIt: 'Coba contoh: Raka & Nadia' },
   faqs: [
     {
       q: 'Apa bedanya Ba Zi dengan shio?',
@@ -425,7 +446,7 @@ const id: BaziCopy = {
     },
     {
       q: 'Apakah tanggal lahir kami disimpan?',
-      a: 'Tidak. Perhitungan dilakukan lalu dilupakan. Kalau kalian membuka cek tanggal, tim kami menerima email, nomor WhatsApp, dan nama panggilan yang kalian isi, ditambah shio, day master, kesimpulan, dan tanggal yang dicek, tanpa tanggal maupun jam lahir.'
+      a: 'Tidak. Perhitungan dilakukan lalu dilupakan. Saat kalian membuka hasil, tim kami menerima email, nomor WhatsApp, dan nama panggilan yang kalian isi, ditambah shio, day master, kesimpulan, dan tanggal yang dicek, tanpa tanggal maupun jam lahir. Salinan dan kartu yang kami kirim ke email kalian berisi chart dan bacaannya, juga tanpa tanggal lahir.'
     }
   ],
   related: [
@@ -456,18 +477,21 @@ const en: BaziCopy = {
   hero: {
     eyebrow: 'Wedding Tools',
     title: 'A Ba Zi calculator for couples',
-    lead: "Enter both your birth dates and times. We work out each person's four pillars from the Sun's position, then read your compatibility the way Ba Zi tradition does, including whether the wedding dates you have in mind clash."
+    lead: "Enter both your birth dates and times. We work out each person's four pillars from the Sun's position, then read your compatibility the way Ba Zi tradition does, including whether the wedding dates you have in mind clash.",
+    steps: ['Enter both birth details', 'Open your result with your email', 'Read it; a copy and the card land in your inbox']
   },
   form: {
+    title: 'Your birth details',
     partnerLegend: ['First partner', 'Second partner'],
     partnerFallback: ['Partner 1', 'Partner 2'],
     nameLabel: 'Nickname',
     namePlaceholders: ['Raka', 'Nadia'],
     birthDateLabel: 'Date of birth',
+    birthParts: { day: 'Day', dayPlaceholder: 'Day', month: 'Month', year: 'Year' },
     datePlaceholder: 'Pick a date',
-    birthDatePlaceholder: 'Pick a birth date',
     birthTimeLabel: 'Time of birth',
-    timeUnknown: "I don't know the time",
+    birthTimeParts: { hour: 'Hour', minute: 'Minute' },
+    timeBlank: "Leave it blank if you don't know the time. Only roughly sure? Enter your best guess.",
     timeHint: 'Born at 23:00 or later? Enter the time: in Ba Zi that hour already belongs to the next day.',
     zoneLabel: 'Time zone on the birth certificate',
     zones: {
@@ -479,12 +503,18 @@ const en: BaziCopy = {
     calculating: 'Working it out…',
     missing: 'Enter both your birth dates (years 1900 to 2100).',
     unavailable: "The calculator can't be reached right now. Try again in a moment; what you typed stays on this page.",
-    invalid: "One of the dates isn't valid. Check the birth dates again.",
-    stale: 'Your inputs changed. Press "Work out Ba Zi" again to update the result.'
+    invalid: "One of the dates isn't valid. Check the birth dates and wedding dates again (years 1900 to 2100).",
+    stale: 'Your inputs changed. Press "Work out Ba Zi" again to update the result.',
+    gateHint:
+      'Free. Before the result appears we ask for your email and WhatsApp once, and send a copy of the result and your Ba Zi card to that email.'
   },
   result: {
+    eyebrow: 'Result',
     title: 'Your Ba Zi',
-    empty: 'Enter both birth dates and press "Work out Ba Zi" to see your four pillars and how they fit.',
+    previewTitle: 'Your result appears here',
+    previewCopy:
+      'Both four-pillar charts, compatibility by tradition, the wedding date check, and a Ba Zi card to share with family.',
+    previewCta: 'Enter birth details',
     pillars: { year: 'Year', month: 'Month', day: 'Day', hour: 'Hour' },
     hourUnknown: 'Hour unknown',
     dayMaster: 'Day master',
@@ -497,6 +527,8 @@ const en: BaziCopy = {
     toneTitle: 'Compatibility by tradition',
     findingsTitle: 'What your charts show',
     noFindings: 'No notable combination or clash between your signs, spouse palaces and day masters.',
+    kinds: { harmony: 'In harmony', caution: 'Worth noting', clash: 'Clash', neutral: 'Note' },
+    scopes: { year: 'Zodiac sign', day: 'Spouse palace', day_master: 'Day master' },
     dayMasters: [
       'Like a tall tree: upright, steady, keen to grow and to shelter others.',
       'Like a climbing vine: flexible, friendly, good at adapting.',
@@ -513,6 +545,7 @@ const en: BaziCopy = {
       'Ba Zi is a tradition, not a certainty. Many families still check with their elders or a feng shui master before deciding, and the final decision is yours to make together.',
     uncertainNote:
       'One of the year or month pillars above depends on the time of birth, so the reading and the date check below are based on an estimate. Add the exact time of birth for a result that matches.',
+    copySent: "We've sent a copy of this result and your Ba Zi card to your email. Not there yet? Check your spam folder.",
     conventionsTitle: 'How this calculator works',
     conventions: [
       'The birth time is read as the clock time on the certificate in its zone (WIB, WITA or WIT), with no local solar-time correction.',
@@ -522,20 +555,16 @@ const en: BaziCopy = {
     ]
   },
   dates: {
-    title: 'Check wedding dates',
-    lead: "Enter up to three dates you're considering. We compare that day's pillar with both your signs and spouse palaces.",
+    formTitle: "Wedding dates you're considering",
+    formHint: 'Optional, up to three dates',
+    formLead: "We compare that day's pillar with both your signs and spouse palaces.",
     label: (index) => `Date ${index + 1}`,
-    check: 'Check dates',
-    checking: 'Checking…',
+    title: 'Check wedding dates',
+    lead: "Each date's day pillar, compared with both your signs and spouse palaces.",
     verdicts: { safe: 'Clear', consider: 'Worth weighing', clash: 'Clash' },
     quiet: "It doesn't clash with either of your signs or spouse palaces.",
-    lockedTitle: 'Unlock the date check & Ba Zi card',
-    lockedCopy: 'Free. Enter your email and WhatsApp once to unlock all our tools.',
-    unlock: 'Unlock for free',
-    needResult: 'Work out your Ba Zi first, then check the dates.',
-    needDate: 'Enter at least one date.',
-    unavailable: "The date check can't run right now. Try again in a moment; your dates stay on this page.",
-    invalid: "One of the dates can't be checked. Pick dates between 1900 and 2100."
+    none: 'No dates checked yet. Add dates in the form, then work it out again.',
+    another: 'Check other dates'
   },
   card: {
     title: 'Couple Ba Zi card',
@@ -545,13 +574,19 @@ const en: BaziCopy = {
     pillarLabels: ['Year', 'Month', 'Day', 'Hour'],
     datesTitle: 'Dates checked',
     verdicts: { safe: 'Clear', consider: 'Worth weighing', clash: 'Clash' },
-    downloadPng: 'Download PNG',
-    print: 'Print A5',
-    exporting: 'Preparing…',
-    exportError: "Couldn't prepare the image. Try again, or use Print.",
-    unlockedNote: 'The card follows your latest result. Check your dates first if you want them printed too.',
-    gateTitle: 'Unlock the date check & Ba Zi card',
-    gateDescription: "Enter your email and WhatsApp once and all our tools unlock. We don't store your birth dates."
+    emailed: 'We email you this card, along with a copy of the result.',
+    sendHint: "This card hasn't been sent yet. Ask us to email it to you, along with a copy of the result.",
+    send: 'Email me the result & card'
+  },
+  gate: {
+    title: 'Your Ba Zi result is ready',
+    description:
+      "Enter your email and WhatsApp to open it. We'll email you a copy of the result and your Ba Zi card, and all our tools unlock too. We don't store your birth dates.",
+    submit: 'Open result & email it',
+    sendTitle: 'Email the result & card',
+    sendDescription:
+      "Enter your email and WhatsApp. We'll send your Ba Zi card and a copy of this result to that email. We don't store your birth dates.",
+    sendSubmit: 'Send to my email'
   },
   intro: {
     title: 'What is Ba Zi?',
@@ -611,15 +646,7 @@ const en: BaziCopy = {
       }
     ]
   },
-  example: {
-    title: 'Example: Raka and Nadia',
-    lead: "A fictional couple to try the tool with. Both know their birth times, and they're weighing two dates for the reception.",
-    badge: 'Example',
-    partners: EXAMPLE_PARTNERS,
-    dates: EXAMPLE_DATES,
-    summary: 'Raka: 5 May 1995, 10:00 WIB · Nadia: 14 April 1996, 07:30 WITA',
-    tryIt: 'Try this example'
-  },
+  example: { partners: EXAMPLE_PARTNERS, dates: EXAMPLE_DATES, tryIt: 'Try the example: Raka & Nadia' },
   faqs: [
     {
       q: 'How is Ba Zi different from my zodiac sign?',
@@ -647,7 +674,7 @@ const en: BaziCopy = {
     },
     {
       q: 'Do you store our birth dates?',
-      a: "No. The calculation is done and forgotten. If you unlock the date check, our team receives the email, WhatsApp number and names you enter, plus your signs, day masters, the overall reading and the dates you checked, but not your dates or times of birth."
+      a: "No. The calculation is done and forgotten. When you open your result, our team receives the email, WhatsApp number and names you enter, plus your signs, day masters, the overall reading and the dates you checked, but not your dates or times of birth. The copy and card we email you hold your charts and the reading, and no birth dates either."
     }
   ],
   related: [
