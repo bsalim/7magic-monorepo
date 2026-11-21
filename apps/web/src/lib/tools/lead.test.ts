@@ -1,5 +1,13 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { UNLOCK_KEY, isUnlocked, markUnlocked, normalizeWhatsapp } from './lead';
+import {
+  EMAIL_KEY,
+  UNLOCK_KEY,
+  isUnlocked,
+  markUnlocked,
+  normalizeWhatsapp,
+  rememberEmail,
+  storedEmail
+} from './lead';
 
 describe('normalizeWhatsapp', () => {
   it('turns the usual Indonesian spellings into +62', () => {
@@ -52,5 +60,21 @@ describe('unlock flag', () => {
     });
     expect(isUnlocked()).toBe(false);
     expect(() => markUnlocked()).not.toThrow();
+    expect(storedEmail()).toBeNull();
+    expect(() => rememberEmail('raka@example.com')).not.toThrow();
+  });
+
+  it('remembers the email a gate was given, apart from the unlock flag', () => {
+    markUnlocked();
+    expect(storedEmail()).toBeNull();
+
+    rememberEmail('  raka@example.com ');
+    expect(storedEmail()).toBe('raka@example.com');
+    expect(localStorage.getItem(EMAIL_KEY)).toBe('raka@example.com');
+  });
+
+  it('does not take a stored value that is not an email for one', () => {
+    localStorage.setItem(EMAIL_KEY, 'true');
+    expect(storedEmail()).toBeNull();
   });
 });

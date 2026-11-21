@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import LockOpenIcon from '@lucide/svelte/icons/lock-open';
   import * as Dialog from '$lib/components/ui/dialog';
   import { Button } from '$lib/components/ui/button';
@@ -7,7 +8,7 @@
   import { trackEvent } from '$lib/analytics';
   import { m } from '$lib/paraglide/messages.js';
   import { localizeHref } from '$lib/paraglide/runtime';
-  import { markUnlocked, normalizeWhatsapp, type WeddingTool } from '$lib/tools/lead';
+  import { markUnlocked, normalizeWhatsapp, rememberEmail, storedEmail, type WeddingTool } from '$lib/tools/lead';
 
   /**
    * The soft gate in front of a tool's extras: email, WhatsApp and consent, once.
@@ -15,7 +16,9 @@
    * Shared by every tool, so it knows nothing about mahar: the tool passes its
    * id, the couple's names and whatever inputs it wants the team to see in the
    * lead. What it does own is the flag that spares the couple a second gate on
-   * the next tool (`markUnlocked`), and the conversion event.
+   * the next tool (`markUnlocked`), the email it remembers in this browser
+   * (`rememberEmail`, offered back the next time a gate opens), and the
+   * conversion event.
    *
    * A centred dialog from `sm`, a bottom sheet below it: on a phone the keyboard
    * pushes a centred dialog's fields off screen, while a sheet anchored to the
@@ -40,6 +43,10 @@
     inline?: boolean;
     /** The button's label, when "unlock for free" is not what it does. */
     submitLabel?: string;
+    /** The line under the button, when "only once" is not the whole story. */
+    note?: string;
+    /** WhatsApp may be left blank; a number that is typed must still be a real one. */
+    phoneOptional?: boolean;
     /** The unlocalized path, so both language editions report as one tool. */
     sourcePath: string;
     onUnlocked: () => void;
@@ -55,6 +62,8 @@
     extra = {},
     inline = false,
     submitLabel = '',
+    note = '',
+    phoneOptional = false,
     sourcePath,
     onUnlocked
   }: Props = $props();
@@ -71,12 +80,17 @@
   let captcha = $state<ReturnType<typeof Turnstile> | null>(null);
   let captchaToken = $state('');
 
+  onMount(() => {
+    email = storedEmail() ?? '';
+  });
+
   async function submit(event: SubmitEvent) {
     event.preventDefault();
     if (sending) return;
 
-    const normalized = normalizeWhatsapp(phone);
-    if (!normalized) {
+    const typed = phone.trim();
+    const normalized = typed ? normalizeWhatsapp(typed) : null;
+    if (typed ? !normalized : !phoneOptional) {
       phoneError = m.tools_gate_whatsapp_invalid();
       document.getElementById(`${uid}-phone`)?.focus();
       return;
@@ -109,6 +123,7 @@
       }
 
       markUnlocked();
+      rememberEmail(email);
       trackEvent('generate_lead', { tool, source_path: sourcePath });
       open = false;
       onUnlocked();
@@ -151,11 +166,16 @@
     </div>
 
     <div class="grid gap-1.5">
-      <label for="{uid}-phone" class="text-[13px] font-medium">{m.tools_gate_whatsapp()}</label>
+      <label for="{uid}-phone" class="text-[13px] font-medium">
+        {m.tools_gate_whatsapp()}
+        {#if phoneOptional}
+          <span class="font-normal text-muted-foreground">{m.tools_gate_optional()}</span>
+        {/if}
+      </label>
       <input
         id="{uid}-phone"
         type="tel"
-        required
+        required={!phoneOptional}
         autocomplete="tel"
         inputmode="tel"
         bind:value={phone}
@@ -205,7 +225,7 @@
     <Button type="submit" variant="gold" size="lg" class="w-full" disabled={sending || captchaPending(captchaToken)}>
       {sending ? m.tools_gate_sending() : submitLabel || m.tools_gate_submit()}
     </Button>
-    <p class="text-center text-xs leading-5 text-muted-foreground">{m.tools_gate_note()}</p>
+    <p class="text-center text-xs leading-5 text-muted-foreground">{note || m.tools_gate_note()}</p>
   </form>
 {/snippet}
 

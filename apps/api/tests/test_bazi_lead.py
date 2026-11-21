@@ -91,6 +91,32 @@ def test_the_lead_is_stored_without_the_birth_dates(api, copies) -> None:
         assert birth not in stored
 
 
+@pytest.mark.parametrize("phone", [None, "", "   "], ids=["null", "empty", "blank"])
+def test_the_email_alone_is_enough(api, copies, phone) -> None:
+    """WhatsApp is optional on this gate: the result goes to the email."""
+    response = api.client.post(ENDPOINT, json=_payload(phone=phone))
+
+    assert response.status_code == 201
+    [lead] = _leads(api)
+    assert lead.email == "raka@example.com"
+    assert lead.mobile is None
+    assert [copy["to"] for copy in copies] == [["raka@example.com"]]
+
+
+def test_a_missing_phone_field_is_accepted_too(api, copies) -> None:
+    payload = _payload()
+    del payload["phone"]
+
+    assert api.client.post(ENDPOINT, json=payload).status_code == 201
+    assert _leads(api)[0].mobile is None
+
+
+def test_a_given_phone_is_still_normalised(api, copies) -> None:
+    api.client.post(ENDPOINT, json=_payload(phone="0812 3456 7890"))
+
+    assert _leads(api)[0].mobile == "+6281234567890"
+
+
 def test_the_couple_is_emailed_a_copy_of_their_result(api, copies) -> None:
     api.client.post(ENDPOINT, json=_payload())
 
@@ -157,6 +183,23 @@ def test_the_copy_carries_the_card_as_markup(api, copies) -> None:
     assert body.index("Ini kartu Ba Zi") < body.index("BA ZI PASANGAN") < body.index("Empat pilar Raka")
     for birth in ("1995", "1996", "10:00", "07:30"):
         assert birth not in body
+
+
+def test_the_tradition_note_stands_out_in_the_copy(api, copies) -> None:
+    """Set in a box of its own, larger than the reading, once, before the sign-off."""
+    api.client.post(ENDPOINT, json=_payload())
+
+    note = (
+        "Ba Zi adalah tradisi, bukan kepastian. Banyak keluarga tetap mengonfirmasi dengan "
+        "orang tua atau ahli feng shui sebelum memutuskan, dan keputusan akhirnya tetap di "
+        "tangan kalian berdua."
+    )
+    body = copies[0]["body_html"]
+    assert body.count(note) == 1
+    boxed = body[body.rindex("<table", 0, body.index(note)) : body.index(note)]
+    assert "font-size:17px" in boxed
+    assert body.index("Empat pilar Raka") < body.index(note) < body.index("Salam hangat")
+    assert copies[0]["text"].count(note) == 1
 
 
 def test_an_unknown_hour_keeps_its_column_on_the_card(api, copies) -> None:
@@ -264,6 +307,7 @@ def test_a_failed_send_never_costs_the_lead_or_the_result(api, monkeypatch) -> N
         {"calculation": _calculation(locale="fr")},
         {"tool": "mahar"},
         {"email": "not-an-email"},
+        {"phone": "0812"},
         {"consent": False},
     ],
     ids=[
@@ -273,6 +317,7 @@ def test_a_failed_send_never_costs_the_lead_or_the_result(api, monkeypatch) -> N
         "bad-locale",
         "another-tool",
         "bad-email",
+        "bad-phone",
         "no-consent",
     ],
 )

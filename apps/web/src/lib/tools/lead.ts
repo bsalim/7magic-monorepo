@@ -10,6 +10,13 @@
 
 export const UNLOCK_KEY = '7m_tools_unlocked';
 
+/**
+ * The email a visitor gave a gate, kept in this browser. Ba Zi asks for it
+ * before every result until it is here, whatever the flag above says; every
+ * gate offers it back so it is not typed twice.
+ */
+export const EMAIL_KEY = '7m_tools_email';
+
 /** The tools with a gate; mirrors `WeddingTool` in the API's schemas. */
 export type WeddingTool = 'mahar' | 'hashtag' | 'bazi';
 
@@ -53,6 +60,23 @@ export function isUnlocked(): boolean {
 export function markUnlocked(now: Date = new Date()): void {
   try {
     localStorage.setItem(UNLOCK_KEY, JSON.stringify({ unlockedAt: now.toISOString() }));
+  } catch {
+    // Blocked storage only costs the visitor a second gate on the next visit.
+  }
+}
+
+export function storedEmail(): string | null {
+  try {
+    const stored = localStorage.getItem(EMAIL_KEY)?.trim();
+    return stored && stored.includes('@') ? stored : null;
+  } catch {
+    return null;
+  }
+}
+
+export function rememberEmail(email: string): void {
+  try {
+    localStorage.setItem(EMAIL_KEY, email.trim());
   } catch {
     // Blocked storage only costs the visitor a second gate on the next visit.
   }

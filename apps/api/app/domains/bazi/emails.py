@@ -508,6 +508,18 @@ def _card_html(result: BaziResponse, names: tuple[str, str], locale: Locale) -> 
     )
 
 
+def _note_html(text: str) -> str:
+    """The tradition note, as a callout in the card's cream and gold."""
+    return (
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" '
+        'style="margin:6px 0 22px"><tr>'
+        f'<td style="padding:18px 20px;background:#fbf7f0;border:1px solid {_CARD_LINE};'
+        f"border-left:4px solid {_CARD_GOLD};border-radius:10px;font-family:{_CARD_FONT};"
+        f'font-size:17px;line-height:1.6;font-weight:600;color:{_CARD_INK}">'
+        f"{html.escape(text)}</td></tr></table>"
+    )
+
+
 def result_copy(result: BaziResponse, locale: Locale) -> tuple[str, str, str]:
     """Subject, plain-text body and HTML body of the copy the couple is sent.
 
@@ -539,11 +551,15 @@ def result_copy(result: BaziResponse, locale: Locale) -> tuple[str, str, str]:
     if result.date_checks:
         blocks.append(copy["dates_title"])
         blocks += [_date_block(check, result.charts, names, locale) for check in result.date_checks]
-    blocks += [copy["elder"], copy["sign_off"]]
-    # Greeting and intro, then the card, then everything they introduce.
+    # Greeting and intro, then the card, then everything they introduce. The
+    # tradition note closes the reading in a box of its own, set larger than the
+    # text around it: it is the one line no couple should scroll past.
     body_html = (
         paragraphs("\n\n".join(blocks[:2]))
         + _card_html(result, names, locale)
         + paragraphs("\n\n".join(blocks[2:]))
+        + _note_html(copy["elder"])
+        + paragraphs(copy["sign_off"])
     )
+    blocks += [copy["elder"], copy["sign_off"]]
     return copy["subject"], "\n\n".join(blocks), body_html

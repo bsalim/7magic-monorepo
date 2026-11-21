@@ -2,15 +2,15 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/sve
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('$env/dynamic/public', () => ({ env: {} }));
-import { UNLOCK_KEY } from '$lib/tools/lead';
+import { EMAIL_KEY, UNLOCK_KEY } from '$lib/tools/lead';
 import type { BaziResponse } from '$lib/tools/bazi';
 import Page from './+page.svelte';
 
 /**
- * The result gate: a visitor who has not unlocked gets their calculation run,
- * but it stays blurred behind the gate, whose lead carries that calculation so
- * the API can email them the card and a copy. Nobody downloads the card from
- * the page any more; the email is the only way to get it.
+ * The result gate: until this browser has given an email, a calculation is
+ * run but stays blurred behind the gate, whose lead carries that calculation so
+ * the API can email the couple the card and a copy. The card is not on the page
+ * at all; the email is the only place it appears.
  */
 
 const stem = (char: string, element_label: string) => ({
@@ -70,9 +70,9 @@ async function calculateExample() {
   await fireEvent.click(screen.getByRole('button', { name: 'Hitung Ba Zi' }));
 }
 
-async function fillGate(scope: ReturnType<typeof within>, submit: string) {
+async function fillGate(scope: ReturnType<typeof within>, submit: string, phone = '0812 3456 7890') {
   await fireEvent.input(scope.getByLabelText('Email'), { target: { value: 'raka@example.com' } });
-  await fireEvent.input(scope.getByLabelText('Nomor WhatsApp'), { target: { value: '0812 3456 7890' } });
+  await fireEvent.input(scope.getByLabelText(/Nomor WhatsApp/), { target: { value: phone } });
   await fireEvent.click(scope.getByRole('checkbox', { name: /Saya setuju/ }));
   await fireEvent.click(scope.getByRole('button', { name: submit }));
 }
@@ -196,23 +196,64 @@ describe('Ba Zi calculator page', () => {
     expect(screen.getByText(PREVIEW_TITLE)).toBeInTheDocument();
   });
 
-  it('has no card download or print: the card comes by email', async () => {
+  it('opens with the email alone: WhatsApp is optional', async () => {
+    const calls = stubFetch();
+    render(Page);
+    await calculateExample();
+    await screen.findByText(GATE_TITLE);
+    expect(screen.getByLabelText(/Nomor WhatsApp/)).not.toBeRequired();
+
+    await fillGate(screen, 'Buka hasil & kirim ke email', '');
+
+    await waitFor(() => expect(cardHeading()).not.toBeNull());
+    const lead = calls.find((call) => call.url === '/api/tool-lead');
+    expect(lead?.body).toMatchObject({ tool: 'bazi', email: 'raka@example.com', phone: null });
+    // Remembered, so the next visit is not asked.
+    expect(localStorage.getItem(EMAIL_KEY)).toBe('raka@example.com');
+  });
+
+  it('still refuses a WhatsApp number that is typed but incomplete', async () => {
+    const calls = stubFetch();
+    render(Page);
+    await calculateExample();
+    await screen.findByText(GATE_TITLE);
+
+    await fillGate(screen, 'Buka hasil & kirim ke email', '0812');
+
+    expect(await screen.findByText(/Nomor WhatsApp belum lengkap/)).toBeInTheDocument();
+    expect(calls.map((call) => call.url)).toEqual(['/api/bazi']);
+  });
+
+  it('asks a browser that another tool unlocked before emails were remembered', async () => {
     localStorage.setItem(UNLOCK_KEY, JSON.stringify({ unlockedAt: '2026-11-01T00:00:00.000Z' }));
+    stubFetch();
+    render(Page);
+
+    await calculateExample();
+
+    expect(await screen.findByText(GATE_TITLE)).toBeInTheDocument();
+    expect(cardHeading()).toBeNull();
+  });
+
+  it('never draws the card, nor offers a download or print: it comes by email', async () => {
+    localStorage.setItem(EMAIL_KEY, 'raka@example.com');
     stubFetch();
     render(Page);
     await waitFor(() => expect(screen.queryByText(/Sebelum hasil tampil/)).toBeNull());
     await calculateExample();
     await waitFor(() => expect(cardHeading()).not.toBeNull());
 
+    expect(screen.queryByText('BA ZI PASANGAN')).toBeNull();
+    expect(screen.queryByRole('img', { name: /Kartu Ba Zi pasangan/ })).toBeNull();
     expect(screen.queryByRole('button', { name: /Unduh|PNG/ })).toBeNull();
     expect(screen.queryByRole('button', { name: /Cetak/ })).toBeNull();
   });
 
-  it('does not gate a browser that already unlocked the tools, and offers the email instead', async () => {
-    localStorage.setItem(UNLOCK_KEY, JSON.stringify({ unlockedAt: '2026-11-01T00:00:00.000Z' }));
+  it('does not ask a browser that has an email on file, and offers to send the result there', async () => {
+    localStorage.setItem(EMAIL_KEY, 'nadia@example.com');
     const calls = stubFetch();
     render(Page);
-    // The flag is read on mount; the hint going away is the sign it has been.
+    // The email is read on mount; the hint going away is the sign it has been.
     await waitFor(() => expect(screen.queryByText(/Sebelum hasil tampil/)).toBeNull());
 
     await calculateExample();
@@ -226,6 +267,8 @@ describe('Ba Zi calculator page', () => {
 
     await fireEvent.click(screen.getByRole('button', { name: 'Kirim hasil & kartu ke email' }));
     const dialog = within(await screen.findByRole('dialog'));
+    // The address on file is offered back, not typed again.
+    expect(dialog.getByLabelText('Email')).toHaveValue('nadia@example.com');
     await fillGate(dialog, 'Kirim ke email');
 
     expect(await screen.findByText(/Kartu ini kami kirim ke email kalian/)).toBeInTheDocument();

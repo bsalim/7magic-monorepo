@@ -5,6 +5,7 @@
   import CircleAlertIcon from '@lucide/svelte/icons/circle-alert';
   import InfoIcon from '@lucide/svelte/icons/info';
   import LockIcon from '@lucide/svelte/icons/lock';
+  import MailIcon from '@lucide/svelte/icons/mail';
   import MailCheckIcon from '@lucide/svelte/icons/mail-check';
   import SendIcon from '@lucide/svelte/icons/send';
   import SparklesIcon from '@lucide/svelte/icons/sparkles';
@@ -13,7 +14,6 @@
   import SocialMeta from '$lib/components/SocialMeta.svelte';
   import BirthDateField from '$lib/components/tools/BirthDateField.svelte';
   import BirthTimeField from '$lib/components/tools/BirthTimeField.svelte';
-  import BaziCard, { type BaziCardChart, type BaziCardDate } from '$lib/components/tools/BaziCard.svelte';
   import LeadGate from '$lib/components/tools/LeadGate.svelte';
   import ToolShell from '$lib/components/tools/ToolShell.svelte';
   import { Button } from '$lib/components/ui/button';
@@ -35,12 +35,11 @@
     type Element,
     type FindingOut,
     type PartnerIn,
-    type PillarOut,
     type Tone,
     type Verdict,
     type Zone
   } from '$lib/tools/bazi';
-  import { isUnlocked } from '$lib/tools/lead';
+  import { storedEmail } from '$lib/tools/lead';
   import { formatMasehi } from '$lib/tools/mahar';
   import { TOOL_PATH, baziCopy, dateReason, reading, type PillarKey } from './content';
   import { PREVIEW, PREVIEW_NAMES } from './preview';
@@ -55,12 +54,17 @@
    * the `/api/bazi` proxy on a button press rather than on every keystroke.
    *
    * The page reads top to bottom as one flow: the form, then the result in its
-   * own band. The whole result sits behind the shared soft gate. A visitor who
-   * has not unlocked still gets their calculation run, but it waits in
-   * `pending`, shown blurred, while the gate sits over it; passing the gate
-   * reveals it and has the API email them the card and a copy. Someone who
-   * unlocked on another tool is not asked again, as the gate promises, so they
-   * are offered the email as a button beside the card instead.
+   * own band. The whole result sits behind the lead gate until this browser
+   * has given an email: the calculation is run, but it waits in `pending`,
+   * shown blurred, while the gate sits over it; passing the gate reveals it and
+   * has the API email the couple the card and a copy. The card is never drawn
+   * on the page, only in that email.
+   *
+   * What lifts the gate is the email the gate remembers in localStorage, not
+   * the "unlocked" flag the other tools go by: a browser that carries the flag
+   * from before emails were remembered is asked once more. With an email on
+   * file a result is shown at once, with a button that sends it and the card
+   * through the same gate, the address already filled in.
    */
 
   const locale = $derived(getLocale());
@@ -109,7 +113,7 @@
   let sendOpen = $state(false);
 
   onMount(() => {
-    unlocked = isUnlocked();
+    unlocked = storedEmail() !== null;
     mounted = true;
   });
 
@@ -234,27 +238,6 @@
     }));
     dates = Array.from({ length: MAX_DATES }, (_, index) => copy.example.dates[index] ?? '');
   }
-
-  const pairOf = (pillar: PillarOut): [string, string] => [pillar.stem.char, pillar.branch.char];
-
-  const cardCharts = $derived<BaziCardChart[]>(
-    (bazi?.charts ?? []).map((chart, index) => ({
-      name: names[index],
-      pillars: [chart.year, chart.month, chart.day, chart.hour].map((p) => (p ? pairOf(p) : null)),
-      summary: `${copy.result.dayMaster} ${chart.day_master.char} ${chart.day_master.element_label} · ${copy.result.shio} ${chart.shio.animal_label}`
-    }))
-  );
-  const cardDates = $derived<BaziCardDate[]>(
-    (bazi?.date_checks ?? []).map((check) => ({
-      label: formatMasehi(check.date, locale),
-      verdict: check.verdict
-    }))
-  );
-  const cardLabel = $derived(
-    [copy.card.title, names.join(' & '), bazi?.tone_label, ...cardDates.map((d) => `${d.label}: ${copy.card.verdicts[d.verdict]}`)]
-      .filter(Boolean)
-      .join(', ')
-  );
 
   const FIELD =
     'h-12 w-full rounded-lg border border-input bg-background px-3.5 text-base placeholder:text-muted-foreground/60 focus:border-ring focus:ring-3 focus:ring-ring/30 focus:outline-none disabled:opacity-50';
@@ -398,8 +381,10 @@
     <p class="mt-3 text-[15px] leading-6 text-foreground/80">{copy.result.noFindings}</p>
   {/if}
 
-  <p class="mt-7 flex gap-2.5 rounded-xl border border-brand-warm-deep bg-background p-4 text-sm leading-6 text-foreground/75">
-    <InfoIcon size={17} class="mt-0.5 shrink-0 text-brand-gold-hover" aria-hidden="true" />
+  <p
+    class="mt-8 flex gap-3.5 rounded-2xl border border-brand-gold/40 border-l-4 border-l-brand-gold bg-background p-5 font-display text-[17px] leading-7 font-semibold text-foreground sm:p-6 md:text-xl md:leading-8"
+  >
+    <InfoIcon size={24} class="mt-0.5 shrink-0 text-brand-gold-hover md:mt-1" aria-hidden="true" />
     {copy.result.elderNote}
   </p>
 {/snippet}
@@ -601,6 +586,8 @@
                   names={leadNames}
                   inputs={baziLeadInputs(awaitingGate.result)}
                   extra={{ calculation: awaitingGate.calculation }}
+                  note={copy.gate.note}
+                  phoneOptional
                   sourcePath={TOOL_PATH}
                   {onUnlocked}
                 />
@@ -632,7 +619,11 @@
 
     {#if bazi}
       <section class="px-5 py-12 md:py-16 lg:px-8">
-        <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 {stale ? 'opacity-60 transition-opacity' : ''}">
+        <div
+          class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start {stale
+            ? 'opacity-60 transition-opacity'
+            : ''}"
+        >
           <div class="min-w-0">
             <h2 class="flex items-center gap-2.5 font-display text-2xl font-bold">
               <CalendarCheckIcon size={22} class="text-brand-gold" aria-hidden="true" />
@@ -684,34 +675,31 @@
             </a>
           </div>
 
-          <div class="min-w-0">
-            <h2 class="font-display text-2xl font-bold">{copy.card.title}</h2>
+          <!-- The card itself is only in the email; here it is just said so. -->
+          <aside class="min-w-0 rounded-2xl border border-brand-gold/30 bg-brand-warm p-6 sm:p-7">
+            <span
+              aria-hidden="true"
+              class="flex size-11 items-center justify-center rounded-full bg-background text-brand-gold-hover ring-1 ring-brand-gold/30"
+            >
+              {#if copySent}
+                <MailCheckIcon size={20} />
+              {:else}
+                <MailIcon size={20} />
+              {/if}
+            </span>
+            <h2 class="mt-4 font-display text-2xl font-bold">{copy.card.title}</h2>
             <p class="mt-2 text-[15px] leading-6 text-foreground/75">{copy.card.lead}</p>
 
-            <div class="mx-auto mt-5 max-w-sm overflow-hidden rounded-2xl bg-brand-warm ring-1 ring-brand-gold/25 lg:mx-0">
-              <BaziCard
-                charts={cardCharts}
-                tone={bazi.tone_label}
-                dates={cardDates}
-                copy={copy.card}
-                label={cardLabel}
-                class="block h-auto w-full"
-              />
-            </div>
-
             {#if copySent}
-              <p class="mt-4 flex gap-2.5 rounded-xl border border-brand-gold/40 bg-brand-gold-soft px-4 py-3.5 text-[15px] leading-6 text-foreground/85">
-                <MailCheckIcon size={18} class="mt-0.5 shrink-0 text-brand-gold-hover" aria-hidden="true" />
-                {copy.card.emailed}
-              </p>
+              <p class="mt-4 text-[15px] leading-6 font-medium text-foreground/85">{copy.card.emailed}</p>
             {:else}
               <p class="mt-4 text-[15px] leading-6 text-foreground/75">{copy.card.sendHint}</p>
-              <Button variant="gold" size="lg" class="mt-3 h-12 w-full px-7 sm:w-auto" onclick={() => (sendOpen = true)}>
+              <Button variant="gold" size="lg" class="mt-4 h-12 w-full px-7" onclick={() => (sendOpen = true)}>
                 <SendIcon size={17} aria-hidden="true" />
                 {copy.card.send}
               </Button>
             {/if}
-          </div>
+          </aside>
         </div>
       </section>
     {/if}
@@ -719,7 +707,7 @@
 
   {#snippet gate()}
     <!-- The same gate a second time, as a dialog: for a result that was shown
-         without it, in a browser another tool had already unlocked. -->
+         without it, because this browser already had an email on file. -->
     <LeadGate
       bind:open={sendOpen}
       tool="bazi"
@@ -729,6 +717,8 @@
       names={leadNames}
       inputs={bazi ? baziLeadInputs(bazi) : {}}
       extra={{ calculation: shown?.calculation }}
+      note={copy.gate.note}
+      phoneOptional
       sourcePath={TOOL_PATH}
       onUnlocked={() => (copySent = true)}
     />
