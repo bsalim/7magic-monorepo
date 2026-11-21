@@ -30,6 +30,7 @@ const BAZI_PATH = '/wedding-tools/kalkulator-bazi-pasangan';
 // English-only: the hub links it at its /en URL from either edition.
 const BALI_COST_PATH = '/wedding-tools/bali-wedding-cost-calculator';
 const BALI_DATES_PATH = '/wedding-tools/bali-wedding-date-planner';
+const TIONGHOA_PATH = '/wedding-tools/tanggal-baik-tionghoa';
 
 const id: HubCopy = {
   meta: {
@@ -75,14 +76,15 @@ const id: HubCopy = {
       path: BALI_DATES_PATH
     },
     {
+      key: 'tionghoa',
+      title: 'Tanggal Baik Tionghoa',
+      copy: 'Kalender sebulan menurut almanak Tionghoa: hari yang umum dipilih untuk pernikahan, yang dihindari, dan yang ciong dengan shio kalian berdua.',
+      path: TIONGHOA_PATH
+    },
+    {
       key: 'weton',
       title: 'Weton dan Kecocokan Jodoh',
       copy: 'Hitung weton berdua menurut penanggalan Jawa.'
-    },
-    {
-      key: 'tionghoa',
-      title: 'Tanggal Baik Tionghoa',
-      copy: 'Cari tanggal pernikahan menurut penanggalan Tionghoa.'
     },
     {
       key: 'budget',
@@ -136,14 +138,15 @@ const en: HubCopy = {
       path: BALI_DATES_PATH
     },
     {
+      key: 'tionghoa',
+      title: 'Auspicious Chinese Dates',
+      copy: 'A month by the Chinese almanac: the days commonly chosen for weddings, the days avoided, and the ones that clash with your two zodiac signs.',
+      path: TIONGHOA_PATH
+    },
+    {
       key: 'weton',
       title: 'Weton and Compatibility',
       copy: 'Work out both your weton in the Javanese calendar.'
-    },
-    {
-      key: 'tionghoa',
-      title: 'Chinese Auspicious Dates',
-      copy: 'Find a wedding date by the Chinese calendar.'
     },
     {
       key: 'budget',

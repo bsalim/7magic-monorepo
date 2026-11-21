@@ -25,7 +25,8 @@
     { value: 'venue_pricing', label: 'Venue pricing' },
     { value: 'tool_mahar', label: 'Mahar tool' },
     { value: 'tool_hashtag', label: 'Hashtag tool' },
-    { value: 'tool_bazi', label: 'Ba Zi tool' }
+    { value: 'tool_bazi', label: 'Ba Zi tool' },
+    { value: 'tool_tionghoa', label: 'Tanggal Baik tool' }
   ];
   const sourceLabel = (source: string) =>
     SOURCES.find((item) => item.value === source)?.label ?? source;

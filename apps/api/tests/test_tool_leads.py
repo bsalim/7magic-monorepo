@@ -109,6 +109,37 @@ def test_a_hashtag_lead_is_stored_and_labelled_as_the_hashtag_tool(api, recorder
     assert recorder.alerts[0]["page"] == "Wedding tool: Hashtag"
 
 
+def test_an_almanac_lead_is_stored_and_labelled_as_its_tool(api, recorder) -> None:
+    response = api.client.post(
+        ENDPOINT,
+        json=_payload(
+            tool="tionghoa",
+            names=None,
+            inputs={"month": "Maret 2027", "shio": "Babi & Tikus", "good_days": "6, 14, 18"},
+            source_path="/wedding-tools/tanggal-baik-tionghoa",
+        ),
+    )
+
+    assert response.status_code == 201
+    [lead] = _leads(api)
+    assert lead.source == "tool_tionghoa"
+    assert "Wedding tool: Tanggal Baik Tionghoa" in recorder.emails[0]["subject"]
+    assert recorder.emails[0]["fields"]["Bulan"] == "Maret 2027"
+    assert recorder.emails[0]["fields"]["Tanggal baik"] == "6, 14, 18"
+
+
+@pytest.mark.parametrize("phone", [None, "", "  "], ids=["null", "empty", "blank"])
+def test_the_api_takes_a_lead_without_a_whatsapp_number(api, recorder, phone) -> None:
+    """Whether a gate asks for WhatsApp is the page's choice; the email is what
+    every lead must have."""
+    response = api.client.post(ENDPOINT, json=_payload(tool="tionghoa", phone=phone))
+
+    assert response.status_code == 201
+    [lead] = _leads(api)
+    assert lead.mobile is None
+    assert recorder.alerts[0]["contact"] == "andre@example.com"
+
+
 def test_a_bazi_lead_is_stored_and_labelled_as_the_bazi_tool(api, recorder) -> None:
     response = api.client.post(
         ENDPOINT,

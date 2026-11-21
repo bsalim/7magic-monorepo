@@ -7,6 +7,7 @@ from app.api.v1.admin import events as admin_events
 from app.api.v1.admin import leads as admin_leads
 from app.api.v1.dependencies import require_admin_user
 from app.api.v1.endpoints import admin, auth, health, public, venues
+from app.api.v1.public import almanac as public_almanac
 from app.api.v1.public import bazi as public_bazi
 from app.api.v1.public import tour as public_tour
 
@@ -20,6 +21,8 @@ api_router.include_router(public_tour.router, prefix="/public", tags=["public-to
 # No auth: the wedding tools' Ba Zi calculator, and the lead gate in front of
 # its result.
 api_router.include_router(public_bazi.router, prefix="/public", tags=["public-bazi"])
+# No auth: the wedding tools' Chinese almanac month (Tanggal Baik Tionghoa).
+api_router.include_router(public_almanac.router, prefix="/public", tags=["public-almanac"])
 api_router.include_router(admin.router, prefix="/admin", tags=["admin"])
 
 # The per-resource admin routers. `admin` above is app.api.v1.endpoints.admin;

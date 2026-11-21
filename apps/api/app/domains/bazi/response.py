@@ -45,7 +45,7 @@ def _stem(index: int, locale: Locale) -> StemOut:
     )
 
 
-def _branch(index: int, locale: Locale) -> BranchOut:
+def branch_out(index: int, locale: Locale) -> BranchOut:
     element = ELEMENTS[BRANCH_ELEMENTS[index]]
     animal = ANIMALS[index]
     return BranchOut(
@@ -59,10 +59,10 @@ def _branch(index: int, locale: Locale) -> BranchOut:
     )
 
 
-def _pillar(pillar: Pillar, locale: Locale) -> PillarOut:
+def pillar_out(pillar: Pillar, locale: Locale) -> PillarOut:
     return PillarOut(
         stem=_stem(pillar.stem, locale),
-        branch=_branch(pillar.branch, locale),
+        branch=branch_out(pillar.branch, locale),
         depends_on_time=pillar.depends_on_time,
         near_term=pillar.near_term,
     )
@@ -71,12 +71,12 @@ def _pillar(pillar: Pillar, locale: Locale) -> PillarOut:
 def _chart(chart: Chart, name: str | None, locale: Locale) -> ChartOut:
     return ChartOut(
         name=name,
-        year=_pillar(chart.year, locale),
-        month=_pillar(chart.month, locale),
-        day=_pillar(chart.day, locale),
-        hour=_pillar(chart.hour, locale) if chart.hour else None,
+        year=pillar_out(chart.year, locale),
+        month=pillar_out(chart.month, locale),
+        day=pillar_out(chart.day, locale),
+        hour=pillar_out(chart.hour, locale) if chart.hour else None,
         day_master=_stem(chart.day_master, locale),
-        shio=_branch(chart.shio, locale),
+        shio=branch_out(chart.shio, locale),
         elements=dict(zip(ELEMENTS, chart.element_counts, strict=True)),
     )
 
@@ -105,7 +105,7 @@ def build_response(payload: BaziRequest) -> BaziResponse:
         date_checks=[
             DateCheckOut(
                 date=check.day,
-                pillar=_pillar(check.pillar, locale),
+                pillar=pillar_out(check.pillar, locale),
                 verdict=check.verdict,
                 reasons=[
                     DateReasonOut(

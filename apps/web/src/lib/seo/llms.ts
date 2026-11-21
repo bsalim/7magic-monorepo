@@ -139,6 +139,11 @@ export function buildLlmsTxt(cities: CityEntry[]): string {
       "works out both partners' Four Pillars from birth date and time (solar terms computed astronomically), reads compatibility by classical clashes and combinations without a score, and checks candidate wedding dates for clashes"
     ),
     link(
+      '/wedding-tools/tanggal-baik-tionghoa',
+      'Auspicious Chinese wedding dates',
+      "reads a month the way the Chinese almanac does: the twelve day officers (Jian Chu), rating only the days almanacs agree on, and the days that clash with either partner's zodiac sign"
+    ),
+    link(
       '/wedding-tools/bali-wedding-cost-calculator',
       'Bali wedding cost calculator',
       'typical market ranges in Australian dollars for a Bali wedding by guests, setting, style and extras, built from published prices with every source listed; not a 7Magic quote'

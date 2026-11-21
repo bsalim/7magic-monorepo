@@ -131,14 +131,4 @@ class BaziLeadCreate(ToolLeadCreate):
     """
 
     tool: Literal["bazi"] = "bazi"
-    # The email is what this gate is for, since the result goes to it; WhatsApp
-    # is offered, not demanded. A number that is given is held to the same shape.
-    phone: str | None = Field(default=None, max_length=50)
     calculation: BaziRequest
-
-    @field_validator("phone")
-    @classmethod
-    def _normalise_phone(cls, value: str | None) -> str | None:
-        if value is None or not value.strip():
-            return None
-        return super()._normalise_phone(value)
