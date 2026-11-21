@@ -230,6 +230,17 @@ CLUSTERS: dict[str, list[str]] = {
         "vow-renewal-di-bali-pembaruan-janji-nikah",
         "menikah-di-bali-warga-singapura",
     ],
+    # The days after a Bali wedding, for the couple and the guests still on the
+    # island. Kept apart from menikah-di-bali so "Baca juga" on these pages shows
+    # the rest of the series rather than venue roundups.
+    "setelah-menikah-di-bali": [
+        "wisata-setelah-menikah-di-bali",
+        "wisata-nuanu-tabanan-setelah-menikah-di-bali",
+        "ubud-kintamani-untuk-pengantin-baru-dan-tamu-pernikahan",
+        "aktivitas-bersama-tamu-setelah-menikah-di-bali-kuta-uluwatu-canggu",
+        "kafe-terbaik-di-bali",
+        "bulan-madu-setelah-menikah-panduan-anggaran",
+    ],
     # Picking a 2027 date: by number, by lunar year, around Ramadan, by the
     # Javanese and Balinese calendars, and by Western astrology's retrogrades.
     "tanggal-pernikahan-2027": [
