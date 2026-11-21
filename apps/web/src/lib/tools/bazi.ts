@@ -142,11 +142,6 @@ const TEAM_TONES: Record<Tone, string> = {
   clash: 'Ada bentrok yang perlu dibicarakan'
 };
 
-/** Dates as the team reads them: "Minggu, 20 September 2026; Sabtu, 10 Oktober 2026". */
-export function teamDates(isoDates: string[]): string {
-  return isoDates.map((iso) => formatMasehi(iso, 'id') || iso).join('; ');
-}
-
 /**
  * What the lead gate stores, for the team to open the conversation with: in
  * words, since the same text is what the team's email and WhatsApp alert show.

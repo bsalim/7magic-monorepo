@@ -17,7 +17,8 @@ api_router.include_router(public.router, prefix="/public", tags=["public"])
 api_router.include_router(venues.router, prefix="/venues", tags=["venues"])
 # No auth dependency -- these back the website's own Book a Tour forms.
 api_router.include_router(public_tour.router, prefix="/public", tags=["public-tour"])
-# No auth and no database: the wedding tools' Ba Zi calculator.
+# No auth: the wedding tools' Ba Zi calculator, and the lead gate in front of
+# its result.
 api_router.include_router(public_bazi.router, prefix="/public", tags=["public-bazi"])
 api_router.include_router(admin.router, prefix="/admin", tags=["admin"])
 

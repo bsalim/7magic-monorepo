@@ -43,9 +43,14 @@ async def send_email(
     text: str,
     reply_to: str | None = None,
     locale: str | None = None,
+    body_html: str | None = None,
 ) -> None:
     """Plain-text send, used by the tour endpoints for both the guest
     confirmation and the branch alert.
+
+    `body_html` replaces the HTML derived from `text` for the one caller whose
+    email is more than paragraphs (the Ba Zi card). It must already be safe
+    markup; `text` still ships as the plain-text alternative.
 
     Raises on transport failure rather than swallowing it, unlike EmailNotifier
     below: the tour endpoint decides for itself that a provider outage must not
@@ -78,7 +83,7 @@ async def send_email(
             # does not carry an English heading in its footer.
             html=render_email(
                 heading=subject,
-                body_html=paragraphs(text),
+                body_html=body_html if body_html is not None else paragraphs(text),
                 preheader=subject,
                 locale=locale,
             ),

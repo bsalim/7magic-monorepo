@@ -16,6 +16,10 @@
    * from `md` with the result sticky, so it stays in view while the inputs
    * change. Explainer, FAQ and related reading are server-rendered below it; the
    * FAQ is data, not a snippet, because the same array feeds the FAQPage JSON-LD.
+   *
+   * `stacked` is for a tool whose result is too large to sit beside its inputs
+   * (Ba Zi: two charts, a reading, dates): the inputs take the full width and
+   * the result follows as its own full-bleed sections, which it lays out itself.
    */
 
   type Crumb = { name: string; path?: string };
@@ -30,6 +34,12 @@
     crumbs: Crumb[];
     inputs: Snippet;
     result: Snippet;
+    /** Inputs above, result below at full width, instead of side by side. */
+    stacked?: boolean;
+    /** Extra hero content under the lead, such as the steps of a gated tool. */
+    heroExtra?: Snippet;
+    /** A few characters set large and faint behind the hero. Decorative. */
+    watermark?: string;
     /** The lead gate dialog, or anything else that portals out of the layout. */
     gate?: Snippet;
     /** Sections between the tool and the FAQ: worked examples, the explainer. */
@@ -46,6 +56,9 @@
     crumbs,
     inputs,
     result,
+    stacked = false,
+    heroExtra,
+    watermark = '',
     gate,
     explainer,
     faqs = [],
@@ -67,6 +80,17 @@
       aria-hidden="true"
       class="pointer-events-none absolute -bottom-40 -left-32 size-[24rem] rounded-full bg-brand-gold/10 blur-3xl"
     ></div>
+
+    {#if watermark}
+      <div
+        aria-hidden="true"
+        lang="zh"
+        class="pointer-events-none absolute top-1/2 right-[3%] -translate-y-1/2 text-[clamp(7rem,22vw,20rem)] leading-none font-bold text-brand-gold/10 select-none sm:text-brand-gold/15"
+        style="font-family: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif"
+      >
+        {watermark}
+      </div>
+    {/if}
 
     <div class="relative mx-auto max-w-7xl">
       <nav aria-label={m.vd_breadcrumb()}>
@@ -98,23 +122,35 @@
       <p class="mt-4 max-w-2xl text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
         {lead}
       </p>
+      {@render heroExtra?.()}
     </div>
   </section>
 
-  <section class="px-5 pb-16 lg:px-8">
-    <div
-      class="relative mx-auto -mt-6 grid max-w-7xl gap-6 md:-mt-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start lg:gap-10"
-    >
+  {#if stacked}
+    <section class="px-5 pb-12 md:pb-16 lg:px-8">
       <div
-        class="rounded-2xl border border-border bg-background p-5 shadow-[0_18px_50px_-30px_rgba(138,101,36,0.45)] md:p-7"
+        class="relative mx-auto -mt-6 max-w-7xl rounded-2xl border border-border bg-background p-5 shadow-[0_18px_50px_-30px_rgba(138,101,36,0.45)] md:-mt-8 md:p-8 lg:p-10"
       >
         {@render inputs()}
       </div>
-      <div class="md:sticky md:top-20">
-        {@render result()}
+    </section>
+    {@render result()}
+  {:else}
+    <section class="px-5 pb-16 lg:px-8">
+      <div
+        class="relative mx-auto -mt-6 grid max-w-7xl gap-6 md:-mt-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start lg:gap-10"
+      >
+        <div
+          class="rounded-2xl border border-border bg-background p-5 shadow-[0_18px_50px_-30px_rgba(138,101,36,0.45)] md:p-7"
+        >
+          {@render inputs()}
+        </div>
+        <div class="md:sticky md:top-20">
+          {@render result()}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  {/if}
 
   {@render gate?.()}
 

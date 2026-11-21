@@ -22,8 +22,6 @@
 </script>
 
 <script lang="ts">
-  import { downloadBlob, printCard, svgToPng } from '$lib/tools/card-export';
-
   /**
    * The couple's Ba Zi card: a 4:5 portrait SVG, 1080 x 1350, in the cream and
    * gold of the mahar and hashtag cards so the set reads as one.
@@ -31,6 +29,10 @@
    * Families pass a chart round on WhatsApp or bring it to a consultation, so
    * the eight characters per person are the largest thing on it; the reading
    * stays on the page, where it has room to be qualified.
+   *
+   * It is a preview only. The couple gets the card in the emailed copy, which
+   * the API renders itself (`app/domains/bazi/emails.py`), so unlike the mahar
+   * and hashtag cards this one has no download or print.
    */
 
   interface Props {
@@ -57,8 +59,6 @@
 
   const VERDICT_FILL: Record<Verdict, string> = { safe: '#3f7a4f', consider: '#b07a1f', clash: '#a3412f' };
 
-  let svg = $state<SVGSVGElement>();
-
   // Same estimate as the other cards: SVG text cannot be measured during SSR.
   const fit = (text: string, max: number, advance: number) =>
     Math.min(max, Math.floor(MEASURE / Math.max(1, text.length * advance)));
@@ -74,26 +74,9 @@
   const top = $derived(dates.length ? 360 : 400);
   const blockHeight = 300;
 
-  function fileName(): string {
-    const slug = charts
-      .map((chart) => chart.name.toLowerCase().replace(/[^a-z0-9]+/g, ''))
-      .filter(Boolean)
-      .join('-');
-    return `bazi-${slug || 'pasangan'}.png`;
-  }
-
-  export async function downloadPng(): Promise<void> {
-    if (!svg) return;
-    downloadBlob(await svgToPng(svg, WIDTH, HEIGHT), fileName());
-  }
-
-  export function print(): void {
-    if (svg) printCard(svg);
-  }
 </script>
 
 <svg
-  bind:this={svg}
   viewBox="0 0 {WIDTH} {HEIGHT}"
   role="img"
   aria-label={label}

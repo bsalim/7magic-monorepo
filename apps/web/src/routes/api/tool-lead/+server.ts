@@ -13,7 +13,14 @@ import type { RequestHandler } from './$types';
  * the browser on any tool page, and posting through the app server keeps the
  * API base URL server-side and avoids a CORS round trip. The body passes
  * through untouched; validation, the honeypot and notifications are the API's.
+ *
+ * Ba Zi's gate sits in front of the result itself, so its lead carries the
+ * calculation and goes to the calculator's own endpoint, which also emails the
+ * couple their copy.
  */
+const TOOL_LEADS = '/api/v1/public/tool-leads';
+const BAZI_LEADS = '/api/v1/public/bazi/leads';
+
 export const POST: RequestHandler = async (event) => {
 	const { request, fetch } = event;
 	const rejected = await rejectUnlessHuman(event);
@@ -26,7 +33,8 @@ export const POST: RequestHandler = async (event) => {
 
 	let response: Response;
 	try {
-		response = await fetch(`${getApiBaseUrl()}/api/v1/public/tool-leads`, {
+		const path = (payload as { tool?: unknown }).tool === 'bazi' ? BAZI_LEADS : TOOL_LEADS;
+		response = await fetch(`${getApiBaseUrl()}${path}`, {
 			method: 'POST',
 			headers: leadHeaders(),
 			body: JSON.stringify(payload)

@@ -22,8 +22,42 @@ not as a call to an outside service.
 | Purpose | Both: couple compatibility, and checking dates they are already considering. |
 | Separate tool | Ba Zi is its own tool ("more astrology"). The hub's "Tanggal Baik Tionghoa" card stays a separate, later almanac tool (month view of good days). |
 | Date check | Yes: the couple enters dates they are considering and sees whether each clashes with either chart. |
-| Free vs gated | Free: both charts and the compatibility reading. Behind the shared lead gate: the date check and a printable card. |
+| Free vs gated | *Superseded 2026-11-20, see below.* Free: both charts and the compatibility reading. Behind the shared lead gate: the date check and a printable card. |
 | Engine | Python in `apps/api`, written from scratch. No Ba Zi library, no outside API. |
+
+### Amended 2026-11-20: the whole result is gated, and emailed
+
+The user asked for the email to be collected before any result shows, with a
+copy of the result sent to it. So:
+
+- The page still calculates on the button press, but a visitor who has not
+  unlocked sees the shared lead gate first; the result waits in the browser
+  until it is passed. Dates typed beforehand are checked in the same call.
+- The gate posts to `POST /api/v1/public/bazi/leads`: the shared tool lead plus
+  the `calculation`. The API stores the same `tool_bazi` row as before (no birth
+  dates), recomputes the result and emails the couple a copy in their locale.
+  It renders that copy itself (`app/domains/bazi/emails.py`) rather than mailing
+  text a caller supplies, so the reading sentences now exist in the API as well
+  as in the page's `content.ts`.
+- One unlock still opens every tool. A visitor who unlocked elsewhere is not
+  asked again, creates no `tool_bazi` lead and is sent no copy.
+
+### Amended 2026-11-21: page redesign, and the card moves to the email
+
+- **Layout.** One flow down the page instead of two columns: the form at full
+  width (`ToolShell`'s `stacked` mode), then the result in its own light band.
+  Candidate wedding dates are form inputs now, calculated by the one button;
+  there is no separate date-check step. The zone is three buttons, not a select.
+- **Gate.** Shown in the place the result will appear, over the blurred result
+  (`LeadGate`'s `inline` mode), not as a dialog. Before any calculation the
+  band shows the example couple's chart blurred, from a fixture (`preview.ts`).
+- **Card.** No PNG download or A5 print. The card is part of the emailed copy,
+  drawn by the API as HTML (`_card_html` in `app/domains/bazi/emails.py`): no
+  image renderer, no bundled Chinese font, and nothing a caller supplies. The
+  page keeps the SVG card as a preview only.
+- **Already-unlocked browsers.** Still not gated. Since the card now only comes
+  by email, they get a "send the result & card to my email" button beside the
+  preview, which opens the same gate as a dialog and creates a `tool_bazi` lead.
 
 ## Goals, non-goals, anti-goals
 

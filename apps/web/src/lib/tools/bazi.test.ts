@@ -3,7 +3,6 @@ import {
   BaziInputError,
   BaziUnavailableError,
   baziLeadInputs,
-  teamDates,
   displayNames,
   failureKind,
   fetchBazi,
@@ -81,12 +80,6 @@ describe('baziLeadInputs', () => {
 
   it('leaves dates empty before any were checked', () => {
     expect(baziLeadInputs({ ...SAMPLE_RESPONSE, date_checks: [] }).dates).toBe('');
-  });
-});
-
-describe('teamDates', () => {
-  it('spells the dates out in Indonesian for the team', () => {
-    expect(teamDates(['2026-09-20', '2027-03-08'])).toBe('Minggu, 20 September 2026; Senin, 8 Maret 2027');
   });
 });
 

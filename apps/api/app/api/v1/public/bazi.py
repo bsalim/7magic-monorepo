@@ -1,128 +1,79 @@
-"""Public Ba Zi calculator for the wedding tools. No auth, no database.
+"""Public Ba Zi calculator for the wedding tools, and the gate in front of its result.
 
-It computes and answers; nothing in the request is stored or logged. It is a
-POST, not a GET, so the couple's birth dates never sit in a URL, a browser
-history or an access log. The date check is a soft gate like the other tools:
-the page only sends `dates` once the visitor has unlocked, and the API does not
-enforce that.
+The calculator computes and answers; nothing in that request is stored or
+logged. It is a POST, not a GET, so the couple's birth dates never sit in a URL,
+a browser history or an access log.
+
+The page holds the result back until the couple has given their contact details,
+and posts those here with the calculation they are unlocking. That stores the
+shared tool lead and emails them their Ba Zi card and a copy of the result. The gate is soft, like the
+other tools': the calculator itself does not enforce it.
 """
 
 from __future__ import annotations
 
-from fastapi import APIRouter
+import logging
+from typing import Annotated
 
-from app.domains.bazi.labels import (
-    ANIMALS,
-    BRANCH_CHARS,
-    BRANCH_PINYIN,
-    ELEMENTS,
-    STEM_CHARS,
-    STEM_PINYIN,
-    label,
-)
-from app.domains.bazi.pillars import BRANCH_ELEMENTS, Chart, Pillar
-from app.domains.bazi.schemas import (
-    BaziRequest,
-    BaziResponse,
-    BranchOut,
-    ChartOut,
-    DateCheckOut,
-    DateReasonOut,
-    FindingOut,
-    PillarOut,
-    StemOut,
-)
-from app.domains.bazi.service import chart_for, check_date, compatibility
-from app.schemas.content import Locale
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.api.v1.dependencies import require_website_lead_submission
+from app.core.config import get_settings
+from app.core.database import get_db_session
+from app.domains.bazi.emails import result_copy
+from app.domains.bazi.response import build_response
+from app.domains.bazi.schemas import BaziLeadCreate, BaziRequest, BaziResponse
+from app.schemas.content import ToolLeadResponse
+from app.services.email import send_email
+from app.services.leads import lead_service
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
 
-def _stem(index: int, locale: Locale) -> StemOut:
-    element = ELEMENTS[index // 2]
-    return StemOut(
-        index=index,
-        char=STEM_CHARS[index],
-        pinyin=STEM_PINYIN[index],
-        element=element,
-        element_label=label("element", element, locale),
-        yang=index % 2 == 0,
-    )
-
-
-def _branch(index: int, locale: Locale) -> BranchOut:
-    element = ELEMENTS[BRANCH_ELEMENTS[index]]
-    animal = ANIMALS[index]
-    return BranchOut(
-        index=index,
-        char=BRANCH_CHARS[index],
-        pinyin=BRANCH_PINYIN[index],
-        element=element,
-        element_label=label("element", element, locale),
-        animal=animal,
-        animal_label=label("animal", animal, locale),
-    )
-
-
-def _pillar(pillar: Pillar, locale: Locale) -> PillarOut:
-    return PillarOut(
-        stem=_stem(pillar.stem, locale),
-        branch=_branch(pillar.branch, locale),
-        depends_on_time=pillar.depends_on_time,
-        near_term=pillar.near_term,
-    )
-
-
-def _chart(chart: Chart, name: str | None, locale: Locale) -> ChartOut:
-    return ChartOut(
-        name=name,
-        year=_pillar(chart.year, locale),
-        month=_pillar(chart.month, locale),
-        day=_pillar(chart.day, locale),
-        hour=_pillar(chart.hour, locale) if chart.hour else None,
-        day_master=_stem(chart.day_master, locale),
-        shio=_branch(chart.shio, locale),
-        elements=dict(zip(ELEMENTS, chart.element_counts, strict=True)),
-    )
-
-
 @router.post("/bazi", response_model=BaziResponse)
 def bazi(payload: BaziRequest) -> BaziResponse:
-    locale = payload.locale
-    first, second = (chart_for(p.birth_date, p.birth_time, p.zone) for p in payload.partners)
-    result = compatibility(first, second)
-    chars = {"year": BRANCH_CHARS, "day": BRANCH_CHARS, "day_master": STEM_CHARS}
-    return BaziResponse(
-        charts=[_chart(chart, p.name, locale) for chart, p in zip((first, second), payload.partners, strict=True)],
-        tone=result.tone,
-        tone_label=label("tone", result.tone, locale),
-        findings=[
-            FindingOut(
-                rule=f.rule,
-                rule_label=label("rule", f.rule, locale),
-                kind=f.kind,
-                pillar=f.pillar,
-                a=chars[f.pillar][f.a],
-                b=chars[f.pillar][f.b],
-                source=f.source,
-            )
-            for f in result.findings
-        ],
-        date_checks=[
-            DateCheckOut(
-                date=check.day,
-                pillar=_pillar(check.pillar, locale),
-                verdict=check.verdict,
-                reasons=[
-                    DateReasonOut(
-                        partner=r.partner,
-                        against=r.against,
-                        rule=r.rule,
-                        rule_label=label("rule", r.rule, locale),
-                    )
-                    for r in check.reasons
-                ],
-            )
-            for check in (check_date(day, (first, second)) for day in payload.dates)
-        ],
-    )
+    return build_response(payload)
+
+
+@router.post(
+    "/bazi/leads",
+    dependencies=[Depends(require_website_lead_submission)],
+    response_model=ToolLeadResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_bazi_lead(
+    session: Annotated[AsyncSession, Depends(get_db_session)],
+    payload: BaziLeadCreate,
+) -> ToolLeadResponse:
+    await lead_service.create_tool_lead(session, payload)
+    # A tripped honeypot stored nothing, so it is sent nothing either -- and it
+    # gets the same answer, so a bot cannot tell.
+    if not payload.website:
+        await _send_copy(payload)
+    return ToolLeadResponse()
+
+
+async def _send_copy(payload: BaziLeadCreate) -> None:
+    """Sent after the lead is committed, and never allowed to fail the request:
+    the page reveals the result on a 201, and a mail-provider outage must not
+    withhold what the couple just gave their details for."""
+    calculation = payload.calculation
+    subject, body, body_html = result_copy(build_response(calculation), calculation.locale)
+    # A reply to the copy is a couple with a question, so it goes to the people
+    # who answer leads rather than to a sending-only address.
+    team = get_settings().lead_recipients
+    try:
+        await send_email(
+            to=[payload.email],
+            subject=subject,
+            text=body,
+            body_html=body_html,
+            reply_to=team[0] if team else None,
+            locale=calculation.locale,
+        )
+    except Exception:  # noqa: BLE001 -- logged, never re-raised
+        # No address and no birth data in the log line: neither belongs there.
+        logger.exception("ba zi result copy failed to send")
