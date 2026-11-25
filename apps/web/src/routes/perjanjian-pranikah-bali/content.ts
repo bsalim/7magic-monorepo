@@ -22,16 +22,16 @@ import type { PrenupCopy } from '$lib/components/prenup/types';
 import { prenupCopy } from '../perjanjian-pranikah/content';
 
 /**
- * PENDING -- the Bali all-in price has not been confirmed by 7Magic yet, so the
- * page is priced on request and the JSON-LD carries no Offer. When the figure
- * is confirmed, set it here (written per locale: Indonesian groups thousands
- * with periods, English with commas) and every priced string below switches
- * over. Never fill this with an estimate.
+ * The Bali all-in price, confirmed by 7Magic on 25 Nov 2026 (written per
+ * locale: Indonesian groups thousands with periods, English with commas).
+ * Setting it to null puts the page back on "price on request" and drops the
+ * JSON-LD Offer -- every priced string below branches on it. Never fill this
+ * with an estimate.
  */
 type Price = { id: string; en: string; offer: string };
-// `as`, not an annotation: an annotated `const` holding null narrows to `never`
-// and every priced branch below stops type-checking.
-const PRICE = null as Price | null;
+// `as`, not an annotation, so the type stays nullable and the on-request
+// branches below keep type-checking.
+const PRICE = { id: 'Rp 5.000.000', en: 'Rp 5,000,000', offer: '5000000' } as Price | null;
 
 /** The price as a bare number for the JSON-LD Offer, or null while on request. */
 export const OFFER_PRICE: string | null = PRICE?.offer ?? null;

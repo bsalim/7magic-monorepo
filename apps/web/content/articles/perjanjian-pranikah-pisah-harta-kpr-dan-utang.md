@@ -105,7 +105,7 @@ Tidak harus. Perjanjian bisa mengatur siapa menanggung apa, dan bagi pasangan Mu
 
 Tulis daftar aset, utang, dan rencana besar Anda berdua untuk lima tahun ke depan, termasuk rencana membeli rumah dengan KPR. Bawa daftar itu ke notaris dan tanyakan dampak tiap pilihan klausul terhadap rencana tersebut. Artikel ini informasi umum, bukan nasihat hukum.
 
-7Magic juga membantu pasangan di Jakarta menyusun perjanjian pranikah dari konsultasi sampai pencatatan. Detailnya ada di halaman [layanan perjanjian pranikah](https://7magicwedding.com/perjanjian-pranikah) kami.
+7Magic juga membantu pasangan di Jakarta menyusun perjanjian pranikah dari konsultasi sampai pencatatan. Detailnya ada di halaman [layanan perjanjian pranikah](https://7magicwedding.com/perjanjian-pranikah) kami. Untuk pasangan di Bali, ada [layanan perjanjian pranikah di Bali](https://7magicwedding.com/perjanjian-pranikah-bali) bersama notaris mitra kami di sana.
 
 ## Referensi
 

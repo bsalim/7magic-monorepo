@@ -63,7 +63,7 @@ As of early October 2026 the case has passed the hearing on the revised petition
 
 The Constitutional Court has not ruled, and it may not reach the substance at all because of the standing issue. Until it does, Indonesian courts have answered the same question in two different directions. That is the strongest reason to make your own agreement as explicit as possible. We will update this article once the decision is read.
 
-This article is general information, not legal advice. If your partner is a foreign national, also read our guide to [prenuptial agreements for mixed marriages](https://7magicwedding.com/artikel/tips-hubungan/perjanjian-pranikah-perkawinan-campuran-wna). 7Magic helps couples in Jakarta put a prenuptial agreement together from consultation to registration, including the inheritance questions before the deed is signed, through our [prenuptial agreement service](https://7magicwedding.com/perjanjian-pranikah).
+This article is general information, not legal advice. If your partner is a foreign national, also read our guide to [prenuptial agreements for mixed marriages](https://7magicwedding.com/artikel/tips-hubungan/perjanjian-pranikah-perkawinan-campuran-wna). 7Magic helps couples in Jakarta put a prenuptial agreement together from consultation to registration, including the inheritance questions before the deed is signed, through our [prenuptial agreement service](https://7magicwedding.com/perjanjian-pranikah). In Bali, the same agreement is made with our partner notary there through our [prenuptial agreement service in Bali](https://7magicwedding.com/perjanjian-pranikah-bali).
 
 ## References
 

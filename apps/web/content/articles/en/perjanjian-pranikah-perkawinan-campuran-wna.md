@@ -48,7 +48,7 @@ If you are marrying in Bali with a civil registration the same week, tell both y
 
 ## Married abroad?
 
-Couples who married overseas need to register the marriage in Indonesia first, because an agreement can only be recorded against a marriage the state has recorded. The Marriage Law allows one year from the couple's return to Indonesia (Article 56(2)), while the civil registration rules ask for a report within 30 days. The sources we read disagree on which deadline offices actually apply, so report promptly and check with your local Dukcapil.
+Couples who married overseas need to register the marriage in Indonesia first, because an agreement can only be recorded against a marriage the state has recorded. The Marriage Law allows one year from the couple's return to Indonesia (Article 56(2)), while the civil registration rules ask for a report within 30 days. The sources we read disagree on which deadline offices actually apply, so report promptly and check with your local Dukcapil. The full sequence is in our [guide for couples who married abroad and live in Bali](https://7magicwedding.com/artikel/tips-hubungan/menikah-di-luar-negeri-tinggal-di-bali-lapor-nikah-dan-perjanjian-kawin).
 
 If you already signed a prenup in your home country, keep it, but don't rely on it for land in Indonesia. A common approach is two linked agreements: one under Indonesian law for assets here, one under foreign law for assets abroad, each referring to the other.
 
@@ -90,7 +90,7 @@ Not until the marriage is recorded by the state. Register the marriage at the KU
 
 ## Next steps
 
-Start with a simple list: what each of you owns, in which country, and what you want to buy in the next few years. Take it to a notary about three months before the wedding. This article is general information, not legal advice. 7Magic helps couples in Jakarta, mixed couples included, put a prenuptial agreement together from consultation to registration through our [prenuptial agreement service](https://7magicwedding.com/perjanjian-pranikah).
+Start with a simple list: what each of you owns, in which country, and what you want to buy in the next few years. Take it to a notary about three months before the wedding. This article is general information, not legal advice. 7Magic helps couples in Jakarta, mixed couples included, put a prenuptial agreement together from consultation to registration through our [prenuptial agreement service](https://7magicwedding.com/perjanjian-pranikah). For couples marrying or living in Bali, the deed is signed before our partner notary in Bali through our [prenuptial agreement service in Bali](https://7magicwedding.com/perjanjian-pranikah-bali).
 
 ## References
 
