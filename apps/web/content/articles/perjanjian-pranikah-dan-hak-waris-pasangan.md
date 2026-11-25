@@ -67,7 +67,7 @@ Per awal Oktober 2026, perkara ini sudah melewati sidang perbaikan dan menunggu 
 
 Putusan Mahkamah Konstitusi belum keluar, dan Mahkamah bisa saja tidak memeriksa pokok perkaranya karena persoalan kedudukan hukum. Sampai ada putusan, pengadilan di Indonesia pernah memutus dua arah yang berbeda untuk pertanyaan yang sama. Itulah alasan paling kuat untuk membuat isi perjanjian Anda setegas mungkin. Kami akan memperbarui artikel ini setelah putusan dibacakan.
 
-Artikel ini informasi umum, bukan nasihat hukum. Kalau pasangan Anda warga negara asing, baca juga panduan kami tentang [perjanjian pranikah untuk perkawinan campuran](https://7magicwedding.com/artikel/tips-hubungan/perjanjian-pranikah-perkawinan-campuran-wna). 7Magic membantu pasangan di Jakarta menyusun perjanjian pranikah dari konsultasi sampai pencatatan, termasuk membahas pertanyaan soal warisan sebelum akta ditandatangani, lewat [layanan perjanjian pranikah](https://7magicwedding.com/perjanjian-pranikah) kami.
+Artikel ini informasi umum, bukan nasihat hukum. Kalau pasangan Anda warga negara asing, baca juga panduan kami tentang [perjanjian pranikah untuk perkawinan campuran](https://7magicwedding.com/artikel/tips-hubungan/perjanjian-pranikah-perkawinan-campuran-wna). 7Magic membantu pasangan di Jakarta menyusun perjanjian pranikah dari konsultasi sampai pencatatan, termasuk membahas pertanyaan soal warisan sebelum akta ditandatangani, lewat [layanan perjanjian pranikah](https://7magicwedding.com/perjanjian-pranikah) kami. Di Bali, perjanjian yang sama dibuat bersama notaris mitra kami di sana lewat [layanan perjanjian pranikah di Bali](https://7magicwedding.com/perjanjian-pranikah-bali).
 
 ## Referensi
 

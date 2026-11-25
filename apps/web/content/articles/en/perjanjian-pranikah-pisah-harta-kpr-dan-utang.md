@@ -101,7 +101,7 @@ Not necessarily. The agreement can set out who pays for what, and for Muslim cou
 
 Write down your assets, debts and big plans as a couple for the next five years, including any plan to buy a home with a mortgage. Take that list to a notary and ask how each choice of clause affects those plans. This article is general information, not legal advice.
 
-7Magic also helps couples in Jakarta put a prenuptial agreement together, from consultation through to registration. Details are on our [prenuptial agreement service](https://7magicwedding.com/perjanjian-pranikah) page.
+7Magic also helps couples in Jakarta put a prenuptial agreement together, from consultation through to registration. Details are on our [prenuptial agreement service](https://7magicwedding.com/perjanjian-pranikah) page. For couples in Bali, there is our [prenuptial agreement service in Bali](https://7magicwedding.com/perjanjian-pranikah-bali) with our partner notary there.
 
 ## References
 

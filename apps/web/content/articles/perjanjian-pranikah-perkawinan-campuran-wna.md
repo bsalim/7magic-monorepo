@@ -52,7 +52,7 @@ Kalau Anda menikah di Bali dengan pencatatan sipil di minggu yang sama, beri tah
 
 ## Sudah menikah di luar negeri?
 
-Pasangan yang menikah di luar negeri perlu mencatatkan pernikahannya di Indonesia lebih dulu, karena perjanjian hanya bisa dicatat untuk pernikahan yang tercatat oleh negara. UU Perkawinan memberi waktu satu tahun sejak pasangan kembali ke Indonesia (Pasal 56 ayat 2), sementara aturan administrasi kependudukan meminta laporan dalam 30 hari. Sumber yang kami baca tidak sepakat tentang tenggat mana yang diterapkan di lapangan, jadi laporkan secepatnya dan tanyakan ke Disdukcapil setempat.
+Pasangan yang menikah di luar negeri perlu mencatatkan pernikahannya di Indonesia lebih dulu, karena perjanjian hanya bisa dicatat untuk pernikahan yang tercatat oleh negara. UU Perkawinan memberi waktu satu tahun sejak pasangan kembali ke Indonesia (Pasal 56 ayat 2), sementara aturan administrasi kependudukan meminta laporan dalam 30 hari. Sumber yang kami baca tidak sepakat tentang tenggat mana yang diterapkan di lapangan, jadi laporkan secepatnya dan tanyakan ke Disdukcapil setempat. Urutan lengkapnya ada di [panduan untuk pasangan yang menikah di luar negeri dan tinggal di Bali](https://7magicwedding.com/artikel/tips-hubungan/menikah-di-luar-negeri-tinggal-di-bali-lapor-nikah-dan-perjanjian-kawin).
 
 Kalau Anda sudah menandatangani perjanjian pranikah di negara asal, simpan dokumen itu, tetapi jangan mengandalkannya untuk tanah di Indonesia. Cara yang sering dipakai adalah dua perjanjian yang saling terkait: satu menurut hukum Indonesia untuk harta di sini, satu menurut hukum asing untuk harta di luar negeri, dan masing-masing merujuk ke yang lain.
 
@@ -94,7 +94,7 @@ Tidak sebelum pernikahannya dicatat negara. Catatkan pernikahan di KUA atau Disd
 
 ## Langkah berikutnya
 
-Mulailah dengan daftar sederhana: apa yang dimiliki masing-masing, di negara mana, dan apa yang ingin dibeli dalam beberapa tahun ke depan. Bawa daftar itu ke notaris sekitar tiga bulan sebelum hari pernikahan. Artikel ini informasi umum, bukan nasihat hukum. 7Magic membantu pasangan di Jakarta, termasuk pasangan campuran, menyusun perjanjian pranikah dari konsultasi sampai pencatatan lewat [layanan perjanjian pranikah](https://7magicwedding.com/perjanjian-pranikah) kami.
+Mulailah dengan daftar sederhana: apa yang dimiliki masing-masing, di negara mana, dan apa yang ingin dibeli dalam beberapa tahun ke depan. Bawa daftar itu ke notaris sekitar tiga bulan sebelum hari pernikahan. Artikel ini informasi umum, bukan nasihat hukum. 7Magic membantu pasangan di Jakarta, termasuk pasangan campuran, menyusun perjanjian pranikah dari konsultasi sampai pencatatan lewat [layanan perjanjian pranikah](https://7magicwedding.com/perjanjian-pranikah) kami. Untuk pasangan yang menikah atau tinggal di Bali, akta ditandatangani di hadapan notaris mitra kami di Bali lewat [layanan perjanjian pranikah di Bali](https://7magicwedding.com/perjanjian-pranikah-bali).
 
 ## Referensi
 
